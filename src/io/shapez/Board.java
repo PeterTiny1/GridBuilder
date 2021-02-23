@@ -37,11 +37,11 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         super.paintComponent(g);
         Dimension size = getSize();
         g.setColor(Color.BLACK);
-        for (int x = 0; x < size.width; x += scale) {
-            g.drawLine(x + offsetX, 0, x + offsetX, size.height);
+        for (int x = offsetX; x < size.width; x += scale) {
+            g.drawLine(x, 0, x, size.height);
         }
-        for (int y = 0; y < size.height; y += scale) {
-            g.drawLine(0, y + offsetY, size.width, y + offsetY);
+        for (int y = offsetY; y < size.height; y += scale) {
+            g.drawLine(0, y, size.width, y);
         }
     }
 
@@ -60,7 +60,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                         changeOffset(5, 0);
                         break;
                     case 'd':
-                        changeOffset(-5, 0);;
+                        changeOffset(-5, 0);
+                        ;
                         break;
                 }
             }
@@ -109,12 +110,16 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        System.out.println("Mouse dragged to " + e.getX() + " " + e.getY());
+        changeOffset(e.getX() - previousMX,  e.getY() - previousMY);
+        previousMX = e.getX();
+        previousMY = e.getY();
+        repaint();
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-//        System.out.println("Mouse moved to " + e.getX() + " " + e.getY());
+        previousMX = e.getX();
+        previousMY = e.getY();
     }
 
     @Override
