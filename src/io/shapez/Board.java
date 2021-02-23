@@ -12,6 +12,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     private final int DELAY = 10;
     private int scale = 40;
     private int offsetX, offsetY;
+    private int oldLocationX, oldLocationY;
     private ArrayList<Character> pressedKeys = new ArrayList<>();
     private int gridOffsetX, gridOffsetY;
     private int previousMX, previousMY;
@@ -106,15 +107,22 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         gridOffsetY += offsetY / scale;
         offsetY %= scale;
     }
+    void updateMouse(int cleanX, int cleanY, int absoluteX, int absoluteY){
+        changeOffset(cleanX,cleanY);
+        oldLocationX = absoluteX;
+        oldLocationY = absoluteY;
+        repaint();
+    }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        System.out.println("Mouse dragged to " + e.getX() + " " + e.getY());
+        int x = e.getX(); int y = e.getY(); // avoid crazy many function calls
+        updateMouse(x - oldLocationX, y - oldLocationY, x, y);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-//        System.out.println("Mouse moved to " + e.getX() + " " + e.getY());
+        System.out.println("Mouse moved to " + e.getX() + " " + e.getY());
     }
 
     @Override
@@ -124,7 +132,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println("Mouse started clicking at" + e.getX() + " " + e.getY());
+        int x = e.getX(); int y = e.getY(); // avoid crazy many function calls
+        updateMouse(x - oldLocationX, y - oldLocationY, x, y);
     }
 
     @Override
