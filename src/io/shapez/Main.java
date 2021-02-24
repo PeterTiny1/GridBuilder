@@ -2,13 +2,14 @@ package io.shapez;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class Main extends JFrame {
-    public Main() {
+    public Main() throws IOException {
         initUI();
     }
 
-    private void initUI() {
+    private void initUI() throws IOException {
         Board board = new Board();
         JScrollPane scrollPane = new JScrollPane(board);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
@@ -22,7 +23,13 @@ public class Main extends JFrame {
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
-            Main main = new Main();
+            Main main = null;
+            try {
+                main = new Main();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            assert main != null;
             main.setVisible(true);
         });
     }

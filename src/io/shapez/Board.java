@@ -1,26 +1,26 @@
 package io.shapez;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Board extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener {
-    private Timer timer;
-    private final int B_WIDTH = 350;
-    private final int B_HEIGHT = 350;
-    private final int DELAY = 10;
     private int scale = 40;
     private int offsetX, offsetY;
-    private ArrayList<Character> pressedKeys = new ArrayList<>();
+    private final ArrayList<Character> pressedKeys = new ArrayList<>();
     private int gridOffsetX, gridOffsetY;
     private int previousMX, previousMY;
 
-    public Board() {
+    public Board() throws IOException {
         initBoard();
     }
 
-    private void initBoard() {
+    private void initBoard() throws IOException {
         addKeyListener(this);
         addMouseMotionListener(this);
         addMouseListener(this);
@@ -28,8 +28,12 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         requestFocusInWindow();
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
-        setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
-        timer = new Timer(DELAY, this);
+        add(new CenterPanel(), BorderLayout.SOUTH);
+        int b_HEIGHT = 350;
+        int b_WIDTH = 350;
+        setPreferredSize(new Dimension(b_WIDTH, b_HEIGHT));
+        int DELAY = 10;
+        Timer timer = new Timer(DELAY, this);
         timer.start();
     }
 
@@ -61,7 +65,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                         break;
                     case 'd':
                         changeOffset(-5, 0);
-                        ;
                         break;
                 }
             }
@@ -110,7 +113,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        changeOffset(e.getX() - previousMX,  e.getY() - previousMY);
+        changeOffset(e.getX() - previousMX, e.getY() - previousMY);
         previousMX = e.getX();
         previousMY = e.getY();
         repaint();
@@ -129,7 +132,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println("Mouse started clicking at" + e.getX() + " " + e.getY());
+//        System.out.println("Mouse started clicking at" + e.getX() + " " + e.getY());
     }
 
     @Override
@@ -145,5 +148,24 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    private static class CenterPanel extends JPanel {
+        public CenterPanel() throws IOException {
+            setOpaque(false);
+            JPanel innerPanel = new JPanel();
+            innerPanel.setOpaque(false);
+            innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.LINE_AXIS));
+            BufferedImage image = ImageIO.read(new File("src/resources/belt.png"));
+            Dimension d = new Dimension(100, 100);
+            Image scaled = image.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH);
+            JButton button = new JButton();
+            button.setIcon(new ImageIcon(scaled));
+            button.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
+            button.setPreferredSize(d);
+            button.setMaximumSize(d);
+            innerPanel.add(button, BorderLayout.SOUTH);
+            this.add(innerPanel);
+        }
     }
 }
