@@ -22,10 +22,12 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     private int gridOffsetX, gridOffsetY;
     private int previousMX, previousMY;
     private boolean hasItemSelected = false;
-    private enum Items{
+
+    private enum Items {
         None,
         Belt
     }
+
     private Items Item;
 
     public Board() throws IOException {
@@ -52,14 +54,14 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             SwingUtilities.updateComponentTreeUI(this);
         } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace(); // your os is unsupported or registry is fucked if this happens
-                                // todo: tell user that OS is unsupported
+            // todo: tell user that OS is unsupported
         }
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Dimension size = getSize();
-        g = (Graphics2D)g; // cast graphics to graphics2d, this is not backwards compatible
+        g = (Graphics2D) g; // cast graphics to graphics2d, this is not backwards compatible
         g.setColor(Color.BLACK);
         for (int x = offsetX; x < size.width; x += scale) {
             g.drawLine(x, 0, x, size.height);
@@ -73,10 +75,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     public void actionPerformed(ActionEvent e) {
         if (pressedKeys.size() > 0) {
 
-            for (int i = 0, pressedKeysSize = pressedKeys.size(); i < pressedKeysSize; i++) {
-                Character key = pressedKeys.get(i).toString().toUpperCase().charAt(0);
-                switch (key) {
-
+            for (Character key : pressedKeys) {
+                switch (key.toString().toUpperCase().charAt(0)) {
                     case 'S':
                         changeOffset(0, -5);
                         break;
@@ -116,8 +116,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(hasItemSelected)return;
-
         if (!pressedKeys.contains(e.getKeyChar())) {
             pressedKeys.add(e.getKeyChar());
         }
@@ -141,7 +139,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        changeOffset(e.getX() - previousMX, e.getY() - previousMY);
+        if (!hasItemSelected) changeOffset(e.getX() - previousMX, e.getY() - previousMY);
         previousMX = e.getX();
         previousMY = e.getY();
         repaint();
@@ -177,23 +175,18 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     public void mouseExited(MouseEvent e) {
 
     }
-    public void resetKeys(){
-        pressedKeys.clear();
-    }
-    public void UpdateButtonAppearance(){
-        Border unselectedBorder = BorderFactory.createLineBorder(Color.lightGray);
-        Border selectedBorder = BorderFactory.createLineBorder(Color.black);
 
-        if(Item == Items.None){
+    public void UpdateButtonAppearance() {
+        if (Item == Items.None) {
             beltButton.setFocusable(false);
-        }else if(Item == Items.Belt){
-            resetKeys();
+        } else if (Item == Items.Belt) {
             beltButton.setFocusable(true);
             beltButton.grabFocus();
         }
     }
-    public void SelectItem(Items item){
-        if(Item == item){
+
+    public void SelectItem(Items item) {
+        if (Item == item) {
             Item = Items.None;
             hasItemSelected = false;
             System.out.println("Already selected. Now selected: " + Item.toString());
@@ -208,7 +201,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     private class CenterPanel extends JPanel {
         public CenterPanel() throws IOException {
-
             setOpaque(false);
             JPanel innerPanel = new JPanel();
             innerPanel.setOpaque(false);
