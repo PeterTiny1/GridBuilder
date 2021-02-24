@@ -16,7 +16,7 @@ public class Main extends JFrame {
         board.addMouseWheelListener(board);
         add(scrollPane);
         pack();
-        setTitle("Better version of Aurumaker's Grid Builder");
+        setTitle("Grid Builder - Java Edition");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
