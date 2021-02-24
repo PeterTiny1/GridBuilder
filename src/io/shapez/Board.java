@@ -16,6 +16,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     private final ArrayList<Character> pressedKeys = new ArrayList<>();
     private int gridOffsetX, gridOffsetY;
     private int previousMX, previousMY;
+    private boolean hasItemSelected = false;
     private enum Items{
         None,
         Belt
@@ -172,9 +173,13 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     public void SelectItem(Items item){
         if(Item == item){
-            System.out.println("Already selected");
-            return;}
+            Item = Items.None;
+            hasItemSelected = false;
+            System.out.println("Already selected. Now selected: " + Item.toString());
+            return;
+        }
         Item = item;
+        hasItemSelected = Item != Items.None;
         System.out.println("Selected: " + item.toString());
     }
 
