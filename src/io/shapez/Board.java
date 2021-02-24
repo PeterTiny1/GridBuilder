@@ -110,12 +110,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         gridOffsetY += offsetY / scale;
         offsetY %= scale;
     }
-    void updateMouse(int cleanX, int cleanY, int absoluteX, int absoluteY){
-        changeOffset(cleanX,cleanY);
-        oldLocationX = absoluteX;
-        oldLocationY = absoluteY;
-        repaint();
-    }
 
     @Override
     public void mouseDragged(MouseEvent e) {
