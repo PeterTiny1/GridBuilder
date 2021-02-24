@@ -2,6 +2,7 @@ package io.shapez;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -15,6 +16,11 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     private final ArrayList<Character> pressedKeys = new ArrayList<>();
     private int gridOffsetX, gridOffsetY;
     private int previousMX, previousMY;
+    private enum Items{
+        None,
+        Belt
+    }
+    private Items Item;
 
     public Board() throws IOException {
         initBoard();
@@ -158,8 +164,15 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     }
 
-    private static class CenterPanel extends JPanel {
+    public void SelectItem(Items item){
+        Item = item;
+
+    System.out.println("SELECTED " + item.toString());
+    }
+
+    private class CenterPanel extends JPanel {
         public CenterPanel() throws IOException {
+
             setOpaque(false);
             JPanel innerPanel = new JPanel();
             innerPanel.setOpaque(false);
@@ -168,6 +181,11 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             Dimension d = new Dimension(100, 100);
             Image scaled = image.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH);
             JButton button = new JButton();
+            button.addActionListener(e ->
+            {
+                SelectItem(Items.Belt);
+            });
+
             button.setIcon(new ImageIcon(scaled));
             button.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
             button.setPreferredSize(d);
