@@ -47,6 +47,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Dimension size = getSize();
+        g = (Graphics2D)g; // cast graphics to graphics2d, this is not backwards compatible
         g.setColor(Color.BLACK);
         for (int x = offsetX; x < size.width; x += scale) {
             g.drawLine(x, 0, x, size.height);
