@@ -72,28 +72,28 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     @Override
     public void actionPerformed(ActionEvent e) {
         if (pressedKeys.size() > 0) {
-            for (Character key : pressedKeys) {
+
+            for (int i = 0, pressedKeysSize = pressedKeys.size(); i < pressedKeysSize; i++) {
+                Character key = pressedKeys.get(i).toString().toUpperCase().charAt(0);
                 switch (key) {
+
                     case 'S':
-                    case 's':
                         changeOffset(0, -5);
                         break;
                     case 'W':
-                    case 'w':
                         changeOffset(0, 5);
                         break;
                     case 'A':
-                    case 'a':
                         changeOffset(5, 0);
                         break;
                     case 'D':
-                    case 'd':
                         changeOffset(-5, 0);
                         break;
                 }
             }
             repaint();
         }
+
     }
 
     @Override
