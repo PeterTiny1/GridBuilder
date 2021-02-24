@@ -61,15 +61,19 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         if (pressedKeys.size() > 0) {
             for (Character key : pressedKeys) {
                 switch (key) {
+                    case 'S':
                     case 's':
                         changeOffset(0, -5);
                         break;
+                    case 'W':
                     case 'w':
                         changeOffset(0, 5);
                         break;
+                    case 'A':
                     case 'a':
                         changeOffset(5, 0);
                         break;
+                    case 'D':
                     case 'd':
                         changeOffset(-5, 0);
                         break;
