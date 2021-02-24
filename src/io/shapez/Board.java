@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Board extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener {
     // UI
     public JButton beltButton = new JButton();
-
+    Dimension stdButtonDimension = new Dimension(70, 70);
 
     private int scale = 40;
     private int offsetX, offsetY;
@@ -176,38 +176,31 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     }
 
-    public void UpdateButtonAppearance() {
-        if (Item == Items.None) {
-            beltButton.setFocusable(false);
-        } else if (Item == Items.Belt) {
-            beltButton.setFocusable(true);
-            beltButton.grabFocus();
-            pressedKeys.clear();
-        }
-    }
+
 
     public void SelectItem(Items item) {
         if (Item == item) {
         Item = Items.None;
         hasItemSelected = false;
         System.out.println("Already selected. Now selected: " + Item.toString());
-        UpdateButtonAppearance();
         return;
         }
         Item = item;
         hasItemSelected = Item != Items.None;
+        repaint(); // selected item will be indicated using the "preview" under mouse
         System.out.println("Selected: " + item.toString());
-        UpdateButtonAppearance();
+
     }
+
 
     private class CenterPanel extends JPanel {
         public CenterPanel() throws IOException {
             setOpaque(false);
             JPanel innerPanel = new JPanel();
-            innerPanel.setOpaque(false);
+            innerPanel.setOpaque(true);
             innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.LINE_AXIS));
 
-            Dimension d = new Dimension(70, 70);
+
             BufferedImage imageBelt = ImageIO.read(new File("src/resources/belt.png"));
 
             beltButton.addActionListener(e ->
@@ -215,10 +208,15 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 SelectItem(Items.Belt);
             });
             beltButton.setFocusable(false);
-            beltButton.setIcon(new ImageIcon(imageBelt.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
+            beltButton.setIcon(new ImageIcon(imageBelt.getScaledInstance(
+                    stdButtonDimension.width,
+                    stdButtonDimension.height,
+                    Image.SCALE_SMOOTH)));
             beltButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
-            beltButton.setPreferredSize(d);
-            beltButton.setMaximumSize(d);
+            beltButton.setPreferredSize(stdButtonDimension);
+            // beltButton.setMaximumSize(stdButtonDimension);
+
+
             innerPanel.add(beltButton, BorderLayout.SOUTH);
             this.add(innerPanel);
         }
