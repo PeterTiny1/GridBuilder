@@ -35,6 +35,13 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int DELAY = 10;
         Timer timer = new Timer(DELAY, this);
         timer.start();
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace(); // your os is unsupported or registry is fucked if this happens
+                                // todo: tell user that OS is unsupported
+        }
     }
 
     public void paintComponent(Graphics g) {
