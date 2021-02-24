@@ -2,8 +2,6 @@ package io.shapez;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -14,7 +12,6 @@ import java.util.ArrayList;
 public class Board extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener {
     // UI
     public JButton beltButton = new JButton();
-
 
     private int scale = 40;
     private int offsetX, offsetY;
@@ -61,7 +58,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Dimension size = getSize();
-        g = (Graphics2D) g; // cast graphics to graphics2d, this is not backwards compatible
+        Graphics2D g2d = (Graphics2D) g; // cast graphics to graphics2d, this is not backwards compatible
         g.setColor(Color.BLACK);
         for (int x = offsetX; x < size.width; x += scale) {
             g.drawLine(x, 0, x, size.height);
@@ -74,9 +71,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     @Override
     public void actionPerformed(ActionEvent e) {
         if (pressedKeys.size() > 0) {
-
             for (Character key : pressedKeys) {
-                switch (key.toString().toUpperCase().charAt(0)) {
+                switch (Character.toUpperCase(key)) {
                     case 'S':
                         changeOffset(0, -5);
                         break;
@@ -177,11 +173,13 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     }
 
     public void UpdateButtonAppearance() {
-        if (Item == Items.None) {
-            beltButton.setFocusable(false);
-        } else if (Item == Items.Belt) {
-            beltButton.setFocusable(true);
-            beltButton.grabFocus();
+        switch (Item) {
+            case None:
+                beltButton.setSelected(false);
+                break;
+            case Belt:
+                beltButton.setSelected(true);
+                break;
         }
     }
 
@@ -210,9 +208,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             BufferedImage imageBelt = ImageIO.read(new File("src/resources/belt.png"));
 
             beltButton.addActionListener(e ->
-            {
-                SelectItem(Items.Belt);
-            });
+                    SelectItem(Items.Belt));
             beltButton.setFocusable(false);
             beltButton.setIcon(new ImageIcon(imageBelt.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
             beltButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
