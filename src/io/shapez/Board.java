@@ -182,16 +182,17 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         } else if (Item == Items.Belt) {
             beltButton.setFocusable(true);
             beltButton.grabFocus();
+            pressedKeys.clear();
         }
     }
 
     public void SelectItem(Items item) {
         if (Item == item) {
-            Item = Items.None;
-            hasItemSelected = false;
-            System.out.println("Already selected. Now selected: " + Item.toString());
-            UpdateButtonAppearance();
-            return;
+        Item = Items.None;
+        hasItemSelected = false;
+        System.out.println("Already selected. Now selected: " + Item.toString());
+        UpdateButtonAppearance();
+        return;
         }
         Item = item;
         hasItemSelected = Item != Items.None;
