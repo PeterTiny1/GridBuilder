@@ -189,9 +189,10 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             JButton button = new JButton();
             button.addActionListener(e ->
             {
+
                 SelectItem(Items.Belt);
             });
-
+            button.setFocusable(false);
             button.setIcon(new ImageIcon(scaled));
             button.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
             button.setPreferredSize(d);
