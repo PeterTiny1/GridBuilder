@@ -178,14 +178,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     }
     public void resetKeys(){
-        pressedKeys.remove((Character) 'a');
-        pressedKeys.remove((Character) 'A');
-        pressedKeys.remove((Character) 's');
-        pressedKeys.remove((Character) 'S');
-        pressedKeys.remove((Character) 'w');
-        pressedKeys.remove((Character) 'W');
-        pressedKeys.remove((Character) 'd');
-        pressedKeys.remove((Character) 'D');
+        pressedKeys.clear();
     }
     public void UpdateButtonAppearance(){
         Border unselectedBorder = BorderFactory.createLineBorder(Color.lightGray);
