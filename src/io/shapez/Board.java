@@ -171,9 +171,11 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     }
 
     public void SelectItem(Items item){
+        if(Item == item){
+            System.out.println("Already selected");
+            return;}
         Item = item;
-
-    System.out.println("SELECTED " + item.toString());
+        System.out.println("Selected: " + item.toString());
     }
 
     private class CenterPanel extends JPanel {
@@ -183,17 +185,17 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             JPanel innerPanel = new JPanel();
             innerPanel.setOpaque(false);
             innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.LINE_AXIS));
-            BufferedImage image = ImageIO.read(new File("src/resources/belt.png"));
-            Dimension d = new Dimension(100, 100);
-            Image scaled = image.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH);
+
+            Dimension d = new Dimension(70, 70);
+            BufferedImage imageBelt = ImageIO.read(new File("src/resources/belt.png"));
+
             JButton button = new JButton();
             button.addActionListener(e ->
             {
-
                 SelectItem(Items.Belt);
             });
             button.setFocusable(false);
-            button.setIcon(new ImageIcon(scaled));
+            button.setIcon(new ImageIcon(imageBelt.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
             button.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
             button.setPreferredSize(d);
             button.setMaximumSize(d);
