@@ -1,31 +1,24 @@
 package io.shapez;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Board extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener {
     // UI
-    public JButton beltButton = new JButton();
+    public CenterPanel centerPanel = new CenterPanel(this);
+    public TopPanel topPanel = new TopPanel();
 
     private int scale = 40;
     private int offsetX, offsetY;
     private final ArrayList<Character> pressedKeys = new ArrayList<>();
     private int gridOffsetX, gridOffsetY;
     private int previousMX, previousMY;
-    private boolean hasItemSelected = false;
+    public boolean hasItemSelected = false;
 
-    private enum Items {
-        None,
-        Belt
-    }
-
-    private Items Item;
+    public Items Item;
 
     public Board() throws IOException {
         initBoard();
@@ -39,7 +32,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         requestFocusInWindow();
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
-        add(new CenterPanel(), BorderLayout.SOUTH);
+        add(topPanel, BorderLayout.EAST);
+        add(centerPanel, BorderLayout.SOUTH);
         int b_HEIGHT = 350;
         int b_WIDTH = 350;
         setPreferredSize(new Dimension(b_WIDTH, b_HEIGHT));
@@ -170,52 +164,5 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     @Override
     public void mouseExited(MouseEvent e) {
 
-    }
-
-    public void UpdateButtonAppearance() {
-        switch (Item) {
-            case None:
-                beltButton.setSelected(false);
-                break;
-            case Belt:
-                beltButton.setSelected(true);
-                break;
-        }
-    }
-
-    public void SelectItem(Items item) {
-        if (Item == item) {
-            Item = Items.None;
-            hasItemSelected = false;
-            System.out.println("Already selected. Now selected: " + Item.toString());
-            UpdateButtonAppearance();
-            return;
-        }
-        Item = item;
-        hasItemSelected = Item != Items.None;
-        System.out.println("Selected: " + item.toString());
-        UpdateButtonAppearance();
-    }
-
-    private class CenterPanel extends JPanel {
-        public CenterPanel() throws IOException {
-            setOpaque(false);
-            JPanel innerPanel = new JPanel();
-            innerPanel.setOpaque(false);
-            innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.LINE_AXIS));
-
-            Dimension d = new Dimension(70, 70);
-            BufferedImage imageBelt = ImageIO.read(new File("src/resources/belt.png"));
-
-            beltButton.addActionListener(e ->
-                    SelectItem(Items.Belt));
-            beltButton.setFocusable(false);
-            beltButton.setIcon(new ImageIcon(imageBelt.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
-            beltButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
-            beltButton.setPreferredSize(d);
-            beltButton.setMaximumSize(d);
-            innerPanel.add(beltButton, BorderLayout.SOUTH);
-            this.add(innerPanel);
-        }
     }
 }
