@@ -1,40 +1,31 @@
 package io.shapez;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Board extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener {
     // UI
-    public JButton beltButton = new JButton();
-    Dimension stdButtonDimension = new Dimension(70, 70);
+    public CenterPanel centerPanel = new CenterPanel(this);
+    public TopPanel topPanel = new TopPanel();
 
     private int scale = 40;
     private int offsetX, offsetY;
     private final ArrayList<Character> pressedKeys = new ArrayList<>();
     private int gridOffsetX, gridOffsetY;
     private int previousMX, previousMY;
-    private boolean hasItemSelected = false;
+    public boolean hasItemSelected = false;
 
-    private enum Items {
-        None,
-        Belt
-    }
-
-    private Items Item;
+    public Items Item;
+    private boolean shiftPressed;
 
     public Board() throws IOException {
         initBoard();
     }
 
-    private void initBoard() throws IOException {
+    private void initBoard() {
         addKeyListener(this);
         addMouseMotionListener(this);
         addMouseListener(this);
@@ -42,7 +33,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         requestFocusInWindow();
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
-        add(new CenterPanel(), BorderLayout.SOUTH);
+        add(topPanel, BorderLayout.EAST);
+        add(centerPanel, BorderLayout.SOUTH);
         int b_HEIGHT = 350;
         int b_WIDTH = 350;
         setPreferredSize(new Dimension(b_WIDTH, b_HEIGHT));
@@ -61,7 +53,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Dimension size = getSize();
-        g = (Graphics2D) g; // cast graphics to graphics2d, this is not backwards compatible
+        Graphics2D g2d = (Graphics2D) g; // cast graphics to graphics2d, this is not backwards compatible
         g.setColor(Color.BLACK);
         for (int x = offsetX; x < size.width; x += scale) {
             g.drawLine(x, 0, x, size.height);
@@ -73,21 +65,21 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        int moveValue = (shiftPressed) ? 10 : 5;
         if (pressedKeys.size() > 0) {
-
             for (Character key : pressedKeys) {
-                switch (key.toString().toUpperCase().charAt(0)) {
+                switch (key) {
                     case 'S':
-                        changeOffset(0, -5);
+                        changeOffset(0, -moveValue);
                         break;
                     case 'W':
-                        changeOffset(0, 5);
+                        changeOffset(0, moveValue);
                         break;
                     case 'A':
-                        changeOffset(5, 0);
+                        changeOffset(moveValue, 0);
                         break;
                     case 'D':
-                        changeOffset(-5, 0);
+                        changeOffset(-moveValue, 0);
                         break;
                 }
             }
@@ -116,15 +108,17 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (!pressedKeys.contains(e.getKeyChar())) {
-            pressedKeys.add(e.getKeyChar());
+        shiftPressed = shiftPressed || e.getKeyCode() == KeyEvent.VK_SHIFT;
+        if (!pressedKeys.contains(Character.toUpperCase(e.getKeyChar()))) {
+            pressedKeys.add(Character.toUpperCase(e.getKeyChar()));
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (pressedKeys.contains(e.getKeyChar())) {
-            pressedKeys.remove((Character) e.getKeyChar());
+        shiftPressed = e.getKeyCode() != KeyEvent.VK_SHIFT && shiftPressed;
+        if (pressedKeys.contains(Character.toUpperCase(e.getKeyChar()))) {
+            pressedKeys.remove((Character) Character.toUpperCase(e.getKeyChar()));
         }
     }
 
@@ -174,51 +168,5 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     @Override
     public void mouseExited(MouseEvent e) {
 
-    }
-
-
-
-    public void SelectItem(Items item) {
-        if (Item == item) {
-        Item = Items.None;
-        hasItemSelected = false;
-        System.out.println("Already selected. Now selected: " + Item.toString());
-        return;
-        }
-        Item = item;
-        hasItemSelected = Item != Items.None;
-        repaint(); // selected item will be indicated using the "preview" under mouse
-        System.out.println("Selected: " + item.toString());
-
-    }
-
-
-    private class CenterPanel extends JPanel {
-        public CenterPanel() throws IOException {
-            setOpaque(false);
-            JPanel innerPanel = new JPanel();
-            innerPanel.setOpaque(true);
-            innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.LINE_AXIS));
-
-
-            BufferedImage imageBelt = ImageIO.read(new File("src/resources/belt.png"));
-
-            beltButton.addActionListener(e ->
-            {
-                SelectItem(Items.Belt);
-            });
-            beltButton.setFocusable(false);
-            beltButton.setIcon(new ImageIcon(imageBelt.getScaledInstance(
-                    stdButtonDimension.width,
-                    stdButtonDimension.height,
-                    Image.SCALE_SMOOTH)));
-            beltButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
-            beltButton.setPreferredSize(stdButtonDimension);
-            // beltButton.setMaximumSize(stdButtonDimension);
-
-
-            innerPanel.add(beltButton, BorderLayout.SOUTH);
-            this.add(innerPanel);
-        }
     }
 }
