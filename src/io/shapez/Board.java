@@ -19,12 +19,13 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     public boolean hasItemSelected = false;
 
     public Items Item;
+    private boolean shiftPressed;
 
     public Board() throws IOException {
         initBoard();
     }
 
-    private void initBoard() throws IOException {
+    private void initBoard() {
         addKeyListener(this);
         addMouseMotionListener(this);
         addMouseListener(this);
@@ -64,20 +65,21 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        int moveValue = (shiftPressed) ? 10 : 5;
         if (pressedKeys.size() > 0) {
             for (Character key : pressedKeys) {
-                switch (Character.toUpperCase(key)) {
+                switch (key) {
                     case 'S':
-                        changeOffset(0, -5);
+                        changeOffset(0, -moveValue);
                         break;
                     case 'W':
-                        changeOffset(0, 5);
+                        changeOffset(0, moveValue);
                         break;
                     case 'A':
-                        changeOffset(5, 0);
+                        changeOffset(moveValue, 0);
                         break;
                     case 'D':
-                        changeOffset(-5, 0);
+                        changeOffset(-moveValue, 0);
                         break;
                 }
             }
@@ -106,15 +108,17 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (!pressedKeys.contains(e.getKeyChar())) {
-            pressedKeys.add(e.getKeyChar());
+        shiftPressed = shiftPressed || e.getKeyCode() == KeyEvent.VK_SHIFT;
+        if (!pressedKeys.contains(Character.toUpperCase(e.getKeyChar()))) {
+            pressedKeys.add(Character.toUpperCase(e.getKeyChar()));
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (pressedKeys.contains(e.getKeyChar())) {
-            pressedKeys.remove((Character) e.getKeyChar());
+        shiftPressed = e.getKeyCode() != KeyEvent.VK_SHIFT && shiftPressed;
+        if (pressedKeys.contains(Character.toUpperCase(e.getKeyChar()))) {
+            pressedKeys.remove((Character) Character.toUpperCase(e.getKeyChar()));
         }
     }
 
