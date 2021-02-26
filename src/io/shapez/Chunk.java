@@ -92,7 +92,7 @@ public class Chunk {
         if (scale > GlobalConfig.zoomedScale) {
             for (int i = 0; i < GlobalConfig.mapChunkSize; i++) {
                 for (int j = 0; j < GlobalConfig.mapChunkSize; j++) {
-                    drawn = new Rectangle((x * GlobalConfig.mapChunkSize + gridOffsetX + i) * scale + offsetX, (y * GlobalConfig.mapChunkSize + gridOffsetX + j) * scale + offsetY, scale, scale);
+                    drawn = new Rectangle((x * GlobalConfig.mapChunkSize + gridOffsetX + i) * scale + offsetX, (y * GlobalConfig.mapChunkSize + gridOffsetY + j) * scale + offsetY, scale, scale);
                     if (lowerLayer[i][j] != null) {
                         g.setColor(lowerLayer[i][j]);
                         g.fillRect(drawn.x, drawn.y, drawn.width, drawn.height);
