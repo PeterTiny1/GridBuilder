@@ -161,9 +161,10 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 cRot = Rotations.cRotations.values()[rotIndex];
             }
         }
-        if(!Character.isLetter(e.getKeyChar())){
-
-            centerPanel.selectItem( Items.values()[Character.getNumericValue(e.getKeyChar())] );
+        char key = e.getKeyChar();
+        int index = Character.getNumericValue(key);
+        if(!Character.isLetter(key) && index < Items.values().length){
+            centerPanel.selectItem( Items.values()[index] );
             repaint();
         }
     }
