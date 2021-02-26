@@ -305,24 +305,36 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + 16 : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + 16 : cY % GlobalConfig.mapChunkSize;
 
+
         if (currentChunk.contents[offX][offY] == null) {
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
             usedChunks.add(currentChunk);
         }
+        if(currentChunk.contents[offX][offY] != null && currentChunk.contents[offX][offY].type != item){
+            //currentChunk.contents[offX][offY] = null;
+            clearTile(offX,offY);
+            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
 
+            usedChunks.add(currentChunk);
+        }
+        deleteInvalidTile(item, currentChunk, offX, offY);
+
+
+        repaint();
+    }
+
+    private void deleteInvalidTile(Items item, Chunk currentChunk, int offX, int offY) {
         byte result = 0;
-        result = checkSpecialProperties(currentChunk, offX,offY, item);
+        result = checkSpecialProperties(currentChunk, offX, offY, item);
 
         if(result == 1){
             System.out.println(
                     "Tile of type " + item.toString() + "has invalid placement at " + offX + " " + offY + "\n" +
                             "Tile will be deleted"
             );
+            if(currentChunk.contents[offX][offY].type == item && currentChunk.contents[offX][offY].type == this.item)
             currentChunk.contents[offX][offY] = null;
         }
-
-
-        repaint();
     }
 
     private void clearTile(int cX, int cY) {
