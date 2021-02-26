@@ -184,9 +184,10 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             clearTile(cX, cY);
             repaint();
         } else if (SwingUtilities.isLeftMouseButton(e)) {
-            if (!hasItemSelected) changeOffset(e.getX() - previousMX, e.getY() - previousMY);
+            if (!hasItemSelected) {changeOffset(e.getX() - previousMX, e.getY() - previousMY);}
             else {
-                heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
+               heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
+               placeEntity(e.getX(), e.getY(), item, cRot, getTileTexture(item));
             }
             repaint();
         }
