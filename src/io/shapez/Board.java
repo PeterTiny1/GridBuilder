@@ -24,16 +24,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     public Items item;
 
-
-
-    public enum sRotations{ // other rotations (angled to right/left)
-                            // https://cdn.discordapp.com/attachments/801873740379324466/814870747268775996/unknown.png
-                            // This goes unused for now.
-        UpRight,
-        RightDown,
-        DownLeft,
-        LeftRight
-    }
     public byte rotIndex = 0; // wont be more than 127 anyway :P
     public Rotations.cRotations cRot = Rotations.cRotations.Up;
 
@@ -228,10 +218,15 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     private Image getTileTexture(Items tile) {
         BufferedImage a;
-        if (tile == Items.Belt) {
-            a = Resources.belt;
-        } else {
-            return Resources.missingTexture;
+        switch (tile) {
+            case Belt:
+                a = Resources.belt;
+                break;
+            case Miner:
+                a = Resources.miner;
+                break;
+            default:
+                return Resources.missingTexture;
         }
 
 
@@ -276,6 +271,20 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         }
     }
 
+    private byte checkSpecialProperties(Chunk currentChunk, int offX, int offY, Items item){
+        // Return:  0 if all is ok
+        //          1 if tile should be removed (invalid placement)
+        //          2 if (...) to be continued for later versions
+        switch (item) {
+            case Miner:
+                if(currentChunk.lowerLayer[offX][offY] == null || currentChunk.lowerLayer[offX][offY] == Color.gray /* chunk border */){
+                    return 1;
+                }
+            default:
+                return 0;
+        }
+    }
+
     private void placeEntity(int x, int y, Items item, Rotations.cRotations rotation, Image tileTexture) {
         int cX = (x - offsetX) / scale - gridOffsetX;
         int cY = (y - offsetY) / scale - gridOffsetY;
@@ -285,9 +294,24 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + 16 : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + 16 : cY % GlobalConfig.mapChunkSize;
 
+
+
         if (currentChunk.contents[offX][offY] == null) {
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
             usedChunks.add(currentChunk);
+        }
+        int result = 0;
+        result = checkSpecialProperties(currentChunk, offX,offY, item);
+        if(result == 1){
+            System.out.println(
+                    "Tile of type " + item.toString() + "has invalid placement at " + offX + " " + offY + "\n" +
+                            "Tile will be deleted"
+            );
+            currentChunk.contents[offX][offY] = null;
+        }
+
+        if(currentChunk.contents.length == 0){
+            usedChunks.remove(currentChunk); // Performance!!!
         }
         repaint();
     }
