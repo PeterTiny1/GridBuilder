@@ -6,9 +6,9 @@ public class Entity {
     public int x, y;
     public Items type;
     public Image texture;
-    public Rotation rotation;
+    public Rotations.cRotations rotation;
 
-    public Entity(Items type, Image texture, Rotation rotation, int x, int y) {
+    public Entity(Items type, Image texture, Rotations.cRotations rotation, int x, int y) {
         this.x = x;
         this.y = y;
         this.type = type;

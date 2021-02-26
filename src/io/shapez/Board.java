@@ -23,7 +23,20 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     private boolean mouseDown = false;
 
     public Items item;
-    public Rotation rotation = Rotation.Up;
+
+
+
+    public enum sRotations{ // other rotations (angled to right/left)
+                            // https://cdn.discordapp.com/attachments/801873740379324466/814870747268775996/unknown.png
+                            // This goes unused for now.
+        UpRight,
+        RightDown,
+        DownLeft,
+        LeftRight
+    }
+    public byte rotIndex = 0; // wont be more than 127 anyway :P
+    public Rotations.cRotations cRot = Rotations.cRotations.Up;
+
     private boolean shiftPressed;
 
     private Rectangle heldItem;
@@ -140,24 +153,21 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         shiftPressed |= e.getKeyCode() == KeyEvent.VK_SHIFT;
         if (!pressedKeys.contains(Character.toUpperCase(e.getKeyChar()))) {
             pressedKeys.add(Character.toUpperCase(e.getKeyChar()));
-            if (Character.toUpperCase(e.getKeyChar()) == 'R') rotation = getNextRotation(rotation);
+            if (Character.toUpperCase(e.getKeyChar()) == 'R') {
+                // Change rotation
+                rotIndex++;
+                if(rotIndex == Rotations.cRotations.values().length){
+                    rotIndex = 0;
+                }
+                System.out.println("Rot index; " + rotIndex);
+                System.out.println("Rot from index; " + Rotations.cRotations.values()[rotIndex]);
+
+                cRot = Rotations.cRotations.values()[rotIndex];
+            }
         }
     }
 
-    private Rotation getNextRotation(Rotation rotation) {
-        switch (rotation) {
-            case Up:
-                return Rotation.Right;
-            case Right:
-                return Rotation.Down;
-            case Down:
-                return Rotation.Left;
-            case Left:
-                return Rotation.Up;
-            default:
-                return rotation;
-        }
-    }
+
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -204,6 +214,17 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             repaint();
         }
     }
+    private static BufferedImage rotateImageByDegrees(BufferedImage bimg, double angle) {
+        int w = bimg.getWidth();
+        int h = bimg.getHeight();
+        BufferedImage bufimage = new BufferedImage(w, h, bimg.getType());
+        Graphics2D g2d = bufimage.createGraphics();
+        g2d.rotate(Math.toRadians(angle), w>>1, h>>1);
+        g2d.drawImage(bimg, null, 0, 0);
+        g2d.dispose();
+        return bufimage;
+    }
+
 
     private Image getTileTexture(Items tile) {
         BufferedImage a;
@@ -212,25 +233,21 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         } else {
             return Resources.missingTexture;
         }
-        Graphics2D g2d = a.createGraphics();
-        AffineTransform at = new AffineTransform();
-        at.translate(a.getWidth() / 2, a.getHeight() / 2);
-        switch (rotation) {
+
+
+        switch (cRot) {
             case Down:
-                at.rotate(Math.toRadians(180));
-                g2d.setTransform(at);
-                return a;
+                a = rotateImageByDegrees(a,180);
+                break;
             case Left:
-                at.rotate(Math.toRadians(-90));
-                g2d.setTransform(at);
-                return a;
+                a = rotateImageByDegrees(a,-90);
+                break;
             case Right:
-                at.rotate(Math.toRadians(90));
-                g2d.setTransform(at);
-                return a;
-            default:
-                return a;
+                a = rotateImageByDegrees(a,90);
+                break;
         }
+
+        return a;
     }
 
     @Override
@@ -254,12 +271,12 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             repaint();
         } else if (SwingUtilities.isLeftMouseButton(e)) {
             if (hasItemSelected) {
-                placeEntity(e.getX(), e.getY(), item, rotation, getTileTexture(item));
+                placeEntity(e.getX(), e.getY(), item, cRot, getTileTexture(item));
             }
         }
     }
 
-    private void placeEntity(int x, int y, Items item, Rotation rotation, Image tileTexture) {
+    private void placeEntity(int x, int y, Items item, Rotations.cRotations rotation, Image tileTexture) {
         int cX = (x - offsetX) / scale - gridOffsetX;
         int cY = (y - offsetY) / scale - gridOffsetY;
 
