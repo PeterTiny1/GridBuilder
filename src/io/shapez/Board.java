@@ -29,7 +29,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     private boolean shiftPressed;
 
-    private Rectangle heldItem;
+    private Rectangle heldItem = new Rectangle(0,0,0,0);
 
     public Board() throws IOException {
         initBoard();
