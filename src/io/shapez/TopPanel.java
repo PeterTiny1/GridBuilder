@@ -14,7 +14,7 @@ class TopPanel extends JPanel {
         setOpaque(false);
         setLayout(new BorderLayout());
         Dimension d = new Dimension(70, 70);
-        BufferedImage settingsImage = ImageIO.read(new File("src/resources/settings.png"));
+        BufferedImage settingsImage = ImageIO.read(new File("src/resources/ui/settings.png"));
         settingsButton.setFocusable(false);
         settingsButton.setIcon(new ImageIcon(settingsImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
         settingsButton.setPreferredSize(d);

@@ -19,7 +19,7 @@ class CenterPanel extends JPanel {
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.LINE_AXIS));
 
         Dimension d = new Dimension(70, 70);
-        BufferedImage beltImage = ImageIO.read(new File("src/resources/belt.png"));
+        BufferedImage beltImage = ImageIO.read(new File("src/resources/ui/belt.png"));
 
         beltButton.addActionListener(e ->
                 selectItem(Items.Belt));

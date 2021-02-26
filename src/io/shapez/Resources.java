@@ -12,7 +12,7 @@ public class Resources {
 
     static {
         try {
-            belt = ImageIO.read(new File("src/resources/belt.png"));
+            belt = ImageIO.read(new File("src/resources/tiles/belt.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -20,15 +20,12 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     private int gridOffsetX, gridOffsetY;
     private int previousMX, previousMY;
     public boolean hasItemSelected = false;
-
-    public Point p1, p2;
+    private boolean mouseDown = false;
 
     public Items item;
     public Rotation rotation = Rotation.Up;
     private boolean shiftPressed;
 
-    public Point mTemp;
-    int rotIndex;
     private Rectangle heldItem;
 
     public Board() throws IOException {
@@ -75,7 +72,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     private void DrawGrid(Graphics g) {
         Vector leftTopTile = new Vector(-gridOffsetX, -gridOffsetY);
-        Vector rightBottomTile = new Vector(getWidth() / scale - gridOffsetX, getHeight() / scale - gridOffsetY);
+        Vector rightBottomTile = new Vector(getWidth() / (float) scale - gridOffsetX, getHeight() / (float) scale - gridOffsetY);
         Chunk leftTopChunk = GlobalConfig.map.getChunkAtTile((int) leftTopTile.x, (int) leftTopTile.y);
         Chunk rightBottomChunk = GlobalConfig.map.getChunkAtTile((int) rightBottomTile.x, (int) rightBottomTile.y);
 
@@ -190,7 +187,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             if (!hasItemSelected) changeOffset(e.getX() - previousMX, e.getY() - previousMY);
             else {
                 heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
-                placeEntity(e.getX(), e.getY(), item, rotation, getTileTexture(item));
             }
             repaint();
         }
@@ -246,6 +242,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     public void mousePressed(MouseEvent e) {
         int cX = (e.getX() - offsetX) / scale - gridOffsetX;
         int cY = (e.getY() - offsetY) / scale - gridOffsetY;
+        mouseDown = SwingUtilities.isLeftMouseButton(e);
         if (SwingUtilities.isRightMouseButton(e)) {
             if (item != Items.None) {
                 item = Items.None;
@@ -300,7 +297,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        mouseDown = !SwingUtilities.isLeftMouseButton(e);
     }
 
     @Override
