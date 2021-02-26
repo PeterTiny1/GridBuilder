@@ -51,12 +51,13 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int DELAY = 10;
         Timer timer = new Timer(DELAY, this);
         timer.start();
+
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.updateComponentTreeUI(this);
         } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace(); // your os is unsupported or registry is fucked if this happens
-            // todo: tell user that OS is unsupported
+            JOptionPane.showMessageDialog(null, "Unsupported styles; UI might be broken");
         }
     }
 
