@@ -264,7 +264,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     private void placeEntity(int x, int y, Items item, Rotation rotation, Image tileTexture) {
         int cX = (x - offsetX) / scale - gridOffsetX;
-        int cY = (x - offsetY) / scale - gridOffsetY;
+        int cY = (y - offsetY) / scale - gridOffsetY;
 
         Chunk currentChunk = GlobalConfig.map.getChunkAtTile(cX, cY);
 
