@@ -310,9 +310,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             currentChunk.contents[offX][offY] = null;
         }
 
-        if(currentChunk.contents.length == 0){
-            usedChunks.remove(currentChunk); // Performance!!!
-        }
+
         repaint();
     }
 
