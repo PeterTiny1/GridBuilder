@@ -19,10 +19,10 @@ class CenterPanel extends JPanel {
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.LINE_AXIS));
 
         Dimension d = new Dimension(70, 70);
-        BufferedImage beltImage = ImageIO.read(new File("src/resources/belt.png"));
+        BufferedImage beltImage = ImageIO.read(new File("src/resources/ui/belt.png"));
 
         beltButton.addActionListener(e ->
-                SelectItem(Items.Belt));
+                selectItem(Items.Belt));
         beltButton.setFocusable(false);
         beltButton.setIcon(new ImageIcon(beltImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
         beltButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
@@ -32,8 +32,8 @@ class CenterPanel extends JPanel {
         this.add(innerPanel);
     }
 
-    public void UpdateButtonAppearance() {
-        switch (board.Item) {
+    public void updateButtonAppearance() {
+        switch (board.item) {
             case None:
                 beltButton.setSelected(false);
                 break;
@@ -43,17 +43,17 @@ class CenterPanel extends JPanel {
         }
     }
 
-    public void SelectItem(Items item) {
-        if (board.Item == item) {
-            board.Item = Items.None;
+    public void selectItem(Items item) {
+        if (board.item == item) {
+            board.item = Items.None;
             board.hasItemSelected = false;
-            System.out.println("Already selected. Now selected: " + board.Item.toString());
-            UpdateButtonAppearance();
+            System.out.println("Already selected. Now selected: " + board.item.toString());
+            updateButtonAppearance();
             return;
         }
-        board.Item = item;
-        board.hasItemSelected = board.Item != Items.None;
+        board.item = item;
+        board.hasItemSelected = board.item != Items.None;
         System.out.println("Selected: " + item.toString());
-        UpdateButtonAppearance();
+        updateButtonAppearance();
     }
 }

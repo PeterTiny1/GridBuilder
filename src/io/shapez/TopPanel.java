@@ -11,16 +11,14 @@ class TopPanel extends JPanel {
     JButton settingsButton = new JButton();
 
     public TopPanel() throws IOException {
-
         setOpaque(false);
-        setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+        setLayout(new BorderLayout());
         Dimension d = new Dimension(70, 70);
-        BufferedImage settingsImage = ImageIO.read(new File("src/resources/settings.png"));
+        BufferedImage settingsImage = ImageIO.read(new File("src/resources/ui/settings.png"));
         settingsButton.setFocusable(false);
         settingsButton.setIcon(new ImageIcon(settingsImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
-        settingsButton.setAlignmentY(JComponent.TOP_ALIGNMENT);
         settingsButton.setPreferredSize(d);
         settingsButton.setMaximumSize(d);
-        add(settingsButton);
+        add(settingsButton, BorderLayout.EAST);
     }
 }

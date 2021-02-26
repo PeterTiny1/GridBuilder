@@ -2,21 +2,26 @@ package io.shapez;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.io.IOException;
 
-public class Main extends JFrame {
+public class Main extends JFrame implements WindowFocusListener {
+    Board board;
+
     public Main() throws IOException {
         initUI();
     }
 
     private void initUI() throws IOException {
-        Board board = new Board();
+        board = new Board();
         JScrollPane scrollPane = new JScrollPane(board);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         board.addMouseWheelListener(board);
         add(scrollPane);
+        addWindowFocusListener(this);
         pack();
-        setTitle("Better version of Aurumaker's Grid Builder");
+        setTitle("Grid Builder - Java Edition");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -32,5 +37,15 @@ public class Main extends JFrame {
             assert main != null;
             main.setVisible(true);
         });
+    }
+
+    @Override
+    public void windowGainedFocus(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowLostFocus(WindowEvent e) {
+        board.pressedKeys.clear();
     }
 }
