@@ -8,10 +8,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InvalidObjectException;
 
-class CenterPanel extends JPanel {
+public class CenterPanel extends JPanel {
     private final Board board;
-    public JButton beltButton = new JButton();
-    public JButton minerButton = new JButton();
+    public static JButton beltButton = new JButton();
+    public static JButton minerButton = new JButton();
 
     public CenterPanel(Board board) throws IOException {
         this.board = board;

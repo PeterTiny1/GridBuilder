@@ -142,8 +142,10 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     }
 
+
     @Override
     public void keyPressed(KeyEvent e) {
+
         shiftPressed |= e.getKeyCode() == KeyEvent.VK_SHIFT;
         if (!pressedKeys.contains(Character.toUpperCase(e.getKeyChar()))) {
             pressedKeys.add(Character.toUpperCase(e.getKeyChar()));
@@ -159,8 +161,12 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 cRot = Rotations.cRotations.values()[rotIndex];
             }
         }
-    }
+        if(!Character.isLetter(e.getKeyChar())){
 
+            centerPanel.selectItem( Items.values()[Character.getNumericValue(e.getKeyChar())] );
+            repaint();
+        }
+    }
 
 
     @Override
