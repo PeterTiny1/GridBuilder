@@ -285,10 +285,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             chunk.contents[offX][offY] = null;
             for (int x = 0; x < GlobalConfig.mapChunkSize; x++) {
                 for (int y = 0; y < GlobalConfig.mapChunkSize; y++) {
-                    if (usedChunks.contains(chunk)) {
-                        if (chunk.contents[x][y] != null) {
-                            usedChunks.remove(chunk);
-                        }
+                    if (usedChunks.contains(chunk) && chunk.contents[x][y] != null) {
+                        usedChunks.remove(chunk);
                     }
                 }
             }
