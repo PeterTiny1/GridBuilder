@@ -185,13 +185,17 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             int cX = (e.getX() - offsetX) / scale - gridOffsetX;
             int cY = (e.getY() - offsetY) / scale - gridOffsetY;
             clearTile(cX, cY);
-            return;
+            repaint();
+        } else if (SwingUtilities.isLeftMouseButton(e)) {
+            if (!hasItemSelected) changeOffset(e.getX() - previousMX, e.getY() - previousMY);
+            else {
+                heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
+                placeEntity(e.getX(), e.getY(), item, rotation, getTileTexture(item));
+            }
+            repaint();
         }
-        if (!hasItemSelected) changeOffset(e.getX() - previousMX, e.getY() - previousMY);
-        else heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
         previousMX = e.getX();
         previousMY = e.getY();
-        repaint();
     }
 
     @Override
@@ -245,6 +249,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         if (SwingUtilities.isRightMouseButton(e)) {
             if (item != Items.None) {
                 item = Items.None;
+                hasItemSelected = false;
                 centerPanel.updateButtonAppearance();
             } else {
                 clearTile(cX, cY);
