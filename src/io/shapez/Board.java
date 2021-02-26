@@ -272,6 +272,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
             usedChunks.add(currentChunk);
         }
+        repaint();
     }
 
     private void clearTile(int cX, int cY) {
