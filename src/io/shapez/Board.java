@@ -170,7 +170,17 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             }
             repaint();
         }
-        System.out.println(e.getModifiersEx());
+
+            switch (e.getKeyCode()) {
+                // F1, F2....
+                // 112,113,114...
+                case 112:
+                    System.out.println("");
+                    centerPanel.setVisible(!centerPanel.isVisible());
+                    topPanel.setVisible(!topPanel.isVisible());
+                    break;
+            }
+
     }
 
 
