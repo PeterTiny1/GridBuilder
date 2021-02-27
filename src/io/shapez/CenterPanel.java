@@ -70,6 +70,10 @@ public class CenterPanel extends JPanel {
                 minerButton.setSelected(true);
                 break;
         }
+        TopPanel.selectedILabel_Name.setText(EntityTutorial.GetTitle(board.item));
+        TopPanel.selectedILabel_Description.setText(EntityTutorial.GetDescription(board.item));
+
+
     }
 
     public void selectItem(Items item) {
