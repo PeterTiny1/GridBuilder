@@ -163,7 +163,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         }
         char key = e.getKeyChar();
         int index = Character.getNumericValue(key);
-        if(!Character.isLetter(key) && index < Items.values().length){
+        if(!Character.isLetter(key) && index < Items.values().length && index > -1){
             centerPanel.selectItem( Items.values()[index] );
             repaint();
         }
@@ -306,18 +306,23 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + 16 : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + 16 : cY % GlobalConfig.mapChunkSize;
 
+        if(     currentChunk.contents[offX][offY] != null
+                && currentChunk.contents[offX][offY].type != item
+                && checkSpecialProperties(currentChunk,offX,offY,item) == 0) {
 
-        if (currentChunk.contents[offX][offY] == null) {
-            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
-            usedChunks.add(currentChunk);
-        }
-        if(currentChunk.contents[offX][offY] != null && currentChunk.contents[offX][offY].type != item){
             //currentChunk.contents[offX][offY] = null;
             clearTile(offX,offY);
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
 
             usedChunks.add(currentChunk);
         }
+
+
+        if (currentChunk.contents[offX][offY] == null) {
+            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
+            usedChunks.add(currentChunk);
+        }
+
         deleteInvalidTile(item, currentChunk, offX, offY);
 
 
