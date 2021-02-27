@@ -36,7 +36,9 @@ public class CenterPanel extends JPanel {
         beltButton.setMaximumSize(d);
         innerPanel.add(beltButton, BorderLayout.SOUTH);
 
-        minerButton.addActionListener(e -> selectItem(Items.Miner));
+        minerButton.addActionListener(e ->
+                selectItem(Items.Miner)
+        );
         minerButton.setFocusable(false);
         minerButton.setIcon(new ImageIcon(minerImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
         minerButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
@@ -83,7 +85,7 @@ public class CenterPanel extends JPanel {
         }
         TopPanel.selectedILabel_Name.setText(EntityTutorial.GetTitle(board.item));
         TopPanel.selectedILabel_Description.setText(EntityTutorial.GetDescription(board.item));
-
+        SoundManager.playSound(Resources.uiClickSound);
 
     }
 

@@ -1,5 +1,7 @@
 package io.shapez;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -211,7 +213,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         if (SwingUtilities.isRightMouseButton(e)) {
             int cX = (e.getX() - offsetX) / scale - gridOffsetX;
             int cY = (e.getY() - offsetY) / scale - gridOffsetY;
-            clearTile(cX, cY);
+            clearTile(cX, cY,true);
             repaint();
         } else if (SwingUtilities.isLeftMouseButton(e)) {
             if (!hasItemSelected) {changeOffset(e.getX() - previousMX, e.getY() - previousMY);}
@@ -294,15 +296,16 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 hasItemSelected = false;
                 centerPanel.updateButtonAppearance();
             } else {
-                clearTile(cX, cY);
+                clearTile(cX, cY,true);
             }
             repaint();
         } else if (SwingUtilities.isLeftMouseButton(e)) {
-            if (hasItemSelected) {
-                placeEntity(e.getX(), e.getY(), item, cRot, getTileTexture(item));
+            if (hasItemSelected && item != Items.None) {
+                SoundManager.playSound(item != Items.Belt ? Resources.generic_placeTileSound : Resources.beltPlaceSound);
+                placeEntity(e.getX(), e.getY(), item, cRot, getTileTexture(item));}
             }
         }
-    }
+
 
     private byte checkSpecialProperties(Chunk currentChunk, int offX, int offY, Items item){
         // Return:  0 if all is ok
@@ -332,25 +335,27 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 && checkSpecialProperties(currentChunk,offX,offY,item) == 0) {
 
             //currentChunk.contents[offX][offY] = null;
-            clearTile(offX,offY);
+            clearTile(offX,offY,false);
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
-
             usedChunks.add(currentChunk);
+            repaint();
+            return;
         }
-
 
         if (currentChunk.contents[offX][offY] == null) {
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
             usedChunks.add(currentChunk);
+            if (item == Items.Belt)
+            SoundManager.playSound(Resources.beltPlaceSound);
+            else
+            SoundManager.playSound(Resources.generic_placeTileSound);
         }
 
         deleteInvalidTile(item, currentChunk, offX, offY);
-
-
         repaint();
     }
 
-    private void deleteInvalidTile(Items item, Chunk currentChunk, int offX, int offY) {
+    private byte deleteInvalidTile(Items item, Chunk currentChunk, int offX, int offY) {
         byte result = 0;
         result = checkSpecialProperties(currentChunk, offX, offY, item);
 
@@ -362,9 +367,10 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             if(currentChunk.contents[offX][offY].type == item && currentChunk.contents[offX][offY].type == this.item)
             currentChunk.contents[offX][offY] = null;
         }
+        return result;
     }
 
-    private void clearTile(int cX, int cY) {
+    private void clearTile(int cX, int cY, boolean user) {
         Chunk chunk = GlobalConfig.map.getChunkAtTile(cX, cY);
         int offX = cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize;
@@ -379,6 +385,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                     }
                 }
             }
+            SoundManager.playSound(Resources.generic_destroyTileSound);
             repaint();
         }
     }
