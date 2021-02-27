@@ -170,14 +170,19 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             }
             repaint();
         }
-
             switch (e.getKeyCode()) {
                 // F1, F2....
                 // 112,113,114...
                 case 112:
-                    System.out.println("");
                     centerPanel.setVisible(!centerPanel.isVisible());
                     topPanel.setVisible(!topPanel.isVisible());
+                    break;
+                case 113:
+                    long t1 = System.nanoTime();
+                    System.out.println("GC start...");
+                    System.gc();
+                    long t2 = System.nanoTime();
+                    System.out.println("GC end\nGC took " + (t2 - t1)/1000000 + " ms");
                     break;
             }
 
