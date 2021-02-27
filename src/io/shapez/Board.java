@@ -64,6 +64,12 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                     "Your OS is not supported or registry may be broken. " +
                     "UI might not work like intended", "Style loading failed", JOptionPane.ERROR_MESSAGE);
         }
+        try {
+
+            SettingsManager.load(false);
+        } catch (IOException e) {
+            System.err.println("!!! Failed to load config !!!");
+        }
     }
 
     public void paintComponent(Graphics g) {

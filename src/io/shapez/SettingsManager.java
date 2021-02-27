@@ -29,7 +29,7 @@ public class SettingsManager {
 
         ds.close();
     }
-    public static void load() throws IOException {
+    public static void load(boolean internal) throws IOException {
 
         System.out.println("Loading settings in unsafe environment");
 
@@ -42,8 +42,10 @@ public class SettingsManager {
             allowSound = ds.readBoolean();
             drawChunkEdges = ds.readBoolean();
         }
+        if(internal){
         chk1.setSelected(allowSound);
         chk2.setSelected(drawChunkEdges);
+        }
 
         ds.close();
     }
@@ -122,7 +124,7 @@ public class SettingsManager {
         settingsFrame.setVisible(true);
 
         try {
-            load();
+            load(true);
         } catch (IOException e) {
             e.printStackTrace();
         }

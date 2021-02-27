@@ -92,6 +92,7 @@ public class Chunk {
     }
 
     private void setSides() {
+        if(!SettingsManager.drawChunkEdges)return;
         for (int x = 0; x < GlobalConfig.mapChunkSize; x++) {
             if (lowerLayer[x][0] == null) {
                 lowerLayer[x][0] = Color.GRAY;
