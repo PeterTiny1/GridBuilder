@@ -12,9 +12,12 @@ public class SettingsManager {
 
     public static JFrame settingsFrame;
     public static JPanel mainPanel;
+
     public static JCheckBox chk1;
+    public static JCheckBox chk2;
 
     public static boolean allowSound;
+    public static boolean drawChunkEdges;
 
     public static void save() throws IOException {
         System.out.println("Saving settings in unsafe environment");
@@ -22,15 +25,25 @@ public class SettingsManager {
         DataOutputStream ds = new DataOutputStream(fs);
 
         ds.writeBoolean(allowSound); // 8 bytes (64-bit jvm)
+        ds.writeBoolean(drawChunkEdges);
+
         ds.close();
     }
     public static void load() throws IOException {
+
         System.out.println("Loading settings in unsafe environment");
+
+
         FileInputStream fs = new FileInputStream(path);
+
         DataInputStream ds = new DataInputStream(fs);
 
-        allowSound = ds.readBoolean();
+        while(ds.available() > 0) {
+            allowSound = ds.readBoolean();
+            drawChunkEdges = ds.readBoolean();
+        }
         chk1.setSelected(allowSound);
+        chk2.setSelected(drawChunkEdges);
 
         ds.close();
     }
@@ -47,6 +60,7 @@ public class SettingsManager {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 allowSound = chk1.isSelected();
+                System.out.println(e.getSource());
                 try {
                     System.out.println("Saving settings...");
                     save(); // load settings
@@ -60,10 +74,32 @@ public class SettingsManager {
         chk1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         chk1.setFocusPainted(false); // this can be considered a hack such as ActiveControl = null
 
+
+        chk2 = new JCheckBox();
+        chk2.setSelected(drawChunkEdges);
+        chk2.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                drawChunkEdges = chk2.isSelected();
+                try {
+                    System.out.println("Saving settings...");
+                    save(); // load settings
+                } catch (IOException ee) {
+                    System.err.println("Error saving settings");
+                    ee.printStackTrace();
+                }
+            }
+        });
+        chk2.setText("Draw Chunk Edges");
+        chk2.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        chk2.setFocusPainted(false); // this can be considered a hack such as ActiveControl = null
+
+
         mainPanel.add(chk1, BorderLayout.WEST);
+        mainPanel.add(chk2, BorderLayout.WEST);
+
 
         settingsFrame.add(mainPanel);
-
         settingsFrame.setResizable(false);
 
         settingsFrame.addWindowListener(new java.awt.event.WindowAdapter() {

@@ -8,6 +8,7 @@ public class SoundManager {
 
 
     public static synchronized void playSound(final File str) {
+        if(!SettingsManager.allowSound)return;
         new Thread(new Runnable() {
 
             // The wrapper thread is unnecessary, unless it blocks on the

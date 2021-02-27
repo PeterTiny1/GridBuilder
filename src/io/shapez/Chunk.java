@@ -119,6 +119,7 @@ public class Chunk {
                 }
             }
             g.setColor(Color.gray);
+            // Draw grid
             for (int i = 0; i < GlobalConfig.mapChunkSize; i++)
             {
                 int movX = (x * GlobalConfig.mapChunkSize + gridOffsetX + i) * scale + offsetX;
@@ -141,17 +142,17 @@ public class Chunk {
                 g.setColor(Color.BLACK);
                 g.drawLine(movX, constY, movX, constY + GlobalConfig.mapChunkSize * scale);
                 
-                movX = (x * GlobalConfig.mapChunkSize + gridOffsetX + 16) * scale + offsetX;
+                /*movX = (x * GlobalConfig.mapChunkSize + gridOffsetX + 16) * scale + offsetX;
                 constY = (y * GlobalConfig.mapChunkSize + gridOffsetY) * scale + offsetY;
-                g.drawLine(movX, constY, movX, constY + GlobalConfig.mapChunkSize * scale);
+                g.drawLine(movX, constY, movX, constY + GlobalConfig.mapChunkSize * scale);*/
 
                 int movY = (y * GlobalConfig.mapChunkSize + gridOffsetY) * scale + offsetY;
                 int constX = (x * GlobalConfig.mapChunkSize + gridOffsetX) * scale + offsetX;
                 g.drawLine(constX, movY, constX + GlobalConfig.mapChunkSize * scale, movY);
 
-                movY = (y * GlobalConfig.mapChunkSize + gridOffsetY + 16) * scale + offsetY;
+               /* movY = (y * GlobalConfig.mapChunkSize + gridOffsetY + 16) * scale + offsetY;
                 constX = (x * GlobalConfig.mapChunkSize + gridOffsetX) * scale + offsetX;
-                g.drawLine(constX, movY, constX + GlobalConfig.mapChunkSize * scale, movY);
+                g.drawLine(constX, movY, constX + GlobalConfig.mapChunkSize * scale, movY);*/
             }
         }
     }
