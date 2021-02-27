@@ -75,7 +75,7 @@ public class Chunk {
         }else if(b == 2){
             return Color.BLUE;
         }else if(b == 3){
-            return Color.GRAY; // uncolored shape patch!!!
+            return Color.LIGHT_GRAY; // uncolored shape patch!!!
         }else {
             throw new IllegalArgumentException("Color index is not valid");
         }
