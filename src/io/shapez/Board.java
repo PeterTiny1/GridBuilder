@@ -65,7 +65,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                     "UI might not work like intended", "Style loading failed", JOptionPane.ERROR_MESSAGE);
         }
         try {
-
             SettingsManager.load(false);
         } catch (IOException e) {
             System.err.println("!!! Failed to load config !!!");

@@ -1,5 +1,7 @@
 package io.shapez.managers;
 
+import io.shapez.GlobalConfig;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
@@ -15,9 +17,12 @@ public class SettingsManager {
 
     public static JCheckBox chk1;
     public static JCheckBox chk2;
+    public static JCheckBox chk3;
+
 
     public static boolean allowSound;
     public static boolean drawChunkEdges;
+    public static boolean noLoD;
 
     public static void save() throws IOException {
         System.out.println("Saving settings in unsafe environment");
@@ -26,6 +31,7 @@ public class SettingsManager {
 
         ds.writeBoolean(allowSound); // 8 bytes (64-bit jvm)
         ds.writeBoolean(drawChunkEdges);
+        ds.writeBoolean(noLoD);
 
         ds.close();
     }
@@ -41,12 +47,16 @@ public class SettingsManager {
         while(ds.available() > 0) {
             allowSound = ds.readBoolean();
             drawChunkEdges = ds.readBoolean();
+            noLoD = ds.readBoolean();
         }
         if(internal){
         chk1.setSelected(allowSound);
         chk2.setSelected(drawChunkEdges);
+        chk3.setSelected(noLoD);
         }
 
+        if(noLoD)
+        GlobalConfig.zoomedScale = 1;
         ds.close();
     }
 
@@ -96,9 +106,28 @@ public class SettingsManager {
         chk2.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         chk2.setFocusPainted(false); // this can be considered a hack such as ActiveControl = null
 
+        chk3 = new JCheckBox();
+        chk3.setSelected(noLoD);
+        chk3.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                noLoD = chk3.isSelected();
+                try {
+                    System.out.println("Saving settings...");
+                    save(); // load settings
+                } catch (IOException ee) {
+                    System.err.println("Error saving settings");
+                    ee.printStackTrace();
+                }
+            }
+        });
+        chk3.setText("No LoD");
+        chk3.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        chk3.setFocusPainted(false); // this can be considered a hack such as ActiveControl = null
 
         mainPanel.add(chk1, BorderLayout.WEST);
         mainPanel.add(chk2, BorderLayout.WEST);
+        mainPanel.add(chk3, BorderLayout.WEST);
 
 
         settingsFrame.add(mainPanel);
