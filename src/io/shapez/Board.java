@@ -163,8 +163,11 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         }
         char key = e.getKeyChar();
         int index = Character.getNumericValue(key);
-        if(!Character.isLetter(key) && index < Items.values().length && index > -1){
-            centerPanel.selectItem( Items.values()[index] );
+        if(!Character.isLetter(key) && index > -1){
+            if(index < Items.values().length){
+            centerPanel.selectItem( Items.values()[index] );} else{
+                centerPanel.selectItem(Items.None);
+            }
             repaint();
         }
     }
