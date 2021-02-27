@@ -60,14 +60,25 @@ public class CenterPanel extends JPanel {
             case None:
                 minerButton.setSelected(false);
                 beltButton.setSelected(false);
+                trashButton.setSelected(false);
                 break;
             case Belt:
                 minerButton.setSelected(false);
+                trashButton.setSelected(false);
+
                 beltButton.setSelected(true);
                 break;
             case Miner:
                 beltButton.setSelected(false);
+                trashButton.setSelected(false);
+
                 minerButton.setSelected(true);
+                break;
+            case Trash:
+                beltButton.setSelected(false);
+                minerButton.setSelected(false);
+
+                trashButton.setSelected(true);
                 break;
         }
         TopPanel.selectedILabel_Name.setText(EntityTutorial.GetTitle(board.item));

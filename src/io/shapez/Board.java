@@ -170,6 +170,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             }
             repaint();
         }
+        System.out.println(e.getModifiersEx());
     }
 
 
