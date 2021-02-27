@@ -1,12 +1,13 @@
 package io.shapez;
 
+import io.shapez.managers.SoundManager;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InvalidObjectException;
 
 public class CenterPanel extends JPanel {
     private final Board board;

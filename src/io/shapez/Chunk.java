@@ -1,6 +1,6 @@
 package io.shapez;
 
-import com.sun.jdi.connect.Connector;
+import io.shapez.managers.SettingsManager;
 
 import java.awt.*;
 import java.util.Random;

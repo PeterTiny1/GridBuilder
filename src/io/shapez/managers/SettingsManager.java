@@ -1,4 +1,4 @@
-package io.shapez;
+package io.shapez.managers;
 
 import javax.swing.*;
 import java.awt.*;

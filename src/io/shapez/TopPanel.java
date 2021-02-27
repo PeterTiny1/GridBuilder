@@ -1,5 +1,7 @@
 package io.shapez;
 
+import io.shapez.managers.SettingsManager;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
