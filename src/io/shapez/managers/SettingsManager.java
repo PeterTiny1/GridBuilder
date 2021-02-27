@@ -57,6 +57,7 @@ public class SettingsManager {
 
         if(noLoD)
         GlobalConfig.zoomedScale = 1;
+
         ds.close();
     }
 
