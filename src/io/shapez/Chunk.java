@@ -118,7 +118,7 @@ public class Chunk {
                     }
                 }
             }
-            g.setColor(Color.BLACK);
+            g.setColor(Color.gray);
             for (int i = 0; i < GlobalConfig.mapChunkSize; i++)
             {
                 int movX = (x * GlobalConfig.mapChunkSize + gridOffsetX + i) * scale + offsetX;
