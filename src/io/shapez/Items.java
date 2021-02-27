@@ -3,5 +3,6 @@ package io.shapez;
 enum Items {
     None,
     Belt,
-    Miner
+    Miner,
+    Trash
 }

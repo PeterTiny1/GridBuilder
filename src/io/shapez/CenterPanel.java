@@ -12,6 +12,7 @@ public class CenterPanel extends JPanel {
     private final Board board;
     public static JButton beltButton = new JButton();
     public static JButton minerButton = new JButton();
+    public static JButton trashButton = new JButton();
 
     public CenterPanel(Board board) throws IOException {
         this.board = board;
@@ -24,6 +25,7 @@ public class CenterPanel extends JPanel {
 
         BufferedImage beltImage = ImageIO.read(new File("src/resources/ui/belt.png"));
         BufferedImage minerImage = ImageIO.read(new File("src/resources/ui/miner.png"));
+        BufferedImage trashImage = ImageIO.read(new File("src/resources/ui/trash.png"));
 
         beltButton.addActionListener(e ->
                 selectItem(Items.Belt));
@@ -41,6 +43,14 @@ public class CenterPanel extends JPanel {
         minerButton.setPreferredSize(d);
         minerButton.setMaximumSize(d);
         innerPanel.add(minerButton, BorderLayout.SOUTH);
+
+        trashButton.addActionListener(e -> selectItem(Items.Trash));
+        trashButton.setFocusable(false);
+        trashButton.setIcon(new ImageIcon(trashImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
+        trashButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
+        trashButton.setPreferredSize(d);
+        trashButton.setMaximumSize(d);
+        innerPanel.add(trashButton, BorderLayout.SOUTH);
 
         this.add(innerPanel);
     }

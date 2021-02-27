@@ -237,6 +237,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             case Miner:
                 a = Resources.miner;
                 break;
+            case Trash:
+                return Resources.trash; // cant be rotated
             default:
                 return Resources.missingTexture;
         }
