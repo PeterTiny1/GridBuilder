@@ -1,5 +1,7 @@
 package io.shapez;
 
+import com.sun.jdi.connect.Connector;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -29,11 +31,12 @@ public class Chunk {
         double colorPatchChance = 0.9 - max;
         if (rng.nextDouble() < colorPatchChance) {
             double colorPatchSize = Math.max(2, Math.round(1 + max));
-            internalGeneratePatch(rng, colorPatchSize);
+            internalGeneratePatch(rng, colorPatchSize,
+                    rng.nextInt(4));
         }
     }
 
-    private void internalGeneratePatch(Random rng, double patchSize) {
+    private void internalGeneratePatch(Random rng, double patchSize, int color) {
         int border = (int) (patchSize / 2) + 3;
         int patchX = (int) Math.floor(rng.nextDouble() * (GlobalConfig.mapChunkSize - border - 1 - border) + border);
         int patchY = (int) Math.floor(rng.nextDouble() * (GlobalConfig.mapChunkSize - border - 1 - border) + border);
@@ -56,14 +59,27 @@ public class Chunk {
                         double originalDx = dx / circleScaleX;
                         double originalDy = dy / circleScaleY;
                         if (originalDx * originalDx + originalDy * originalDy <= circleRadiusSquare) {
-                            lowerLayer[x][y] = Color.RED;
+                            lowerLayer[x][y] = colorshapeTypeFromByte(color);
                         }
                     }
                 }
             }
         }
     }
-
+    private Color colorshapeTypeFromByte(int b){
+        // temporary
+        if(b == 0){
+            return Color.RED;
+        } else if(b == 1){
+            return Color.GREEN;
+        }else if(b == 2){
+            return Color.BLUE;
+        }else if(b == 3){
+            return Color.GRAY; // uncolored shape patch!!!
+        }else {
+            throw new IllegalArgumentException("Color index is not valid");
+        }
+    }
     private long generateHash(String str) {
         var hash = 0;
         if (str.length() == 0) return hash;
