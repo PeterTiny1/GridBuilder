@@ -11,7 +11,10 @@ import java.io.*;
 
 public class SettingsManager {
 
-    public static final String path = (System.getenv("APPDATA") + "\\.jshapez\\");
+    //public static final String rootPath = (System.getenv("APPDATA") + "\\.jshapez");
+    public static File rootFile = new File(System.getenv("APPDATA") + "/.jgridbuilder");
+
+    public static File settingsFile = new File(rootFile.getPath() + "/settings.bin");
 
     public static JFrame settingsFrame;
     public static JPanel mainPanel;
@@ -25,25 +28,42 @@ public class SettingsManager {
     public static boolean drawChunkEdges;
     public static boolean noLoD;
 
+    public static void fixPaths(){
+        rootFile.mkdirs();
+
+        //settingsFile = new File(rootFile.getPath() + "/settings.bin");
+        if(!settingsFile.canWrite()){
+            System.err.println("!!! No write permissions to settings file !!!"); // fuck!!!!!! what happened?
+            return;
+        }
+
+        if(!settingsFile.exists()) {
+            try {
+                settingsFile.createNewFile();
+            } catch (IOException e) { System.err.println("Fixing file failed (path doesn't exist?)"); }
+        }
+    }
     public static void save(boolean internal) throws IOException {
+        fixPaths();
         System.out.println("Saving settings in unsafe environment");
-        FileOutputStream fs = new FileOutputStream(path);
+        FileOutputStream fs = new FileOutputStream(settingsFile);
         DataOutputStream ds = new DataOutputStream(fs);
 
         ds.writeBoolean(allowSound); // 8 bytes (64-bit jvm)
         ds.writeBoolean(drawChunkEdges);
         ds.writeBoolean(noLoD);
 
+        ds.flush(); // push the buffer to file, just in case something failed
         ds.close();
         if(!internal)
         SoundManager.playSound(Resources.uiSuccessSound);
     }
     public static void load(boolean internal) throws IOException {
-
+        fixPaths();
         System.out.println("Loading settings in unsafe environment");
 
 
-        FileInputStream fs = new FileInputStream(path);
+        FileInputStream fs = new FileInputStream(settingsFile);
 
         DataInputStream ds = new DataInputStream(fs);
 
