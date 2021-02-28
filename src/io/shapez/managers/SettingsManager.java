@@ -43,13 +43,13 @@ public class SettingsManager {
             } catch (IOException e) { System.err.println("Fixing file failed (path doesn't exist?)"); }
         }
     }
-    public static void save(boolean internal) throws IOException {
+    public static void saveSettings(boolean internal) throws IOException {
         fixPaths();
         System.out.println("Saving settings in unsafe environment");
         FileOutputStream fs = new FileOutputStream(settingsFile);
         DataOutputStream ds = new DataOutputStream(fs);
 
-        ds.writeBoolean(allowSound); // 8 bytes (64-bit jvm)
+        ds.writeBoolean(allowSound);
         ds.writeBoolean(drawChunkEdges);
         ds.writeBoolean(noLoD);
 
@@ -58,7 +58,7 @@ public class SettingsManager {
         if(!internal)
         SoundManager.playSound(Resources.uiSuccessSound);
     }
-    public static void load(boolean internal) throws IOException {
+    public static void loadSettings(boolean internal) throws IOException {
         fixPaths();
         System.out.println("Loading settings in unsafe environment");
 
@@ -99,7 +99,7 @@ public class SettingsManager {
                 System.out.println(e.getSource());
                 try {
                     System.out.println("Saving settings...");
-                    save(true); // load settings
+                    saveSettings(true); // load settings
                 } catch (IOException ee) {
                     System.err.println("Error saving settings");
                     ee.printStackTrace();
@@ -119,7 +119,7 @@ public class SettingsManager {
                 drawChunkEdges = chk2.isSelected();
                 try {
                     System.out.println("Saving settings...");
-                    save(true); // load settings
+                    saveSettings(true); // load settings
                 } catch (IOException ee) {
                     System.err.println("Error saving settings");
                     ee.printStackTrace();
@@ -138,7 +138,7 @@ public class SettingsManager {
                 noLoD = chk3.isSelected();
                 try {
                     System.out.println("Saving settings...");
-                    save(true); // load settings
+                    saveSettings(true); // load settings
                 } catch (IOException ee) {
                     System.err.println("Error saving settings");
                     ee.printStackTrace();
@@ -162,7 +162,7 @@ public class SettingsManager {
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 try {
                     System.out.println("Saving settings...");
-                    save(false); // window closed...
+                    saveSettings(false); // window closed...
                 } catch (IOException e) {
                     SoundManager.playSound(Resources.uiDenySound);
                     System.err.println("Error saving settings");
@@ -178,7 +178,7 @@ public class SettingsManager {
         settingsFrame.setVisible(true);
 
         try {
-            load(true);
+            loadSettings(true);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -21,7 +21,8 @@ public class Main extends JFrame implements WindowFocusListener {
         add(scrollPane);
         addWindowFocusListener(this);
         pack();
-        setTitle("Grid Builder - Java Edition");
+        setIconImage(Resources.logo.getImage());
+        setTitle("GridBuilder - Java Edition");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

@@ -4,12 +4,18 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class Resources {
+
+    // Logo/UI
+    public static ImageIcon logo;
+
+
 
     // Textures
     public static BufferedImage belt;
@@ -30,6 +36,8 @@ public class Resources {
 
     static {
         try {
+            logo = new ImageIcon("src/resources/ui/logo.png");
+
             beltPlaceSound =   new File("src/resources/sound/place_belt.wav");
             generic_placeTileSound =   new File("src/resources/sound/place_building.wav");
             generic_destroyTileSound = new File("src/resources/sound/destroy_building.wav");
