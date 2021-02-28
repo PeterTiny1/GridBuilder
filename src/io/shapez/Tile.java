@@ -1,8 +1,9 @@
 package io.shapez;
 
-enum Items {
+enum Tile {
     None,
     Belt,
     Miner,
     Trash
 }
+

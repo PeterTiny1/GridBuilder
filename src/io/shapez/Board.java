@@ -24,7 +24,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     public boolean hasItemSelected = false;
     private boolean mouseDown = false;
 
-    public Items item;
+    public Tile item;
 
     public byte rotIndex = 0; // wont be more than 127 anyway :P
     public Rotations.cRotations cRot = Rotations.cRotations.Up;
@@ -171,9 +171,9 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         char key = e.getKeyChar();
         int index = Character.getNumericValue(key);
         if(!Character.isLetter(key) && index > -1){
-            if(index < Items.values().length){
-            centerPanel.selectItem( Items.values()[index] );} else{
-                centerPanel.selectItem(Items.None);
+            if(index < Tile.values().length){
+            centerPanel.selectItem( Tile.values()[index] );} else{
+                centerPanel.selectItem(Tile.None);
             }
             repaint();
         }
@@ -267,7 +267,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     }
 
 
-    private Image getTileTexture(Items tile) {
+    private Image getTileTexture(Tile tile) {
         BufferedImage a;
         switch (tile) {
             case Belt:
@@ -309,8 +309,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int cY = (e.getY() - offsetY) / scale - gridOffsetY;
         mouseDown = SwingUtilities.isLeftMouseButton(e);
         if (SwingUtilities.isRightMouseButton(e)) {
-            if (item != Items.None) {
-                item = Items.None;
+            if (item != Tile.None) {
+                item = Tile.None;
                 hasItemSelected = false;
                 centerPanel.updateButtonAppearance();
             } else {
@@ -318,14 +318,14 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             }
             repaint();
         } else if (SwingUtilities.isLeftMouseButton(e)) {
-            if (hasItemSelected && item != Items.None) {
-                SoundManager.playSound(item != Items.Belt ? Resources.generic_placeTileSound : Resources.beltPlaceSound);
+            if (hasItemSelected && item != Tile.None) {
+                SoundManager.playSound(item != Tile.Belt ? Resources.generic_placeTileSound : Resources.beltPlaceSound);
                 placeEntity(e.getX(), e.getY(), item, cRot, getTileTexture(item));}
             }
         }
 
 
-    private byte checkSpecialProperties(Chunk currentChunk, int offX, int offY, Items item){
+    private byte checkSpecialProperties(Chunk currentChunk, int offX, int offY, Tile item){
         // Return:  0 if all is ok
         //          1 if tile should be removed (invalid placement)
         //          2 if (...) to be continued for later versions
@@ -339,7 +339,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         }
     }
 
-    private void placeEntity(int x, int y, Items item, Rotations.cRotations rotation, Image tileTexture) {
+    private void placeEntity(int x, int y, Tile item, Rotations.cRotations rotation, Image tileTexture) {
         int cX = (x - offsetX) / scale - gridOffsetX;
         int cY = (y - offsetY) / scale - gridOffsetY;
 
@@ -361,7 +361,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         }
 
         if (currentChunk.contents[offX][offY] == null) {
-            if (item == Items.Belt)
+            if (item == Tile.Belt)
                 SoundManager.playSound(Resources.beltPlaceSound);
             else
                 SoundManager.playSound(Resources.generic_placeTileSound);
@@ -374,7 +374,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         repaint();
     }
 
-    private byte deleteInvalidTile(Items item, Chunk currentChunk, int offX, int offY) {
+    private byte deleteInvalidTile(Tile item, Chunk currentChunk, int offX, int offY) {
         byte result = 0;
         result = checkSpecialProperties(currentChunk, offX, offY, item);
 

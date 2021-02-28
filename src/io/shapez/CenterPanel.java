@@ -29,7 +29,7 @@ public class CenterPanel extends JPanel {
         BufferedImage trashImage = ImageIO.read(new File("src/resources/ui/trash.png"));
 
         beltButton.addActionListener(e ->
-                selectItem(Items.Belt));
+                selectItem(Tile.Belt));
         beltButton.setFocusable(false);
         beltButton.setIcon(new ImageIcon(beltImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
         beltButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
@@ -38,7 +38,7 @@ public class CenterPanel extends JPanel {
         innerPanel.add(beltButton, BorderLayout.SOUTH);
 
         minerButton.addActionListener(e ->
-                selectItem(Items.Miner)
+                selectItem(Tile.Miner)
         );
         minerButton.setFocusable(false);
         minerButton.setIcon(new ImageIcon(minerImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
@@ -47,7 +47,7 @@ public class CenterPanel extends JPanel {
         minerButton.setMaximumSize(d);
         innerPanel.add(minerButton, BorderLayout.SOUTH);
 
-        trashButton.addActionListener(e -> selectItem(Items.Trash));
+        trashButton.addActionListener(e -> selectItem(Tile.Trash));
         trashButton.setFocusable(false);
         trashButton.setIcon(new ImageIcon(trashImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
         trashButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
@@ -91,16 +91,16 @@ public class CenterPanel extends JPanel {
 
     }
 
-    public void selectItem(Items item) {
+    public void selectItem(Tile item) {
         if (board.item == item) {
-            board.item = Items.None;
+            board.item = Tile.None;
             board.hasItemSelected = false;
             System.out.println("Already selected. Now selected: " + board.item.toString());
             updateButtonAppearance();
             return;
         }
         board.item = item;
-        board.hasItemSelected = board.item != Items.None;
+        board.hasItemSelected = board.item != Tile.None;
         System.out.println("Selected: " + item.toString());
         updateButtonAppearance();
     }

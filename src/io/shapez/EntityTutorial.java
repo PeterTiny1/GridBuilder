@@ -1,16 +1,13 @@
 package io.shapez;
 
-import java.util.Arrays;
-import java.util.Random;
-
 public class EntityTutorial {
 
-    public static String GetTitle(Items item){
-        if(item == Items.None)return "";
+    public static String GetTitle(Tile item){
+        if(item == Tile.None)return "";
 
         return item.toString();
     }
-    public static String GetDescription(Items item){
+    public static String GetDescription(Tile item){
         String description;
         switch(item){
             case Belt:
@@ -29,8 +26,8 @@ public class EntityTutorial {
         return description;
     }
 
-    public static String GetHotkey(Items item){
-        String h = "Hotkey: " + Items.valueOf(item.toString()).ordinal();
+    public static String GetHotkey(Tile item){
+        String h = "Hotkey: " + Tile.valueOf(item.toString()).ordinal();
         if(h.contains("0"))return "";
         return h;
     }
