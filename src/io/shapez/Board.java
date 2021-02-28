@@ -361,12 +361,13 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         }
 
         if (currentChunk.contents[offX][offY] == null) {
-            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
-            usedChunks.add(currentChunk);
             if (item == Items.Belt)
-            SoundManager.playSound(Resources.beltPlaceSound);
+                SoundManager.playSound(Resources.beltPlaceSound);
             else
-            SoundManager.playSound(Resources.generic_placeTileSound);
+                SoundManager.playSound(Resources.generic_placeTileSound);
+            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
+
+            usedChunks.add(currentChunk);
         }
 
         deleteInvalidTile(item, currentChunk, offX, offY);
