@@ -1,6 +1,7 @@
 package io.shapez;
 
 import io.shapez.managers.SettingsManager;
+import io.shapez.managers.SoundManager;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,6 +16,10 @@ class TopPanel extends JPanel {
     public static JLabel selectedILabel_Description = new JLabel();
     public static JLabel selectedILabel_Hotkey = new JLabel();
 
+    void showSettings(){
+        SoundManager.playSound(Resources.uiClickSound);
+        SettingsManager.initSettingsWnd();
+    }
     public TopPanel() throws IOException {
         setOpaque(false);
         setLayout(new BorderLayout());
@@ -25,7 +30,7 @@ class TopPanel extends JPanel {
         Dimension d = new Dimension(70, 70);
         BufferedImage settingsImage = ImageIO.read(new File("src/resources/ui/settings.png"));
         settingsButton.addActionListener(e ->
-        SettingsManager.initSettingsWnd()
+         showSettings()
         );
         settingsButton.setFocusable(false);
         settingsButton.setIcon(new ImageIcon(settingsImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));

@@ -1,6 +1,7 @@
 package io.shapez.managers;
 
 import io.shapez.GlobalConfig;
+import io.shapez.Resources;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +25,7 @@ public class SettingsManager {
     public static boolean drawChunkEdges;
     public static boolean noLoD;
 
-    public static void save() throws IOException {
+    public static void save(boolean internal) throws IOException {
         System.out.println("Saving settings in unsafe environment");
         FileOutputStream fs = new FileOutputStream(path);
         DataOutputStream ds = new DataOutputStream(fs);
@@ -34,6 +35,8 @@ public class SettingsManager {
         ds.writeBoolean(noLoD);
 
         ds.close();
+        if(!internal)
+        SoundManager.playSound(Resources.uiSuccessSound);
     }
     public static void load(boolean internal) throws IOException {
 
@@ -76,7 +79,7 @@ public class SettingsManager {
                 System.out.println(e.getSource());
                 try {
                     System.out.println("Saving settings...");
-                    save(); // load settings
+                    save(true); // load settings
                 } catch (IOException ee) {
                     System.err.println("Error saving settings");
                     ee.printStackTrace();
@@ -96,7 +99,7 @@ public class SettingsManager {
                 drawChunkEdges = chk2.isSelected();
                 try {
                     System.out.println("Saving settings...");
-                    save(); // load settings
+                    save(true); // load settings
                 } catch (IOException ee) {
                     System.err.println("Error saving settings");
                     ee.printStackTrace();
@@ -115,7 +118,7 @@ public class SettingsManager {
                 noLoD = chk3.isSelected();
                 try {
                     System.out.println("Saving settings...");
-                    save(); // load settings
+                    save(true); // load settings
                 } catch (IOException ee) {
                     System.err.println("Error saving settings");
                     ee.printStackTrace();
@@ -139,8 +142,9 @@ public class SettingsManager {
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 try {
                     System.out.println("Saving settings...");
-                    save();
+                    save(false); // window closed...
                 } catch (IOException e) {
+                    SoundManager.playSound(Resources.uiDenySound);
                     System.err.println("Error saving settings");
                     e.printStackTrace();
                 }
