@@ -191,6 +191,19 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                     long t2 = System.nanoTime();
                     System.out.println("GC end\nGC took " + (t2 - t1)/1000000 + " ms");
                     break;
+                case 114:
+                    int diagres = JOptionPane.showConfirmDialog (null, "(Benchmark) - This will overwrite a lot of tiles and you may lose progress. Continue?","Benchmark",JOptionPane.YES_NO_OPTION);
+                    if(diagres == JOptionPane.YES_OPTION){
+                        Image tex = getTileTexture(item);
+                        for (int x = 0; x < 1000; x++) {
+                            for (int y= 0; y < 1000; y++) {
+                                placeEntity(x,y, item, cRot, tex);
+                            }
+                        }
+                    }
+                    repaint();
+
+                    break;
             }
 
     }
