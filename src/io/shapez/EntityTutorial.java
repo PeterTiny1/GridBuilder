@@ -1,10 +1,9 @@
 package io.shapez;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class EntityTutorial {
-
-    public static Random random = new Random();
 
     public static String GetTitle(Items item){
         if(item == Items.None)return "";
@@ -12,17 +11,27 @@ public class EntityTutorial {
         return item.toString();
     }
     public static String GetDescription(Items item){
+        String description;
         switch(item){
             case Belt:
-                return "Used to transport items";
+                description = "Used to transport items";
+                break;
             case Miner:
-                return "Used to extract items";
+                description = "Used to extract items";
+                break;
             case Trash:
-                if(random.nextInt(11) == 10)
-                    return "This is KPOP";
-                return "Used to delete items";
+                description = "Used to delete items";
+                break;
             default:
-                return "";
+                description = "";
+                break;
         }
+        return description;
+    }
+
+    public static String GetHotkey(Items item){
+        String h = "Hotkey: " + Items.valueOf(item.toString()).ordinal();
+        if(h.contains("0"))return "";
+        return h;
     }
 }

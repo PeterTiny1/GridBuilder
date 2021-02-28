@@ -86,6 +86,7 @@ public class CenterPanel extends JPanel {
         }
         TopPanel.selectedILabel_Name.setText(EntityTutorial.GetTitle(board.item));
         TopPanel.selectedILabel_Description.setText(EntityTutorial.GetDescription(board.item));
+        TopPanel.selectedILabel_Hotkey.setText(EntityTutorial.GetHotkey(board.item));
         SoundManager.playSound(Resources.uiClickSound);
 
     }
