@@ -5,8 +5,6 @@ import io.shapez.Resources;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.*;
 
 public class SettingsManager {
@@ -28,21 +26,24 @@ public class SettingsManager {
     public static boolean drawChunkEdges;
     public static boolean noLoD;
 
-    public static void fixPaths(){
+    public static void fixPaths() {
         rootFile.mkdirs();
 
         //settingsFile = new File(rootFile.getPath() + "/settings.bin");
-        if(!settingsFile.canWrite()){
+        if (!settingsFile.canWrite()) {
             System.err.println("!!! No write permissions to settings file !!!"); // fuck!!!!!! what happened?
             return;
         }
 
-        if(!settingsFile.exists()) {
+        if (!settingsFile.exists()) {
             try {
                 settingsFile.createNewFile();
-            } catch (IOException e) { System.err.println("Fixing file failed (path doesn't exist?)"); }
+            } catch (IOException e) {
+                System.err.println("Fixing file failed (path doesn't exist?)");
+            }
         }
     }
+
     public static void saveSettings(boolean internal) throws IOException {
         fixPaths();
         System.out.println("Saving settings in unsafe environment");
@@ -55,9 +56,10 @@ public class SettingsManager {
 
         ds.flush(); // push the buffer to file, just in case something failed
         ds.close();
-        if(!internal)
-        SoundManager.playSound(Resources.uiSuccessSound);
+        if (!internal)
+            SoundManager.playSound(Resources.uiSuccessSound);
     }
+
     public static void loadSettings(boolean internal) throws IOException {
         fixPaths();
         System.out.println("Loading settings in unsafe environment");
@@ -67,43 +69,40 @@ public class SettingsManager {
 
         DataInputStream ds = new DataInputStream(fs);
 
-        while(ds.available() > 0) {
+        while (ds.available() > 0) {
             allowSound = ds.readBoolean();
             drawChunkEdges = ds.readBoolean();
             noLoD = ds.readBoolean();
         }
-        if(internal){
-        chk1.setSelected(allowSound);
-        chk2.setSelected(drawChunkEdges);
-        chk3.setSelected(noLoD);
+        if (internal) {
+            chk1.setSelected(allowSound);
+            chk2.setSelected(drawChunkEdges);
+            chk3.setSelected(noLoD);
         }
 
-        if(noLoD)
-        GlobalConfig.zoomedScale = 1;
+        if (noLoD)
+            GlobalConfig.zoomedScale = 1;
 
         ds.close();
     }
 
 
-    public static void initSettingsWnd(){
+    public static void initSettingsWnd() {
         settingsFrame = new JFrame("GridBuilder - Settings");
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));
 
         chk1 = new JCheckBox();
         chk1.setSelected(allowSound);
-        chk1.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                allowSound = chk1.isSelected();
-                System.out.println(e.getSource());
-                try {
-                    System.out.println("Saving settings...");
-                    saveSettings(true); // load settings
-                } catch (IOException ee) {
-                    System.err.println("Error saving settings");
-                    ee.printStackTrace();
-                }
+        chk1.addItemListener(e -> {
+            allowSound = chk1.isSelected();
+            System.out.println(e.getSource());
+            try {
+                System.out.println("Saving settings...");
+                saveSettings(true); // load settings
+            } catch (IOException ee) {
+                System.err.println("Error saving settings");
+                ee.printStackTrace();
             }
         });
         chk1.setText("Enable Sound");
@@ -113,17 +112,14 @@ public class SettingsManager {
 
         chk2 = new JCheckBox();
         chk2.setSelected(drawChunkEdges);
-        chk2.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                drawChunkEdges = chk2.isSelected();
-                try {
-                    System.out.println("Saving settings...");
-                    saveSettings(true); // load settings
-                } catch (IOException ee) {
-                    System.err.println("Error saving settings");
-                    ee.printStackTrace();
-                }
+        chk2.addItemListener(e -> {
+            drawChunkEdges = chk2.isSelected();
+            try {
+                System.out.println("Saving settings...");
+                saveSettings(true); // load settings
+            } catch (IOException ee) {
+                System.err.println("Error saving settings");
+                ee.printStackTrace();
             }
         });
         chk2.setText("Draw Chunk Edges");
@@ -132,17 +128,14 @@ public class SettingsManager {
 
         chk3 = new JCheckBox();
         chk3.setSelected(noLoD);
-        chk3.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                noLoD = chk3.isSelected();
-                try {
-                    System.out.println("Saving settings...");
-                    saveSettings(true); // load settings
-                } catch (IOException ee) {
-                    System.err.println("Error saving settings");
-                    ee.printStackTrace();
-                }
+        chk3.addItemListener(e -> {
+            noLoD = chk3.isSelected();
+            try {
+                System.out.println("Saving settings...");
+                saveSettings(true); // load settings
+            } catch (IOException ee) {
+                System.err.println("Error saving settings");
+                ee.printStackTrace();
             }
         });
         chk3.setText("No LoD");
@@ -173,7 +166,7 @@ public class SettingsManager {
         settingsFrame.setSize(300, 100);
         settingsFrame.setLocationRelativeTo(null);
         settingsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Free frame on close ...
-                                                                         // style 1 (exit on close) also terminates process...
+        // style 1 (exit on close) also terminates process...
 
         settingsFrame.setVisible(true);
 

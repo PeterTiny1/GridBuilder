@@ -16,10 +16,11 @@ class TopPanel extends JPanel {
     public static JLabel selectedILabel_Description = new JLabel();
     public static JLabel selectedILabel_Hotkey = new JLabel();
 
-    void showSettings(){
+    void showSettings() {
         SoundManager.playSound(Resources.uiClickSound);
         SettingsManager.initSettingsWnd();
     }
+
     public TopPanel() throws IOException {
         setOpaque(false);
         setLayout(new BorderLayout());
@@ -30,7 +31,7 @@ class TopPanel extends JPanel {
         Dimension d = new Dimension(70, 70);
         BufferedImage settingsImage = ImageIO.read(new File("src/resources/ui/settings.png"));
         settingsButton.addActionListener(e ->
-         showSettings()
+                showSettings()
         );
         settingsButton.setFocusable(false);
         settingsButton.setIcon(new ImageIcon(settingsImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
@@ -39,13 +40,13 @@ class TopPanel extends JPanel {
 
         selectedILabel_Name.setFocusable(false);
         selectedILabel_Name.setText("");
-        selectedILabel_Name.setFont(new Font(Font.SANS_SERIF,  Font.PLAIN, 30));
+        selectedILabel_Name.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         selectedILabel_Description.setFocusable(false);
         selectedILabel_Description.setText("");
-        selectedILabel_Description.setFont(new Font(Font.SANS_SERIF,  Font.PLAIN, 15));
+        selectedILabel_Description.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         selectedILabel_Hotkey.setFocusable(false);
         selectedILabel_Hotkey.setText("");
-        selectedILabel_Hotkey.setFont(new Font(Font.SANS_SERIF,  Font.PLAIN, 15));
+        selectedILabel_Hotkey.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
 
         L_innerPanel.add(selectedILabel_Name, BorderLayout.WEST);
         L_innerPanel.add(selectedILabel_Description, BorderLayout.WEST);

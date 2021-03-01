@@ -22,7 +22,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     private int gridOffsetX, gridOffsetY;
     private int previousMX, previousMY;
     public boolean hasItemSelected = false;
-    private boolean mouseDown = false;
 
     public Tile item;
 
@@ -31,9 +30,11 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     private boolean shiftPressed;
 
-    private Rectangle heldItem = new Rectangle(0,0,0,0);
+    private Rectangle heldItem = new Rectangle(0, 0, 0, 0);
+    private Main window;
 
-    public Board() throws IOException {
+    public Board(Main window) throws IOException {
+        this.window = window;
         initBoard();
     }
 
@@ -160,7 +161,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             if (Character.toUpperCase(e.getKeyChar()) == 'R') {
                 // Change rotation
                 rotIndex++;
-                if(rotIndex == Rotations.cRotations.values().length){
+                if (rotIndex == Rotations.cRotations.values().length) {
                     rotIndex = 0;
                 }
                 System.out.println("Rot index; " + rotIndex);
@@ -171,41 +172,49 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         }
         char key = e.getKeyChar();
         int index = Character.getNumericValue(key);
-        if(!Character.isLetter(key) && index > -1){
-            if(index < Tile.values().length){
-            centerPanel.selectItem( Tile.values()[index] );} else{
+        if (!Character.isLetter(key) && index > -1) {
+            if (index < Tile.values().length) {
+                centerPanel.selectItem(Tile.values()[index]);
+            } else {
                 centerPanel.selectItem(Tile.None);
             }
             repaint();
         }
-            switch (e.getKeyCode()) {
-                // F1, F2....
-                // 112,113,114...
-                case 112:
-                    centerPanel.setVisible(!centerPanel.isVisible());
-                    topPanel.setVisible(!topPanel.isVisible());
-                    break;
-                case 113:
-                    long t1 = System.nanoTime();
-                    System.out.println("GC start...");
-                    System.gc();
-                    long t2 = System.nanoTime();
-                    System.out.println("GC end\nGC took " + (t2 - t1)/1000000 + " ms");
-                    break;
-                case 114:
-                    int diagres = JOptionPane.showConfirmDialog (null, "(Benchmark) - This will overwrite a lot of tiles and you may lose progress. Continue?","Benchmark",JOptionPane.YES_NO_OPTION);
-                    if(diagres == JOptionPane.YES_OPTION){
-                        Image tex = getTileTexture(item);
-                        for (int x = 0; x < 1000; x++) {
-                            for (int y= 0; y < 1000; y++) {
-                                placeEntity(x,y, item, cRot, tex);
-                            }
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_F1:
+                centerPanel.setVisible(!centerPanel.isVisible());
+                topPanel.setVisible(!topPanel.isVisible());
+                break;
+            case KeyEvent.VK_F2:
+                long t1 = System.nanoTime();
+                System.out.println("GC start...");
+                System.gc();
+                long t2 = System.nanoTime();
+                System.out.println("GC end\nGC took " + (t2 - t1) / 1000000 + " ms");
+                break;
+            case KeyEvent.VK_F3:
+                int diagres = JOptionPane.showConfirmDialog(null, "(Benchmark) - This will overwrite a lot of tiles and you may lose progress. Continue?", "Benchmark", JOptionPane.YES_NO_OPTION);
+                if (diagres == JOptionPane.YES_OPTION) {
+                    Image tex = getTileTexture(item);
+                    for (int x = 0; x < 1000; x++) {
+                        for (int y = 0; y < 1000; y++) {
+                            placeEntity(x, y, item, cRot, tex);
                         }
                     }
-                    repaint();
+                }
+                repaint();
 
-                    break;
-            }
+                break;
+            case KeyEvent.VK_F11:
+                if (window.getExtendedState() == JFrame.MAXIMIZED_BOTH)
+                    window.setExtendedState(JFrame.NORMAL);
+                else
+                    window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                window.setVisible(false);
+                window.dispose();
+                window.setUndecorated(!window.isUndecorated());
+                window.setVisible(true);
+        }
 
     }
 
@@ -232,13 +241,14 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         if (SwingUtilities.isRightMouseButton(e)) {
             int cX = (e.getX() - offsetX) / scale - gridOffsetX;
             int cY = (e.getY() - offsetY) / scale - gridOffsetY;
-            clearTile(cX, cY,true);
+            clearTile(cX, cY);
             repaint();
         } else if (SwingUtilities.isLeftMouseButton(e)) {
-            if (!hasItemSelected) {changeOffset(e.getX() - previousMX, e.getY() - previousMY);}
-            else {
-               heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
-               placeEntity(e.getX(), e.getY(), item, cRot, getTileTexture(item));
+            if (!hasItemSelected) {
+                changeOffset(e.getX() - previousMX, e.getY() - previousMY);
+            } else {
+                heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
+                placeEntity(e.getX(), e.getY(), item, cRot, getTileTexture(item));
             }
             repaint();
         }
@@ -256,12 +266,13 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             repaint();
         }
     }
+
     private static BufferedImage rotateImageByDegrees(BufferedImage bimg, double angle) {
         int w = bimg.getWidth();
         int h = bimg.getHeight();
         BufferedImage bufimage = new BufferedImage(w, h, bimg.getType());
         Graphics2D g2d = bufimage.createGraphics();
-        g2d.rotate(Math.toRadians(angle), w>>1, h>>1);
+        g2d.rotate(Math.toRadians(angle), w >> 1, h >> 1);
         g2d.drawImage(bimg, null, 0, 0);
         g2d.dispose();
         return bufimage;
@@ -286,13 +297,13 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
         switch (cRot) {
             case Down:
-                a = rotateImageByDegrees(a,180);
+                a = rotateImageByDegrees(a, 180);
                 break;
             case Left:
-                a = rotateImageByDegrees(a,-90);
+                a = rotateImageByDegrees(a, -90);
                 break;
             case Right:
-                a = rotateImageByDegrees(a,90);
+                a = rotateImageByDegrees(a, 90);
                 break;
         }
 
@@ -308,31 +319,31 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     public void mousePressed(MouseEvent e) {
         int cX = (e.getX() - offsetX) / scale - gridOffsetX;
         int cY = (e.getY() - offsetY) / scale - gridOffsetY;
-        mouseDown = SwingUtilities.isLeftMouseButton(e);
         if (SwingUtilities.isRightMouseButton(e)) {
             if (item != Tile.None) {
                 item = Tile.None;
                 hasItemSelected = false;
                 centerPanel.updateButtonAppearance();
             } else {
-                clearTile(cX, cY,true);
+                clearTile(cX, cY);
             }
             repaint();
         } else if (SwingUtilities.isLeftMouseButton(e)) {
             if (hasItemSelected && item != Tile.None) {
                 SoundManager.playSound(item != Tile.Belt ? Resources.generic_placeTileSound : Resources.beltPlaceSound);
-                placeEntity(e.getX(), e.getY(), item, cRot, getTileTexture(item));}
+                placeEntity(e.getX(), e.getY(), item, cRot, getTileTexture(item));
             }
         }
+    }
 
 
-    private byte checkSpecialProperties(Chunk currentChunk, int offX, int offY, Tile item){
+    private byte checkSpecialProperties(Chunk currentChunk, int offX, int offY, Tile item) {
         // Return:  0 if all is ok
         //          1 if tile should be removed (invalid placement)
         //          2 if (...) to be continued for later versions
         switch (item) {
             case Miner:
-                if(currentChunk.lowerLayer[offX][offY] == null || currentChunk.lowerLayer[offX][offY] == Color.gray /* chunk border */){
+                if (currentChunk.lowerLayer[offX][offY] == null || currentChunk.lowerLayer[offX][offY] == Color.gray /* chunk border */) {
                     return 1;
                 }
             default:
@@ -349,12 +360,12 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + 16 : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + 16 : cY % GlobalConfig.mapChunkSize;
 
-        if(     currentChunk.contents[offX][offY] != null
+        if (currentChunk.contents[offX][offY] != null
                 && currentChunk.contents[offX][offY].type != item
-                && checkSpecialProperties(currentChunk,offX,offY,item) == 0) {
+                && checkSpecialProperties(currentChunk, offX, offY, item) == 0) {
 
             //currentChunk.contents[offX][offY] = null;
-            clearTile(offX,offY,false);
+            clearTile(offX, offY);
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
             usedChunks.add(currentChunk);
             repaint();
@@ -375,22 +386,21 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         repaint();
     }
 
-    private byte deleteInvalidTile(Tile item, Chunk currentChunk, int offX, int offY) {
-        byte result = 0;
+    private void deleteInvalidTile(Tile item, Chunk currentChunk, int offX, int offY) {
+        byte result;
         result = checkSpecialProperties(currentChunk, offX, offY, item);
 
-        if(result == 1){
+        if (result == 1) {
             System.out.println(
                     "Tile of type " + item.toString() + "has invalid placement at " + offX + " " + offY + "\n" +
                             "Tile will be deleted"
             );
-            if(currentChunk.contents[offX][offY].type == item && currentChunk.contents[offX][offY].type == this.item)
-            currentChunk.contents[offX][offY] = null;
+            if (currentChunk.contents[offX][offY].type == item && currentChunk.contents[offX][offY].type == this.item)
+                currentChunk.contents[offX][offY] = null;
         }
-        return result;
     }
 
-    private void clearTile(int cX, int cY, boolean user) {
+    private void clearTile(int cX, int cY) {
         Chunk chunk = GlobalConfig.map.getChunkAtTile(cX, cY);
         int offX = cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize;
@@ -412,7 +422,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        mouseDown = !SwingUtilities.isLeftMouseButton(e);
     }
 
     @Override

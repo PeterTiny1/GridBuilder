@@ -14,7 +14,7 @@ public class Main extends JFrame implements WindowFocusListener {
     }
 
     private void initUI() throws IOException {
-        board = new Board();
+        board = new Board(this);
         JScrollPane scrollPane = new JScrollPane(board);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         board.addMouseWheelListener(board);
