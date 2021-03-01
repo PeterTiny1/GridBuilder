@@ -107,7 +107,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        int moveValue = (shiftPressed) ? 10 : 5;
+        int moveValue = (shiftPressed) ? 8 : 2;
         if (pressedKeys.size() > 0) {
             for (Character key : pressedKeys) {
                 switch (key) {
