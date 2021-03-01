@@ -30,6 +30,10 @@ public class Resources {
     public static File uiDenySound;
 
 
+    // Make sure to run with these jvm options:
+//    -Dsun.java2d.d3d=true -Dsun.java2d.translaccel=true -Dsun.java2d.ddforcevram=true -Dsun.java2d.accthreshold=1
+
+    // This will provide a insane performance boost, but on low-end systems it might overwhelm the hardware
     static {
         try {
             logo = new ImageIcon("src/resources/ui/logo.png");
