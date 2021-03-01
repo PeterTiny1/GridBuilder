@@ -19,6 +19,7 @@ public class Resources {
     public static BufferedImage miner;
     public static BufferedImage trash;
     public static Image missingTexture;
+    public static BufferedImage vignette;
 
 
     // Sounds
@@ -42,6 +43,7 @@ public class Resources {
             uiSuccessSound =           new File("src/resources/sound/uisuccess.wav");
             uiDenySound =              new File("src/resources/sound/uierror.wav");
 
+            vignette =                 ImageIO.read(new File("src/resources/vignette.lossless.png"));
             missingTexture =           ImageIO.read(new File("src/resources/missing.png"));
             belt =                     ImageIO.read(new File("src/resources/tiles/belt.png"));
             miner =                    ImageIO.read(new File("src/resources/tiles/miner.png"));

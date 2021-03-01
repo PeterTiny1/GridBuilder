@@ -78,6 +78,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         if (hasItemSelected) {
             g.drawImage(getTileTexture(item), heldItem.x, heldItem.y, heldItem.width, heldItem.height, null);
         }
+        g.drawImage(Resources.vignette, 0, 0, getWidth(), getHeight(), null);
     }
 
     private void DrawSelected() {
