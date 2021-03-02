@@ -1,6 +1,8 @@
 package io.shapez.managers;
 
 import io.shapez.*;
+import io.shapez.game.Chunk;
+import io.shapez.game.Entity;
 import io.shapez.util.TileUtil;
 
 import java.awt.*;

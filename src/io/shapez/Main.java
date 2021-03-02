@@ -1,6 +1,6 @@
 package io.shapez;
 
-import io.shapez.core.Board;
+
 import io.shapez.core.Resources;
 
 import javax.swing.*;

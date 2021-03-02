@@ -1,19 +1,16 @@
 package io.shapez;
 
+import io.shapez.core.Resources;
 import io.shapez.managers.SerializeManager;
 import io.shapez.managers.SettingsManager;
 import io.shapez.managers.SoundManager;
-import io.shapez.Resources;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
-class TopPanel extends JPanel {
+public class TopPanel extends JPanel {
     JButton settingsButton = new JButton();
     JButton saveButton = new JButton();
     JButton loadButton = new JButton();
@@ -39,7 +36,7 @@ class TopPanel extends JPanel {
         L_morePanel.setLayout(new BoxLayout(L_morePanel, BoxLayout.Y_AXIS));
 
         Dimension d = new Dimension(70, 70);
-        Dimension _d = new Dimension(50,50);
+        Dimension _d = new Dimension(50, 50);
 
         settingsButton.addActionListener(e ->
                 showSettings()
@@ -49,13 +46,13 @@ class TopPanel extends JPanel {
         settingsButton.setPreferredSize(d);
         settingsButton.setMaximumSize(d);
 
-        saveButton.addActionListener((ActionEvent e) -> SerializeManager.saveAll(Board.usedChunks) );
+        saveButton.addActionListener((ActionEvent e) -> SerializeManager.saveAll(Board.usedChunks));
         saveButton.setFocusable(false);
         saveButton.setIcon(new ImageIcon(Resources.missingTexture.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
         saveButton.setPreferredSize(d);
         saveButton.setMaximumSize(d);
 
-        loadButton.addActionListener((ActionEvent e) -> SerializeManager.loadAll() );
+        loadButton.addActionListener((ActionEvent e) -> SerializeManager.loadAll());
         loadButton.setFocusable(false);
         loadButton.setIcon(new ImageIcon(Resources.missingTexture.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
         loadButton.setPreferredSize(d);

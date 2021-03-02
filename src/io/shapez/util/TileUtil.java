@@ -1,6 +1,11 @@
 package io.shapez.util;
 
 import io.shapez.*;
+import io.shapez.Tile;
+import io.shapez.core.Resources;
+import io.shapez.game.Chunk;
+import io.shapez.game.Entity;
+import io.shapez.game.GlobalConfig;
 import io.shapez.managers.SoundManager;
 
 import java.awt.*;
