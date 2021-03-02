@@ -1,8 +1,9 @@
 package io.shapez.util;
 
-import io.shapez.*;
-import io.shapez.Tile;
+import io.shapez.core.Rotations;
+import io.shapez.core.Tile;
 import io.shapez.core.Resources;
+import io.shapez.game.Board;
 import io.shapez.game.Chunk;
 import io.shapez.game.Entity;
 import io.shapez.game.GlobalConfig;

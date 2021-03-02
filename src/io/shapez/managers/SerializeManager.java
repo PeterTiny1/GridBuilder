@@ -1,6 +1,7 @@
 package io.shapez.managers;
 
-import io.shapez.*;
+import io.shapez.core.Rotations;
+import io.shapez.core.Tile;
 import io.shapez.game.Chunk;
 import io.shapez.game.Entity;
 import io.shapez.util.TileUtil;

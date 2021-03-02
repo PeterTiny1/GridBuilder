@@ -1,4 +1,4 @@
-package io.shapez;
+package io.shapez.core;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class Rotations{
             }
         }
 
-        public static io.shapez.Rotations.cRotations valueOf(int pageType) {
+        public static Rotations.cRotations valueOf(int pageType) {
             return map.get(pageType);
         }
 

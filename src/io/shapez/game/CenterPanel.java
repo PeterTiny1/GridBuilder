@@ -1,8 +1,6 @@
 package io.shapez.game;
 
-import io.shapez.Board;
-import io.shapez.Tile;
-import io.shapez.TopPanel;
+import io.shapez.core.Tile;
 import io.shapez.core.Resources;
 import io.shapez.managers.SoundManager;
 

@@ -2,6 +2,7 @@ package io.shapez;
 
 
 import io.shapez.core.Resources;
+import io.shapez.game.Board;
 
 import javax.swing.*;
 import java.awt.*;

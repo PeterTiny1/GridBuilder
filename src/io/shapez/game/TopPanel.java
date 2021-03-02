@@ -1,4 +1,4 @@
-package io.shapez;
+package io.shapez.game;
 
 import io.shapez.core.Resources;
 import io.shapez.managers.SerializeManager;

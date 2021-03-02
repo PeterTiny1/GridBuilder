@@ -1,11 +1,10 @@
-package io.shapez;
+package io.shapez.game;
 
+import io.shapez.Main;
 import io.shapez.core.Resources;
+import io.shapez.core.Rotations;
+import io.shapez.core.Tile;
 import io.shapez.core.Vector;
-import io.shapez.game.CenterPanel;
-import io.shapez.game.Chunk;
-import io.shapez.game.Entity;
-import io.shapez.game.GlobalConfig;
 import io.shapez.managers.SettingsManager;
 import io.shapez.managers.SoundManager;
 import io.shapez.util.TileUtil;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 public class Board extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener {
     // UI
     public CenterPanel centerPanel = new CenterPanel(this);
-    public io.shapez.TopPanel topPanel = new io.shapez.TopPanel();
+    public TopPanel topPanel = new TopPanel();
 
     private int scale = 40;
     private int offsetX, offsetY;
@@ -29,7 +28,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     private int previousMX, previousMY;
     public boolean hasItemSelected = false;
 
-    public io.shapez.Tile item;
+    public Tile item;
 
     public byte rotIndex = 0; // wont be more than 127 anyway :P
     public Rotations.cRotations cRot = Rotations.cRotations.Up;

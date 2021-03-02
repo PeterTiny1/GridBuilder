@@ -1,4 +1,4 @@
-package io.shapez;
+package io.shapez.core;
 
 import java.util.HashMap;
 import java.util.Map;
