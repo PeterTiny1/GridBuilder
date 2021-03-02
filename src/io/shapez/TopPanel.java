@@ -1,17 +1,23 @@
 package io.shapez;
 
+import io.shapez.managers.SerializeManager;
 import io.shapez.managers.SettingsManager;
 import io.shapez.managers.SoundManager;
+import io.shapez.Resources;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 class TopPanel extends JPanel {
     JButton settingsButton = new JButton();
+    JButton saveButton = new JButton();
+    JButton loadButton = new JButton();
+
     public static JLabel selectedILabel_Name = new JLabel();
     public static JLabel selectedILabel_Description = new JLabel();
     public static JLabel selectedILabel_Hotkey = new JLabel();
@@ -25,18 +31,35 @@ class TopPanel extends JPanel {
         setOpaque(false);
         setLayout(new BorderLayout());
         JPanel L_innerPanel = new JPanel();
+        JPanel L_morePanel = new JPanel();
         L_innerPanel.setOpaque(false);
         L_innerPanel.setLayout(new BoxLayout(L_innerPanel, BoxLayout.Y_AXIS));
 
+        L_morePanel.setOpaque(false);
+        L_morePanel.setLayout(new BoxLayout(L_morePanel, BoxLayout.Y_AXIS));
+
         Dimension d = new Dimension(70, 70);
-        BufferedImage settingsImage = ImageIO.read(new File("src/resources/ui/settings.png"));
+        Dimension _d = new Dimension(50,50);
+
         settingsButton.addActionListener(e ->
                 showSettings()
         );
         settingsButton.setFocusable(false);
-        settingsButton.setIcon(new ImageIcon(settingsImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
+        settingsButton.setIcon(new ImageIcon(Resources.settingsImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
         settingsButton.setPreferredSize(d);
         settingsButton.setMaximumSize(d);
+
+        saveButton.addActionListener((ActionEvent e) -> SerializeManager.saveAll(Board.usedChunks) );
+        saveButton.setFocusable(false);
+        saveButton.setIcon(new ImageIcon(Resources.missingTexture.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
+        saveButton.setPreferredSize(d);
+        saveButton.setMaximumSize(d);
+
+        loadButton.addActionListener((ActionEvent e) -> SerializeManager.loadAll() );
+        loadButton.setFocusable(false);
+        loadButton.setIcon(new ImageIcon(Resources.missingTexture.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
+        loadButton.setPreferredSize(d);
+        loadButton.setMaximumSize(d);
 
         selectedILabel_Name.setFocusable(false);
         selectedILabel_Name.setText("");
@@ -52,8 +75,14 @@ class TopPanel extends JPanel {
         L_innerPanel.add(selectedILabel_Description, BorderLayout.WEST);
         L_innerPanel.add(selectedILabel_Hotkey, BorderLayout.SOUTH);
 
+        L_morePanel.add(saveButton, BorderLayout.NORTH);
+        L_morePanel.add(loadButton, BorderLayout.NORTH);
+
         add(settingsButton, BorderLayout.EAST);
+
+
         add(L_innerPanel);
+        add(L_morePanel);
 
     }
 }

@@ -9,11 +9,6 @@ import java.io.*;
 
 public class SettingsManager {
 
-    //public static final String rootPath = (System.getenv("APPDATA") + "\\.jshapez");
-    public static File rootFile = new File(System.getenv("APPDATA") + "/.jgridbuilder");
-
-    public static File settingsFile = new File(rootFile.getPath() + "/settings.bin");
-
     public static JFrame settingsFrame;
     public static JPanel mainPanel;
 
@@ -27,17 +22,17 @@ public class SettingsManager {
     public static boolean noLoD;
 
     public static void fixPaths() {
-        rootFile.mkdirs();
+        SystemPathManager.rootFile.mkdirs();
 
         //settingsFile = new File(rootFile.getPath() + "/settings.bin");
-        if (!settingsFile.canWrite()) {
+        if (!SystemPathManager.settingsFile.canWrite()) {
             System.err.println("!!! No write permissions to settings file !!!"); // fuck!!!!!! what happened?
             return;
         }
 
-        if (!settingsFile.exists()) {
+        if (!SystemPathManager.settingsFile.exists()) {
             try {
-                settingsFile.createNewFile();
+                SystemPathManager.settingsFile.createNewFile();
             } catch (IOException e) {
                 System.err.println("Fixing file failed (path doesn't exist?)");
             }
@@ -47,7 +42,7 @@ public class SettingsManager {
     public static void saveSettings(boolean internal) throws IOException {
         fixPaths();
         System.out.println("Saving settings in unsafe environment");
-        FileOutputStream fs = new FileOutputStream(settingsFile);
+        FileOutputStream fs = new FileOutputStream(SystemPathManager.settingsFile);
         DataOutputStream ds = new DataOutputStream(fs);
 
         ds.writeBoolean(allowSound);
@@ -65,7 +60,7 @@ public class SettingsManager {
         System.out.println("Loading settings in unsafe environment");
 
 
-        FileInputStream fs = new FileInputStream(settingsFile);
+        FileInputStream fs = new FileInputStream(SystemPathManager.settingsFile);
 
         DataInputStream ds = new DataInputStream(fs);
 

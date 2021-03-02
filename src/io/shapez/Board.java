@@ -2,6 +2,7 @@ package io.shapez;
 
 import io.shapez.managers.SettingsManager;
 import io.shapez.managers.SoundManager;
+import io.shapez.util.TileUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +19,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     private int scale = 40;
     private int offsetX, offsetY;
     public final ArrayList<Character> pressedKeys = new ArrayList<>();
-    public ArrayList<Chunk> usedChunks = new ArrayList<>();
+    public static ArrayList<Chunk> usedChunks = new ArrayList<>();
     private int gridOffsetX, gridOffsetY;
     private int previousMX, previousMY;
     public boolean hasItemSelected = false;
@@ -77,7 +78,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         DrawGrid(g);
         DrawSelected();
         if (hasItemSelected) {
-            g.drawImage(getTileTexture(item), heldItem.x, heldItem.y, heldItem.width, heldItem.height, null);
+            g.drawImage(TileUtil.getTileTexture(item), heldItem.x, heldItem.y, heldItem.width, heldItem.height, null);
         }
         g.drawImage(Resources.vignette, 0, 0, getWidth(), getHeight(), null);
     }
@@ -195,7 +196,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             case KeyEvent.VK_F3:
                 int diagres = JOptionPane.showConfirmDialog(null, "(Benchmark) - This will overwrite a lot of tiles and you may lose progress. Continue?", "Benchmark", JOptionPane.YES_NO_OPTION);
                 if (diagres == JOptionPane.YES_OPTION) {
-                    Image tex = getTileTexture(item);
+                    Image tex = TileUtil.getTileTexture(item);
                     for (int x = 0; x < 1000; x++) {
                         for (int y = 0; y < 1000; y++) {
                             placeEntity(x, y, item, cRot, tex);
@@ -248,7 +249,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 changeOffset(e.getX() - previousMX, e.getY() - previousMY);
             } else {
                 heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
-                placeEntity(e.getX(), e.getY(), item, cRot, getTileTexture(item));
+                placeEntity(e.getX(), e.getY(), item, cRot, TileUtil.getTileTexture(item));
             }
             repaint();
         }
@@ -279,36 +280,9 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     }
 
 
-    private Image getTileTexture(Tile tile) {
-        BufferedImage a;
-        switch (tile) {
-            case Belt:
-                a = Resources.belt;
-                break;
-            case Miner:
-                a = Resources.miner;
-                break;
-            case Trash:
-                return Resources.trash; // cant be rotated
-            default:
-                return Resources.missingTexture;
-        }
 
 
-        switch (cRot) {
-            case Down:
-                a = rotateImageByDegrees(a, 180);
-                break;
-            case Left:
-                a = rotateImageByDegrees(a, -90);
-                break;
-            case Right:
-                a = rotateImageByDegrees(a, 90);
-                break;
-        }
 
-        return a;
-    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -331,7 +305,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         } else if (SwingUtilities.isLeftMouseButton(e)) {
             if (hasItemSelected && item != Tile.None) {
                 SoundManager.playSound(item != Tile.Belt ? Resources.generic_placeTileSound : Resources.beltPlaceSound);
-                placeEntity(e.getX(), e.getY(), item, cRot, getTileTexture(item));
+                placeEntity(e.getX(), e.getY(), item, cRot, TileUtil.getTileTexture(item));
             }
         }
     }
@@ -351,7 +325,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         }
     }
 
-    private void placeEntity(int x, int y, Tile item, Rotations.cRotations rotation, Image tileTexture) {
+    public void placeEntity(int x, int y, Tile item, Rotations.cRotations rotation, Image tileTexture) {
         int cX = (x - offsetX) / scale - gridOffsetX;
         int cY = (y - offsetY) / scale - gridOffsetY;
 
