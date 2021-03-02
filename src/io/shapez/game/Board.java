@@ -140,12 +140,12 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         if (e.getWheelRotation() < 0) {
             if (scale < 120) {
                 scale *= 1.2;
-                changeOffset(0, 0);
+                changeOffset((int) ((getWidth() - getWidth() * 1.2) / 2), (int) ((getHeight() - getHeight() * 1.2) / 2));
             }
         } else if (scale > 5) {
             scale /= 1.2;
 
-            changeOffset(0, 0);
+            changeOffset((int) Math.round((getWidth() - getWidth() / 1.2) / 2), (int) Math.round((getHeight() - getHeight() / 1.2) / 2));
         }
         if (hasItemSelected) {
             heldItem = new Rectangle(previousMX - (scale / 2), previousMY - (scale / 2), scale - 2, scale - 2);
