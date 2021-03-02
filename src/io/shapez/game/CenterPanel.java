@@ -1,5 +1,8 @@
-package io.shapez;
+package io.shapez.game;
 
+import io.shapez.core.Resources;
+import io.shapez.core.Board;
+import io.shapez.core.Tile;
 import io.shapez.managers.SoundManager;
 
 import javax.imageio.ImageIO;

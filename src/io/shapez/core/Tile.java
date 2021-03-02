@@ -1,6 +1,6 @@
-package io.shapez;
+package io.shapez.core;
 
-enum Tile {
+public enum Tile {
     None,
     Belt,
     Miner,

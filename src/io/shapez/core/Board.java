@@ -1,5 +1,9 @@
-package io.shapez;
+package io.shapez.core;
 
+import io.shapez.game.CenterPanel;
+import io.shapez.Main;
+import io.shapez.game.TopPanel;
+import io.shapez.game.*;
 import io.shapez.managers.SettingsManager;
 import io.shapez.managers.SoundManager;
 
@@ -26,12 +30,12 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     public Tile item;
 
     public byte rotIndex = 0; // wont be more than 127 anyway :P
-    public Rotations.cRotations cRot = Rotations.cRotations.Up;
+    public Rotations cRot = Rotations.Up;
 
     private boolean shiftPressed;
 
     private Rectangle heldItem = new Rectangle(0, 0, 0, 0);
-    private Main window;
+    private final Main window;
 
     public Board(Main window) throws IOException {
         this.window = window;
@@ -135,14 +139,15 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         if (e.getWheelRotation() < 0) {
             if (scale < 120) {
                 scale *= 1.2;
+                changeOffset((int) Math.round((getWidth() - (getWidth() * 1.2)) / 2), (int) Math.round((getHeight() - (getHeight() * 1.2)) / 2));
             }
         } else if (scale > 5) {
             scale /= 1.2;
+            changeOffset((int) Math.round((getWidth() - (getWidth() / 1.2)) / 2), (int) Math.round((getHeight() - (getHeight() / 1.2)) / 2));
         }
         if (hasItemSelected) {
             heldItem = new Rectangle(previousMX - (scale / 2), previousMY - (scale / 2), scale - 2, scale - 2);
         }
-        changeOffset(0, 0);
         repaint();
     }
 
@@ -161,13 +166,13 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             if (Character.toUpperCase(e.getKeyChar()) == 'R') {
                 // Change rotation
                 rotIndex++;
-                if (rotIndex == Rotations.cRotations.values().length) {
+                if (rotIndex == Rotations.values().length) {
                     rotIndex = 0;
                 }
                 System.out.println("Rot index; " + rotIndex);
-                System.out.println("Rot from index; " + Rotations.cRotations.values()[rotIndex]);
+                System.out.println("Rot from index; " + Rotations.values()[rotIndex]);
 
-                cRot = Rotations.cRotations.values()[rotIndex];
+                cRot = Rotations.values()[rotIndex];
             }
         }
         char key = e.getKeyChar();
@@ -210,10 +215,10 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                     window.setExtendedState(JFrame.NORMAL);
                 else
                     window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                window.setVisible(false);
                 window.dispose();
                 window.setUndecorated(!window.isUndecorated());
                 window.setVisible(true);
+                break;
         }
 
     }
@@ -351,7 +356,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         }
     }
 
-    private void placeEntity(int x, int y, Tile item, Rotations.cRotations rotation, Image tileTexture) {
+    private void placeEntity(int x, int y, Tile item, Rotations rotation, Image tileTexture) {
         int cX = (x - offsetX) / scale - gridOffsetX;
         int cY = (y - offsetY) / scale - gridOffsetY;
 

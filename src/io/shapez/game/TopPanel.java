@@ -1,5 +1,6 @@
-package io.shapez;
+package io.shapez.game;
 
+import io.shapez.core.Resources;
 import io.shapez.managers.SettingsManager;
 import io.shapez.managers.SoundManager;
 
@@ -10,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-class TopPanel extends JPanel {
+public class TopPanel extends JPanel {
     JButton settingsButton = new JButton();
     public static JLabel selectedILabel_Name = new JLabel();
     public static JLabel selectedILabel_Description = new JLabel();

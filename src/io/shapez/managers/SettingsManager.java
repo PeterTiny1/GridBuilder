@@ -1,7 +1,7 @@
 package io.shapez.managers;
 
-import io.shapez.GlobalConfig;
-import io.shapez.Resources;
+import io.shapez.game.GlobalConfig;
+import io.shapez.core.Resources;
 
 import javax.swing.*;
 import java.awt.*;
