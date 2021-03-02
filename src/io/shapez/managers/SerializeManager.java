@@ -1,6 +1,6 @@
 package io.shapez.managers;
 
-import io.shapez.core.Rotations;
+import io.shapez.core.Rotation;
 import io.shapez.core.Tile;
 import io.shapez.game.Chunk;
 import io.shapez.game.Entity;
@@ -44,7 +44,7 @@ public class SerializeManager {
                     System.out.println("Y: " + y);
 
                     //Entity entity = new Entity(type, tex, Rotations.cRotations.Up, x, y);
-                    TileUtil.placeEntity(x,y, type, Rotations.cRotations.Up, tex);
+                    TileUtil.placeEntity(x,y, type, Rotation.Up, tex);
                     i++;
                 }
             }

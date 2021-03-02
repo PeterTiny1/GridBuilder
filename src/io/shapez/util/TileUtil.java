@@ -1,6 +1,6 @@
 package io.shapez.util;
 
-import io.shapez.core.Rotations;
+import io.shapez.core.Rotation;
 import io.shapez.core.Tile;
 import io.shapez.core.Resources;
 import io.shapez.game.Board;
@@ -31,7 +31,7 @@ public class TileUtil {
         return a;
     }
 
-    public static void placeEntity(int cX, int cY, Tile item, Rotations.cRotations rotation, Image tileTexture){
+    public static void placeEntity(int cX, int cY, Tile item, Rotation rotation, Image tileTexture){
         Chunk currentChunk = GlobalConfig.map.getChunkAtTile(cX, cY);
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + 16 : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + 16 : cY % GlobalConfig.mapChunkSize;

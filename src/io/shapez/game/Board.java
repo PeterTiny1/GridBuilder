@@ -2,7 +2,7 @@ package io.shapez.game;
 
 import io.shapez.Main;
 import io.shapez.core.Resources;
-import io.shapez.core.Rotations;
+import io.shapez.core.Rotation;
 import io.shapez.core.Tile;
 import io.shapez.core.Vector;
 import io.shapez.managers.SettingsManager;
@@ -31,7 +31,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     public Tile item;
 
     public byte rotIndex = 0; // wont be more than 127 anyway :P
-    public Rotations.cRotations cRot = Rotations.cRotations.Up;
+    public Rotation cRot = Rotation.Up;
 
     private boolean shiftPressed;
 
@@ -140,14 +140,16 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         if (e.getWheelRotation() < 0) {
             if (scale < 120) {
                 scale *= 1.2;
+                changeOffset(0, 0);
             }
         } else if (scale > 5) {
             scale /= 1.2;
+
+            changeOffset(0, 0);
         }
         if (hasItemSelected) {
             heldItem = new Rectangle(previousMX - (scale / 2), previousMY - (scale / 2), scale - 2, scale - 2);
         }
-        changeOffset(0, 0);
         repaint();
     }
 
@@ -159,20 +161,19 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     @Override
     public void keyPressed(KeyEvent e) {
-
         shiftPressed |= e.getKeyCode() == KeyEvent.VK_SHIFT;
         if (!pressedKeys.contains(Character.toUpperCase(e.getKeyChar()))) {
             pressedKeys.add(Character.toUpperCase(e.getKeyChar()));
             if (Character.toUpperCase(e.getKeyChar()) == 'R') {
                 // Change rotation
                 rotIndex++;
-                if (rotIndex == Rotations.cRotations.values().length) {
+                if (rotIndex == Rotation.values().length) {
                     rotIndex = 0;
                 }
                 System.out.println("Rot index; " + rotIndex);
-                System.out.println("Rot from index; " + Rotations.cRotations.values()[rotIndex]);
+                System.out.println("Rot from index; " + Rotation.values()[rotIndex]);
 
-                cRot = Rotations.cRotations.values()[rotIndex];
+                cRot = Rotation.values()[rotIndex];
             }
         }
         char key = e.getKeyChar();
@@ -313,7 +314,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         }
     }
 
-    public void placeEntity(int x, int y, Tile item, Rotations.cRotations rotation, Image tileTexture) {
+    public void placeEntity(int x, int y, Tile item, Rotation rotation, Image tileTexture) {
         int cX = (x - offsetX) / scale - gridOffsetX;
         int cY = (y - offsetY) / scale - gridOffsetY;
 
