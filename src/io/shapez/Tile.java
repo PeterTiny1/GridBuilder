@@ -9,10 +9,10 @@ public enum Tile {
     Miner(3),
     Trash(4);
 
-    private int value;
-    private static Map map = new HashMap<>();
+    private final int value;
+    private static final Map<Integer, Tile> map = new HashMap<>();
 
-    private Tile(int value) {
+    Tile(int value) {
         this.value = value;
     }
 
@@ -23,7 +23,7 @@ public enum Tile {
     }
 
     public static Tile valueOf(int pageType) {
-        return (Tile) map.get(pageType);
+        return map.get(pageType);
     }
 
     public int getValue() {

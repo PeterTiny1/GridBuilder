@@ -28,7 +28,6 @@ public class SerializeManager {
                 while (i < SystemPathManager.saveFile.length() / 4) {
                     Tile type;
                     Image tex;
-                    Rotations rotation = new Rotations();
                     int x;
                     int y;
                     x = ds.readByte();
@@ -71,7 +70,7 @@ public class SerializeManager {
                         if(entity == null) continue;
                         ds.writeByte(entity.x);
                         ds.writeByte(entity.y);
-                        ds.writeByte(entity.type.getValue());
+                        ds.writeByte(entity.tile.getValue());
                         ds.writeByte(entity.rotation.getValue());
                     }
                 }

@@ -25,14 +25,4 @@ public class BaseMap {
         return getChunk(chunkX, chunkY);
     }
 
-    public void addChunks(ArrayList<Chunk> chunks) {
-        for (Chunk chunk : chunks) {
-            int x = chunk.x;
-            int y = chunk.y;
-
-            String code = x + "|" + y;
-
-            chunksById.putIfAbsent(code, new Chunk(x, y));
-        }
-    }
 }

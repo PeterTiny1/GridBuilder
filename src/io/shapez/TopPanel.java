@@ -8,7 +8,6 @@ import io.shapez.managers.SoundManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 
 public class TopPanel extends JPanel {
     JButton settingsButton = new JButton();
@@ -24,7 +23,7 @@ public class TopPanel extends JPanel {
         SettingsManager.initSettingsWnd();
     }
 
-    public TopPanel() throws IOException {
+    public TopPanel() {
         setOpaque(false);
         setLayout(new BorderLayout());
         JPanel L_innerPanel = new JPanel();
@@ -36,7 +35,6 @@ public class TopPanel extends JPanel {
         L_morePanel.setLayout(new BoxLayout(L_morePanel, BoxLayout.Y_AXIS));
 
         Dimension d = new Dimension(70, 70);
-        Dimension _d = new Dimension(50, 50);
 
         settingsButton.addActionListener(e ->
                 showSettings()

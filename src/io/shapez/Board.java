@@ -13,7 +13,6 @@ import io.shapez.util.TileUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -38,7 +37,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     private boolean shiftPressed;
 
     private Rectangle heldItem = new Rectangle(0, 0, 0, 0);
-    private Main window;
+    private final Main window;
 
     public Board(Main window) throws IOException {
         this.window = window;
@@ -274,22 +273,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         }
     }
 
-    private static BufferedImage rotateImageByDegrees(BufferedImage bimg, double angle) {
-        int w = bimg.getWidth();
-        int h = bimg.getHeight();
-        BufferedImage bufimage = new BufferedImage(w, h, bimg.getType());
-        Graphics2D g2d = bufimage.createGraphics();
-        g2d.rotate(Math.toRadians(angle), w >> 1, h >> 1);
-        g2d.drawImage(bimg, null, 0, 0);
-        g2d.dispose();
-        return bufimage;
-    }
-
-
-
-
-
-
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -341,7 +324,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + 16 : cY % GlobalConfig.mapChunkSize;
 
         if (currentChunk.contents[offX][offY] != null
-                && currentChunk.contents[offX][offY].type != item
+                && currentChunk.contents[offX][offY].tile != item
                 && checkSpecialProperties(currentChunk, offX, offY, item) == 0) {
 
             //currentChunk.contents[offX][offY] = null;
@@ -375,7 +358,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                     "Tile of type " + item.toString() + "has invalid placement at " + offX + " " + offY + "\n" +
                             "Tile will be deleted"
             );
-            if (currentChunk.contents[offX][offY].type == item && currentChunk.contents[offX][offY].type == this.item)
+            if (currentChunk.contents[offX][offY].tile == item && currentChunk.contents[offX][offY].tile == this.item)
                 currentChunk.contents[offX][offY] = null;
         }
     }
