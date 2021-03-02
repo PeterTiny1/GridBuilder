@@ -1,4 +1,4 @@
-package io.shapez;
+package io.shapez.core;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

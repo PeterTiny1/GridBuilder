@@ -1,4 +1,6 @@
-package io.shapez;
+package io.shapez.game;
+
+import io.shapez.core.Tile;
 
 public class EntityTutorial {
 

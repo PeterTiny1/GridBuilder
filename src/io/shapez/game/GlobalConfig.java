@@ -1,4 +1,4 @@
-package io.shapez;
+package io.shapez.game;
 
 public class GlobalConfig {
     public static int mapChunkSize = 16;

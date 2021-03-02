@@ -1,4 +1,4 @@
-package io.shapez;
+package io.shapez.core;
 
 public class Vector {
     public final double x;

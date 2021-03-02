@@ -1,5 +1,6 @@
-package io.shapez;
+package io.shapez.game;
 
+import io.shapez.core.Vector;
 import io.shapez.managers.SettingsManager;
 
 import java.awt.*;
