@@ -1,3 +1,4 @@
 
 *.class
 /settings.set
+*.jar
