@@ -22,6 +22,10 @@ public enum Rotation {
         }
     }
 
+    public static Rotation valueOf(int pageType) {
+        return map.get(pageType);
+    }
+
     public int getValue() {
         return value;
     }
