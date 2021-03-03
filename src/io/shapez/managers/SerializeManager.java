@@ -7,7 +7,10 @@ import io.shapez.game.Entity;
 import io.shapez.util.TileUtil;
 
 import java.awt.*;
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class SerializeManager {

@@ -1,15 +1,14 @@
 package io.shapez.util;
 
+import io.shapez.core.Resources;
 import io.shapez.core.Rotation;
 import io.shapez.core.Tile;
-import io.shapez.core.Resources;
 import io.shapez.game.Board;
 import io.shapez.game.Chunk;
 import io.shapez.game.Entity;
 import io.shapez.game.GlobalConfig;
 import io.shapez.managers.SoundManager;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
