@@ -30,23 +30,39 @@ public class SerializeManager {
                 // Tile type, Image texture, Rotations.cRotations rotation, int x, int y
                 int i = 0;
                 while (i < SystemPathManager.saveFile.length() / 4) {
+                    // variables marked with _ are temporary and used for save game checking
                     Tile type;
+                    int _type;
+
                     Image tex;
+
                     Rotation rot;
+                    int _rot;
+
                     int x;
                     int y;
                     x = ds.readByte();
                     y = ds.readByte();
-                    type = Tile.valueOf(ds.readByte());
-                    rot = Rotation.valueOf(ds.readByte());
-                    tex = TileUtil.getTileTexture(type,rot);
+                    _type = ds.readByte();
+                    _rot = ds.readByte();
 
+
+                    if(_type > Tile.values().length || _rot > Rotation.values().length){
+                        // Tile is corrupted,edited,hacked or from weird game version
+                        System.err.println("Invalid save game data");
+                        //continue;
+                        break; // completely stop loading everything if one tile is invalid.... not a good approach but continue; causes issues
+                    }
+                    type = Tile.valueOf(_type);
+                    rot = Rotation.valueOf(_rot);
+                    tex = TileUtil.getTileTexture(type,rot);
                     TileUtil.placeEntity(x, y, type, rot, tex, true); // Suppress audio!
                     i++;
                 }
             }
             System.out.println("Finished loading chunks");
             toReload.repaint();
+            ds.close();
             fs.close();
         } catch (Exception e) {
             System.err.println("!!! Error loading chunks !!! (" + e.getMessage() + ")");
