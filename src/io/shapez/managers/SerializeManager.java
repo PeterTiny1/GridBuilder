@@ -30,7 +30,7 @@ public class SerializeManager {
                 // 4 bytes per entity
                 // Tile type, Image texture, Rotations.cRotations rotation, int x, int y
                 int i = 0;
-                while (i < SystemPathManager.saveFile.length() / 4) {
+                while (i < SystemPathManager.saveFile.length() / 6) {
                     // variables marked with _ are temporary and used for save game checking
                     Tile type;
                     int _type;
@@ -42,8 +42,8 @@ public class SerializeManager {
 
                     int x;
                     int y;
-                    x = ds.readByte();
-                    y = ds.readByte();
+                    x = ds.readInt();
+                    y = ds.readInt();
                     _type = ds.readByte();
                     _rot = ds.readByte();
 
@@ -85,8 +85,8 @@ public class SerializeManager {
                     for (int y = 0; y < chunk.contents.length; y++) {
                         Entity entity = chunk.contents[x][y];
                         if (entity == null) continue;
-                        ds.writeByte(entity.x);
-                        ds.writeByte(entity.y);
+                        ds.writeInt(entity.x);
+                        ds.writeInt(entity.y);
                         ds.writeByte(entity.tile.getValue());
                         ds.writeByte(entity.rotation.getValue());
                     }
