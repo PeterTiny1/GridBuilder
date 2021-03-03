@@ -13,7 +13,19 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class TileUtil {
-    public static Image getTileTexture(Tile tile) {
+
+    public static BufferedImage rotateImageByDegrees(BufferedImage bimg, double angle) {
+        int w = bimg.getWidth();
+        int h = bimg.getHeight();
+        BufferedImage bufimage = new BufferedImage(w, h, bimg.getType());
+        Graphics2D g2d = bufimage.createGraphics();
+        g2d.rotate(Math.toRadians(angle), w >> 1, h >> 1);
+        g2d.drawImage(bimg, null, 0, 0);
+        g2d.dispose();
+        return bufimage;
+    }
+
+    public static Image getTileTexture(Tile tile, Rotation rot) {
         BufferedImage a;
         switch (tile) {
             case Belt:
@@ -22,14 +34,26 @@ public class TileUtil {
             case Miner:
                 a = Resources.miner;
                 break;
-            case Trash:
-                return Resources.trash; // cant be rotated
             case Rotator:
                 a = Resources.rotator;
                 break;
+            case Trash:
+                return Resources.trash; // cant be rotated
             default:
                 return Resources.missingTexture;
         }
+        switch (rot) {
+            case Down:
+                a = rotateImageByDegrees(a, 180);
+                break;
+            case Left:
+                a = rotateImageByDegrees(a, -90);
+                break;
+            case Right:
+                a = rotateImageByDegrees(a, 90);
+                break;
+        }
+
         return a;
     }
 

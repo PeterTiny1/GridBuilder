@@ -38,8 +38,7 @@ public class SerializeManager {
                     y = ds.readByte();
                     type = Tile.valueOf(ds.readByte());
                     rot = Rotation.valueOf(ds.readByte());
-//                    ds.readByte(); // Im not sure how to implement loading rotation because of java's retarded access modifiers
-                    tex = TileUtil.getTileTexture(type);
+                    tex = TileUtil.getTileTexture(type,rot);
 
                     TileUtil.placeEntity(x, y, type, rot, tex);
                     i++;
