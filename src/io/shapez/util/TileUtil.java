@@ -11,8 +11,22 @@ import io.shapez.managers.SoundManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class TileUtil {
+    public static void clearAll(Board b)
+    {
+        ArrayList<Chunk> usedChunks = Board.usedChunks;
+        for (Chunk chunk : usedChunks) {
+            for (int x = 0; x < chunk.contents.length; x++) {
+                for (int y = 0; y < chunk.contents.length; y++) {
+                    if (chunk.contents[x][y] == null) continue;
+                    chunk.contents[x][y] = null;
+                }
+            }
+        }
+        b.repaint();
+    }
     public static BufferedImage rotateImageByDegrees(BufferedImage bimg, double angle) {
         int w = bimg.getWidth();
         int h = bimg.getHeight();
@@ -77,7 +91,36 @@ public class TileUtil {
             Board.usedChunks.add(currentChunk);
         }
 
-        //deleteInvalidTile(item, currentChunk, offX, offY);
+        if(checkSpecialProperties(currentChunk, offX, offY,item) != 0){
+            currentChunk.contents[offX][offY] = null;
+        }
 
+    }
+    public static void deleteInvalidTile(Tile item, Tile selecteditem, Chunk currentChunk, int offX, int offY) {
+        byte result;
+        result = checkSpecialProperties(currentChunk, offX, offY, item);
+
+        if (result == 1) {
+            System.out.println(
+                    "Tile of type " + item.toString() + "has invalid placement at " + offX + " " + offY + "\n" +
+                            "Tile will be deleted"
+            );
+            if (currentChunk.contents[offX][offY].tile == item && currentChunk.contents[offX][offY].tile == selecteditem)
+                currentChunk.contents[offX][offY] = null;
+        }
+    }
+
+    public static byte checkSpecialProperties(Chunk currentChunk, int offX, int offY, Tile item) {
+        // Return:  0 if all is ok
+        //          1 if tile should be removed (invalid placement)
+        //          2 if (...) to be continued for later versions
+        switch (item) {
+            case Miner:
+                if (currentChunk.lowerLayer[offX][offY] == null || currentChunk.lowerLayer[offX][offY] == Color.gray /* chunk border */) {
+                    return 1;
+                }
+            default:
+                return 0;
+        }
     }
 }

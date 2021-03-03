@@ -42,7 +42,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         this.window = window;
         initBoard();
     }
-
     private void initBoard() {
         addKeyListener(this);
         addMouseMotionListener(this);
@@ -300,19 +299,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     }
 
 
-    private byte checkSpecialProperties(Chunk currentChunk, int offX, int offY, Tile item) {
-        // Return:  0 if all is ok
-        //          1 if tile should be removed (invalid placement)
-        //          2 if (...) to be continued for later versions
-        switch (item) {
-            case Miner:
-                if (currentChunk.lowerLayer[offX][offY] == null || currentChunk.lowerLayer[offX][offY] == Color.gray /* chunk border */) {
-                    return 1;
-                }
-            default:
-                return 0;
-        }
-    }
+
 
     public void placeEntity(int x, int y, Tile item, Rotation rotation, Image tileTexture) {
         int cX = (x - offsetX) / scale - gridOffsetX;
@@ -325,7 +312,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
         if (currentChunk.contents[offX][offY] != null
                 && currentChunk.contents[offX][offY].tile != item
-                && checkSpecialProperties(currentChunk, offX, offY, item) == 0) {
+                && TileUtil.checkSpecialProperties(currentChunk, offX, offY, item) == 0) {
 
             //currentChunk.contents[offX][offY] = null;
             clearTile(offX, offY);
@@ -345,23 +332,11 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             usedChunks.add(currentChunk);
         }
 
-        deleteInvalidTile(item, currentChunk, offX, offY);
+        TileUtil.deleteInvalidTile(item, this.item, currentChunk, offX, offY);
         repaint();
     }
 
-    private void deleteInvalidTile(Tile item, Chunk currentChunk, int offX, int offY) {
-        byte result;
-        result = checkSpecialProperties(currentChunk, offX, offY, item);
 
-        if (result == 1) {
-            System.out.println(
-                    "Tile of type " + item.toString() + "has invalid placement at " + offX + " " + offY + "\n" +
-                            "Tile will be deleted"
-            );
-            if (currentChunk.contents[offX][offY].tile == item && currentChunk.contents[offX][offY].tile == this.item)
-                currentChunk.contents[offX][offY] = null;
-        }
-    }
 
     private void clearTile(int cX, int cY) {
         Chunk chunk = GlobalConfig.map.getChunkAtTile(cX, cY);
@@ -395,5 +370,9 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+    public void __clearAll()
+    {
+        TileUtil.clearAll(this);
     }
 }

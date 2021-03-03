@@ -4,6 +4,7 @@ import io.shapez.core.Resources;
 import io.shapez.managers.SerializeManager;
 import io.shapez.managers.SettingsManager;
 import io.shapez.managers.SoundManager;
+import io.shapez.util.TileUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,7 @@ public class TopPanel extends JPanel {
     JButton settingsButton = new JButton();
     JButton saveButton = new JButton();
     JButton loadButton = new JButton();
+    JButton clearButton = new JButton();
 
     public static JLabel selectedILabel_Name = new JLabel();
     public static JLabel selectedILabel_Description = new JLabel();
@@ -56,6 +58,12 @@ public class TopPanel extends JPanel {
         loadButton.setPreferredSize(d);
         loadButton.setMaximumSize(d);
 
+        clearButton.addActionListener((ActionEvent e) -> board.__clearAll());
+        clearButton.setFocusable(false);
+        clearButton.setIcon(new ImageIcon(Resources.missingTexture.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
+        clearButton.setPreferredSize(d);
+        clearButton.setMaximumSize(d);
+
         selectedILabel_Name.setFocusable(false);
         selectedILabel_Name.setText("");
         selectedILabel_Name.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
@@ -72,6 +80,7 @@ public class TopPanel extends JPanel {
 
         L_morePanel.add(saveButton, BorderLayout.NORTH);
         L_morePanel.add(loadButton, BorderLayout.NORTH);
+        L_morePanel.add(clearButton, BorderLayout.NORTH);
 
         add(settingsButton, BorderLayout.EAST);
 
