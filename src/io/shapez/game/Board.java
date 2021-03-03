@@ -295,6 +295,10 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 SoundManager.playSound(item != Tile.Belt ? Resources.generic_placeTileSound : Resources.beltPlaceSound);
                 placeEntity(e.getX(), e.getY(), item, cRot, TileUtil.getTileTexture(item, cRot));
             }
+        } else if(SwingUtilities.isMiddleMouseButton(e)){
+            scale = 40;
+            changeOffset(0,0);
+            repaint();
         }
     }
 
