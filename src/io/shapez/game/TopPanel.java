@@ -23,7 +23,7 @@ public class TopPanel extends JPanel {
         SettingsManager.initSettingsWnd();
     }
 
-    public TopPanel() {
+    public TopPanel(Board board) {
         setOpaque(false);
         setLayout(new BorderLayout());
         JPanel L_innerPanel = new JPanel();
@@ -50,7 +50,7 @@ public class TopPanel extends JPanel {
         saveButton.setPreferredSize(d);
         saveButton.setMaximumSize(d);
 
-        loadButton.addActionListener((ActionEvent e) -> SerializeManager.loadAll());
+        loadButton.addActionListener((ActionEvent e) -> SerializeManager.loadAll(board));
         loadButton.setFocusable(false);
         loadButton.setIcon(new ImageIcon(Resources.missingTexture.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
         loadButton.setPreferredSize(d);

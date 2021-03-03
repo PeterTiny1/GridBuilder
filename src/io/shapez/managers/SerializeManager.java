@@ -2,6 +2,7 @@ package io.shapez.managers;
 
 import io.shapez.core.Rotation;
 import io.shapez.core.Tile;
+import io.shapez.game.Board;
 import io.shapez.game.Chunk;
 import io.shapez.game.Entity;
 import io.shapez.util.TileUtil;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 public class SerializeManager {
 
 
-    public static void loadAll() {
+    public static void loadAll(Board toReload) {
         // Start loading...
         System.out.println("Loading chunks in unsafe environment...");
         try {
@@ -45,6 +46,7 @@ public class SerializeManager {
                 }
             }
             System.out.println("Finished loading chunks");
+            toReload.repaint();
             fs.close();
         } catch (Exception e) {
             System.err.println("!!! Error loading chunks !!! (" + e.getMessage() + ")");

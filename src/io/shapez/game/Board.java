@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class Board extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener {
     // UI
     public CenterPanel centerPanel = new CenterPanel(this);
-    public TopPanel topPanel = new TopPanel();
+    public TopPanel topPanel = new TopPanel(this);
 
     private int scale = 40;
     private int offsetX, offsetY;
