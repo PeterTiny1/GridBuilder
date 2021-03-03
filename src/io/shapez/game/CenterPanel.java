@@ -16,6 +16,7 @@ public class CenterPanel extends JPanel {
     public static JButton beltButton = new JButton();
     public static JButton minerButton = new JButton();
     public static JButton trashButton = new JButton();
+    public static JButton rotatorButton = new JButton();
 
     public CenterPanel(Board board) throws IOException {
         this.board = board;
@@ -29,6 +30,7 @@ public class CenterPanel extends JPanel {
         BufferedImage beltImage = ImageIO.read(new File("src/resources/ui/belt.png"));
         BufferedImage minerImage = ImageIO.read(new File("src/resources/ui/miner.png"));
         BufferedImage trashImage = ImageIO.read(new File("src/resources/ui/trash.png"));
+        BufferedImage rotatorImage = ImageIO.read(new File("src/resources/ui/rotator.png"));
 
         beltButton.addActionListener(e ->
                 selectItem(Tile.Belt));
@@ -57,6 +59,14 @@ public class CenterPanel extends JPanel {
         trashButton.setMaximumSize(d);
         innerPanel.add(trashButton, BorderLayout.SOUTH);
 
+        rotatorButton.addActionListener(e -> selectItem(Tile.Rotator));
+        rotatorButton.setFocusable(false);
+        rotatorButton.setIcon(new ImageIcon(rotatorImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
+        rotatorButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
+        rotatorButton.setPreferredSize(d);
+        rotatorButton.setMaximumSize(d);
+        innerPanel.add(rotatorButton, BorderLayout.SOUTH);
+
         this.add(innerPanel);
     }
 
@@ -66,25 +76,31 @@ public class CenterPanel extends JPanel {
                 minerButton.setSelected(false);
                 beltButton.setSelected(false);
                 trashButton.setSelected(false);
+                rotatorButton.setSelected(false);
                 break;
             case Belt:
                 minerButton.setSelected(false);
                 trashButton.setSelected(false);
-
+                rotatorButton.setSelected(false);
                 beltButton.setSelected(true);
                 break;
             case Miner:
                 beltButton.setSelected(false);
                 trashButton.setSelected(false);
-
+                rotatorButton.setSelected(false);
                 minerButton.setSelected(true);
                 break;
             case Trash:
                 beltButton.setSelected(false);
                 minerButton.setSelected(false);
-
+                rotatorButton.setSelected(false);
                 trashButton.setSelected(true);
                 break;
+            case Rotator:
+                minerButton.setSelected(false);
+                beltButton.setSelected(false);
+                trashButton.setSelected(false);
+                rotatorButton.setSelected(true);
         }
         TopPanel.selectedILabel_Name.setText(EntityTutorial.GetTitle(board.item));
         TopPanel.selectedILabel_Description.setText(EntityTutorial.GetDescription(board.item));

@@ -17,6 +17,7 @@ public class Resources {
     public static BufferedImage belt;
     public static BufferedImage miner;
     public static BufferedImage trash;
+    public static BufferedImage rotator;
     public static Image missingTexture;
     public static BufferedImage vignette;
 
@@ -51,6 +52,7 @@ public class Resources {
             belt = ImageIO.read(new File("src/resources/tiles/belt.png"));
             miner = ImageIO.read(new File("src/resources/tiles/miner.png"));
             trash = ImageIO.read(new File("src/resources/tiles/trash.png"));
+            rotator = ImageIO.read(new File("src/resources/tiles/rotator.png"));
         } catch (IOException e) {
             System.out.println("Resource(s) missing");
             // e.printStackTrace();

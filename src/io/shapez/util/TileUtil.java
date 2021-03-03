@@ -9,12 +9,12 @@ import io.shapez.game.Entity;
 import io.shapez.game.GlobalConfig;
 import io.shapez.managers.SoundManager;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class TileUtil {
-    public static Image getTileTexture(Tile tile)
-    {
+    public static Image getTileTexture(Tile tile) {
         BufferedImage a;
         switch (tile) {
             case Belt:
@@ -25,13 +25,16 @@ public class TileUtil {
                 break;
             case Trash:
                 return Resources.trash; // cant be rotated
+            case Rotator:
+                a = Resources.rotator;
+                break;
             default:
                 return Resources.missingTexture;
         }
         return a;
     }
 
-    public static void placeEntity(int cX, int cY, Tile item, Rotation rotation, Image tileTexture){
+    public static void placeEntity(int cX, int cY, Tile item, Rotation rotation, Image tileTexture) {
         Chunk currentChunk = GlobalConfig.map.getChunkAtTile(cX, cY);
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + 16 : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + 16 : cY % GlobalConfig.mapChunkSize;

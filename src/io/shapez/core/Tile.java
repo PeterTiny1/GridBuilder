@@ -7,7 +7,8 @@ public enum Tile {
     None(1),
     Belt(2),
     Miner(3),
-    Trash(4);
+    Trash(4),
+    Rotator(5);
 
     private final int value;
     private static final Map<Integer, Tile> map = new HashMap<>();
