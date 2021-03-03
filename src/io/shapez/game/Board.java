@@ -82,7 +82,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         DrawGrid(g);
         DrawSelected();
         if (hasItemSelected) {
-            g.drawImage(TileUtil.getTileTexture(item,cRot), heldItem.x, heldItem.y, heldItem.width, heldItem.height, null);
+            g.drawImage(TileUtil.getTileTexture(item, cRot), heldItem.x, heldItem.y, heldItem.width, heldItem.height, null);
         }
         g.drawImage(Resources.vignette, 0, 0, getWidth(), getHeight(), null);
     }
@@ -201,7 +201,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             case KeyEvent.VK_F3:
                 int diagres = JOptionPane.showConfirmDialog(null, "(Benchmark) - This will overwrite a lot of tiles and you may lose progress. Continue?", "Benchmark", JOptionPane.YES_NO_OPTION);
                 if (diagres == JOptionPane.YES_OPTION) {
-                    Image tex = TileUtil.getTileTexture(item,cRot);
+                    Image tex = TileUtil.getTileTexture(item, cRot);
                     for (int x = 0; x < 1000; x++) {
                         for (int y = 0; y < 1000; y++) {
                             placeEntity(x, y, item, cRot, tex);
@@ -254,7 +254,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 changeOffset(e.getX() - previousMX, e.getY() - previousMY);
             } else {
                 heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
-                placeEntity(e.getX(), e.getY(), item, cRot, TileUtil.getTileTexture(item,cRot));
+                placeEntity(e.getX(), e.getY(), item, cRot, TileUtil.getTileTexture(item, cRot));
             }
             repaint();
         }
@@ -268,9 +268,9 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         previousMY = e.getY();
 
         if (hasItemSelected) {
-            heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
             repaint();
         }
+        heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
     }
 
     @Override
@@ -294,7 +294,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         } else if (SwingUtilities.isLeftMouseButton(e)) {
             if (hasItemSelected && item != Tile.None) {
                 SoundManager.playSound(item != Tile.Belt ? Resources.generic_placeTileSound : Resources.beltPlaceSound);
-                placeEntity(e.getX(), e.getY(), item, cRot, TileUtil.getTileTexture(item,cRot));
+                placeEntity(e.getX(), e.getY(), item, cRot, TileUtil.getTileTexture(item, cRot));
             }
         }
     }
