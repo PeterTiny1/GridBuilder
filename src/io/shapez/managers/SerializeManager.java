@@ -21,6 +21,7 @@ public class SerializeManager {
         // Start loading...
         System.out.println("Loading chunks in unsafe environment...");
         try {
+            TileUtil.clearAll(toReload);
             FileInputStream fs = new FileInputStream(SystemPathManager.saveFile);
             DataInputStream ds = new DataInputStream(fs);
 
