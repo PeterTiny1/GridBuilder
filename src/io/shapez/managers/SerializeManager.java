@@ -40,7 +40,7 @@ public class SerializeManager {
                     rot = Rotation.valueOf(ds.readByte());
                     tex = TileUtil.getTileTexture(type,rot);
 
-                    TileUtil.placeEntity(x, y, type, rot, tex);
+                    TileUtil.placeEntity(x, y, type, rot, tex, true); // Suppress audio!
                     i++;
                 }
             }

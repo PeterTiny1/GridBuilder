@@ -57,6 +57,28 @@ public class TileUtil {
         return a;
     }
 
+    public static void placeEntity(int cX, int cY, Tile item, Rotation rotation, Image tileTexture, boolean suppress) {
+        Chunk currentChunk = GlobalConfig.map.getChunkAtTile(cX, cY);
+        int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + 16 : cX % GlobalConfig.mapChunkSize;
+        int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + 16 : cY % GlobalConfig.mapChunkSize;
+
+        if (currentChunk.contents[offX][offY] != null) {
+            currentChunk.contents[offX][offY] = null;
+            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
+            Board.usedChunks.add(currentChunk);
+            return;
+        }
+
+        if (currentChunk.contents[offX][offY] == null) {
+            if(!suppress){ SoundManager.playSound(item == Tile.Belt ? Resources.beltPlaceSound : Resources.generic_placeTileSound); }
+            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
+
+            Board.usedChunks.add(currentChunk);
+        }
+
+        //deleteInvalidTile(item, currentChunk, offX, offY);
+
+    }
     public static void placeEntity(int cX, int cY, Tile item, Rotation rotation, Image tileTexture) {
         Chunk currentChunk = GlobalConfig.map.getChunkAtTile(cX, cY);
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + 16 : cX % GlobalConfig.mapChunkSize;
