@@ -1,6 +1,5 @@
 package io.shapez.game;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
