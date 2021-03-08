@@ -91,36 +91,26 @@ public class TileUtil {
             Board.usedChunks.add(currentChunk);
         }
 
-        if(checkSpecialProperties(currentChunk, offX, offY,item) != 0){
+        if(checkSpecialProperties(currentChunk, offX, offY, item)){
             currentChunk.contents[offX][offY] = null;
         }
 
     }
-    public static void deleteInvalidTile(Tile item, Tile selecteditem, Chunk currentChunk, int offX, int offY) {
-        byte result;
-        result = checkSpecialProperties(currentChunk, offX, offY, item);
 
-        if (result == 1) {
-            System.out.println(
-                    "Tile of type " + item.toString() + "has invalid placement at " + offX + " " + offY + "\n" +
-                            "Tile will be deleted"
-            );
-            if (currentChunk.contents[offX][offY].tile == item && currentChunk.contents[offX][offY].tile == selecteditem)
-                currentChunk.contents[offX][offY] = null;
-        }
-    }
-
-    public static byte checkSpecialProperties(Chunk currentChunk, int offX, int offY, Tile item) {
+    public static boolean checkSpecialProperties(Chunk currentChunk, int offX, int offY, Tile item) {
         // Return:  0 if all is ok
         //          1 if tile should be removed (invalid placement)
         //          2 if (...) to be continued for later versions
-        switch (item) {
-            case Miner:
-                if (currentChunk.lowerLayer[offX][offY] == null || currentChunk.lowerLayer[offX][offY] == Color.gray /* chunk border */) {
-                    return 1;
-                }
-            default:
-                return 0;
+        if (item == Tile.Miner) {
+            /* chunk border */
+            return currentChunk.lowerLayer[offX][offY] == null || currentChunk.lowerLayer[offX][offY] == Color.gray;
         }
+        return false;
+    }
+
+    public static boolean checkInvalidTile(Tile item, Tile selecteditem, Chunk currentChunk, int offX, int offY) {
+        boolean result;
+        result = checkSpecialProperties(currentChunk, offX, offY, item);
+        return result;
     }
 }
