@@ -5,6 +5,7 @@ import io.shapez.core.Tile;
 import io.shapez.game.Board;
 import io.shapez.game.Chunk;
 import io.shapez.game.Entity;
+import io.shapez.util.DebugUtil;
 import io.shapez.util.TileUtil;
 
 import java.awt.*;
@@ -19,7 +20,7 @@ public class SerializeManager {
 
     public static void loadAll(Board toReload) {
         // Start loading...
-        System.out.println("Loading chunks in unsafe environment...");
+        long t1 = System.nanoTime();
         try {
             TileUtil.clearAll(toReload);
             FileInputStream fs = new FileInputStream(SystemPathManager.saveFile);
@@ -66,14 +67,19 @@ public class SerializeManager {
             ds.close();
             fs.close();
         } catch (Exception e) {
+            if(e.getMessage() == null)return;
+
             System.err.println("!!! Error loading chunks !!! (" + e.getMessage() + ")");
         }
+        long t2 = System.nanoTime();
+        DebugUtil.printTime("Loading", "ms", t1, t2);
     }
 
     public static void saveAll(ArrayList<Chunk> chunks) {
         // Start saving...
-        System.out.println("Saving chunks in unsafe environment...");
+        long t1 = System.nanoTime();
         try {
+
             FileOutputStream fs = new FileOutputStream(SystemPathManager.saveFile);
             DataOutputStream ds = new DataOutputStream(fs);
 
@@ -98,5 +104,9 @@ public class SerializeManager {
         } catch (Exception e) {
             System.err.println("!!! Error saving chunks !!! (" + e.getMessage() + ")");
         }
+        long t2 = System.nanoTime();
+        DebugUtil.printTime("Saving", "ms", t1, t2);
     }
+
+
 }
