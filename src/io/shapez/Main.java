@@ -46,7 +46,7 @@ public class Main extends JFrame implements WindowFocusListener {
 
     @Override
     public void windowGainedFocus(WindowEvent e) {
-
+        board.pressedKeys.clear();
     }
 
     @Override

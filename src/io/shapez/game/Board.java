@@ -7,9 +7,10 @@ import io.shapez.core.Tile;
 import io.shapez.core.Vector;
 import io.shapez.managers.SettingsManager;
 import io.shapez.managers.SoundManager;
-import io.shapez.ui.CenterPanel;
+import io.shapez.ui.BottomPanel;
 import io.shapez.ui.TopPanel;
 import io.shapez.util.TileUtil;
+import io.shapez.util.UIUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 
 public class Board extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener {
     // UI
-    public CenterPanel centerPanel = new CenterPanel(this);
+    public BottomPanel centerPanel = new BottomPanel(this);
     public TopPanel topPanel = new TopPanel(this);
 
     private int scale = 40;
@@ -30,7 +31,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     private int previousMX, previousMY;
     public boolean hasItemSelected = false;
 
-    public Tile item;
+    public static Tile item;
 
     public byte rotIndex = 0; // wont be more than 127 anyway :P
     public Rotation cRot = Rotation.Up;
@@ -293,7 +294,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             if (item != Tile.None) {
                 item = Tile.None;
                 hasItemSelected = false;
-                centerPanel.updateButtonAppearance();
+                UIUtil.updateButtonAppearance();
             } else {
                 clearTile(cX, cY);
             }
