@@ -62,7 +62,6 @@ public class SerializeManager {
                     i++;
                 }
             }
-            System.out.println("Finished loading chunks");
             toReload.repaint();
             ds.close();
             fs.close();
@@ -100,7 +99,6 @@ public class SerializeManager {
             }
             ds.flush();
             ds.close();
-            System.out.println("Finished saving chunks");
         } catch (Exception e) {
             System.err.println("!!! Error saving chunks !!! (" + e.getMessage() + ")");
         }
