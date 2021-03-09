@@ -66,6 +66,8 @@ public class SerializeManager {
             ds.close();
             fs.close();
         } catch (Exception e) {
+            if(e.getMessage() == null)return;
+
             System.err.println("!!! Error loading chunks !!! (" + e.getMessage() + ")");
         }
     }
