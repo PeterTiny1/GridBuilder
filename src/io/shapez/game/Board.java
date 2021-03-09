@@ -7,6 +7,8 @@ import io.shapez.core.Tile;
 import io.shapez.core.Vector;
 import io.shapez.managers.SettingsManager;
 import io.shapez.managers.SoundManager;
+import io.shapez.ui.CenterPanel;
+import io.shapez.ui.TopPanel;
 import io.shapez.util.TileUtil;
 
 import javax.swing.*;
