@@ -79,15 +79,15 @@ public class TopPanel extends JPanel {
         L_innerPanel.add(selectedILabel_Description, BorderLayout.WEST);
         L_innerPanel.add(selectedILabel_Hotkey, BorderLayout.SOUTH);
 
-        L_morePanel.add(saveButton, BorderLayout.NORTH);
-        L_morePanel.add(loadButton, BorderLayout.NORTH);
-        L_morePanel.add(clearButton, BorderLayout.NORTH);
-
+       // L_morePanel.add(saveButton, BorderLayout.NORTH);
+       // L_morePanel.add(loadButton, BorderLayout.NORTH);
+      //  L_morePanel.add(clearButton, BorderLayout.NORTH);
+        // todo: leave this to me lol
         add(settingsButton, BorderLayout.EAST);
 
 
         add(L_innerPanel);
-        add(L_morePanel);
+        //add(L_morePanel);
 
     }
 }

@@ -2,7 +2,18 @@ package io.shapez.game;
 
 import io.shapez.core.Tile;
 
+import java.util.Random;
+
 public class EntityTutorial {
+
+    protected static Random rng = new Random();
+
+    public static String[] descriptions = {
+            "Used to transport items", //  How to use: descriptions[tileIndex]
+            "Used to extract items",
+            "Used to delete items",
+            "Used to rotate shapes"
+    };
 
     public static String GetTitle(Tile item){
         if(item == Tile.None)return "";
@@ -10,22 +21,9 @@ public class EntityTutorial {
         return item.toString();
     }
     public static String GetDescription(Tile item){
-        String description;
-        switch(item){
-            case Belt:
-                description = "Used to transport items";
-                break;
-            case Miner:
-                description = "Used to extract items";
-                break;
-            case Trash:
-                description = "Used to delete items";
-                break;
-            default:
-                description = "";
-                break;
-        }
-        return description;
+        if(item.ordinal() > descriptions.length || (item.ordinal()-1) < 0)return "";
+
+        return descriptions[item.ordinal()-1];
     }
 
     public static String GetHotkey(Tile item){
