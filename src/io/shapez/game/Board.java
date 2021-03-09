@@ -200,14 +200,19 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 break;
             case KeyEvent.VK_F3:
                 int diagres = JOptionPane.showConfirmDialog(null, "(Benchmark) - This will overwrite a lot of tiles and you may lose progress. Continue?", "Benchmark", JOptionPane.YES_NO_OPTION);
-                if (diagres == JOptionPane.YES_OPTION) {
-                    Image tex = TileUtil.getTileTexture(item, cRot);
-                    for (int x = 0; x < 1000; x++) {
-                        for (int y = 0; y < 1000; y++) {
-                            placeEntity(x, y, item, cRot, tex);
-                        }
-                    }
-                }
+                if (diagres != JOptionPane.YES_OPTION)break;
+
+                 Image tex = TileUtil.getTileTexture(item, cRot);
+                 int x = 0;
+                 while (x < 1000) {
+                     int y = 0;
+                     while (y < 1000) {
+                         placeEntity(x, y, item, cRot, tex);
+                         y++;
+                     }
+                     x++;
+                 }
+
                 repaint();
 
                 break;
