@@ -161,6 +161,8 @@ public class SettingsManager {
         settingsFrame.setSize(300, 100);
         settingsFrame.setLocationRelativeTo(null);
         settingsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Free frame on close ...
+        settingsFrame.setIconImage(Resources.settingsImage);
+
         // style 1 (exit on close) also terminates process...
 
         settingsFrame.setVisible(true);
