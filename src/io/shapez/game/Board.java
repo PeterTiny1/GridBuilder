@@ -78,19 +78,20 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        DrawGrid(g);
+        Graphics2D g2d = (Graphics2D)g;
+        DrawGrid(g2d);
         DrawSelected();
         if (hasItemSelected) {
-            g.drawImage(TileUtil.getTileTexture(item, cRot), heldItem.x, heldItem.y, heldItem.width, heldItem.height, null);
+            g2d.drawImage(TileUtil.getTileTexture(item, cRot), heldItem.x, heldItem.y, heldItem.width, heldItem.height, null);
         }
-        g.drawImage(Resources.vignette, 0, 0, getWidth(), getHeight(), null);
+        g2d.drawImage(Resources.vignette, 0, 0, getWidth(), getHeight(), null);
     }
 
     private void DrawSelected() {
 
     }
 
-    private void DrawGrid(Graphics g) {
+    private void DrawGrid(Graphics2D g2d) {
         Vector leftTopTile = new Vector(-gridOffsetX, -gridOffsetY);
         Vector rightBottomTile = new Vector(getWidth() / (float) scale - gridOffsetX, getHeight() / (float) scale - gridOffsetY);
         Chunk leftTopChunk = GlobalConfig.map.getChunkAtTile((int) leftTopTile.x, (int) leftTopTile.y);
@@ -104,7 +105,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         for (int x = c1x - 1; x < c2x + 1; x++) {
             for (int y = c1y - 1; y < c2y + 1; y++) {
                 Chunk currentChunk = GlobalConfig.map.getChunk(x, y);
-                currentChunk.drawChunk(g, offsetX, offsetY, gridOffsetX, gridOffsetY, scale, usedChunks.contains(currentChunk));
+                currentChunk.drawChunk(g2d, offsetX, offsetY, gridOffsetX, gridOffsetY, scale, usedChunks.contains(currentChunk));
             }
         }
     }
