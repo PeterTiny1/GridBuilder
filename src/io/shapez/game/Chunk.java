@@ -12,6 +12,7 @@ public class Chunk {
     public Color[][] lowerLayer;
     public Entity[][] contents;
 
+
     public Chunk(int x, int y) {
         this.x = x;
         this.y = y;
@@ -117,35 +118,39 @@ public class Chunk {
     }
 
     public void drawChunk(Graphics g, int offsetX, int offsetY, int gridOffsetX, int gridOffsetY, int scale, boolean containsEntity) {
+        int _x = x * GlobalConfig.mapChunkSize + gridOffsetX;
+        int _y = y * GlobalConfig.mapChunkSize + gridOffsetY; // Micro-optimization: avoid computing inside loops!
+        int _s = GlobalConfig.mapChunkSize * scale;
+
         if (scale > GlobalConfig.zoomedScale) {
             {
-                int i = 0;
-                while (i < GlobalConfig.mapChunkSize) {
-                    int j = 0;
-                    while (j < GlobalConfig.mapChunkSize) {
-                        drawn = new Rectangle((x * GlobalConfig.mapChunkSize + gridOffsetX + i) * scale + offsetX, (y * GlobalConfig.mapChunkSize + gridOffsetY + j) * scale + offsetY, scale, scale);
-                        if (lowerLayer[i][j] != null) {
-                            g.setColor(lowerLayer[i][j]);
-                            g.fillRect(drawn.x, drawn.y, drawn.width, drawn.height);
-                        }
-                        if (contents[i][j] != null) {
-                            g.drawImage(contents[i][j].texture, drawn.x, drawn.y, drawn.width, drawn.height, null);
-                        }
-                        j++;
+            int i = 0;
+            while (i < GlobalConfig.mapChunkSize) {
+                int j = 0;
+                while (j < GlobalConfig.mapChunkSize) {
+                    drawn = new Rectangle((x * GlobalConfig.mapChunkSize + gridOffsetX + i) * scale + offsetX, (y * GlobalConfig.mapChunkSize + gridOffsetY + j) * scale + offsetY, scale, scale);
+                    if (lowerLayer[i][j] != null) {
+                        g.setColor(lowerLayer[i][j]);
+                        g.fillRect(drawn.x, drawn.y, drawn.width, drawn.height);
                     }
-                    i++;
+                    if (contents[i][j] != null) {
+                        g.drawImage(contents[i][j].texture, drawn.x, drawn.y, drawn.width, drawn.height, null);
+                    }
+                    j++;
                 }
+                i++;
+            }
             }
             g.setColor(Color.gray);
             // Draw grid
             int i = 0;
             while (i < GlobalConfig.mapChunkSize) {
-                int movX = (x * GlobalConfig.mapChunkSize + gridOffsetX + i) * scale + offsetX;
-                int constY = (y * GlobalConfig.mapChunkSize + gridOffsetY) * scale + offsetY;
-                int movY = (y * GlobalConfig.mapChunkSize + gridOffsetY + i) * scale + offsetY;
-                int constX = (x * GlobalConfig.mapChunkSize + gridOffsetX) * scale + offsetX;
-                g.drawLine(movX, constY, movX, constY + GlobalConfig.mapChunkSize * scale);
-                g.drawLine(constX, movY, constX + GlobalConfig.mapChunkSize * scale, movY);
+                int movX = (_x + i) * scale + offsetX;
+                int constY = (_y) * scale + offsetY;
+                int movY = (_y + i) * scale + offsetY;
+                int constX = (_x) * scale + offsetX;
+                g.drawLine(movX, constY, movX, constY + _s);
+                g.drawLine(constX, movY, constX + _s, movY);
                 i++;
             }
 
@@ -154,14 +159,14 @@ public class Chunk {
             if (!containsEntity) {
                 g.setColor(Color.GRAY);
                 g.fillRect(drawn.x, drawn.y, drawn.width, drawn.height);
-                int movX = (x * GlobalConfig.mapChunkSize + gridOffsetX) * scale + offsetX;
-                int constY = (y * GlobalConfig.mapChunkSize + gridOffsetY) * scale + offsetY;
+                int movX = (_x) * scale + offsetX;
+                int constY = (_y) * scale + offsetY;
                 g.setColor(Color.BLACK);
-                g.drawLine(movX, constY, movX, constY + GlobalConfig.mapChunkSize * scale);
+                g.drawLine(movX, constY, movX, constY + _s);
 
                 int movY = (y * GlobalConfig.mapChunkSize + gridOffsetY) * scale + offsetY;
                 int constX = (x * GlobalConfig.mapChunkSize + gridOffsetX) * scale + offsetX;
-                g.drawLine(constX, movY, constX + GlobalConfig.mapChunkSize * scale, movY);
+                g.drawLine(constX, movY, constX + _s, movY);
             }
         }
     }
