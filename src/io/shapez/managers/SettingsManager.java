@@ -1,5 +1,6 @@
 package io.shapez.managers;
 
+import io.shapez.game.Board;
 import io.shapez.game.GlobalConfig;
 import io.shapez.core.Resources;
 
@@ -11,6 +12,7 @@ import static io.shapez.managers.providers.MiscProvider.defWndDimension;
 import static io.shapez.managers.providers.MiscProvider.settingsWndName;
 
 public class SettingsManager {
+    public static Board board;
 
     public static JFrame settingsFrame;
     public static JPanel mainPanel;
@@ -85,6 +87,10 @@ public class SettingsManager {
     }
 
 
+    private static void internal_OnClose(){
+
+    }
+
     public static void initSettingsWnd() {
         settingsFrame = new JFrame(settingsWndName);
         mainPanel = new JPanel();
@@ -131,6 +137,7 @@ public class SettingsManager {
             try {
                 System.out.println("Saving settings...");
                 saveSettings(true); // load settings
+
             } catch (IOException ee) {
                 System.err.println("Error saving settings");
                 ee.printStackTrace();
@@ -154,6 +161,7 @@ public class SettingsManager {
                 try {
                     System.out.println("Saving settings...");
                     saveSettings(false); // window closed...
+                    board.window.setVisible(true);
                 } catch (IOException e) {
                     SoundManager.playSound(Resources.uiDenySound);
                     System.err.println("Error saving settings");
@@ -168,6 +176,13 @@ public class SettingsManager {
 
         // style 1 (exit on close) also terminates process...
 
+
+
+
+    }
+
+    public static void showSettingswnd(){
+        board.window.setVisible(false);
         settingsFrame.setVisible(true);
 
         try {
@@ -175,7 +190,6 @@ public class SettingsManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 }

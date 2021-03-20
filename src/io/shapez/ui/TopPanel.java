@@ -19,7 +19,8 @@ public class TopPanel extends JPanel {
 
     void showSettings() {
         SoundManager.playSound(Resources.uiClickSound);
-        SettingsManager.initSettingsWnd();
+       // SettingsManager.initSettingsWnd();
+        SettingsManager.showSettingswnd();
     }
 
     public TopPanel(Board board) {

@@ -84,6 +84,9 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
         MoreWindow.board = this;
         MoreWindow.Init();
+
+        SettingsManager.board = this;
+        SettingsManager.initSettingsWnd();
     }
 
     public void paintComponent(Graphics g) {
