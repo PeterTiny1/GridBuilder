@@ -19,6 +19,9 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static io.shapez.managers.providers.MiscProvider.gameName;
+import static io.shapez.managers.providers.MiscProvider.getRandomTitlebar;
+
 public class Board extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener {
     // UI
     public BottomPanel centerPanel = new BottomPanel(this);
@@ -224,6 +227,9 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             case KeyEvent.VK_F4:
                 // show save/load menu
                 MoreWindow.Show();
+                break;
+            case KeyEvent.VK_F5:
+                this.window.setTitle(gameName + getRandomTitlebar());
                 break;
             case KeyEvent.VK_F11:
                 if (window.getExtendedState() == JFrame.MAXIMIZED_BOTH)
