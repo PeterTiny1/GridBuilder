@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 
+import static io.shapez.managers.providers.MiscProvider.defWndDimension;
+import static io.shapez.managers.providers.MiscProvider.settingsWndName;
+
 public class SettingsManager {
 
     public static JFrame settingsFrame;
@@ -83,7 +86,7 @@ public class SettingsManager {
 
 
     public static void initSettingsWnd() {
-        settingsFrame = new JFrame("GridBuilder - Settings");
+        settingsFrame = new JFrame(settingsWndName);
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));
 
@@ -158,7 +161,7 @@ public class SettingsManager {
                 }
             }
         });
-        settingsFrame.setSize(300, 100);
+        settingsFrame.setSize(defWndDimension);
         settingsFrame.setLocationRelativeTo(null);
         settingsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Free frame on close ...
         settingsFrame.setIconImage(Resources.settingsImage);

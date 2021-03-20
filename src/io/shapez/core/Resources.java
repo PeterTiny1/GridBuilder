@@ -12,6 +12,9 @@ public class Resources {
     // Logo/UI
     public static ImageIcon logo;
     public static BufferedImage settingsImage;
+    public static BufferedImage saveImage;
+    public static BufferedImage loadImage;
+    public static BufferedImage clearImage;
 
     // Textures
     public static BufferedImage belt;
@@ -39,6 +42,9 @@ public class Resources {
         try {
             logo = new ImageIcon("src/resources/ui/logo.png");
             settingsImage = ImageIO.read(new File("src/resources/ui/settings.png"));
+            saveImage = ImageIO.read(new File("src/resources/ui/save.png"));
+            loadImage = ImageIO.read(new File("src/resources/ui/open.png"));
+            clearImage = ImageIO.read(new File("src/resources/ui/remove.png"));
 
             beltPlaceSound = new File("src/resources/sound/place_belt.wav");
             generic_placeTileSound = new File("src/resources/sound/place_building.wav");

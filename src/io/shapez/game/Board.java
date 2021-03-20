@@ -8,6 +8,7 @@ import io.shapez.core.Vector;
 import io.shapez.managers.SettingsManager;
 import io.shapez.managers.SoundManager;
 import io.shapez.ui.BottomPanel;
+import io.shapez.ui.MoreWindow;
 import io.shapez.ui.TopPanel;
 import io.shapez.util.TileUtil;
 import io.shapez.util.UIUtil;
@@ -39,7 +40,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     private boolean shiftPressed;
 
     private Rectangle heldItem = new Rectangle(0, 0, 0, 0);
-    private final Main window;
+    public final Main window;
 
     public Board(Main window) throws IOException {
         this.window = window;
@@ -77,6 +78,9 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         } catch (IOException e) {
             System.err.println("!!! Failed to load config !!!");
         }
+
+        MoreWindow.board = this;
+        MoreWindow.Init();
     }
 
     public void paintComponent(Graphics g) {
@@ -215,9 +219,11 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                      }
                      x++;
                  }
-
                 repaint();
-
+                 break;
+            case KeyEvent.VK_F4:
+                // show save/load menu
+                MoreWindow.Show();
                 break;
             case KeyEvent.VK_F11:
                 if (window.getExtendedState() == JFrame.MAXIMIZED_BOTH)

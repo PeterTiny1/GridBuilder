@@ -10,6 +10,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.io.IOException;
 
+import static io.shapez.managers.providers.MiscProvider.*;
+
 public class Main extends JFrame implements WindowFocusListener {
     Board board;
 
@@ -26,7 +28,7 @@ public class Main extends JFrame implements WindowFocusListener {
         addWindowFocusListener(this);
         pack();
         setIconImage(Resources.logo.getImage());
-        setTitle("GridBuilder - Java Edition");
+        setTitle(gameName + getRandomTitlebar());
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

@@ -1,10 +1,7 @@
 package io.shapez.ui;
 
 import io.shapez.core.Tile;
-import io.shapez.core.Resources;
 import io.shapez.game.Board;
-import io.shapez.game.EntityTutorial;
-import io.shapez.managers.SoundManager;
 import io.shapez.util.UIUtil;
 
 import javax.imageio.ImageIO;
@@ -13,6 +10,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import static io.shapez.managers.providers.MiscProvider.defDimension;
 
 public class BottomPanel extends JPanel {
     private final Board board;
@@ -28,7 +27,6 @@ public class BottomPanel extends JPanel {
         innerPanel.setOpaque(false);
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.LINE_AXIS));
 
-        Dimension d = new Dimension(70, 70);
 
         BufferedImage beltImage = ImageIO.read(new File("src/resources/ui/belt.png"));
         BufferedImage minerImage = ImageIO.read(new File("src/resources/ui/miner.png"));
@@ -38,36 +36,36 @@ public class BottomPanel extends JPanel {
         beltButton.addActionListener(e ->
                 selectItem(Tile.Belt));
         beltButton.setFocusable(false);
-        beltButton.setIcon(new ImageIcon(beltImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
+        beltButton.setIcon(new ImageIcon(beltImage.getScaledInstance(defDimension.width, defDimension.height, Image.SCALE_SMOOTH)));
         beltButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
-        beltButton.setPreferredSize(d);
-        beltButton.setMaximumSize(d);
+        beltButton.setPreferredSize(defDimension);
+        beltButton.setMaximumSize(defDimension);
         innerPanel.add(beltButton, BorderLayout.SOUTH);
 
         minerButton.addActionListener(e ->
                 selectItem(Tile.Miner)
         );
         minerButton.setFocusable(false);
-        minerButton.setIcon(new ImageIcon(minerImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
+        minerButton.setIcon(new ImageIcon(minerImage.getScaledInstance(defDimension.width, defDimension.height, Image.SCALE_SMOOTH)));
         minerButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
-        minerButton.setPreferredSize(d);
-        minerButton.setMaximumSize(d);
+        minerButton.setPreferredSize(defDimension);
+        minerButton.setMaximumSize(defDimension);
         innerPanel.add(minerButton, BorderLayout.SOUTH);
 
         trashButton.addActionListener(e -> selectItem(Tile.Trash));
         trashButton.setFocusable(false);
-        trashButton.setIcon(new ImageIcon(trashImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
+        trashButton.setIcon(new ImageIcon(trashImage.getScaledInstance(defDimension.width, defDimension.height, Image.SCALE_SMOOTH)));
         trashButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
-        trashButton.setPreferredSize(d);
-        trashButton.setMaximumSize(d);
+        trashButton.setPreferredSize(defDimension);
+        trashButton.setMaximumSize(defDimension);
         innerPanel.add(trashButton, BorderLayout.SOUTH);
 
         rotatorButton.addActionListener(e -> selectItem(Tile.Rotator));
         rotatorButton.setFocusable(false);
-        rotatorButton.setIcon(new ImageIcon(rotatorImage.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH)));
+        rotatorButton.setIcon(new ImageIcon(rotatorImage.getScaledInstance(defDimension.width, defDimension.height, Image.SCALE_SMOOTH)));
         rotatorButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
-        rotatorButton.setPreferredSize(d);
-        rotatorButton.setMaximumSize(d);
+        rotatorButton.setPreferredSize(defDimension);
+        rotatorButton.setMaximumSize(defDimension);
         innerPanel.add(rotatorButton, BorderLayout.SOUTH);
 
         this.add(innerPanel);
