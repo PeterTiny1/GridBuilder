@@ -63,7 +63,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int b_WIDTH = 350;
         setPreferredSize(new Dimension(b_WIDTH, b_HEIGHT));
         int DELAY = 10;
-        Timer timer = new Timer(DELAY, this);
+        javax.swing.Timer timer = new javax.swing.Timer(DELAY,this);
         timer.start();
 
         try {
