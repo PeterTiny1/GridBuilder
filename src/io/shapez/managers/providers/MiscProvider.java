@@ -25,7 +25,8 @@ public class MiscProvider {
             " - Green!"
     };
 
-    public static final Dimension defDimension = new Dimension(70, 70);
+    public static final Dimension defDimensionBtn = new Dimension(70, 70);
+    public static final Dimension defDimensionTxt = new Dimension(70, 30);
     public static final Dimension defWndDimension = new Dimension(500, 300);
 
     public static final String gameName = "GridBuilder";
@@ -37,5 +38,15 @@ public class MiscProvider {
     public static String getRandomTitlebar(){
         Random rng = new Random();
         return splashes[rng.nextInt(splashes.length)];
+    }
+
+    public static float clamp(float val, float min, float max) {
+        return Math.max(min, Math.min(max, val));
+    }
+    public static int clampInt(int val, int min, int max) {
+        return Math.max(min, Math.min(max, val));
+    }
+    public static byte clampByte(byte val, byte min, byte max) {
+        return (byte) Math.max(min, Math.min(max, val));
     }
 }

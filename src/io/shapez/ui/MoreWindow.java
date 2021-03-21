@@ -48,21 +48,21 @@ public class MoreWindow extends JFrame {
 
         saveButton.addActionListener((ActionEvent e) -> internalUI_SaveAllChunks());
         saveButton.setFocusable(false);
-        saveButton.setIcon(new ImageIcon(Resources.saveImage.getScaledInstance(defDimension.width, defDimension.height, Image.SCALE_SMOOTH)));
-        saveButton.setPreferredSize(defDimension);
-        saveButton.setMaximumSize(defDimension);
+        saveButton.setIcon(new ImageIcon(Resources.saveImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
+        saveButton.setPreferredSize(defDimensionBtn);
+        saveButton.setMaximumSize(defDimensionBtn);
 
         loadButton.addActionListener((ActionEvent e) -> internalUI_LoadAllChunks());
         loadButton.setFocusable(false);
-        loadButton.setIcon(new ImageIcon(Resources.loadImage.getScaledInstance(defDimension.width, defDimension.height, Image.SCALE_SMOOTH)));
-        loadButton.setPreferredSize(defDimension);
-        loadButton.setMaximumSize(defDimension);
+        loadButton.setIcon(new ImageIcon(Resources.loadImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
+        loadButton.setPreferredSize(defDimensionBtn);
+        loadButton.setMaximumSize(defDimensionBtn);
 
         clearButton.addActionListener((ActionEvent e) -> internalUI_ClearAllChunks());
         clearButton.setFocusable(false);
-        clearButton.setIcon(new ImageIcon(Resources.clearImage.getScaledInstance(defDimension.width, defDimension.height, Image.SCALE_SMOOTH)));
-        clearButton.setPreferredSize(defDimension);
-        clearButton.setMaximumSize(defDimension);
+        clearButton.setIcon(new ImageIcon(Resources.clearImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
+        clearButton.setPreferredSize(defDimensionBtn);
+        clearButton.setMaximumSize(defDimensionBtn);
 
 
         L_ioPanel.add(saveButton, BorderLayout.NORTH);

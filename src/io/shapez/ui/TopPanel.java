@@ -8,7 +8,7 @@ import io.shapez.managers.SoundManager;
 import javax.swing.*;
 import java.awt.*;
 
-import static io.shapez.managers.providers.MiscProvider.defDimension;
+import static io.shapez.managers.providers.MiscProvider.defDimensionBtn;
 
 public class TopPanel extends JPanel {
     JButton settingsButton = new JButton();
@@ -39,9 +39,9 @@ public class TopPanel extends JPanel {
                 showSettings()
         );
         settingsButton.setFocusable(false);
-        settingsButton.setIcon(new ImageIcon(Resources.settingsImage.getScaledInstance(defDimension.width, defDimension.height, Image.SCALE_SMOOTH)));
-        settingsButton.setPreferredSize(defDimension);
-        settingsButton.setMaximumSize(defDimension);
+        settingsButton.setIcon(new ImageIcon(Resources.settingsImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
+        settingsButton.setPreferredSize(defDimensionBtn);
+        settingsButton.setMaximumSize(defDimensionBtn);
 
 
 

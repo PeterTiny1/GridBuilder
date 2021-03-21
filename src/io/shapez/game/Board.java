@@ -62,9 +62,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int b_HEIGHT = 350;
         int b_WIDTH = 350;
         setPreferredSize(new Dimension(b_WIDTH, b_HEIGHT));
-        int DELAY = 8;// 120fps
-        javax.swing.Timer timer = new javax.swing.Timer(DELAY,this);
-        timer.start();
+
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -87,6 +85,10 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
         SettingsManager.board = this;
         SettingsManager.initSettingsWnd();
+
+        try { SettingsManager.loadSettings(false); } catch (IOException e) { e.printStackTrace(); }
+        javax.swing.Timer timer = new javax.swing.Timer(SettingsManager.tickrateScreen,this);
+        timer.start();
     }
 
     public void paintComponent(Graphics g) {
