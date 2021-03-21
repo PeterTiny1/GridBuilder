@@ -117,8 +117,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int c2x = rightBottomChunk.x;
         int c2y = rightBottomChunk.y;
 
-        for (int x = c1x - 1; x < c2x + 1; x++) {
-            for (int y = c1y - 1; y < c2y + 1; y++) {
+        for (int x = c1x-1; ++x < c2x+1;){
+            for (int y = c1y-1; ++y < c2y+1;){
                 Chunk currentChunk = GlobalConfig.map.getChunk(x, y);
                 currentChunk.drawChunk(g2d, offsetX, offsetY, gridOffsetX, gridOffsetY, scale, usedChunks.contains(currentChunk));
             }
