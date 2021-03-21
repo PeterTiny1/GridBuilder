@@ -24,7 +24,7 @@ public class Chunk {
         generateLowerLayer();
     }
 
-    private void generateLowerLayer() {
+    public  void generateLowerLayer() {
         String code = x + "|" + y + "|" + GlobalConfig.map.seed;
         Random rng = new Random(generateHash(code));
         Vector chunkCenter = new Vector(x + 0.5, this.y + 0.5);
@@ -124,6 +124,8 @@ public class Chunk {
         int _x = x * GlobalConfig.mapChunkSize + gridOffsetX;
         int _y = y * GlobalConfig.mapChunkSize + gridOffsetY; // Micro-optimization: avoid computing inside loops!
         int _s = GlobalConfig.mapChunkSize * scale;
+        int constX = (_x) * scale + offsetX;
+        int constY = (_y) * scale + offsetY;
 
         if (scale > GlobalConfig.zoomedScale) {
             {
@@ -147,13 +149,37 @@ public class Chunk {
             g.setColor(Color.gray);
             // Draw grid
             int i = 0;
+
             while (i < GlobalConfig.mapChunkSize) {
                 int movX = (_x + i) * scale + offsetX;
-                int constY = (_y) * scale + offsetY;
                 int movY = (_y + i) * scale + offsetY;
-                int constX = (_x) * scale + offsetX;
+
                 g.drawLine(movX, constY, movX, constY + _s);
                 g.drawLine(constX, movY, constX + _s, movY);
+
+                if(SettingsManager.drawChunkEdges){
+                    if(g.getColor() != Color.red) {g.setColor(Color.RED);}
+                    int entCount = 0;
+                    int lowCount = 0;
+                    for (Entity[] content : contents) {
+                        int _k = 0;
+                        while (_k < contents.length) {
+                            if (content[_k] != null) entCount++;
+                            _k++;
+                        }
+                    }
+                    for (Color[] color : lowerLayer) {
+                        int _k = 0;
+                        while (_k < lowerLayer.length) {
+                            if (color[_k] != null) lowCount++;
+                            _k++;
+                        }
+                    }
+                    g.drawString("Chunk " + x + "/" + y,constX,constY);
+                    g.drawString("Entities " + entCount ,constX,constY+20);
+                    g.drawString("LowLayer " + (lowCount-31) ,constX,constY+40);
+                    g.setColor(Color.gray);
+                }
                 i++;
             }
 
@@ -163,12 +189,11 @@ public class Chunk {
                 g.setColor(Color.GRAY);
                 g.fillRect(drawn.x, drawn.y, drawn.width, drawn.height);
                 int movX = (_x) * scale + offsetX;
-                int constY = (_y) * scale + offsetY;
+                int movY = (y * GlobalConfig.mapChunkSize + gridOffsetY) * scale + offsetY;
+
                 g.setColor(Color.BLACK);
                 g.drawLine(movX, constY, movX, constY + _s);
 
-                int movY = (y * GlobalConfig.mapChunkSize + gridOffsetY) * scale + offsetY;
-                int constX = (x * GlobalConfig.mapChunkSize + gridOffsetX) * scale + offsetX;
                 g.drawLine(constX, movY, constX + _s, movY);
             }
         }
