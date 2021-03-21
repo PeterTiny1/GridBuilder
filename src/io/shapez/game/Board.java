@@ -62,7 +62,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int b_HEIGHT = 350;
         int b_WIDTH = 350;
         setPreferredSize(new Dimension(b_WIDTH, b_HEIGHT));
-        int DELAY = 10;
+        int DELAY = 8;// 120fps
         javax.swing.Timer timer = new javax.swing.Timer(DELAY,this);
         timer.start();
 
@@ -143,9 +143,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                         break;
                 }
             }
-            repaint();
         }
-
+        repaint();
     }
 
     @Override
@@ -197,7 +196,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             } else {
                 centerPanel.selectItem(Tile.None);
             }
-            repaint();
         }
         switch (e.getKeyCode()) {
             case KeyEvent.VK_F1:
@@ -271,7 +269,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             int cX = (e.getX() - offsetX) / scale - gridOffsetX;
             int cY = (e.getY() - offsetY) / scale - gridOffsetY;
             clearTile(cX, cY);
-            repaint();
         } else if (SwingUtilities.isLeftMouseButton(e)) {
             if (!hasItemSelected) {
                 changeOffset(e.getX() - previousMX, e.getY() - previousMY);
@@ -290,9 +287,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         previousMX = e.getX();
         previousMY = e.getY();
 
-        if (hasItemSelected) {
-            repaint();
-        }
+
         heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
     }
 
@@ -321,7 +316,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         } else if(SwingUtilities.isMiddleMouseButton(e)){
             scale = 40;
             changeOffset(0,0);
-            repaint();
         }
     }
 
@@ -360,7 +354,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
             usedChunks.add(currentChunk);
         }
-        repaint();
     }
 
 
@@ -381,7 +374,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 }
             }
             SoundManager.playSound(Resources.generic_destroyTileSound);
-            repaint();
         }
     }
 

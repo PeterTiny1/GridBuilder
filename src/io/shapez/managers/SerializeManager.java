@@ -62,7 +62,6 @@ public class SerializeManager {
                     i++;
                 }
             }
-            toReload.repaint();
             ds.close();
             fs.close();
         } catch (Exception e) {

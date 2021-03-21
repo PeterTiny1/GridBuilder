@@ -25,7 +25,6 @@ public class TileUtil {
                 }
             }
         }
-        b.repaint();
     }
     public static BufferedImage rotateImageByDegrees(BufferedImage bimg, double angle) {
         int w = bimg.getWidth();
