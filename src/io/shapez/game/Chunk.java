@@ -126,6 +126,24 @@ public class Chunk {
         int _s = GlobalConfig.mapChunkSize * scale;
         int constX = (_x) * scale + offsetX;
         int constY = (_y) * scale + offsetY;
+        // Do NOT touch this. I have done this with a very good reason.
+        int entCount = 0;
+        for (Entity[] content : contents) {
+            int _k = 0;
+            while (_k < contents.length) {
+                if (content[_k] != null) entCount++;
+                _k++;
+            }
+        }
+        if(!containsEntity && entCount != 0) {
+        containsEntity=true;
+        Board.usedChunks.remove(this);
+        Board.usedChunks.add(this);
+        }
+        if(containsEntity && entCount == 0) {
+        containsEntity = false;
+        Board.usedChunks.remove(this);
+        }
 
         if (scale > GlobalConfig.zoomedScale) {
             {
@@ -159,15 +177,8 @@ public class Chunk {
 
                 if(SettingsManager.drawChunkEdges){
                     if(g.getColor() != Color.red) {g.setColor(Color.RED);}
-                    int entCount = 0;
                     int lowCount = 0;
-                    for (Entity[] content : contents) {
-                        int _k = 0;
-                        while (_k < contents.length) {
-                            if (content[_k] != null) entCount++;
-                            _k++;
-                        }
-                    }
+
                     for (Color[] color : lowerLayer) {
                         int _k = 0;
                         while (_k < lowerLayer.length) {
@@ -176,8 +187,10 @@ public class Chunk {
                         }
                     }
                     g.drawString("Chunk " + x + "/" + y,constX,constY);
-                    g.drawString("Entities " + entCount ,constX,constY+20);
-                    g.drawString("LowLayer " + (lowCount-31) ,constX,constY+40);
+                    g.drawString("Entities " + entCount ,constX,constY+15);
+                    g.drawString("LowLayer " + (lowCount-31) ,constX,constY+30);
+                    g.drawString("Used " + String.valueOf(Board.usedChunks.contains(this)).toUpperCase(),constX,constY+45);
+                    g.drawString("Bad " + String.valueOf((!Board.usedChunks.contains(this)&&entCount!=0)||Board.usedChunks.contains(this)&&entCount==0).toUpperCase(),constX,constY+60);
                     g.setColor(Color.gray);
                 }
                 i++;
