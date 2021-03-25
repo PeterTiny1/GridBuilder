@@ -1,7 +1,7 @@
 package io.shapez.util;
 
 import io.shapez.core.Resources;
-import io.shapez.core.Rotation;
+import io.shapez.core.Direction;
 import io.shapez.core.Tile;
 import io.shapez.game.Board;
 import io.shapez.game.Chunk;
@@ -50,7 +50,7 @@ public class TileUtil {
         return bufimage;
     }
 
-    public static Image getTileTexture(Tile tile, Rotation rot) {
+    public static Image getTileTexture(Tile tile, Direction rot) {
         BufferedImage a;
         switch (tile) {
             case Belt:
@@ -68,7 +68,7 @@ public class TileUtil {
                 return Resources.missingTexture;
         }
         switch (rot) {
-            case Down:
+            case Bottom:
                 a = rotateImageByDegrees(a, 180);
                 break;
             case Left:
@@ -82,29 +82,29 @@ public class TileUtil {
         return a;
     }
 
-    public static void forcePlace(int cX, int cY, Tile item, Rotation rotation, Image tileTexture) {
+    public static void forcePlace(int cX, int cY, Tile item, Direction direction, Image tileTexture) {
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
         Chunk currentChunk = GlobalConfig.map.getChunkAtTile(offX, offY);
         currentChunk.contents[offX][offY] = null;
-        currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
+        currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
     }
 
-    public static void placeEntity(int cX, int cY, Tile item, Rotation rotation, Image tileTexture) {
+    public static void placeEntity(int cX, int cY, Tile item, Direction direction, Image tileTexture) {
         Chunk currentChunk = GlobalConfig.map.getChunkAtTile(cX, cY);
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
 
         if (currentChunk.contents[offX][offY] != null) {
             currentChunk.contents[offX][offY] = null;
-            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
+            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
             Board.usedChunks.add(currentChunk);
             return;
         }
 
         if (currentChunk.contents[offX][offY] == null) {
             SoundManager.playSound(item == Tile.Belt ? Resources.beltPlaceSound : Resources.generic_placeTileSound);
-            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
+            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
 
             Board.usedChunks.add(currentChunk);
         }

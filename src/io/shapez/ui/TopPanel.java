@@ -23,7 +23,7 @@ public class TopPanel extends JPanel {
         SettingsManager.showSettingswnd();
     }
 
-    public TopPanel(Board board) {
+    public TopPanel() {
         setOpaque(false);
         setLayout(new BorderLayout());
         JPanel L_innerPanel = new JPanel();

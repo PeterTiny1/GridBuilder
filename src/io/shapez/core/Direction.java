@@ -3,26 +3,26 @@ package io.shapez.core;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum Rotation {
-    Up(1),
+public enum Direction {
+    Top(1),
     Right(2),
-    Down(3),
+    Bottom(3),
     Left(4);
 
     private final int value;
-    private static final Map<Integer, Rotation> map = new HashMap<>();
+    private static final Map<Integer, Direction> map = new HashMap<>();
 
-    Rotation(int value) {
+    Direction(int value) {
         this.value = value;
     }
 
     static {
-        for (Rotation pageType : Rotation.values()) {
+        for (Direction pageType : Direction.values()) {
             map.put(pageType.value, pageType);
         }
     }
 
-    public static Rotation valueOf(int pageType) {
+    public static Direction valueOf(int pageType) {
         return map.get(pageType);
     }
 

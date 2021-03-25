@@ -1,6 +1,6 @@
 package io.shapez.managers;
 
-import io.shapez.core.Rotation;
+import io.shapez.core.Direction;
 import io.shapez.core.Tile;
 import io.shapez.game.Board;
 import io.shapez.game.Chunk;
@@ -51,7 +51,7 @@ public class SerializeManager {
 
                     Image tex;
 
-                    Rotation rot;
+                    Direction rot;
                     int _rot;
 
                     int x;
@@ -62,14 +62,14 @@ public class SerializeManager {
                     _rot = ds.readByte();
 
 
-                    if (_type > Tile.values().length || _rot > Rotation.values().length) {
+                    if (_type > Tile.values().length || _rot > Direction.values().length) {
                         // Tile is corrupted,edited,hacked or from weird game version
                         System.err.println("Invalid save game data");
                         //continue;
                         break; // completely stop loading everything if one tile is invalid.... not a good approach but continue; causes issues
                     }
                     type = Tile.valueOf(_type);
-                    rot = Rotation.valueOf(_rot);
+                    rot = Direction.valueOf(_rot);
                     tex = TileUtil.getTileTexture(type, rot);
                     //TileUtil.placeEntity(x, y, type, rot, tex, true); // Suppress audio!
                     TileUtil.forcePlace(x, y, type, rot, tex);
@@ -113,7 +113,7 @@ public class SerializeManager {
                         ds.writeInt(entity.x);
                         ds.writeInt(entity.y);
                         ds.writeByte(entity.tile.getValue());
-                        ds.writeByte(entity.rotation.getValue());
+                        ds.writeByte(entity.direction.getValue());
                     }
                 }
                 elapsed++;

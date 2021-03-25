@@ -4,15 +4,11 @@ import io.shapez.core.Tile;
 import io.shapez.game.Board;
 import io.shapez.util.UIUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 import static io.shapez.core.Resources.*;
-import static io.shapez.managers.providers.MiscProvider.*;
+import static io.shapez.managers.providers.MiscProvider.defDimensionBtn;
 
 public class BottomPanel extends JPanel {
     private final Board board;

@@ -1,6 +1,6 @@
 package io.shapez.game;
 
-import io.shapez.core.Rotation;
+import io.shapez.core.Direction;
 import io.shapez.core.Tile;
 
 import java.awt.*;
@@ -10,7 +10,7 @@ public class MovingEntity {
     public Tile tile;
     public Image texture;
 
-    public MovingEntity(Tile type, Image texture, Rotation rotation, double x, double y) {
+    public MovingEntity(Tile type, Image texture, Direction direction, double x, double y) {
         this.x = x;
         this.y = y;
         this.tile = type;

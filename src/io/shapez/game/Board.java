@@ -2,7 +2,7 @@ package io.shapez.game;
 
 import io.shapez.Main;
 import io.shapez.core.Resources;
-import io.shapez.core.Rotation;
+import io.shapez.core.Direction;
 import io.shapez.core.Tile;
 import io.shapez.core.Vector;
 import io.shapez.managers.NetworkLogicManager;
@@ -27,7 +27,7 @@ import static io.shapez.managers.providers.MiscProvider.getRandomTitlebar;
 public class Board extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener {
     // UI
     public BottomPanel centerPanel = new BottomPanel(this);
-    public TopPanel topPanel = new TopPanel(this);
+    public TopPanel topPanel = new TopPanel();
 
     private int scale = 40;
     private int offsetX, offsetY;
@@ -40,7 +40,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     public static Tile item;
 
     public byte rotIndex = 0; // wont be more than 127 anyway :P
-    public Rotation cRot = Rotation.Up;
+    public Direction cRot = Direction.Top;
 
     private boolean shiftPressed;
 
@@ -181,13 +181,13 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             if (Character.toUpperCase(e.getKeyChar()) == 'R') {
                 // Change rotation
                 rotIndex++;
-                if (rotIndex == Rotation.values().length) {
+                if (rotIndex == Direction.values().length) {
                     rotIndex = 0;
                 }
                 System.out.println("Rot index; " + rotIndex);
-                System.out.println("Rot from index; " + Rotation.values()[rotIndex]);
+                System.out.println("Rot from index; " + Direction.values()[rotIndex]);
 
-                cRot = Rotation.values()[rotIndex];
+                cRot = Direction.values()[rotIndex];
             }
         }
         char key = e.getKeyChar();
@@ -319,7 +319,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     }
 
 
-    public void placeEntity(int x, int y, Tile item, Rotation rotation, Image tileTexture) {
+    public void placeEntity(int x, int y, Tile item, Direction direction, Image tileTexture) {
         int cX = (x - offsetX) / scale - gridOffsetX;
         int cY = (y - offsetY) / scale - gridOffsetY;
 
@@ -336,7 +336,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
             //currentChunk.contents[offX][offY] = null;
             clearTile(offX, offY);
-            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
+            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
 
             usedChunks.add(currentChunk);
             return;
@@ -347,7 +347,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 SoundManager.playSound(Resources.beltPlaceSound);
             else
                 SoundManager.playSound(Resources.generic_placeTileSound);
-            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
+            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
 
             usedChunks.add(currentChunk);
         }

@@ -44,29 +44,29 @@ public class Resources {
     // This will provide a insane performance boost, but on low-end systems it might overwhelm the hardware
     static {
         try {
-            logo = new ImageIcon("src/resources/ui/logo.png");
-            settingsImage = ImageIO.read(new File("src/resources/ui/settings.png"));
-            saveImage = ImageIO.read(new File("src/resources/ui/save.png"));
-            loadImage = ImageIO.read(new File("src/resources/ui/open.png"));
-            clearImage = ImageIO.read(new File("src/resources/ui/remove.png"));
-            ui_beltImage = ImageIO.read(new File("src/resources/ui/belt.png"));
-            ui_minerImage = ImageIO.read(new File("src/resources/ui/miner.png"));
-            ui_trashImage = ImageIO.read(new File("src/resources/ui/trash.png"));
-            ui_rotatorImage = ImageIO.read(new File("src/resources/ui/rotator.png"));
+            logo = new ImageIcon("resources/ui/logo.png");
+            settingsImage = ImageIO.read(new File("resources/ui/settings.png"));
+            saveImage = ImageIO.read(new File("resources/ui/save.png"));
+            loadImage = ImageIO.read(new File("resources/ui/open.png"));
+            clearImage = ImageIO.read(new File("resources/ui/remove.png"));
+            ui_beltImage = ImageIO.read(new File("resources/ui/belt.png"));
+            ui_minerImage = ImageIO.read(new File("resources/ui/miner.png"));
+            ui_trashImage = ImageIO.read(new File("resources/ui/trash.png"));
+            ui_rotatorImage = ImageIO.read(new File("resources/ui/rotator.png"));
 
-            beltPlaceSound = new File("src/resources/sound/place_belt.wav");
-            generic_placeTileSound = new File("src/resources/sound/place_building.wav");
-            generic_destroyTileSound = new File("src/resources/sound/destroy_building.wav");
-            uiClickSound = new File("src/resources/sound/uiclick.wav");
-            uiSuccessSound = new File("src/resources/sound/uisuccess.wav");
-            uiDenySound = new File("src/resources/sound/uierror.wav");
+            beltPlaceSound = new File("resources/sound/place_belt.wav");
+            generic_placeTileSound = new File("resources/sound/place_building.wav");
+            generic_destroyTileSound = new File("resources/sound/destroy_building.wav");
+            uiClickSound = new File("resources/sound/uiclick.wav");
+            uiSuccessSound = new File("resources/sound/uisuccess.wav");
+            uiDenySound = new File("resources/sound/uierror.wav");
 
-            vignette = ImageIO.read(new File("src/resources/vignette.lossless.png"));
-            missingTexture = ImageIO.read(new File("src/resources/missing.png"));
-            belt = ImageIO.read(new File("src/resources/tiles/belt.png"));
-            miner = ImageIO.read(new File("src/resources/tiles/miner.png"));
-            trash = ImageIO.read(new File("src/resources/tiles/trash.png"));
-            rotator = ImageIO.read(new File("src/resources/tiles/rotator.png"));
+            vignette = ImageIO.read(new File("resources/vignette.lossless.png"));
+            missingTexture = ImageIO.read(new File("resources/missing.png"));
+            belt = ImageIO.read(new File("resources/tiles/belt.png"));
+            miner = ImageIO.read(new File("resources/tiles/miner.png"));
+            trash = ImageIO.read(new File("resources/tiles/trash.png"));
+            rotator = ImageIO.read(new File("resources/tiles/rotator.png"));
         } catch (IOException e) {
             System.out.println("Resource(s) missing");
             // e.printStackTrace();

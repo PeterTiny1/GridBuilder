@@ -91,7 +91,7 @@ public class MoreWindow extends JFrame {
 
     public static void Show() {
         if (!initialised) {
-            System.err.println("Can\'t show without initialisation");
+            System.err.println("Can't show without initialisation");
             return;
         }
         L_moreFrame.pack();
