@@ -70,7 +70,7 @@ public class NetworkLogicManager {
                                     }
                                     break;
                                 case Down:
-                                    if(chunk.contents[x][y+1] != null && chunk.contents[x][y+1].tile == Tile.Belt && chunk.movingContents[x-1][y] != null){
+                                    if(chunk.contents[x][y+1] != null && chunk.contents[x][y+1].tile == Tile.Belt && chunk.movingContents[x][y-1] != null){
                                         // So theres another belt.. continue
                                         chunk.movingContents[x][y] = null;
                                         chunk.movingContents[x][y+1] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
@@ -78,7 +78,7 @@ public class NetworkLogicManager {
                                     }
                                     break;
                                 case Left:
-                                    if(chunk.contents[x-1][y] != null && chunk.contents[x-1][y].tile == Tile.Belt && chunk.movingContents[x-1][y] != null){
+                                    if(chunk.contents[x-1][y] != null && chunk.contents[x-1][y].tile == Tile.Belt && chunk.movingContents[x+1][y] != null){
                                         // So theres another belt.. continue
                                         chunk.movingContents[x][y] = null;
                                         chunk.movingContents[x-1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
