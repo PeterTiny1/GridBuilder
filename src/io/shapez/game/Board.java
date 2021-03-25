@@ -322,8 +322,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
         Chunk currentChunk = GlobalConfig.map.getChunkAtTile(cX, cY);
 
-        int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + 16 : cX % GlobalConfig.mapChunkSize;
-        int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + 16 : cY % GlobalConfig.mapChunkSize;
+        int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
+        int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
 
         if (TileUtil.checkInvalidTile(item, this.item, currentChunk, offX, offY)) return;
 
@@ -356,8 +356,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         Chunk chunk = GlobalConfig.map.getChunkAtTile(cX, cY);
         int offX = cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize;
-        offX = offX < 0 ? offX + 16 : offX;
-        offY = offY < 0 ? offY + 16 : offY;
+        offX = offX < 0 ? offX + GlobalConfig.mapChunkSize : offX;
+        offY = offY < 0 ? offY + GlobalConfig.mapChunkSize : offY;
         if (chunk.contents[offX][offY] != null) {
             chunk.contents[offX][offY] = null;
             for (int x = 0; x < GlobalConfig.mapChunkSize; x++) {

@@ -59,10 +59,13 @@ public class NetworkLogicManager {
                                     // Theres no belt... the item will get stuck at the end of the belt system until next belt is placed
                                     break;
                                 case Right:
-                                    if(chunk.contents[x+1][y] != null && chunk.contents[x+1][y].tile == Tile.Belt && chunk.movingContents[x-1][y] != null){
+
+                                    if(chunk.contents[x+1][y] != null
+                                            && chunk.contents[x+1][y].tile == Tile.Belt
+                                            && chunk.movingContents[x-1][y] != null){
                                         // So theres another belt.. continue
                                         chunk.movingContents[x][y] = null;
-                                        chunk.movingContents[x+1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x+1, y);
+                                        chunk.movingContents[x+1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
                                         break;
                                     }
                                     break;
@@ -70,7 +73,7 @@ public class NetworkLogicManager {
                                     if(chunk.contents[x][y+1] != null && chunk.contents[x][y+1].tile == Tile.Belt && chunk.movingContents[x-1][y] != null){
                                         // So theres another belt.. continue
                                         chunk.movingContents[x][y] = null;
-                                        chunk.movingContents[x][y+1] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y+1);
+                                        chunk.movingContents[x][y+1] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
                                         break;
                                     }
                                     break;
@@ -78,7 +81,7 @@ public class NetworkLogicManager {
                                     if(chunk.contents[x-1][y] != null && chunk.contents[x-1][y].tile == Tile.Belt && chunk.movingContents[x-1][y] != null){
                                         // So theres another belt.. continue
                                         chunk.movingContents[x][y] = null;
-                                        chunk.movingContents[x-1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x-1, y);
+                                        chunk.movingContents[x-1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
                                         break;
                                     }
                                     break;
@@ -98,28 +101,28 @@ public class NetworkLogicManager {
                                     //if(chunk.contents[x][y-1] != null)
                                     //if(chunk.contents[x][y-1].tile == Tile.Belt)
                                     if(chunk.contents[x][y-1] != null && chunk.contents[x][y-1].tile == Tile.Belt && chunk.contents[x][y-1].rotation == Enttile.rotation){
-                                    chunk.movingContents[x][y-1] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y-0.5);
+                                    chunk.movingContents[x][y-1] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
                                     }
                                     break;
                                 case Right:
                                     //if(chunk.contents[x+1][y] != null)
                                     //if(chunk.contents[x+1][y].tile == Tile.Belt)
                                     if(chunk.contents[x+1][y] != null && chunk.contents[x+1][y].tile == Tile.Belt && chunk.contents[x+1][y].rotation == Enttile.rotation) {
-                                    chunk.movingContents[x + 1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x + 0.5, y);
+                                    chunk.movingContents[x + 1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
                                     }
                                     break;
                                 case Down:
                                     //if(chunk.contents[x][y+1] != null)
                                     //if(chunk.contents[x][y+1].tile == Tile.Belt)
                                     if(chunk.contents[x][y+1] != null && chunk.contents[x][y+1].tile == Tile.Belt && chunk.contents[x][y+1].rotation == Enttile.rotation){
-                                    chunk.movingContents[x][y+1] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y+0.5);
+                                    chunk.movingContents[x][y+1] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
                                     }
                                     break;
                                 case Left:
                                     //if(chunk.contents[x-1][y] != null)
                                     //if(chunk.contents[x-1][y].tile == Tile.Belt)
                                     if(chunk.contents[x-1][y] != null && chunk.contents[x-1][y].tile == Tile.Belt && chunk.contents[x-1][y].rotation == Enttile.rotation) {
-                                    chunk.movingContents[x - 1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x - 0.5, y);
+                                    chunk.movingContents[x-1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
                                     }
                                     break;
                             }
