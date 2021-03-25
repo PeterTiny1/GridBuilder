@@ -175,7 +175,7 @@ public class Chunk {
                     // Down: x, y+1
                     // Left: x-1, y
                     if(movingContents[i][j] != null){
-                        g.drawImage(Resources.missingTexture/*Not yet*/, drawn.x, drawn.y, drawn.width, drawn.height, null);
+                        g.drawImage(Resources.missingTexture/*Not yet*/, drawn.x, drawn.y, drawn.width/2, drawn.height/2, null);
                     }
                     j++;
                 }
