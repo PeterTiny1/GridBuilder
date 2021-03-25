@@ -27,8 +27,14 @@ public class TileUtil {
         for (Chunk chunk : usedChunks) {
             for (int x = 0; x < chunk.contents.length; x++) {
                 for (int y = 0; y < chunk.contents.length; y++) {
-                    if (chunk.contents[x][y] == null) continue;
+                    if (chunk.contents[x][y] != null)
                     chunk.contents[x][y] = null;
+                }
+            }
+            for (int x = 0; x < chunk.movingContents.length; x++) {
+                for (int y = 0; y < chunk.movingContents.length; y++) {
+                    if (chunk.movingContents[x][y] != null)
+                        chunk.movingContents[x][y] = null;
                 }
             }
         }
@@ -75,8 +81,14 @@ public class TileUtil {
 
         return a;
     }
-
-    public static void placeEntity(int cX, int cY, Tile item, Rotation rotation, Image tileTexture, boolean suppress) {
+    public static void forcePlace(int cX, int cY, Tile item, Rotation rotation, Image tileTexture){
+        int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
+        int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
+        Chunk currentChunk = GlobalConfig.map.getChunkAtTile(offX, offY);
+        currentChunk.contents[offX][offY] = null;
+        currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
+    }
+    public static void placeEntity(int cX, int cY, Tile item, Rotation rotation, Image tileTexture) {
         Chunk currentChunk = GlobalConfig.map.getChunkAtTile(cX, cY);
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
@@ -89,9 +101,7 @@ public class TileUtil {
         }
 
         if (currentChunk.contents[offX][offY] == null) {
-            if (!suppress) {
                 SoundManager.playSound(item == Tile.Belt ? Resources.beltPlaceSound : Resources.generic_placeTileSound);
-            }
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
 
             Board.usedChunks.add(currentChunk);

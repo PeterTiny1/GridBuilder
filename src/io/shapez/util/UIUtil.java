@@ -18,9 +18,6 @@ public class UIUtil {
             case OP_LOAD -> msg = msg.concat(" - Loading");
             case OP_CLEAR -> msg = msg.concat(" - Clearing");
         }
-        if(Board.usedChunks.size() > 500 && Board.usedChunks.size() < 999) // over 500 explored chunks
-            msg = msg.concat(" - (This might take a long time)");
-
         return msg;
     }
     public static void updateButtonAppearance() {

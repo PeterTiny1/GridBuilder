@@ -8,6 +8,8 @@ public class MiscProvider {
     public static final Date date = new Date();
     public static final String year = String.valueOf(date.getYear()+1900);
 
+    public static final String gameVersion = "1.1";
+
     public static final String[] splashes = {
             " - Java Edition!",
             " - Hardware Accelerated!",
@@ -22,8 +24,12 @@ public class MiscProvider {
             " - " + year,
             " - Made in Deutschland and the UK!",
             " - github.com/PeterTiny1/GridBuilder",
-            " - Green!"
+            " - Green!",
+            " - Belts and belts and belts",
+            " - " + gameVersion,
+            " - When the!"
     };
+
 
     public static final byte OP_SAVE = 0;
     public static final byte OP_LOAD = 1;

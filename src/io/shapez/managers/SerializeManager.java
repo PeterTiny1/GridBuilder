@@ -23,11 +23,13 @@ import static io.shapez.managers.providers.MiscProvider.*;
 public class SerializeManager {
 
     public static long elapsed = 0;
-
+    public static int chunkSize = 0;
     public static void loadAll(Board toReload) {
+
         // Start loading...
         long t1 = System.nanoTime();
         elapsed = 0;
+        chunkSize = Board.usedChunks.size();
         try {
             TileUtil.clearAll(toReload);
             FileInputStream fs = new FileInputStream(SystemPathProvider.saveFile);
@@ -40,6 +42,9 @@ public class SerializeManager {
                 int i = 0;
                 while (i < SystemPathProvider.saveFile.length() / 6) {
                     // variables marked with _ are temporary and used for save game checking
+                    if(i % 12 == 1){
+                        elapsed++;
+                    }
                     Tile type;
                     int _type;
 
@@ -65,10 +70,14 @@ public class SerializeManager {
                     type = Tile.valueOf(_type);
                     rot = Rotation.valueOf(_rot);
                     tex = TileUtil.getTileTexture(type,rot);
-                    TileUtil.placeEntity(x, y, type, rot, tex, true); // Suppress audio!
+                    //TileUtil.placeEntity(x, y, type, rot, tex, true); // Suppress audio!
+                    TileUtil.forcePlace(x,y,type,rot,tex);
                     i++;
-                    elapsed++;
-                    MoreWindow.L_moreFrame.setTitle(UIUtil.getProcTitle(OP_LOAD) + " (" + elapsed + ")");
+                    //System.out.println("Chunk size: " + chunkSize);
+                    //System.out.println("Elapsed: " + elapsed);
+                    //System.out.println("ChunkSize/Elapsed: " + elapsed/chunkSize);
+                    //System.out.println("ChunkSize/Elapsed * 100: " + (elapsed/chunkSize) * 100);
+                    MoreWindow.L_moreFrame.setTitle(UIUtil.getProcTitle(OP_LOAD) + " (" + elapsed + "/" + chunkSize + ")");
                 }
             }
             ds.close();
@@ -86,6 +95,7 @@ public class SerializeManager {
         // Start saving...
         long t1 = System.nanoTime();
         elapsed = 0;
+        chunkSize = chunks.size();
         try {
 
             FileOutputStream fs = new FileOutputStream(SystemPathProvider.saveFile);
@@ -106,7 +116,7 @@ public class SerializeManager {
                     }
                 }
                 elapsed++;
-                MoreWindow.L_moreFrame.setTitle(UIUtil.getProcTitle(OP_SAVE) + " (" + elapsed + ")");
+                MoreWindow.L_moreFrame.setTitle(UIUtil.getProcTitle(OP_SAVE) + " (" + elapsed + "/" + chunkSize + ")");
             }
             ds.flush();
             ds.close();
