@@ -146,12 +146,12 @@ public class Chunk {
                 _k++;
             }
         }
-        if(!containsEntity && entCount != 0 && mEntCount != 0) {
+        if(!containsEntity && entCount != 0 || mEntCount != 0) {
         containsEntity=true;
         Board.usedChunks.remove(this);
         Board.usedChunks.add(this);
         }
-        if(containsEntity && entCount == 0 && mEntCount == 0) {
+        if(containsEntity && entCount == 0 || mEntCount == 0) {
         containsEntity = false;
         Board.usedChunks.remove(this);
         }
