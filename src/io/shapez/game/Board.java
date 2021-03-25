@@ -166,7 +166,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         if (hasItemSelected) {
             heldItem = new Rectangle(previousMX - (scale / 2), previousMY - (scale / 2), scale - 2, scale - 2);
         }
-        repaint();
     }
 
     @Override
@@ -227,7 +226,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                      }
                      x++;
                  }
-                repaint();
                  break;
             case KeyEvent.VK_F4:
                 // show save/load menu
@@ -280,7 +278,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
                 placeEntity(e.getX(), e.getY(), item, cRot, TileUtil.getTileTexture(item, cRot));
             }
-            repaint();
         }
         previousMX = e.getX();
         previousMY = e.getY();
@@ -312,7 +309,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             } else {
                 clearTile(cX, cY);
             }
-            repaint();
         } else if (SwingUtilities.isLeftMouseButton(e)) {
             if (hasItemSelected && item != Tile.None) {
                 placeEntity(e.getX(), e.getY(), item, cRot, TileUtil.getTileTexture(item, cRot));
@@ -346,7 +342,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
 
             usedChunks.add(currentChunk);
-            repaint();
             return;
         }
 
