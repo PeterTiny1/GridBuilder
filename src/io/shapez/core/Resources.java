@@ -4,8 +4,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class Resources {
 
@@ -30,12 +30,12 @@ public class Resources {
 
 
     // Sounds
-    public static File beltPlaceSound; // WIP
-    public static File generic_placeTileSound;
-    public static File generic_destroyTileSound;
-    public static File uiClickSound;
-    public static File uiSuccessSound;
-    public static File uiDenySound;
+    public static URL beltPlaceSound; // WIP
+    public static URL generic_placeTileSound;
+    public static URL generic_destroyTileSound;
+    public static URL uiClickSound;
+    public static URL uiSuccessSound;
+    public static URL uiDenySound;
 
 
     // Make sure to run with these jvm options:
@@ -44,29 +44,29 @@ public class Resources {
     // This will provide a insane performance boost, but on low-end systems it might overwhelm the hardware
     static {
         try {
-            logo = new ImageIcon("resources/ui/logo.png");
-            settingsImage = ImageIO.read(new File("resources/ui/settings.png"));
-            saveImage = ImageIO.read(new File("resources/ui/save.png"));
-            loadImage = ImageIO.read(new File("resources/ui/open.png"));
-            clearImage = ImageIO.read(new File("resources/ui/remove.png"));
-            ui_beltImage = ImageIO.read(new File("resources/ui/belt.png"));
-            ui_minerImage = ImageIO.read(new File("resources/ui/miner.png"));
-            ui_trashImage = ImageIO.read(new File("resources/ui/trash.png"));
-            ui_rotatorImage = ImageIO.read(new File("resources/ui/rotator.png"));
+            logo = new ImageIcon(Resources.class.getResource("/ui/logo.png"));
+            settingsImage = ImageIO.read(Resources.class.getResource("/ui/settings.png"));
+            saveImage = ImageIO.read(Resources.class.getResource("/ui/save.png"));
+            loadImage = ImageIO.read(Resources.class.getResource("/ui/open.png"));
+            clearImage = ImageIO.read(Resources.class.getResource("/ui/remove.png"));
+            ui_beltImage = ImageIO.read(Resources.class.getResource("/ui/belt.png"));
+            ui_minerImage = ImageIO.read(Resources.class.getResource("/ui/miner.png"));
+            ui_trashImage = ImageIO.read(Resources.class.getResource("/ui/trash.png"));
+            ui_rotatorImage = ImageIO.read(Resources.class.getResource("/ui/rotator.png"));
 
-            beltPlaceSound = new File("resources/sound/place_belt.wav");
-            generic_placeTileSound = new File("resources/sound/place_building.wav");
-            generic_destroyTileSound = new File("resources/sound/destroy_building.wav");
-            uiClickSound = new File("resources/sound/uiclick.wav");
-            uiSuccessSound = new File("resources/sound/uisuccess.wav");
-            uiDenySound = new File("resources/sound/uierror.wav");
+            beltPlaceSound = Resources.class.getResource("/sound/place_belt.wav");
+            generic_placeTileSound = Resources.class.getResource("/sound/place_building.wav");
+            generic_destroyTileSound = Resources.class.getResource("/sound/destroy_building.wav");
+            uiClickSound = Resources.class.getResource("/sound/uiclick.wav");
+            uiSuccessSound = Resources.class.getResource("/sound/uisuccess.wav");
+            uiDenySound = Resources.class.getResource("/sound/uierror.wav");
 
-            vignette = ImageIO.read(new File("resources/vignette.lossless.png"));
-            missingTexture = ImageIO.read(new File("resources/missing.png"));
-            belt = ImageIO.read(new File("resources/tiles/belt.png"));
-            miner = ImageIO.read(new File("resources/tiles/miner.png"));
-            trash = ImageIO.read(new File("resources/tiles/trash.png"));
-            rotator = ImageIO.read(new File("resources/tiles/rotator.png"));
+            vignette = ImageIO.read(Resources.class.getResource("/vignette.lossless.png"));
+            missingTexture = ImageIO.read(Resources.class.getResource("/missing.png"));
+            belt = ImageIO.read(Resources.class.getResource("/tiles/belt.png"));
+            miner = ImageIO.read(Resources.class.getResource("/tiles/miner.png"));
+            trash = ImageIO.read(Resources.class.getResource("/tiles/trash.png"));
+            rotator = ImageIO.read(Resources.class.getResource("/tiles/rotator.png"));
         } catch (IOException e) {
             System.out.println("Resource(s) missing");
             // e.printStackTrace();
