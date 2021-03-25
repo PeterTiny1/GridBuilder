@@ -51,6 +51,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         this.window = window;
         initBoard();
     }
+
     private void initBoard() {
         addKeyListener(this);
         addMouseMotionListener(this);
@@ -88,14 +89,18 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         SettingsManager.board = this;
         SettingsManager.initSettingsWnd();
 
-        try { SettingsManager.loadSettings(false); } catch (IOException e) { e.printStackTrace(); }
-        javax.swing.Timer timer = new javax.swing.Timer(SettingsManager.tickrateScreen,this);
+        try {
+            SettingsManager.loadSettings(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        javax.swing.Timer timer = new javax.swing.Timer(SettingsManager.tickrateScreen, this);
         timer.start();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D)g;
+        Graphics2D g2d = (Graphics2D) g;
         DrawGrid(g2d);
         DrawSelected();
         if (hasItemSelected) {
@@ -119,8 +124,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int c2x = rightBottomChunk.x;
         int c2y = rightBottomChunk.y;
 
-        for (int x = c1x-1; ++x < c2x+1;){
-            for (int y = c1y-1; ++y < c2y+1;){
+        for (int x = c1x - 1; ++x < c2x + 1; ) {
+            for (int y = c1y - 1; ++y < c2y + 1; ) {
                 Chunk currentChunk = GlobalConfig.map.getChunk(x, y);
                 currentChunk.drawChunk(g2d, offsetX, offsetY, gridOffsetX, gridOffsetY, scale, usedChunks.contains(currentChunk));
             }
@@ -208,19 +213,19 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 break;
             case KeyEvent.VK_F3:
                 int diagres = JOptionPane.showConfirmDialog(null, "(Benchmark) - This will overwrite a lot of tiles and you may lose progress. Continue?", "Benchmark", JOptionPane.YES_NO_OPTION);
-                if (diagres != JOptionPane.YES_OPTION)break;
+                if (diagres != JOptionPane.YES_OPTION) break;
 
-                 Image tex = TileUtil.getTileTexture(item, cRot);
-                 int x = 0;
-                 while (x < 1000) {
-                     int y = 0;
-                     while (y < 1000) {
-                         placeEntity(x, y, item, cRot, tex);
-                         y++;
-                     }
-                     x++;
-                 }
-                 break;
+                Image tex = TileUtil.getTileTexture(item, cRot);
+                int x = 0;
+                while (x < 1000) {
+                    int y = 0;
+                    while (y < 1000) {
+                        placeEntity(x, y, item, cRot, tex);
+                        y++;
+                    }
+                    x++;
+                }
+                break;
             case KeyEvent.VK_F4:
                 // show save/load menu
                 MoreWindow.Show();
@@ -307,13 +312,11 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             if (hasItemSelected && item != Tile.None) {
                 placeEntity(e.getX(), e.getY(), item, cRot, TileUtil.getTileTexture(item, cRot));
             }
-        } else if(SwingUtilities.isMiddleMouseButton(e)){
+        } else if (SwingUtilities.isMiddleMouseButton(e)) {
             scale = 40;
-            changeOffset(0,0);
+            changeOffset(0, 0);
         }
     }
-
-
 
 
     public void placeEntity(int x, int y, Tile item, Rotation rotation, Image tileTexture) {
@@ -351,7 +354,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     }
 
 
-
     private void clearTile(int cX, int cY) {
         Chunk chunk = GlobalConfig.map.getChunkAtTile(cX, cY);
         int offX = cX % GlobalConfig.mapChunkSize;
@@ -384,8 +386,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     public void mouseExited(MouseEvent e) {
 
     }
-    public void __clearAll()
-    {
+
+    public void __clearAll() {
         TileUtil.clearAll(this);
     }
 }

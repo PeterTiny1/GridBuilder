@@ -24,6 +24,7 @@ public class SerializeManager {
 
     public static long elapsed = 0;
     public static int chunkSize = 0;
+
     public static void loadAll(Board toReload) {
 
         // Start loading...
@@ -42,7 +43,7 @@ public class SerializeManager {
                 int i = 0;
                 while (i < SystemPathProvider.saveFile.length() / 6) {
                     // variables marked with _ are temporary and used for save game checking
-                    if(i % 12 == 1){
+                    if (i % 12 == 1) {
                         elapsed++;
                     }
                     Tile type;
@@ -61,7 +62,7 @@ public class SerializeManager {
                     _rot = ds.readByte();
 
 
-                    if(_type > Tile.values().length || _rot > Rotation.values().length){
+                    if (_type > Tile.values().length || _rot > Rotation.values().length) {
                         // Tile is corrupted,edited,hacked or from weird game version
                         System.err.println("Invalid save game data");
                         //continue;
@@ -69,9 +70,9 @@ public class SerializeManager {
                     }
                     type = Tile.valueOf(_type);
                     rot = Rotation.valueOf(_rot);
-                    tex = TileUtil.getTileTexture(type,rot);
+                    tex = TileUtil.getTileTexture(type, rot);
                     //TileUtil.placeEntity(x, y, type, rot, tex, true); // Suppress audio!
-                    TileUtil.forcePlace(x,y,type,rot,tex);
+                    TileUtil.forcePlace(x, y, type, rot, tex);
                     i++;
                     //System.out.println("Chunk size: " + chunkSize);
                     //System.out.println("Elapsed: " + elapsed);
@@ -83,7 +84,7 @@ public class SerializeManager {
             ds.close();
             fs.close();
         } catch (Exception e) {
-            if(e.getMessage() == null)return;
+            if (e.getMessage() == null) return;
 
             System.err.println("!!! Error loading chunks !!! (" + e.getMessage() + ")");
         }

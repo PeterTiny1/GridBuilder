@@ -21,7 +21,7 @@ public class BottomPanel extends JPanel {
     public static JButton trashButton = new JButton();
     public static JButton rotatorButton = new JButton();
 
-    public BottomPanel(Board board) throws IOException {
+    public BottomPanel(Board board) {
         this.board = board;
         setOpaque(false);
         JPanel innerPanel = new JPanel();
@@ -66,7 +66,6 @@ public class BottomPanel extends JPanel {
 
         this.add(innerPanel);
     }
-
 
 
     public void selectItem(Tile item) {

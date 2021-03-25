@@ -6,11 +6,12 @@ import io.shapez.game.EntityTutorial;
 import io.shapez.managers.SoundManager;
 import io.shapez.ui.BottomPanel;
 import io.shapez.ui.TopPanel;
+
 import static io.shapez.managers.providers.MiscProvider.*;
+
 public class UIUtil {
 
-    public static String getProcTitle(byte type)
-    {
+    public static String getProcTitle(byte type) {
         String msg = moreWndName;
         // I forgot Java doesnt have pointers XD
         switch (type) {
@@ -20,6 +21,7 @@ public class UIUtil {
         }
         return msg;
     }
+
     public static void updateButtonAppearance() {
         switch (Board.item) {
             case None -> {

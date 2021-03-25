@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class MiscProvider {
     public static final Date date = new Date();
-    public static final String year = String.valueOf(date.getYear()+1900);
+    public static final String year = String.valueOf(date.getYear() + 1900);
 
     public static final String gameVersion = "1.1";
 
@@ -45,7 +45,7 @@ public class MiscProvider {
     public static final String moreWndName = gameName + " - More";
 
 
-    public static String getRandomTitlebar(){
+    public static String getRandomTitlebar() {
         Random rng = new Random();
         return splashes[rng.nextInt(splashes.length)];
     }
@@ -53,9 +53,11 @@ public class MiscProvider {
     public static float clamp(float val, float min, float max) {
         return Math.max(min, Math.min(max, val));
     }
+
     public static int clampInt(int val, int min, int max) {
         return Math.max(min, Math.min(max, val));
     }
+
     public static byte clampByte(byte val, byte min, byte max) {
         return (byte) Math.max(min, Math.min(max, val));
     }

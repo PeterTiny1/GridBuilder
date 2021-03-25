@@ -23,29 +23,32 @@ public class MoreWindow extends JFrame {
     public static JButton clearButton = new JButton();
     public static JPanel L_ioPanel = new JPanel();
 
-    private static void ResetTitle(){
+    private static void ResetTitle() {
         L_moreFrame.setTitle(gameName);
     }
 
-    public static void internalUI_SaveAllChunks(){
+    public static void internalUI_SaveAllChunks() {
         SoundManager.playSound(Resources.uiClickSound);
         SerializeManager.saveAll(Board.usedChunks);
         ResetTitle();
         SoundManager.playSound(Resources.uiSuccessSound);
     }
-    public static void internalUI_LoadAllChunks(){
+
+    public static void internalUI_LoadAllChunks() {
         SoundManager.playSound(Resources.uiClickSound);
         SerializeManager.loadAll(board);
         ResetTitle();
         SoundManager.playSound(Resources.uiSuccessSound);
     }
-    public static void internalUI_ClearAllChunks(){
+
+    public static void internalUI_ClearAllChunks() {
         SoundManager.playSound(Resources.uiClickSound);
         L_moreFrame.setTitle(UIUtil.getProcTitle(OP_CLEAR));
         board.__clearAll();
         ResetTitle();
     }
-    public static void Init(){
+
+    public static void Init() {
 
         L_ioPanel.setOpaque(false);
 
@@ -86,8 +89,11 @@ public class MoreWindow extends JFrame {
         initialised = true;
     }
 
-    public static void Show(){
-        if(!initialised){ System.err.println("Can\'t show without initialisation"); return; }
+    public static void Show() {
+        if (!initialised) {
+            System.err.println("Can\'t show without initialisation");
+            return;
+        }
         L_moreFrame.pack();
         L_moreFrame.setLocationRelativeTo(null);
 
@@ -98,7 +104,8 @@ public class MoreWindow extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 board.window.setVisible(true);
-                SoundManager.playSound(Resources.uiClickSound); }
+                SoundManager.playSound(Resources.uiClickSound);
+            }
         });
         L_moreFrame.setSize(300, 100);
         L_moreFrame.setLocationRelativeTo(null);

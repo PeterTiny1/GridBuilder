@@ -19,7 +19,7 @@ public class TopPanel extends JPanel {
 
     void showSettings() {
         SoundManager.playSound(Resources.uiClickSound);
-       // SettingsManager.initSettingsWnd();
+        // SettingsManager.initSettingsWnd();
         SettingsManager.showSettingswnd();
     }
 
@@ -42,7 +42,6 @@ public class TopPanel extends JPanel {
         settingsButton.setIcon(new ImageIcon(Resources.settingsImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
         settingsButton.setPreferredSize(defDimensionBtn);
         settingsButton.setMaximumSize(defDimensionBtn);
-
 
 
         selectedILabel_Name.setFocusable(false);

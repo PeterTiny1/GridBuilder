@@ -28,11 +28,11 @@ public class SettingsManager {
     public static boolean drawChunkEdges;
     public static boolean noLoD;
 
-    public static void updateValues(){
-            tickrateScreen = Byte.parseByte(txt1.getText());
-            allowSound = chk1.isSelected();
-            drawChunkEdges = chk2.isSelected();
-            noLoD = chk3.isSelected();
+    public static void updateValues() {
+        tickrateScreen = Byte.parseByte(txt1.getText());
+        allowSound = chk1.isSelected();
+        drawChunkEdges = chk2.isSelected();
+        noLoD = chk3.isSelected();
     }
 
     public static void fixPaths() {
@@ -52,10 +52,12 @@ public class SettingsManager {
             }
         }
     }
+
     public boolean contains(String str, char chr) {
         return str.indexOf(chr) != -1;
     }
-    public static void validateSettings(){
+
+    public static void validateSettings() {
         String __parsetickrate = String.valueOf(tickrateScreen);
         if (__parsetickrate.matches("[0-9]+") && __parsetickrate.length() > 2)
             tickrateScreen = clampByte(tickrateScreen, (byte) 1, Byte.MAX_VALUE);
@@ -117,7 +119,7 @@ public class SettingsManager {
     }
 
 
-    private static void internal_OnClose(){
+    private static void internal_OnClose() {
 
     }
 
@@ -180,11 +182,9 @@ public class SettingsManager {
         // style 1 (exit on close) also terminates process...
 
 
-
-
     }
 
-    public static void showSettingswnd(){
+    public static void showSettingswnd() {
         board.window.setVisible(false);
         settingsFrame.setVisible(true);
 
