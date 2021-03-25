@@ -86,16 +86,9 @@ public class NetworkLogicManager {
                                     }
                                     break;
                             }
-
-
                         }
                         else if(t == Tile.Miner){
                             // Check for miner rotation (spew direction)
-                            if(chunk.contents[x][y-1] != null &&
-                                    chunk.contents[x+1][y] != null &&
-                                    chunk.contents[x][y+1] != null &&
-                                    chunk.contents[x-1][y] != null){
-                            }
                             switch (Enttile.rotation) {
                                 case Up:
                                     //if(chunk.contents[x][y-1] != null)
@@ -130,7 +123,6 @@ public class NetworkLogicManager {
                         }
 
                     }
-
                 }
             }
         }
