@@ -127,7 +127,11 @@ public class Chunk {
         // Do NOT touch this. I have done this with a very good reason.
         int entCount = 0, mEntCount = 0;
         for (MovingEntity[] mContent : movingContents) {
-            if (mContent != null) mEntCount++;
+            int __k = 0;
+            while (__k < mContent.length) {
+                if (mContent[__k] != null) mEntCount++;
+                __k++;
+            }
         }
         for (Entity[] content : contents) {
             int _k = 0;
