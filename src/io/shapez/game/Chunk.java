@@ -1,6 +1,5 @@
 package io.shapez.game;
 
-import io.shapez.core.Resources;
 import io.shapez.core.Vector;
 import io.shapez.managers.SettingsManager;
 
@@ -27,14 +26,14 @@ public class Chunk {
         generateLowerLayer();
     }
 
-    public  void generateLowerLayer() {
+    public void generateLowerLayer() {
         String code = x + "|" + y + "|" + GlobalConfig.map.seed;
         Random rng = new Random(generateHash(code));
         Vector chunkCenter = new Vector(x + 0.5, this.y + 0.5);
         double distanceToOriginInChunks = Math.round(chunkCenter.length());
         final double max = Math.max(0, Math.min(4, distanceToOriginInChunks / 8));
         double colorPatchChance = 0.9 - max;
-        if(colorPatchChance < 0.2) colorPatchChance = 0.2;
+        if (colorPatchChance < 0.2) colorPatchChance = 0.2;
         if (rng.nextDouble() < colorPatchChance) {
             double colorPatchSize = Math.max(2, Math.round(1 + max));
             internalGeneratePatch(rng, colorPatchSize,
@@ -81,19 +80,14 @@ public class Chunk {
 
     private Color colorShapeTypeFromByte(int b) {
         // temporary
-        switch (b) {
-            case 0:
-                return Color.RED;
-            case 1:
-                return Color.GREEN;
-            case 2:
-                return Color.BLUE;
-            case 3:
-                return Color.LIGHT_GRAY; // uncolored shape patch!!!
-
-            default:
-                throw new IllegalArgumentException("Color index is not valid");
-        }
+        return switch (b) {
+            case 0 -> Color.RED;
+            case 1 -> Color.GREEN;
+            case 2 -> Color.BLUE;
+// uncolored shape patch!!!
+            case 3 -> Color.LIGHT_GRAY;
+            default -> throw new IllegalArgumentException("Color index is not valid");
+        };
     }
 
     private long generateHash(String str) {
@@ -132,12 +126,8 @@ public class Chunk {
         int constY = (_y) * scale + offsetY;
         // Do NOT touch this. I have done this with a very good reason.
         int entCount = 0, mEntCount = 0;
-        for (MovingEntity[] mContent : movingContents){
-            int __k = 0;
-            while (__k < movingContents.length) {
-                if (movingContents[__k] != null) mEntCount++;
-                __k++;
-            }
+        for (MovingEntity[] mContent : movingContents) {
+            if (mContent != null) mEntCount++;
         }
         for (Entity[] content : contents) {
             int _k = 0;
@@ -157,7 +147,6 @@ public class Chunk {
         }
 
         if (scale > GlobalConfig.zoomedScale) {
-            {
             int i = 0;
             while (i < GlobalConfig.mapChunkSize) {
                 int j = 0;
@@ -174,17 +163,16 @@ public class Chunk {
                     // Right: x+1, y
                     // Down: x, y+1
                     // Left: x-1, y
-                    if(movingContents[i][j] != null){
-                        g.drawImage(movingContents[i][j].texture/*Not yet*/, drawn.x+drawn.width/2, drawn.y+drawn.height/2, drawn.width/2, drawn.height/2, null);
+                    if (movingContents[i][j] != null) {
+                        g.drawImage(movingContents[i][j].texture/*Not yet*/, drawn.x + drawn.width / 2, drawn.y + drawn.height / 2, drawn.width / 2, drawn.height / 2, null);
                     }
                     j++;
                 }
                 i++;
             }
-            }
             g.setColor(Color.gray);
             // Draw grid
-            int i = 0;
+            i = 0;
 
             while (i < GlobalConfig.mapChunkSize) {
                 int movX = (_x + i) * scale + offsetX;
@@ -193,8 +181,10 @@ public class Chunk {
                 g.drawLine(movX, constY, movX, constY + _s);
                 g.drawLine(constX, movY, constX + _s, movY);
 
-                if(SettingsManager.drawChunkEdges){
-                    if(g.getColor() != Color.red) {g.setColor(Color.RED);}
+                if (SettingsManager.drawChunkEdges) {
+                    if (g.getColor() != Color.red) {
+                        g.setColor(Color.RED);
+                    }
                     int lowCount = 0;
 
                     for (Color[] color : lowerLayer) {
@@ -204,11 +194,11 @@ public class Chunk {
                             _k++;
                         }
                     }
-                    g.drawString("Chunk " + x + "/" + y,constX,constY);
-                    g.drawString("Entities " + entCount ,constX,constY+15);
-                    g.drawString("LowLayer " + (lowCount-31) ,constX,constY+30);
-                    g.drawString("Used " + String.valueOf(Board.usedChunks.contains(this)).toUpperCase(),constX,constY+45);
-                    g.drawString("Bad " + String.valueOf((!Board.usedChunks.contains(this)&&entCount!=0)||Board.usedChunks.contains(this)&&entCount==0).toUpperCase(),constX,constY+60);
+                    g.drawString("Chunk " + x + "/" + y, constX, constY);
+                    g.drawString("Entities " + entCount, constX, constY + 15);
+                    g.drawString("LowLayer " + (lowCount - 31), constX, constY + 30);
+                    g.drawString("Used " + String.valueOf(Board.usedChunks.contains(this)).toUpperCase(), constX, constY + 45);
+                    g.drawString("Bad " + String.valueOf((!Board.usedChunks.contains(this) && entCount != 0) || Board.usedChunks.contains(this) && entCount == 0).toUpperCase(), constX, constY + 60);
                     g.setColor(Color.gray);
                 }
                 i++;
