@@ -1,10 +1,10 @@
-package io.shapez.managers;
+package io.shapez.managers.providers;
 
 import java.io.File;
 
 import static io.shapez.managers.providers.MiscProvider.gameName;
 
-public class SystemPathManager {
+public class SystemPathProvider {
 
     public static final File rootFile = new File(System.getenv("APPDATA") + "/." + gameName.toLowerCase());
 

@@ -3,6 +3,7 @@ package io.shapez.managers;
 import io.shapez.game.Board;
 import io.shapez.game.GlobalConfig;
 import io.shapez.core.Resources;
+import io.shapez.managers.providers.SystemPathProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,17 +36,17 @@ public class SettingsManager {
     }
 
     public static void fixPaths() {
-        SystemPathManager.rootFile.mkdirs();
+        SystemPathProvider.rootFile.mkdirs();
 
         //settingsFile = new File(rootFile.getPath() + "/settings.bin");
-        if (!SystemPathManager.settingsFile.canWrite()) {
+        if (!SystemPathProvider.settingsFile.canWrite()) {
             System.err.println("!!! No write permissions to settings file !!!"); // fuck!!!!!! what happened?
             return;
         }
 
-        if (!SystemPathManager.settingsFile.exists()) {
+        if (!SystemPathProvider.settingsFile.exists()) {
             try {
-                SystemPathManager.settingsFile.createNewFile();
+                SystemPathProvider.settingsFile.createNewFile();
             } catch (IOException e) {
                 System.err.println("Fixing file failed (path doesn't exist?)");
             }
@@ -67,7 +68,7 @@ public class SettingsManager {
         fixPaths();
         validateSettings();
         System.out.println("Saving settings in unsafe environment");
-        FileOutputStream fs = new FileOutputStream(SystemPathManager.settingsFile);
+        FileOutputStream fs = new FileOutputStream(SystemPathProvider.settingsFile);
         DataOutputStream ds = new DataOutputStream(fs);
 
         updateValues();
@@ -87,7 +88,7 @@ public class SettingsManager {
         System.out.println("Loading settings in unsafe environment");
 
 
-        FileInputStream fs = new FileInputStream(SystemPathManager.settingsFile);
+        FileInputStream fs = new FileInputStream(SystemPathProvider.settingsFile);
         DataInputStream ds = new DataInputStream(fs);
 
         while (ds.available() > 0) {
@@ -132,7 +133,7 @@ public class SettingsManager {
 
         chk2 = new JCheckBox();
         chk2.setSelected(drawChunkEdges);
-        chk2.setText("Draw Chunk Edges");
+        chk2.setText("Debug View");
         chk2.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         chk2.setFocusPainted(false); // this can be considered a hack such as ActiveControl = null
 

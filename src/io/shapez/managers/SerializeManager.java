@@ -5,6 +5,7 @@ import io.shapez.core.Tile;
 import io.shapez.game.Board;
 import io.shapez.game.Chunk;
 import io.shapez.game.Entity;
+import io.shapez.managers.providers.SystemPathProvider;
 import io.shapez.util.DebugUtil;
 import io.shapez.util.TileUtil;
 
@@ -23,7 +24,7 @@ public class SerializeManager {
         long t1 = System.nanoTime();
         try {
             TileUtil.clearAll(toReload);
-            FileInputStream fs = new FileInputStream(SystemPathManager.saveFile);
+            FileInputStream fs = new FileInputStream(SystemPathProvider.saveFile);
             DataInputStream ds = new DataInputStream(fs);
 
             // EXTREMELY busy loop
@@ -31,7 +32,7 @@ public class SerializeManager {
                 // 4 bytes per entity
                 // Tile type, Image texture, Rotations.cRotations rotation, int x, int y
                 int i = 0;
-                while (i < SystemPathManager.saveFile.length() / 6) {
+                while (i < SystemPathProvider.saveFile.length() / 6) {
                     // variables marked with _ are temporary and used for save game checking
                     Tile type;
                     int _type;
@@ -78,7 +79,7 @@ public class SerializeManager {
         long t1 = System.nanoTime();
         try {
 
-            FileOutputStream fs = new FileOutputStream(SystemPathManager.saveFile);
+            FileOutputStream fs = new FileOutputStream(SystemPathProvider.saveFile);
             DataOutputStream ds = new DataOutputStream(fs);
 
             // EXTREMELY busy loop
