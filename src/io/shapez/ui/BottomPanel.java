@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static io.shapez.core.Resources.*;
 import static io.shapez.managers.providers.MiscProvider.*;
 
 public class BottomPanel extends JPanel {
@@ -28,15 +29,10 @@ public class BottomPanel extends JPanel {
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.LINE_AXIS));
 
 
-        BufferedImage beltImage = ImageIO.read(new File("src/resources/ui/belt.png"));
-        BufferedImage minerImage = ImageIO.read(new File("src/resources/ui/miner.png"));
-        BufferedImage trashImage = ImageIO.read(new File("src/resources/ui/trash.png"));
-        BufferedImage rotatorImage = ImageIO.read(new File("src/resources/ui/rotator.png"));
-
         beltButton.addActionListener(e ->
                 selectItem(Tile.Belt));
         beltButton.setFocusable(false);
-        beltButton.setIcon(new ImageIcon(beltImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
+        beltButton.setIcon(new ImageIcon(ui_beltImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
         beltButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
         beltButton.setPreferredSize(defDimensionBtn);
         beltButton.setMaximumSize(defDimensionBtn);
@@ -46,7 +42,7 @@ public class BottomPanel extends JPanel {
                 selectItem(Tile.Miner)
         );
         minerButton.setFocusable(false);
-        minerButton.setIcon(new ImageIcon(minerImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
+        minerButton.setIcon(new ImageIcon(ui_minerImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
         minerButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
         minerButton.setPreferredSize(defDimensionBtn);
         minerButton.setMaximumSize(defDimensionBtn);
@@ -54,7 +50,7 @@ public class BottomPanel extends JPanel {
 
         trashButton.addActionListener(e -> selectItem(Tile.Trash));
         trashButton.setFocusable(false);
-        trashButton.setIcon(new ImageIcon(trashImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
+        trashButton.setIcon(new ImageIcon(ui_trashImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
         trashButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
         trashButton.setPreferredSize(defDimensionBtn);
         trashButton.setMaximumSize(defDimensionBtn);
@@ -62,7 +58,7 @@ public class BottomPanel extends JPanel {
 
         rotatorButton.addActionListener(e -> selectItem(Tile.Rotator));
         rotatorButton.setFocusable(false);
-        rotatorButton.setIcon(new ImageIcon(rotatorImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
+        rotatorButton.setIcon(new ImageIcon(ui_rotatorImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
         rotatorButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
         rotatorButton.setPreferredSize(defDimensionBtn);
         rotatorButton.setMaximumSize(defDimensionBtn);

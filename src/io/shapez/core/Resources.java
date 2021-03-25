@@ -15,6 +15,10 @@ public class Resources {
     public static BufferedImage saveImage;
     public static BufferedImage loadImage;
     public static BufferedImage clearImage;
+    public static BufferedImage ui_beltImage;
+    public static BufferedImage ui_minerImage;
+    public static BufferedImage ui_trashImage;
+    public static BufferedImage ui_rotatorImage;
 
     // Textures
     public static BufferedImage belt;
@@ -45,6 +49,10 @@ public class Resources {
             saveImage = ImageIO.read(new File("src/resources/ui/save.png"));
             loadImage = ImageIO.read(new File("src/resources/ui/open.png"));
             clearImage = ImageIO.read(new File("src/resources/ui/remove.png"));
+            ui_beltImage = ImageIO.read(new File("src/resources/ui/belt.png"));
+            ui_minerImage = ImageIO.read(new File("src/resources/ui/miner.png"));
+            ui_trashImage = ImageIO.read(new File("src/resources/ui/trash.png"));
+            ui_rotatorImage = ImageIO.read(new File("src/resources/ui/rotator.png"));
 
             beltPlaceSound = new File("src/resources/sound/place_belt.wav");
             generic_placeTileSound = new File("src/resources/sound/place_building.wav");
