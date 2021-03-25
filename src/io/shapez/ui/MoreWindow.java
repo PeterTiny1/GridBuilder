@@ -29,14 +29,12 @@ public class MoreWindow extends JFrame {
 
     public static void internalUI_SaveAllChunks(){
         SoundManager.playSound(Resources.uiClickSound);
-        L_moreFrame.setTitle(UIUtil.getProcTitle(OP_SAVE));
         SerializeManager.saveAll(Board.usedChunks);
         ResetTitle();
         SoundManager.playSound(Resources.uiSuccessSound);
     }
     public static void internalUI_LoadAllChunks(){
         SoundManager.playSound(Resources.uiClickSound);
-        L_moreFrame.setTitle(UIUtil.getProcTitle(OP_LOAD));
         SerializeManager.loadAll(board);
         ResetTitle();
         SoundManager.playSound(Resources.uiSuccessSound);
