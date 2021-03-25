@@ -14,6 +14,13 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class TileUtil {
+
+    public static Tile[] networkEntities = {
+        Tile.Belt,
+        Tile.Rotator,
+        Tile.Miner
+    };
+
     public static void clearAll(Board b)
     {
         ArrayList<Chunk> usedChunks = Board.usedChunks;

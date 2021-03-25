@@ -5,6 +5,7 @@ import io.shapez.core.Resources;
 import io.shapez.core.Rotation;
 import io.shapez.core.Tile;
 import io.shapez.core.Vector;
+import io.shapez.managers.NetworkLogicManager;
 import io.shapez.managers.SettingsManager;
 import io.shapez.managers.SoundManager;
 import io.shapez.ui.BottomPanel;
@@ -146,6 +147,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 }
             }
         }
+        NetworkLogicManager.updateLogic();
         repaint();
     }
 
@@ -342,6 +344,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             //currentChunk.contents[offX][offY] = null;
             clearTile(offX, offY);
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, rotation, cX, cY);
+
             usedChunks.add(currentChunk);
             repaint();
             return;

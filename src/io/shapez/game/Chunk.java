@@ -1,5 +1,6 @@
 package io.shapez.game;
 
+import io.shapez.core.Resources;
 import io.shapez.core.Vector;
 import io.shapez.managers.SettingsManager;
 
@@ -11,6 +12,7 @@ public class Chunk {
     Rectangle drawn;
     public Color[][] lowerLayer;
     public Entity[][] contents;
+    public MovingEntity[][] movingContents;
 
 
     public Chunk(int x, int y) {
@@ -19,6 +21,7 @@ public class Chunk {
 
         lowerLayer = new Color[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
         contents = new Entity[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
+        movingContents = new MovingEntity[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
 
         setSides();
         generateLowerLayer();
@@ -128,7 +131,14 @@ public class Chunk {
         int constX = (_x) * scale + offsetX;
         int constY = (_y) * scale + offsetY;
         // Do NOT touch this. I have done this with a very good reason.
-        int entCount = 0;
+        int entCount = 0, mEntCount = 0;
+        for (MovingEntity[] mContent : movingContents){
+            int __k = 0;
+            while (__k < movingContents.length) {
+                if (movingContents[__k] != null) mEntCount++;
+                __k++;
+            }
+        }
         for (Entity[] content : contents) {
             int _k = 0;
             while (_k < contents.length) {
@@ -136,12 +146,12 @@ public class Chunk {
                 _k++;
             }
         }
-        if(!containsEntity && entCount != 0) {
+        if(!containsEntity && entCount != 0 && mEntCount != 0) {
         containsEntity=true;
         Board.usedChunks.remove(this);
         Board.usedChunks.add(this);
         }
-        if(containsEntity && entCount == 0) {
+        if(containsEntity && entCount == 0 && mEntCount == 0) {
         containsEntity = false;
         Board.usedChunks.remove(this);
         }
@@ -159,6 +169,13 @@ public class Chunk {
                     }
                     if (contents[i][j] != null) {
                         g.drawImage(contents[i][j].texture, drawn.x, drawn.y, drawn.width, drawn.height, null);
+                    }
+                    // Up: x, y-1
+                    // Right: x+1, y
+                    // Down: x, y+1
+                    // Left: x-1, y
+                    if(movingContents[i][j] != null){
+                        g.drawImage(Resources.missingTexture/*Not yet*/, drawn.x, drawn.y, drawn.width, drawn.height, null);
                     }
                     j++;
                 }
