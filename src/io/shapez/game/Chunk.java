@@ -31,6 +31,7 @@ public class Chunk {
         double distanceToOriginInChunks = Math.round(chunkCenter.length());
         final double max = Math.max(0, Math.min(4, distanceToOriginInChunks / 8));
         double colorPatchChance = 0.9 - max;
+        if(colorPatchChance < 0.2) colorPatchChance = 0.2;
         if (rng.nextDouble() < colorPatchChance) {
             double colorPatchSize = Math.max(2, Math.round(1 + max));
             internalGeneratePatch(rng, colorPatchSize,
@@ -60,7 +61,7 @@ public class Chunk {
                 while (dy <= circleRadius * circleScaleY + 2) {
                     int x = (int) Math.round(circleX + dx);
                     int y = (int) Math.round(circleY + dy);
-                    if (x >= 0 && x < GlobalConfig.mapChunkSize && y >= 0 && y <= GlobalConfig.mapChunkSize) {
+                    if (x >= 0 && x <= GlobalConfig.mapChunkSize && y >= 0 && y <= GlobalConfig.mapChunkSize && (x < lowerLayer.length) && (y < lowerLayer.length)) {
                         double originalDx = dx / circleScaleX;
                         double originalDy = dy / circleScaleY;
                         if (originalDx * originalDx + originalDy * originalDy <= circleRadiusSquare) {
