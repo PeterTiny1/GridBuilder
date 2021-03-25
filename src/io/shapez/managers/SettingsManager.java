@@ -87,8 +87,14 @@ public class SettingsManager {
         fixPaths();
         System.out.println("Loading settings in unsafe environment");
 
-
-        FileInputStream fs = new FileInputStream(SystemPathProvider.settingsFile);
+        FileInputStream fs = null;
+        try {
+            fs = new FileInputStream(SystemPathProvider.settingsFile);
+        } catch (IOException e) {
+            SystemPathProvider.settingsFile.createNewFile();
+            e.printStackTrace();
+        }
+        assert fs != null;
         DataInputStream ds = new DataInputStream(fs);
 
         while (ds.available() > 0) {
