@@ -1,5 +1,5 @@
+[![Release](https://img.shields.io/github/v/release/PeterTiny1/GridBuilder?label=Release)](https://github.com/PeterTiny1/GridBuilder/releases)
+
+
 # Overview
-GridBuilder Java Edition is a fork of [C# GridBuilder](https://github.com/Aurumaker72/Grid-Builder)
-
-![](https://media.discordapp.net/attachments/801873740379324466/815190102329917450/11911d796554c9668b73f861f1d794cc.png "GridBuilder JAVA EDITION")
-
+GridBuilder Java Edition is a faster fork of [C# GridBuilder](https://github.com/Aurumaker72/Grid-Builder) maintained by [Aurumaker72](https://github.com/Aurumaker) and [PeterTiny1](https://github.com/PeterTiny1)
