@@ -19,6 +19,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static io.shapez.managers.providers.MiscProvider.gameName;
 import static io.shapez.managers.providers.MiscProvider.getRandomTitlebar;
@@ -130,20 +131,13 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     public void actionPerformed(ActionEvent e) {
         int moveValue = (shiftPressed) ? 8 : 2;
         if (pressedKeys.size() > 0) {
-            for (Character key : pressedKeys) {
+            for (Iterator<Character> iterator = pressedKeys.iterator(); iterator.hasNext(); ) {
+                Character key = iterator.next();
                 switch (key) {
-                    case 'S':
-                        changeOffset(0, -moveValue);
-                        break;
-                    case 'W':
-                        changeOffset(0, moveValue);
-                        break;
-                    case 'A':
-                        changeOffset(moveValue, 0);
-                        break;
-                    case 'D':
-                        changeOffset(-moveValue, 0);
-                        break;
+                    case 'S' -> changeOffset(0, -moveValue);
+                    case 'W' -> changeOffset(0, moveValue);
+                    case 'A' -> changeOffset(moveValue, 0);
+                    case 'D' -> changeOffset(-moveValue, 0);
                 }
             }
         }
