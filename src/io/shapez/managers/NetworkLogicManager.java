@@ -6,10 +6,7 @@ import io.shapez.core.Tile;
 import io.shapez.game.*;
 import io.shapez.util.TileUtil;
 
-import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Iterator;
 
 public class NetworkLogicManager {
 
@@ -20,16 +17,15 @@ public class NetworkLogicManager {
     public static void updateLogic(){
         // TODO: Optimize
         // INFO: Proof of concept
-        for (Iterator<Chunk> iterator = Board.usedChunks.iterator(); iterator.hasNext(); ) {
-            Chunk chunk = iterator.next();
+        for (Chunk chunk : Board.usedChunks) {
             for (int x = 0; x < GlobalConfig.mapChunkSize; x++) {
                 for (int y = 0; y < GlobalConfig.mapChunkSize; y++) {
-                    Entity Enttile = chunk.contents[x][y];
-                    if(Enttile == null && chunk.movingContents[x][y] != null){
+                    Entity entTile = chunk.contents[x][y];
+                    if (entTile == null && chunk.movingContents[x][y] != null) {
                         chunk.movingContents[x][y] = null; // Disconnected from system
                     }
-                    if(Enttile != null/* && isNetworkCompatible(tile)*/ && chunk.movingContents[x][y]==null){
-                        Tile t = Enttile.tile;
+                    if (entTile != null/* && isNetworkCompatible(tile)*/ && chunk.movingContents[x][y] == null) {
+                        Tile t = entTile.tile;
                         //System.out.println("Found compatible tile at " + x + " " + y);
 
 
@@ -38,84 +34,83 @@ public class NetworkLogicManager {
                         // Down: x, y+1
                         // Left: x-1, y
 
-                        if(t == Tile.Belt){
+                        if (t == Tile.Belt) {
                             //System.out.println(chunk.contents[x][y-1].tile.toString());
                             // Check for belt rotation (move direction)
                             //if(chunk.movingContents[x][y-1] != null &&
                             //   chunk.movingContents[x+1][y] != null &&
                             //   chunk.movingContents[x][y+1] != null &&
                             //   chunk.movingContents[x-1][y] != null){
-                                double movingX,movingY;
-                            switch (Enttile.rotation) {
+                            double movingX, movingY;
+                            switch (entTile.rotation) {
                                 case Up:
-                                    if(chunk.contents[x][y-1] != null && chunk.contents[x][y-1].tile == Tile.Belt && chunk.movingContents[x][y+1] != null){
+                                    if (chunk.contents[x][y - 1] != null && chunk.contents[x][y - 1].tile == Tile.Belt && chunk.movingContents[x][y + 1] != null) {
                                         // So theres another belt.. continue
                                         chunk.movingContents[x][y] = null;
-                                        chunk.movingContents[x][y+1] = null;
-                                        chunk.movingContents[x][y-1] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
+                                        chunk.movingContents[x][y + 1] = null;
+                                        chunk.movingContents[x][y - 1] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
                                         break;
                                     }
                                     // Theres no belt... the item will get stuck at the end of the belt system until next belt is placed
                                     break;
                                 case Right:
 
-                                    if(chunk.contents[x+1][y] != null && chunk.contents[x+1][y].tile == Tile.Belt && chunk.movingContents[x-1][y] != null){
+                                    if (chunk.contents[x + 1][y] != null && chunk.contents[x + 1][y].tile == Tile.Belt && chunk.movingContents[x - 1][y] != null) {
                                         // So theres another belt.. continue
                                         chunk.movingContents[x][y] = null;
-                                        chunk.movingContents[x-1][y] = null;
-                                        chunk.movingContents[x+1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
+                                        chunk.movingContents[x - 1][y] = null;
+                                        chunk.movingContents[x + 1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
                                         break;
                                     }
                                     break;
                                 case Down:
-                                    if(chunk.contents[x][y+1] != null && chunk.contents[x][y+1].tile == Tile.Belt && chunk.movingContents[x][y-1] != null){
+                                    if (chunk.contents[x][y + 1] != null && chunk.contents[x][y + 1].tile == Tile.Belt && chunk.movingContents[x][y - 1] != null) {
                                         // So theres another belt.. continue
                                         chunk.movingContents[x][y] = null;
-                                        chunk.movingContents[x][y-1] = null;
-                                        chunk.movingContents[x][y+1] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
+                                        chunk.movingContents[x][y - 1] = null;
+                                        chunk.movingContents[x][y + 1] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
                                         break;
                                     }
                                     break;
                                 case Left:
-                                    if(chunk.contents[x-1][y] != null && chunk.contents[x-1][y].tile == Tile.Belt && chunk.movingContents[x+1][y] != null){
+                                    if (chunk.contents[x - 1][y] != null && chunk.contents[x - 1][y].tile == Tile.Belt && chunk.movingContents[x + 1][y] != null) {
                                         // So theres another belt.. continue
                                         chunk.movingContents[x][y] = null;
-                                        chunk.movingContents[x+1][y] = null;
-                                        chunk.movingContents[x-1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
+                                        chunk.movingContents[x + 1][y] = null;
+                                        chunk.movingContents[x - 1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
                                         break;
                                     }
                                     break;
                             }
-                        }
-                        else if(t == Tile.Miner){
+                        } else if (t == Tile.Miner) {
                             // Check for miner rotation (spew direction)
-                            switch (Enttile.rotation) {
+                            switch (entTile.rotation) {
                                 case Up:
                                     //if(chunk.contents[x][y-1] != null)
                                     //if(chunk.contents[x][y-1].tile == Tile.Belt)
-                                    if(chunk.contents[x][y-1] != null && chunk.contents[x][y-1].tile == Tile.Belt && chunk.contents[x][y-1].rotation == Enttile.rotation){
-                                    chunk.movingContents[x][y-1] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
+                                    if (chunk.contents[x][y - 1] != null && chunk.contents[x][y - 1].tile == Tile.Belt && chunk.contents[x][y - 1].rotation == entTile.rotation) {
+                                        chunk.movingContents[x][y - 1] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
                                     }
                                     break;
                                 case Right:
                                     //if(chunk.contents[x+1][y] != null)
                                     //if(chunk.contents[x+1][y].tile == Tile.Belt)
-                                    if(chunk.contents[x+1][y] != null && chunk.contents[x+1][y].tile == Tile.Belt && chunk.contents[x+1][y].rotation == Enttile.rotation) {
-                                    chunk.movingContents[x + 1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
+                                    if (chunk.contents[x + 1][y] != null && chunk.contents[x + 1][y].tile == Tile.Belt && chunk.contents[x + 1][y].rotation == entTile.rotation) {
+                                        chunk.movingContents[x + 1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
                                     }
                                     break;
                                 case Down:
                                     //if(chunk.contents[x][y+1] != null)
                                     //if(chunk.contents[x][y+1].tile == Tile.Belt)
-                                    if(chunk.contents[x][y+1] != null && chunk.contents[x][y+1].tile == Tile.Belt && chunk.contents[x][y+1].rotation == Enttile.rotation){
-                                    chunk.movingContents[x][y+1] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
+                                    if (chunk.contents[x][y + 1] != null && chunk.contents[x][y + 1].tile == Tile.Belt && chunk.contents[x][y + 1].rotation == entTile.rotation) {
+                                        chunk.movingContents[x][y + 1] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
                                     }
                                     break;
                                 case Left:
                                     //if(chunk.contents[x-1][y] != null)
                                     //if(chunk.contents[x-1][y].tile == Tile.Belt)
-                                    if(chunk.contents[x-1][y] != null && chunk.contents[x-1][y].tile == Tile.Belt && chunk.contents[x-1][y].rotation == Enttile.rotation) {
-                                    chunk.movingContents[x-1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
+                                    if (chunk.contents[x - 1][y] != null && chunk.contents[x - 1][y].tile == Tile.Belt && chunk.contents[x - 1][y].rotation == entTile.rotation) {
+                                        chunk.movingContents[x - 1][y] = new MovingEntity(t, Resources.missingTexture, Rotation.Up, x, y);
                                     }
                                     break;
                             }
