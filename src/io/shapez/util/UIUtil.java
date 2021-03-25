@@ -6,8 +6,23 @@ import io.shapez.game.EntityTutorial;
 import io.shapez.managers.SoundManager;
 import io.shapez.ui.BottomPanel;
 import io.shapez.ui.TopPanel;
-
+import static io.shapez.managers.providers.MiscProvider.*;
 public class UIUtil {
+
+    public static String getProcTitle(byte type)
+    {
+        String msg = moreWndName;
+        // I forgot Java doesnt have pointers XD
+        switch (type) {
+            case OP_SAVE -> msg = msg.concat(" - Saving");
+            case OP_LOAD -> msg = msg.concat(" - Loading");
+            case OP_CLEAR -> msg = msg.concat(" - Clearing");
+        }
+        if(Board.usedChunks.size() > 500 && Board.usedChunks.size() < 999) // over 500 explored chunks
+            msg = msg.concat(" - (This might take a long time)");
+
+        return msg;
+    }
     public static void updateButtonAppearance() {
         switch (Board.item) {
             case None -> {

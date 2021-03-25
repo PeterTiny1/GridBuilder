@@ -25,6 +25,10 @@ public class MiscProvider {
             " - Green!"
     };
 
+    public static final byte OP_SAVE = 0;
+    public static final byte OP_LOAD = 1;
+    public static final byte OP_CLEAR = 2;
+
     public static final Dimension defDimensionBtn = new Dimension(70, 70);
     public static final Dimension defDimensionTxt = new Dimension(70, 30);
     public static final Dimension defWndDimension = new Dimension(500, 300);

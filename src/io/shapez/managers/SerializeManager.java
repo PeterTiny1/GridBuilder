@@ -6,8 +6,10 @@ import io.shapez.game.Board;
 import io.shapez.game.Chunk;
 import io.shapez.game.Entity;
 import io.shapez.managers.providers.SystemPathProvider;
+import io.shapez.ui.MoreWindow;
 import io.shapez.util.DebugUtil;
 import io.shapez.util.TileUtil;
+import io.shapez.util.UIUtil;
 
 import java.awt.*;
 import java.io.DataInputStream;
@@ -16,12 +18,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
+import static io.shapez.managers.providers.MiscProvider.*;
+
 public class SerializeManager {
 
+    public static long elapsed = 0;
 
     public static void loadAll(Board toReload) {
         // Start loading...
         long t1 = System.nanoTime();
+        elapsed = 0;
         try {
             TileUtil.clearAll(toReload);
             FileInputStream fs = new FileInputStream(SystemPathProvider.saveFile);
@@ -61,6 +67,8 @@ public class SerializeManager {
                     tex = TileUtil.getTileTexture(type,rot);
                     TileUtil.placeEntity(x, y, type, rot, tex, true); // Suppress audio!
                     i++;
+                    elapsed++;
+                    MoreWindow.L_moreFrame.setTitle(UIUtil.getProcTitle(OP_LOAD) + " (" + elapsed + ")");
                 }
             }
             ds.close();
@@ -77,6 +85,7 @@ public class SerializeManager {
     public static void saveAll(ArrayList<Chunk> chunks) {
         // Start saving...
         long t1 = System.nanoTime();
+        elapsed = 0;
         try {
 
             FileOutputStream fs = new FileOutputStream(SystemPathProvider.saveFile);
@@ -96,6 +105,8 @@ public class SerializeManager {
                         ds.writeByte(entity.rotation.getValue());
                     }
                 }
+                elapsed++;
+                MoreWindow.L_moreFrame.setTitle(UIUtil.getProcTitle(OP_SAVE) + " (" + elapsed + ")");
             }
             ds.flush();
             ds.close();
