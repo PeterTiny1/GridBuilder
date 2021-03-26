@@ -40,13 +40,14 @@ public class SerializeManager {
             DataInputStream ds = new DataInputStream(fs);
 
             // EXTREMELY busy loop
+
             while (ds.available() > 0) {
                 // 4 bytes per entity
                 // Tile type, Image texture, Rotations.cRotations rotation, int x, int y
                 int i = 0;
 
                 // Read header (once)
-
+                chunkSize = ds.readInt();
                 while (i < SystemPathProvider.saveFile.length() / bytesPerTile) {
                     // variables marked with _ are temporary and used for save game checking
                     if (i % (bytesPerTile*2) != 0) { elapsed++; }
