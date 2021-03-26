@@ -5,6 +5,7 @@ import io.shapez.core.Tile;
 import io.shapez.game.Board;
 import io.shapez.game.Chunk;
 import io.shapez.game.Entity;
+import io.shapez.game.GlobalConfig;
 import io.shapez.managers.providers.SystemPathProvider;
 import io.shapez.ui.MoreWindow;
 import io.shapez.util.DebugUtil;
@@ -19,11 +20,13 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import static io.shapez.managers.providers.MiscProvider.*;
+import io.shapez.game.GlobalConfig.*;
 
 public class SerializeManager {
 
     public static long elapsed = 0;
     public static int chunkSize = 0;
+    public static final byte bytesPerTile = 13;
 
     public static void loadAll(Board toReload) {
 
@@ -41,43 +44,47 @@ public class SerializeManager {
                 // 4 bytes per entity
                 // Tile type, Image texture, Rotations.cRotations rotation, int x, int y
                 int i = 0;
-                while (i < SystemPathProvider.saveFile.length() / 6) {
+
+                // Read header (once)
+
+                while (i < SystemPathProvider.saveFile.length() / bytesPerTile) {
                     // variables marked with _ are temporary and used for save game checking
-                    if (i % 12 == 1) {
-                        elapsed++;
-                    }
-                    Tile type;
-                    int _type;
+                    if (i % (bytesPerTile*2) != 0) { elapsed++; }
+                    // Tile
+                    Tile type; Image tex; Direction rot;
+                    int _type, _rot, tileX, tileY, lX, lY;
+                    byte lR, lG, lB;
 
-                    Image tex;
-
-                    Direction rot;
-                    int _rot;
-
-                    int x;
-                    int y;
-                    x = ds.readInt();
-                    y = ds.readInt();
+                    tileX = ds.readInt();
+                    tileY = ds.readInt();
                     _type = ds.readByte();
                     _rot = ds.readByte();
 
+                    lX = ds.readInt();
+                    lY = ds.readInt();
+                    lR = ds.readByte();
+                    lG = ds.readByte();
+                    lB = ds.readByte();
 
                     if (_type > Tile.values().length || _rot > Direction.values().length) {
                         // Tile is corrupted,edited,hacked or from weird game version
                         System.err.println("Invalid save game data");
-                        //continue;
-                        break; // completely stop loading everything if one tile is invalid.... not a good approach but continue; causes issues
+                        break;
                     }
                     type = Tile.valueOf(_type);
                     rot = Direction.valueOf(_rot);
                     tex = TileUtil.getTileTexture(type, rot);
-                    //TileUtil.placeEntity(x, y, type, rot, tex, true); // Suppress audio!
-                    TileUtil.forcePlace(x, y, type, rot, tex);
+                    TileUtil.forcePlace(tileX, tileY, type, rot, tex);
+
+                    for(Chunk chunk : Board.usedChunks){
+                        chunk.lowerLayer[lX][lY] = new Color(lR, lG, lB);
+                    }
 
                     //System.out.println("Chunk size: " + chunkSize);
                     //System.out.println("Elapsed: " + elapsed);
                     //System.out.println("ChunkSize/Elapsed: " + elapsed/chunkSize);
                     //System.out.println("ChunkSize/Elapsed * 100: " + (elapsed/chunkSize) * 100);
+                    elapsed++;
                     MoreWindow.L_moreFrame.setTitle(UIUtil.getProcTitle(OP_LOAD) + " (" + elapsed + "/" + chunkSize + ")");
                     i++;
                 }
@@ -103,7 +110,8 @@ public class SerializeManager {
             FileOutputStream fs = new FileOutputStream(SystemPathProvider.saveFile);
             DataOutputStream ds = new DataOutputStream(fs);
 
-            // EXTREMELY busy loop
+            // Write header
+            ds.writeInt(chunkSize);
 
             for (Chunk chunk : chunks) {
                 if (chunk == null) continue;
@@ -115,6 +123,20 @@ public class SerializeManager {
                         ds.writeInt(entity.y);
                         ds.writeByte(entity.tile.getValue());
                         ds.writeByte(entity.direction.getValue());
+                    }
+                }
+                for (int i = 0; i < chunk.lowerLayer.length; i++) {
+                    for (int j = 0; j < chunk.lowerLayer.length; j++) {
+                        Color color = chunk.lowerLayer[i][j];
+                        if(color == null || color == Color.LIGHT_GRAY) continue;
+                        ds.writeInt(i); // x
+                        ds.writeInt(j); // y
+                        ds.writeByte(color.getRed());     // r
+                        ds.writeByte(color.getGreen()); // g
+                        ds.writeByte(color.getBlue()); // b
+                        //ds.writeInt(entity.y);
+                        //ds.writeByte(entity.tile.getValue());
+                        //ds.writeByte(entity.direction.getValue());
                     }
                 }
                 elapsed++;
