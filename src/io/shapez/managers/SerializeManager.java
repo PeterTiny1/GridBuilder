@@ -73,12 +73,13 @@ public class SerializeManager {
                     tex = TileUtil.getTileTexture(type, rot);
                     //TileUtil.placeEntity(x, y, type, rot, tex, true); // Suppress audio!
                     TileUtil.forcePlace(x, y, type, rot, tex);
-                    i++;
+
                     //System.out.println("Chunk size: " + chunkSize);
                     //System.out.println("Elapsed: " + elapsed);
                     //System.out.println("ChunkSize/Elapsed: " + elapsed/chunkSize);
                     //System.out.println("ChunkSize/Elapsed * 100: " + (elapsed/chunkSize) * 100);
                     MoreWindow.L_moreFrame.setTitle(UIUtil.getProcTitle(OP_LOAD) + " (" + elapsed + "/" + chunkSize + ")");
+                    i++;
                 }
             }
             ds.close();
