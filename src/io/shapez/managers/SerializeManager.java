@@ -42,8 +42,6 @@ public class SerializeManager {
             // EXTREMELY busy loop
 
             while (ds.available() > 0) {
-                // 4 bytes per entity
-                // Tile type, Image texture, Rotations.cRotations rotation, int x, int y
                 int i = 0;
 
                 // Read header (once)
@@ -52,7 +50,19 @@ public class SerializeManager {
                 while (i < SystemPathProvider.saveFile.length() / bytesPerTile) {
                     // variables marked with _ are temporary and used for save game checking
                     if (i % (bytesPerTile*2) != 0) { elapsed++; }
-                    // Tile
+                    //Per tile (data structure)
+
+                    //4 Bytes - Entity x
+                    //4 Bytes - Entity y
+                    //1 Byte - Entity tile type
+                    //1 Byte - entity direction
+
+                    //4 Bytes - LowerLayer x
+                    //4 Bytes - LowerLayer y
+                    //1 Byte - LowerLayer R
+                    //1 Byte - LowerLayer G
+                    //1 Byte - LowerLayer B
+
                     Tile type; Image tex; Direction rot;
                     int _type, _rot, tileX, tileY, lX, lY;
                     byte lR, lG, lB;
@@ -78,14 +88,11 @@ public class SerializeManager {
                     tex = TileUtil.getTileTexture(type, rot);
                     TileUtil.forcePlace(tileX, tileY, type, rot, tex);
 
-                    for(Chunk chunk : Board.usedChunks){
-                        chunk.lowerLayer[lX][lY] = new Color(lR, lG, lB);
-                    }
+                    //for(Chunk chunk : Board.usedChunks){
+                    //    chunk.lowerLayer[lX][lY] = new Color(lR, lG, lB);
+                    //}
 
-                    //System.out.println("Chunk size: " + chunkSize);
-                    //System.out.println("Elapsed: " + elapsed);
-                    //System.out.println("ChunkSize/Elapsed: " + elapsed/chunkSize);
-                    //System.out.println("ChunkSize/Elapsed * 100: " + (elapsed/chunkSize) * 100);
+
                     elapsed++;
                     MoreWindow.L_moreFrame.setTitle(UIUtil.getProcTitle(OP_LOAD) + " (" + elapsed + "/" + chunkSize + ")");
                     i++;
@@ -101,11 +108,11 @@ public class SerializeManager {
         DebugUtil.printTime("Loading", "ms", t1, t2);
     }
 
-    public static void saveAll(ArrayList<Chunk> chunks) {
+    public static void saveAll() {
         // Start saving...
         long t1 = System.nanoTime();
         elapsed = 0;
-        chunkSize = chunks.size();
+        chunkSize = Board.usedChunks.size();
 
 
         // Documentation:
@@ -121,11 +128,37 @@ public class SerializeManager {
             // Write header
             ds.writeInt(chunkSize);
 
-            for (Chunk chunk : chunks) {
+            for (Chunk chunk : Board.usedChunks) {
                 if (chunk == null) continue;
-                for (int x = 0; x < chunk.contents.length; x++) {
-                    for (int y = 0; y < chunk.contents.length; y++) {
-                        Entity entity = chunk.contents[x][y];
+                //for (int x = 0; x < chunk.contents.length; x++) {
+                //    for (int y = 0; y < chunk.contents.length; y++) {
+                //        Entity entity = chunk.contents[x][y];
+                //        if (entity == null) continue;
+                //        ds.writeInt(entity.x);
+                //        ds.writeInt(entity.y);
+                //        ds.writeByte(entity.tile.getValue());
+                //        ds.writeByte(entity.direction.getValue());
+                //    }
+                //}
+                // for (int i = 0; i <= chunk.lowerLayer.length; i++) {
+                //    for (int j = 0; j <= chunk.lowerLayer.length; j++) {
+                //        System.out.println(i + " " + j);
+                //        Color color = chunk.lowerLayer[i][j];
+                //        if(color == null)continue;
+                //        ds.writeInt(i); // x
+                //        ds.writeInt(j); // y
+                //        ds.writeByte(color.getRed());     // r
+                //        ds.writeByte(color.getGreen()); // g
+                //        ds.writeByte(color.getBlue()); // b
+                //        //ds.writeInt(entity.y);
+                //        //ds.writeByte(entity.tile.getValue());
+                //        //ds.writeByte(entity.direction.getValue());
+                //    }
+                //}
+                for (byte i = 0; i < GlobalConfig.mapChunkSize; i++) {
+                    for (byte j = 0; j < GlobalConfig.mapChunkSize; j++) {
+                        // Better approach?
+                        Entity entity = chunk.contents[i][j];
                         if (entity == null) continue;
                         ds.writeInt(entity.x);
                         ds.writeInt(entity.y);
@@ -133,8 +166,9 @@ public class SerializeManager {
                         ds.writeByte(entity.direction.getValue());
                     }
                 }
-                for (int i = 0; i < chunk.lowerLayer.length; i++) {
-                    for (int j = 0; j < chunk.lowerLayer.length; j++) {
+                for (byte i = 0; i < GlobalConfig.mapChunkSize; i++) {
+                    for (byte j = 0; j < GlobalConfig.mapChunkSize; j++) {
+                        // Better approach?
                         Color color = chunk.lowerLayer[i][j];
                         if(color == null)continue;
                         ds.writeInt(i); // x
@@ -142,9 +176,6 @@ public class SerializeManager {
                         ds.writeByte(color.getRed());     // r
                         ds.writeByte(color.getGreen()); // g
                         ds.writeByte(color.getBlue()); // b
-                        //ds.writeInt(entity.y);
-                        //ds.writeByte(entity.tile.getValue());
-                        //ds.writeByte(entity.direction.getValue());
                     }
                 }
                 elapsed++;

@@ -30,7 +30,7 @@ public class MoreWindow extends JFrame {
 
     public static void internalUI_SaveAllChunks() {
         SoundManager.playSound(Resources.uiClickSound);
-        SerializeManager.saveAll(Board.usedChunks);
+        SerializeManager.saveAll();
         ResetTitle();
         SoundManager.playSound(Resources.uiSuccessSound);
     }
