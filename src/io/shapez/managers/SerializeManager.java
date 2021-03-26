@@ -26,7 +26,7 @@ public class SerializeManager {
 
     public static long elapsed = 0;
     public static int chunkSize = 0;
-    public static final byte bytesPerTile = 13;
+    public static final byte bytesPerTile = 14;
 
     public static void loadAll(Board toReload) {
 
@@ -92,8 +92,7 @@ public class SerializeManager {
             ds.close();
             fs.close();
         } catch (Exception e) {
-            if (e.getMessage() == null) return;
-
+            if (e.getMessage() == null) System.out.println("what???");
             System.err.println("!!! Error loading chunks !!! (" + e.getMessage() + ")");
         }
         long t2 = System.nanoTime();
@@ -125,8 +124,8 @@ public class SerializeManager {
                         ds.writeByte(entity.direction.getValue());
                     }
                 }
-                for (int i = 0; i < chunk.lowerLayer.length; i++) {
-                    for (int j = 0; j < chunk.lowerLayer.length; j++) {
+                for (int i = 0; i < chunk.lowerLayer.length-31; i++) { // Hack
+                    for (int j = 0; j < chunk.lowerLayer.length-31; j++) {
                         Color color = chunk.lowerLayer[i][j];
                         if(color == null || color == Color.LIGHT_GRAY) continue;
                         ds.writeInt(i); // x
