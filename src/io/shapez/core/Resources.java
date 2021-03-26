@@ -71,10 +71,10 @@ public class Resources {
 
             vignette = ImageIO.read(Resources.class.getResource("/vignette.lossless.png"));
             missingTexture = ImageIO.read(Resources.class.getResource("/missing.png"));
-            belt = ImageIO.read(Resources.class.getResource("/tiles/belt.png"));
-            miner = ImageIO.read(Resources.class.getResource("/tiles/miner.png"));
-            trash = ImageIO.read(Resources.class.getResource("/tiles/trash.png"));
-            rotator = ImageIO.read(Resources.class.getResource("/tiles/rotator.png"));
+            belt = ImageIO.read(Resources.class.getResource("/sprites/belt.png"));
+            miner = ImageIO.read(Resources.class.getResource("/sprites/miner.png"));
+            trash = ImageIO.read(Resources.class.getResource("/sprites/trash.png"));
+            rotator = ImageIO.read(Resources.class.getResource("/sprites/rotator.png"));
 
             Graphics2D _gfx = solidRed.createGraphics();
             _gfx.setPaint (new Color(255, 0, 0));
