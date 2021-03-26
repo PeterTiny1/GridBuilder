@@ -61,14 +61,6 @@ public class BottomPanel extends JPanel {
         rotatorButton.setMaximumSize(defDimensionBtn);
         innerPanel.add(rotatorButton, BorderLayout.SOUTH);
 
-        lowerLayerButton.addActionListener(e -> selectItem(Tile.DEBUG_LowerLayer));
-        lowerLayerButton.setFocusable(false);
-        lowerLayerButton.setIcon(new ImageIcon(missingTexture.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
-        lowerLayerButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
-        lowerLayerButton.setPreferredSize(defDimensionBtn);
-        lowerLayerButton.setMaximumSize(defDimensionBtn);
-        innerPanel.add(lowerLayerButton, BorderLayout.SOUTH);
-
         this.add(innerPanel);
     }
 

@@ -64,6 +64,8 @@ public class TileUtil {
                 break;
             case Trash:
                 return Resources.trash; // cant be rotated
+            case DEBUG_LowerLayer:
+                return Resources.solidRed;
             default:
                 return Resources.missingTexture;
         }

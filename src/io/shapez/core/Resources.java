@@ -38,6 +38,10 @@ public class Resources {
     public static URL uiDenySound;
 
 
+    // Solid colors
+    public static BufferedImage solidRed = new BufferedImage(40,40,BufferedImage.TYPE_INT_RGB);
+
+
     // Make sure to run with these jvm options:
 //    -Dsun.java2d.d3d=true -Dsun.java2d.translaccel=true -Dsun.java2d.ddforcevram=true -Dsun.java2d.accthreshold=1
 
@@ -67,6 +71,11 @@ public class Resources {
             miner = ImageIO.read(Resources.class.getResource("/tiles/miner.png"));
             trash = ImageIO.read(Resources.class.getResource("/tiles/trash.png"));
             rotator = ImageIO.read(Resources.class.getResource("/tiles/rotator.png"));
+
+            Graphics2D _gfx = solidRed.createGraphics();
+            _gfx.setPaint (new Color(255, 0, 0));
+            _gfx.fillRect (0,0,solidRed.getWidth(),solidRed.getHeight());
+
         } catch (IOException e) {
             System.out.println("Resource(s) missing");
             // e.printStackTrace();
