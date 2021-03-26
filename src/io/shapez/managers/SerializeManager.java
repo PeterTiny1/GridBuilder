@@ -124,10 +124,17 @@ public class SerializeManager {
                         ds.writeByte(entity.direction.getValue());
                     }
                 }
-                for (int i = 0; i < chunk.lowerLayer.length-31; i++) { // Hack
-                    for (int j = 0; j < chunk.lowerLayer.length-31; j++) {
+                for (int i = 0; i < chunk.lowerLayer.length; i++) {
+                    for (int j = 0; j < chunk.lowerLayer.length; j++) {
                         Color color = chunk.lowerLayer[i][j];
-                        if(color == null || color == Color.LIGHT_GRAY) continue;
+                        if(color == null){
+                            // write dummy values as not to desync everything
+                            ds.writeInt(0);
+                            ds.writeInt(0);
+                            ds.writeByte(0);
+                            ds.writeByte(0);
+                            ds.writeByte(0);
+                        }
                         ds.writeInt(i); // x
                         ds.writeInt(j); // y
                         ds.writeByte(color.getRed());     // r
