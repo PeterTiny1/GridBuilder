@@ -26,7 +26,7 @@ public class SerializeManager {
 
     public static long elapsed = 0;
     public static int chunkSize = 0;
-    public static final byte bytesPerTile = 14;
+    public static final byte bytesPerTile = 25;
 
     public static void loadAll(Board toReload) {
 
@@ -48,6 +48,7 @@ public class SerializeManager {
 
                 // Read header (once)
                 chunkSize = ds.readInt();
+
                 while (i < SystemPathProvider.saveFile.length() / bytesPerTile) {
                     // variables marked with _ are temporary and used for save game checking
                     if (i % (bytesPerTile*2) != 0) { elapsed++; }
@@ -105,6 +106,13 @@ public class SerializeManager {
         long t1 = System.nanoTime();
         elapsed = 0;
         chunkSize = chunks.size();
+
+
+        // Documentation:
+        // Integer write - 4 bytes
+        // Byte write - 1 byte
+        // Amount of integer writes: 5
+        // Amount of byte writes: 5
         try {
 
             FileOutputStream fs = new FileOutputStream(SystemPathProvider.saveFile);
