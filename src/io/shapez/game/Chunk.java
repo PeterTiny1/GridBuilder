@@ -137,10 +137,12 @@ public class Chunk {
         int constY = (_y) * scale + offsetY;
         // Do NOT touch this. I have done this with a very good reason.
         int entCount = 0, mEntCount = 0;
-        for (MovingEntity[] mContent : movingContents) {
+
+        /*  [IMPORTANT] DO NOT touch or modify  this code */
+        for (MovingEntity[] ignored : movingContents) {
             int __k = 0;
-            while (__k < mContent.length) {
-                if (mContent[__k] != null) mEntCount++;
+            while (__k < movingContents.length) {
+                if (movingContents[__k] != null) mEntCount++;
                 __k++;
             }
         }

@@ -39,73 +39,45 @@ public class Vector {
     }
 
     public Vector rotateFastMultipleOf90(int angle) {
-        switch (angle) {
-            case 360:
-            case 0:
-                return new Vector(this.x, this.y);
-            case 90:
-                return new Vector(-this.y, this.x);
-            case 180:
-                return new Vector(-this.x, -this.y);
-            case 270:
-                return new Vector(this.y, -this.x);
-            default:
-                return new Vector();
-        }
+        return switch (angle) {
+            case 360, 0 -> new Vector(this.x, this.y);
+            case 90 -> new Vector(-this.y, this.x);
+            case 180 -> new Vector(-this.x, -this.y);
+            case 270 -> new Vector(this.y, -this.x);
+            default -> new Vector();
+        };
     }
 
     public static Direction transformDirectionFromMultipleOf90(Direction direction, int angle) {
         if (angle == 0 || angle == 360) {
             return direction;
         }
-        switch (direction) {
-            case Top:
-                switch (angle) {
-                    case 90:
-                        return Direction.Right;
-                    case 180:
-                        return Direction.Bottom;
-                    case 270:
-                        return Direction.Left;
-                    default:
-                        return direction;
-                }
-            case Right:
-                switch (angle) {
-                    case 90:
-                        return Direction.Bottom;
-                    case 180:
-                        return Direction.Left;
-                    case 270:
-                        return Direction.Top;
-                    default:
-                        return direction;
-                }
-            case Bottom:
-                switch (angle) {
-                    case 90:
-                        return Direction.Left;
-                    case 180:
-                        return Direction.Right;
-                    case 270:
-                        return Direction.Top;
-                    default:
-                        return direction;
-                }
-            case Left:
-                switch (angle) {
-                    case 90:
-                        return Direction.Top;
-                    case 180:
-                        return Direction.Right;
-                    case 270:
-                        return Direction.Bottom;
-                    default:
-                        return direction;
-                }
-            default:
-                return direction;
-        }
+        return switch (direction) {
+            case Top -> switch (angle) {
+                case 90 -> Direction.Right;
+                case 180 -> Direction.Bottom;
+                case 270 -> Direction.Left;
+                default -> direction;
+            };
+            case Right -> switch (angle) {
+                case 90 -> Direction.Bottom;
+                case 180 -> Direction.Left;
+                case 270 -> Direction.Top;
+                default -> direction;
+            };
+            case Bottom -> switch (angle) {
+                case 90 -> Direction.Left;
+                case 180 -> Direction.Right;
+                case 270 -> Direction.Top;
+                default -> direction;
+            };
+            case Left -> switch (angle) {
+                case 90 -> Direction.Top;
+                case 180 -> Direction.Right;
+                case 270 -> Direction.Bottom;
+                default -> direction;
+            };
+        };
     }
 
     public Vector sub(Vector other) {

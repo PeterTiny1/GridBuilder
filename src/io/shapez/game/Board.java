@@ -116,8 +116,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     private void DrawGrid(Graphics2D g2d) {
         Vector leftTopTile = new Vector(-gridOffsetX, -gridOffsetY);
         Vector rightBottomTile = new Vector(getWidth() / (float) scale - gridOffsetX, getHeight() / (float) scale - gridOffsetY);
-        Chunk leftTopChunk = GlobalConfig.map.getChunkAtTile((int) leftTopTile.x, (int) leftTopTile.y);
-        Chunk rightBottomChunk = GlobalConfig.map.getChunkAtTile((int) rightBottomTile.x, (int) rightBottomTile.y);
+        Chunk leftTopChunk = GlobalConfig.map.getChunkAtTile((int) leftTopTile.x-1, (int) leftTopTile.y-1);
+        Chunk rightBottomChunk = GlobalConfig.map.getChunkAtTile((int) rightBottomTile.x+1, (int) rightBottomTile.y+1);
 
         int c1x = leftTopChunk.x;
         int c1y = leftTopChunk.y;
@@ -240,6 +240,14 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             case KeyEvent.VK_F5:
                 this.window.setTitle(gameName + getRandomTitlebar());
                 break;
+            case KeyEvent.VK_F6:
+                offsetX += Integer.MAX_VALUE;
+                gridOffsetX += Integer.MAX_VALUE / scale;
+                offsetX %= scale;
+                offsetY += Integer.MAX_VALUE;
+                gridOffsetY += Integer.MAX_VALUE / scale;
+                offsetY %= scale;
+                break;
             case KeyEvent.VK_F11:
                 if (window.getExtendedState() == JFrame.MAXIMIZED_BOTH)
                     window.setExtendedState(JFrame.NORMAL);
@@ -343,7 +351,11 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
             //currentChunk.contents[offX][offY] = null;
             clearTile(offX, offY);
+
+            if(item != Tile.DEBUG_LowerLayer)
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
+            else
+            currentChunk.lowerLayer[offX][offY] = Color.red;
 
             usedChunks.add(currentChunk);
             return;
@@ -354,8 +366,13 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 SoundManager.playSound(Resources.beltPlaceSound);
             else
                 SoundManager.playSound(Resources.generic_placeTileSound);
-            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
 
+            if(item == Tile.DEBUG_LowerLayer){
+                currentChunk.lowerLayer[offX][offY] = Color.red;
+                usedChunks.add(currentChunk);
+                return;
+            }
+            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
             usedChunks.add(currentChunk);
         }
     }
@@ -395,6 +412,6 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     }
 
     public void __clearAll() {
-        TileUtil.clearAll(this);
+        TileUtil.clearAll();
     }
 }

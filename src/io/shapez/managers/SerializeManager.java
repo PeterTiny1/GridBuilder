@@ -5,6 +5,7 @@ import io.shapez.core.Tile;
 import io.shapez.game.Board;
 import io.shapez.game.Chunk;
 import io.shapez.game.Entity;
+import io.shapez.game.GlobalConfig;
 import io.shapez.managers.providers.SystemPathProvider;
 import io.shapez.ui.MoreWindow;
 import io.shapez.util.DebugUtil;
@@ -19,11 +20,13 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import static io.shapez.managers.providers.MiscProvider.*;
+import io.shapez.game.GlobalConfig.*;
 
 public class SerializeManager {
 
     public static long elapsed = 0;
     public static int chunkSize = 0;
+    public static final byte bytesPerTile = 25;
 
     public static void loadAll(Board toReload) {
 
@@ -32,88 +35,147 @@ public class SerializeManager {
         elapsed = 0;
         chunkSize = Board.usedChunks.size();
         try {
-            TileUtil.clearAll(toReload);
+            TileUtil.clearAll();
             FileInputStream fs = new FileInputStream(SystemPathProvider.saveFile);
             DataInputStream ds = new DataInputStream(fs);
 
             // EXTREMELY busy loop
+
             while (ds.available() > 0) {
-                // 4 bytes per entity
-                // Tile type, Image texture, Rotations.cRotations rotation, int x, int y
                 int i = 0;
-                while (i < SystemPathProvider.saveFile.length() / 6) {
+
+                // Read header (once)
+                chunkSize = ds.readInt();
+
+                while (i < SystemPathProvider.saveFile.length() / bytesPerTile) {
                     // variables marked with _ are temporary and used for save game checking
-                    if (i % 12 == 1) {
-                        elapsed++;
-                    }
-                    Tile type;
-                    int _type;
+                    if (i % (bytesPerTile*2) != 0) { elapsed++; }
+                    //Per tile (data structure)
 
-                    Image tex;
+                    //4 Bytes - Entity x
+                    //4 Bytes - Entity y
+                    //1 Byte - Entity tile type
+                    //1 Byte - entity direction
 
-                    Direction rot;
-                    int _rot;
+                    //4 Bytes - LowerLayer x
+                    //4 Bytes - LowerLayer y
+                    //1 Byte - LowerLayer R
+                    //1 Byte - LowerLayer G
+                    //1 Byte - LowerLayer B
 
-                    int x;
-                    int y;
-                    x = ds.readInt();
-                    y = ds.readInt();
+                    Tile type; Image tex; Direction rot;
+                    int _type, _rot, tileX, tileY, lX, lY;
+                    byte lR, lG, lB;
+
+                    tileX = ds.readInt();
+                    tileY = ds.readInt();
                     _type = ds.readByte();
                     _rot = ds.readByte();
 
+                    lX = ds.readInt();
+                    lY = ds.readInt();
+                    lR = ds.readByte();
+                    lG = ds.readByte();
+                    lB = ds.readByte();
 
                     if (_type > Tile.values().length || _rot > Direction.values().length) {
                         // Tile is corrupted,edited,hacked or from weird game version
                         System.err.println("Invalid save game data");
-                        //continue;
-                        break; // completely stop loading everything if one tile is invalid.... not a good approach but continue; causes issues
+                        break;
                     }
                     type = Tile.valueOf(_type);
                     rot = Direction.valueOf(_rot);
                     tex = TileUtil.getTileTexture(type, rot);
-                    //TileUtil.placeEntity(x, y, type, rot, tex, true); // Suppress audio!
-                    TileUtil.forcePlace(x, y, type, rot, tex);
-                    i++;
-                    //System.out.println("Chunk size: " + chunkSize);
-                    //System.out.println("Elapsed: " + elapsed);
-                    //System.out.println("ChunkSize/Elapsed: " + elapsed/chunkSize);
-                    //System.out.println("ChunkSize/Elapsed * 100: " + (elapsed/chunkSize) * 100);
+                    TileUtil.forcePlace(tileX, tileY, type, rot, tex);
+
+                    //for(Chunk chunk : Board.usedChunks){
+                    //    chunk.lowerLayer[lX][lY] = new Color(lR, lG, lB);
+                    //}
+
+
+                    elapsed++;
                     MoreWindow.L_moreFrame.setTitle(UIUtil.getProcTitle(OP_LOAD) + " (" + elapsed + "/" + chunkSize + ")");
+                    i++;
                 }
             }
             ds.close();
             fs.close();
         } catch (Exception e) {
-            if (e.getMessage() == null) return;
-
+            if (e.getMessage() == null) System.out.println("what???");
             System.err.println("!!! Error loading chunks !!! (" + e.getMessage() + ")");
         }
         long t2 = System.nanoTime();
         DebugUtil.printTime("Loading", "ms", t1, t2);
     }
 
-    public static void saveAll(ArrayList<Chunk> chunks) {
+    public static void saveAll() {
         // Start saving...
         long t1 = System.nanoTime();
         elapsed = 0;
-        chunkSize = chunks.size();
+        chunkSize = Board.usedChunks.size();
+
+
+        // Documentation:
+        // Integer write - 4 bytes
+        // Byte write - 1 byte
+        // Amount of integer writes: 5
+        // Amount of byte writes: 5
         try {
 
             FileOutputStream fs = new FileOutputStream(SystemPathProvider.saveFile);
             DataOutputStream ds = new DataOutputStream(fs);
 
-            // EXTREMELY busy loop
+            // Write header
+            ds.writeInt(chunkSize);
 
-            for (Chunk chunk : chunks) {
+            for (Chunk chunk : Board.usedChunks) {
                 if (chunk == null) continue;
-                for (int x = 0; x < chunk.contents.length; x++) {
-                    for (int y = 0; y < chunk.contents.length; y++) {
-                        Entity entity = chunk.contents[x][y];
+                //for (int x = 0; x < chunk.contents.length; x++) {
+                //    for (int y = 0; y < chunk.contents.length; y++) {
+                //        Entity entity = chunk.contents[x][y];
+                //        if (entity == null) continue;
+                //        ds.writeInt(entity.x);
+                //        ds.writeInt(entity.y);
+                //        ds.writeByte(entity.tile.getValue());
+                //        ds.writeByte(entity.direction.getValue());
+                //    }
+                //}
+                // for (int i = 0; i <= chunk.lowerLayer.length; i++) {
+                //    for (int j = 0; j <= chunk.lowerLayer.length; j++) {
+                //        System.out.println(i + " " + j);
+                //        Color color = chunk.lowerLayer[i][j];
+                //        if(color == null)continue;
+                //        ds.writeInt(i); // x
+                //        ds.writeInt(j); // y
+                //        ds.writeByte(color.getRed());     // r
+                //        ds.writeByte(color.getGreen()); // g
+                //        ds.writeByte(color.getBlue()); // b
+                //        //ds.writeInt(entity.y);
+                //        //ds.writeByte(entity.tile.getValue());
+                //        //ds.writeByte(entity.direction.getValue());
+                //    }
+                //}
+                for (byte i = 0; i < GlobalConfig.mapChunkSize; i++) {
+                    for (byte j = 0; j < GlobalConfig.mapChunkSize; j++) {
+                        // Better approach?
+                        Entity entity = chunk.contents[i][j];
                         if (entity == null) continue;
                         ds.writeInt(entity.x);
                         ds.writeInt(entity.y);
                         ds.writeByte(entity.tile.getValue());
                         ds.writeByte(entity.direction.getValue());
+                    }
+                }
+                for (byte i = 0; i < GlobalConfig.mapChunkSize; i++) {
+                    for (byte j = 0; j < GlobalConfig.mapChunkSize; j++) {
+                        // Better approach?
+                        Color color = chunk.lowerLayer[i][j];
+                        if(color == null)continue;
+                        ds.writeInt(i); // x
+                        ds.writeInt(j); // y
+                        ds.writeByte(color.getRed());     // r
+                        ds.writeByte(color.getGreen()); // g
+                        ds.writeByte(color.getBlue()); // b
                     }
                 }
                 elapsed++;

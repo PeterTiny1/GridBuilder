@@ -21,9 +21,19 @@ public class TileUtil {
             Tile.Miner
     };
 
-    public static void clearAll(Board b) {
-        ArrayList<Chunk> usedChunks = Board.usedChunks;
-        for (Chunk chunk : usedChunks) {
+    public static void clearAll() {
+        //for (Chunk chunk : Board.usedChunks) {
+        for (int _i = 0; _i < Board.usedChunks.size(); _i++) {
+            Chunk chunk = Board.usedChunks.get(_i);
+            System.out.println(Board.usedChunks.size());
+            for (int i = 0; i < chunk.lowerLayer.length; i++) {
+                for (int j = 0; j < chunk.lowerLayer.length; j++) {
+                    Color color = chunk.lowerLayer[i][j];
+                    if(color != null/* && (color == Color.RED || color == Color.GREEN || color == Color.BLUE || color == Color.LIGHT_GRAY)*/) {
+                        chunk.lowerLayer[i][j] = null;
+                    }
+                }
+            }
             for (int x = 0; x < chunk.contents.length; x++) {
                 for (int y = 0; y < chunk.contents.length; y++) {
                     if (chunk.contents[x][y] != null)
@@ -34,6 +44,12 @@ public class TileUtil {
                 for (int y = 0; y < chunk.movingContents.length; y++) {
                     if (chunk.movingContents[x][y] != null)
                         chunk.movingContents[x][y] = null;
+                }
+            }
+            for (int x = 0; x < chunk.lowerLayer.length; x++) {
+                for (int y = 0; y < chunk.lowerLayer.length; y++) {
+                    if (chunk.lowerLayer[x][y] != null)
+                        chunk.lowerLayer[x][y] = null;
                 }
             }
         }
@@ -64,6 +80,8 @@ public class TileUtil {
                 break;
             case Trash:
                 return Resources.trash; // cant be rotated
+            case DEBUG_LowerLayer:
+                return Resources.solidRed;
             default:
                 return Resources.missingTexture;
         }
@@ -105,14 +123,12 @@ public class TileUtil {
         if (currentChunk.contents[offX][offY] == null) {
             SoundManager.playSound(item == Tile.Belt ? Resources.beltPlaceSound : Resources.generic_placeTileSound);
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
-
             Board.usedChunks.add(currentChunk);
         }
 
         if (checkSpecialProperties(currentChunk, offX, offY, item)) {
             currentChunk.contents[offX][offY] = null;
         }
-
     }
 
     public static boolean checkSpecialProperties(Chunk currentChunk, int offX, int offY, Tile item) {

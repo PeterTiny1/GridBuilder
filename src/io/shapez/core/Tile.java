@@ -8,7 +8,8 @@ public enum Tile {
     Belt(2),
     Miner(3),
     Trash(4),
-    Rotator(5);
+    Rotator(5),
+    DEBUG_LowerLayer(99); // DEBUG: a red-colored lower layer tile
 
     private final int value;
     private static final Map<Integer, Tile> map = new HashMap<>();

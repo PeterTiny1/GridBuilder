@@ -12,12 +12,12 @@ public class EntityTutorial {
             "Used to transport items", //  How to use: descriptions[tileIndex]
             "Used to extract items",
             "Used to delete items",
-            "Used to rotate shapes"
+            "Used to rotate shapes",
+            "[DEBUG] Red lower layer tile"
     };
 
     public static String GetTitle(Tile item){
         if(item == Tile.None)return "";
-
         return item.toString();
     }
     public static String GetDescription(Tile item){

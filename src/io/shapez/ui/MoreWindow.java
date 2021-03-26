@@ -4,6 +4,7 @@ import io.shapez.core.Resources;
 import io.shapez.game.Board;
 import io.shapez.managers.SerializeManager;
 import io.shapez.managers.SoundManager;
+import io.shapez.util.TileUtil;
 import io.shapez.util.UIUtil;
 
 import javax.swing.*;
@@ -29,7 +30,7 @@ public class MoreWindow extends JFrame {
 
     public static void internalUI_SaveAllChunks() {
         SoundManager.playSound(Resources.uiClickSound);
-        SerializeManager.saveAll(Board.usedChunks);
+        SerializeManager.saveAll();
         ResetTitle();
         SoundManager.playSound(Resources.uiSuccessSound);
     }
@@ -44,7 +45,8 @@ public class MoreWindow extends JFrame {
     public static void internalUI_ClearAllChunks() {
         SoundManager.playSound(Resources.uiClickSound);
         L_moreFrame.setTitle(UIUtil.getProcTitle(OP_CLEAR));
-        board.__clearAll();
+        //board.__clearAll();
+        TileUtil.clearAll();
         ResetTitle();
     }
 

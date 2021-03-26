@@ -16,6 +16,7 @@ public class BottomPanel extends JPanel {
     public static JButton minerButton = new JButton();
     public static JButton trashButton = new JButton();
     public static JButton rotatorButton = new JButton();
+    public static JButton lowerLayerButton = new JButton();
 
     public BottomPanel(Board board) {
         this.board = board;
