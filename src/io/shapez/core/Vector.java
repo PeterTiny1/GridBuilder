@@ -22,23 +22,13 @@ public class Vector {
     }
 
     public Vector rotateFastMultipleOf90(int angle) {
-        switch (angle) {
-            case 360, 0 -> {
-                return new Vector(this.x, this.y);
-            }
-            case 90 -> {
-                return new Vector(-this.y, this.x);
-            }
-            case 180 -> {
-                return new Vector(-this.x, -this.y);
-            }
-            case 270 -> {
-                return new Vector(this.y, -this.x);
-            }
-            default -> {
-                return new Vector();
-            }
-        }
+        return switch (angle) {
+            case 360, 0 -> new Vector(this.x, this.y);
+            case 90 -> new Vector(-this.y, this.x);
+            case 180 -> new Vector(-this.x, -this.y);
+            case 270 -> new Vector(this.y, -this.x);
+            default -> new Vector();
+        };
     }
 
     public static Direction transformDirectionFromMultipleOf90(Direction direction, int angle) {
