@@ -1,5 +1,7 @@
 package io.shapez.core;
 
+import io.shapez.util.DebugUtil;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -48,6 +50,8 @@ public class Resources {
     // This will provide a insane performance boost, but on low-end systems it might overwhelm the hardware
     static {
         try {
+            long t1 = System.nanoTime();
+            System.out.println("[Resources] Initializing...");
             logo = new ImageIcon(Resources.class.getResource("/ui/logo.png"));
             settingsImage = ImageIO.read(Resources.class.getResource("/ui/settings.png"));
             saveImage = ImageIO.read(Resources.class.getResource("/ui/save.png"));
@@ -75,7 +79,8 @@ public class Resources {
             Graphics2D _gfx = solidRed.createGraphics();
             _gfx.setPaint (new Color(255, 0, 0));
             _gfx.fillRect (0,0,solidRed.getWidth(),solidRed.getHeight());
-
+            long t2 = System.nanoTime();
+            DebugUtil.printTime("[Resource] Initalized", "ms", t1, t2);
         } catch (IOException e) {
             System.out.println("Resource(s) missing");
             // e.printStackTrace();
