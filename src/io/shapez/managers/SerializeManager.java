@@ -32,7 +32,7 @@ public class SerializeManager {
         elapsed = 0;
         chunkSize = Board.usedChunks.size();
         try {
-            TileUtil.clearAll(toReload);
+            TileUtil.clearAll();
             FileInputStream fs = new FileInputStream(SystemPathProvider.saveFile);
             DataInputStream ds = new DataInputStream(fs);
 
