@@ -3,6 +3,7 @@ package io.shapez.game;
 import io.shapez.core.Direction;
 import io.shapez.core.Tile;
 import io.shapez.game.components.BeltComponent;
+import io.shapez.game.components.ItemAcceptorComponent;
 import io.shapez.game.components.StaticMapEntityComponent;
 
 import java.awt.*;
@@ -26,7 +27,7 @@ public class Entity {
         public StaticMapEntityComponent StaticMapEntity;
         public BeltComponent Belt;
 //        public ItemEjectorComponent ItemEjector;
-//        public ItemAcceptorComponent ItemAcceptor;
+        public ItemAcceptorComponent ItemAcceptor;
 //        public MinerComponent Miner;
 //        public ItemProcessorComponent ItemProcessor;
 //        public UndergroundBeltComponent UndergroundBelt;

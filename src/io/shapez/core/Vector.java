@@ -1,5 +1,7 @@
 package io.shapez.core;
 
+import io.shapez.game.Board;
+
 public class Vector {
     public double x;
     public double y;
@@ -17,27 +19,38 @@ public class Vector {
         this.xy = 0;
     }
 
+    public static Direction invertDirection(Direction direction) {
+        switch (direction) {
+            case Top:
+                return Direction.Bottom;
+            case Right:
+                return Direction.Left;
+            case Left:
+                return Direction.Right;
+            case Bottom:
+                return Direction.Top;
+            default:
+                return direction;
+        }
+    }
+
     public double length() {
         return Math.sqrt(xy);
     }
 
     public Vector rotateFastMultipleOf90(int angle) {
         switch (angle) {
-            case 360, 0 -> {
+            case 360:
+            case 0:
                 return new Vector(this.x, this.y);
-            }
-            case 90 -> {
+            case 90:
                 return new Vector(-this.y, this.x);
-            }
-            case 180 -> {
+            case 180:
                 return new Vector(-this.x, -this.y);
-            }
-            case 270 -> {
+            case 270:
                 return new Vector(this.y, -this.x);
-            }
-            default -> {
+            default:
                 return new Vector();
-            }
         }
     }
 
@@ -46,38 +59,50 @@ public class Vector {
             return direction;
         }
         switch (direction) {
-            case Top: {
-                return switch (angle) {
-                    case 90 -> Direction.Right;
-                    case 180 -> Direction.Bottom;
-                    case 270 -> Direction.Left;
-                    default -> direction;
-                };
-            }
-            case Right: {
-                return switch (angle) {
-                    case 90 -> Direction.Bottom;
-                    case 180 -> Direction.Left;
-                    case 270 -> Direction.Top;
-                    default -> direction;
-                };
-            }
-            case Bottom: {
-                return switch (angle) {
-                    case 90 -> Direction.Left;
-                    case 180 -> Direction.Right;
-                    case 270 -> Direction.Top;
-                    default -> direction;
-                };
-            }
-            case Left: {
-                return switch (angle) {
-                    case 90 -> Direction.Top;
-                    case 180 -> Direction.Right;
-                    case 270 -> Direction.Bottom;
-                    default -> direction;
-                };
-            }
+            case Top:
+                switch (angle) {
+                    case 90:
+                        return Direction.Right;
+                    case 180:
+                        return Direction.Bottom;
+                    case 270:
+                        return Direction.Left;
+                    default:
+                        return direction;
+                }
+            case Right:
+                switch (angle) {
+                    case 90:
+                        return Direction.Bottom;
+                    case 180:
+                        return Direction.Left;
+                    case 270:
+                        return Direction.Top;
+                    default:
+                        return direction;
+                }
+            case Bottom:
+                switch (angle) {
+                    case 90:
+                        return Direction.Left;
+                    case 180:
+                        return Direction.Right;
+                    case 270:
+                        return Direction.Top;
+                    default:
+                        return direction;
+                }
+            case Left:
+                switch (angle) {
+                    case 90:
+                        return Direction.Top;
+                    case 180:
+                        return Direction.Right;
+                    case 270:
+                        return Direction.Bottom;
+                    default:
+                        return direction;
+                }
             default:
                 return direction;
         }
@@ -89,5 +114,9 @@ public class Vector {
 
     public Vector add(Vector other) {
         return new Vector(this.x + other.x, this.y + other.y);
+    }
+
+    public boolean equals(Vector v) {
+        return this.x == v.x && v.y == this.y;
     }
 }

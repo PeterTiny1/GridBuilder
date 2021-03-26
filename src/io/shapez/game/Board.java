@@ -136,13 +136,20 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     public void actionPerformed(ActionEvent e) {
         int moveValue = (shiftPressed) ? 8 : 2;
         if (pressedKeys.size() > 0) {
-            for (Iterator<Character> iterator = pressedKeys.iterator(); iterator.hasNext(); ) {
-                Character key = iterator.next();
+            for (Character key : pressedKeys) {
                 switch (key) {
-                    case 'S' -> changeOffset(0, -moveValue);
-                    case 'W' -> changeOffset(0, moveValue);
-                    case 'A' -> changeOffset(moveValue, 0);
-                    case 'D' -> changeOffset(-moveValue, 0);
+                    case 'S':
+                        changeOffset(0, -moveValue);
+                        break;
+                    case 'W':
+                        changeOffset(0, moveValue);
+                        break;
+                    case 'A':
+                        changeOffset(moveValue, 0);
+                        break;
+                    case 'D':
+                        changeOffset(-moveValue, 0);
+                        break;
                 }
             }
         }

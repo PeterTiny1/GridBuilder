@@ -2,8 +2,9 @@ package io.shapez.game.components;
 
 import io.shapez.core.Direction;
 import io.shapez.core.Vector;
+import io.shapez.game.Component;
 
-public class StaticMapEntityComponent {
+public class StaticMapEntityComponent implements Component {
     private final Vector origin;
     private final int rotation;
     private final int code;
@@ -42,4 +43,8 @@ public class StaticMapEntityComponent {
     }
 
 
+    @Override
+    public String getId() {
+        return "StaticMapEntity";
+    }
 }

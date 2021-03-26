@@ -1,5 +1,6 @@
 package io.shapez.game;
 
+import io.shapez.core.Layer;
 import io.shapez.core.Vector;
 import io.shapez.managers.SettingsManager;
 
@@ -7,16 +8,21 @@ import java.awt.*;
 import java.util.Random;
 
 public class Chunk {
+    private final int tileX;
+    private final int tileY;
     public int x, y;
     Rectangle drawn;
     public Color[][] lowerLayer;
     public Entity[][] contents;
     public MovingEntity[][] movingContents;
+    private Entity[][] wireContents;
 
 
     public Chunk(int x, int y) {
         this.x = x;
         this.y = y;
+        this.tileX = x * GlobalConfig.mapChunkSize;
+        this.tileY = y * GlobalConfig.mapChunkSize;
 
         lowerLayer = new Color[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
         contents = new Entity[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
@@ -80,14 +86,19 @@ public class Chunk {
 
     private Color colorShapeTypeFromByte(int b) {
         // temporary
-        return switch (b) {
-            case 0 -> Color.RED;
-            case 1 -> Color.GREEN;
-            case 2 -> Color.BLUE;
+        switch (b) {
+            case 0:
+                return Color.RED;
+            case 1:
+                return Color.GREEN;
+            case 2:
+                return Color.BLUE;
 // uncolored shape patch!!!
-            case 3 -> Color.LIGHT_GRAY;
-            default -> throw new IllegalArgumentException("Color index is not valid");
-        };
+            case 3:
+                return Color.LIGHT_GRAY;
+            default:
+                throw new IllegalArgumentException("Color index is not valid");
+        }
     }
 
     private long generateHash(String str) {
@@ -140,14 +151,14 @@ public class Chunk {
                 _k++;
             }
         }
-        if(!containsEntity && entCount != 0 || mEntCount != 0) {
-        containsEntity=true;
-        Board.usedChunks.remove(this);
-        Board.usedChunks.add(this);
+        if (!containsEntity && entCount != 0 || mEntCount != 0) {
+            containsEntity = true;
+            Board.usedChunks.remove(this);
+            Board.usedChunks.add(this);
         }
-        if(containsEntity && entCount == 0 || mEntCount == 0) {
-        containsEntity = false;
-        Board.usedChunks.remove(this);
+        if (containsEntity && entCount == 0 || mEntCount == 0) {
+            containsEntity = false;
+            Board.usedChunks.remove(this);
         }
 
         if (scale > GlobalConfig.zoomedScale) {
@@ -221,6 +232,16 @@ public class Chunk {
 
                 g.drawLine(constX, movY, constX + _s, movY);
             }
+        }
+    }
+
+    public Entity getLayerContentFromWorldCoords(double worldX, double worldY, Layer layer) {
+        int localX = (int) (worldX - this.tileX);
+        int localY = (int) (worldY - this.tileY);
+        if (layer == Layer.Regular) {
+            return this.contents[localX][localY];
+        } else {
+            return this.wireContents[localX][localY];
         }
     }
 }

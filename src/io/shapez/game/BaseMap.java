@@ -1,5 +1,7 @@
 package io.shapez.game;
 
+import io.shapez.core.Layer;
+
 import java.util.HashMap;
 import java.util.Random;
 
@@ -24,4 +26,14 @@ public class BaseMap {
         return getChunk(chunkX, chunkY);
     }
 
+    public Entity getLayerContentXY(double x, double y, Layer layer) {
+        Chunk chunk = this.getChunkAtTileOrNull(x, y);
+        return chunk.getLayerContentFromWorldCoords(x, y, layer);
+    }
+
+    private Chunk getChunkAtTileOrNull(double tileX, double tileY) {
+        int chunkX = (int) Math.floor(tileX / GlobalConfig.mapChunkSize);
+        int chunkY = (int) Math.floor(tileY / GlobalConfig.mapChunkSize);
+        return this.getChunk(chunkX, chunkY);
+    }
 }

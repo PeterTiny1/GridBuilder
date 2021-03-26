@@ -15,45 +15,51 @@ public class UIUtil {
         String msg = moreWndName;
         // I forgot Java doesnt have pointers XD
         switch (type) {
-            case OP_SAVE -> msg = msg.concat(" - Saving");
-            case OP_LOAD -> msg = msg.concat(" - Loading");
-            case OP_CLEAR -> msg = msg.concat(" - Clearing");
+            case OP_SAVE:
+                msg = msg.concat(" - Saving");
+                break;
+            case OP_LOAD:
+                msg = msg.concat(" - Loading");
+                break;
+            case OP_CLEAR:
+                msg = msg.concat(" - Clearing");
+                break;
         }
         return msg;
     }
 
     public static void updateButtonAppearance() {
         switch (Board.item) {
-            case None -> {
+            case None:
                 BottomPanel.minerButton.setSelected(false);
                 BottomPanel.beltButton.setSelected(false);
                 BottomPanel.trashButton.setSelected(false);
                 BottomPanel.rotatorButton.setSelected(false);
-            }
-            case Belt -> {
+                break;
+            case Belt:
                 BottomPanel.minerButton.setSelected(false);
                 BottomPanel.trashButton.setSelected(false);
                 BottomPanel.rotatorButton.setSelected(false);
                 BottomPanel.beltButton.setSelected(true);
-            }
-            case Miner -> {
+                break;
+            case Miner:
                 BottomPanel.beltButton.setSelected(false);
                 BottomPanel.trashButton.setSelected(false);
                 BottomPanel.rotatorButton.setSelected(false);
                 BottomPanel.minerButton.setSelected(true);
-            }
-            case Trash -> {
+                break;
+            case Trash:
                 BottomPanel.beltButton.setSelected(false);
                 BottomPanel.minerButton.setSelected(false);
                 BottomPanel.rotatorButton.setSelected(false);
                 BottomPanel.trashButton.setSelected(true);
-            }
-            case Rotator -> {
+                break;
+            case Rotator:
                 BottomPanel.minerButton.setSelected(false);
                 BottomPanel.beltButton.setSelected(false);
                 BottomPanel.trashButton.setSelected(false);
                 BottomPanel.rotatorButton.setSelected(true);
-            }
+                break;
         }
         TopPanel.selectedILabel_Name.setText(EntityTutorial.GetTitle(Board.item));
         TopPanel.selectedILabel_Description.setText(EntityTutorial.GetDescription(Board.item));
