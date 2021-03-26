@@ -233,6 +233,14 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             case KeyEvent.VK_F5:
                 this.window.setTitle(gameName + getRandomTitlebar());
                 break;
+            case KeyEvent.VK_F6:
+                offsetX += Integer.MAX_VALUE;
+                gridOffsetX += Integer.MAX_VALUE / scale;
+                offsetX %= scale;
+                offsetY += Integer.MAX_VALUE;
+                gridOffsetY += Integer.MAX_VALUE / scale;
+                offsetY %= scale;
+                break;
             case KeyEvent.VK_F11:
                 if (window.getExtendedState() == JFrame.MAXIMIZED_BOTH)
                     window.setExtendedState(JFrame.NORMAL);
