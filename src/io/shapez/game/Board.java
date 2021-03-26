@@ -336,7 +336,11 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
             //currentChunk.contents[offX][offY] = null;
             clearTile(offX, offY);
+
+            if(item != Tile.DEBUG_LowerLayer)
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
+            else
+            currentChunk.lowerLayer[offX][offY] = Color.red;
 
             usedChunks.add(currentChunk);
             return;
@@ -347,8 +351,13 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 SoundManager.playSound(Resources.beltPlaceSound);
             else
                 SoundManager.playSound(Resources.generic_placeTileSound);
-            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
 
+            if(item == Tile.DEBUG_LowerLayer){
+                currentChunk.lowerLayer[offX][offY] = Color.red;
+                usedChunks.add(currentChunk);
+                return;
+            }
+            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
             usedChunks.add(currentChunk);
         }
     }

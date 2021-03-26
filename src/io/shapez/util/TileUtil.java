@@ -105,14 +105,12 @@ public class TileUtil {
         if (currentChunk.contents[offX][offY] == null) {
             SoundManager.playSound(item == Tile.Belt ? Resources.beltPlaceSound : Resources.generic_placeTileSound);
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
-
             Board.usedChunks.add(currentChunk);
         }
 
         if (checkSpecialProperties(currentChunk, offX, offY, item)) {
             currentChunk.contents[offX][offY] = null;
         }
-
     }
 
     public static boolean checkSpecialProperties(Chunk currentChunk, int offX, int offY, Tile item) {
