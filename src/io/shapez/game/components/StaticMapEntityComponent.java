@@ -1,16 +1,22 @@
 package io.shapez.game.components;
 
 import io.shapez.core.Direction;
+import io.shapez.core.Layer;
 import io.shapez.core.Vector;
 import io.shapez.game.Component;
+import io.shapez.game.MetaBuilding;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class StaticMapEntityComponent implements Component {
     private final Vector origin;
-    private final int rotation;
+    private final short rotation;
     private final int code;
     private final int originalRotation;
+    private ArrayList<BuildingVariantIdentifier> gBuildingVariants;
 
-    public StaticMapEntityComponent(Vector origin,/* Vector tileSize,*/ int rotation, int originalRotation, int code) {
+    public StaticMapEntityComponent(Vector origin,/* Vector tileSize,*/ short rotation, int originalRotation, int code) {
         super();
         this.origin = origin;
         this.rotation = rotation;
@@ -46,5 +52,38 @@ public class StaticMapEntityComponent implements Component {
     @Override
     public String getId() {
         return "StaticMapEntity";
+    }
+
+    public Rectangle getTileSpaceBounds() {
+        Vector size = this.getTileSize();
+        return switch (this.rotation) {
+            case 0 -> new Rectangle((int) this.origin.x, (int) this.origin.y, (int) size.x, (int) size.y);
+            case 90 -> new Rectangle((int) (this.origin.x - size.y - 1), (int) this.origin.y, (int) size.y, (int) size.x);
+            case 180 -> new Rectangle((int) (this.origin.x - size.x + 1), (int) (this.origin.y - size.y + 1), (int) size.x, (int) size.y);
+            case 270 -> new Rectangle((int) this.origin.x, (int) (this.origin.y - size.x + 1), (int) size.y, (int) size.x);
+            default -> new Rectangle();
+        };
+    }
+
+    private Vector getTileSize() {
+        return getBuildingDataFromCode(this.code).tileSize;
+    }
+
+    private BuildingVariantIdentifier getBuildingDataFromCode(int code) {
+        return gBuildingVariants.get(code);
+    }
+
+    public static class BuildingVariantIdentifier {
+        private final int rotationVariant;
+        private final Layer variant;
+        private final MetaBuilding meta;
+        public Vector tileSize;
+
+        public BuildingVariantIdentifier(MetaBuilding meta, Layer variant, int rotationVariant, Vector tileSize) {
+            this.meta = meta;
+            this.variant = variant;
+            this.rotationVariant = rotationVariant;
+            this.tileSize = tileSize;
+        }
     }
 }

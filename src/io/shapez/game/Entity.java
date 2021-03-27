@@ -4,6 +4,7 @@ import io.shapez.core.Direction;
 import io.shapez.core.Tile;
 import io.shapez.game.components.BeltComponent;
 import io.shapez.game.components.ItemAcceptorComponent;
+import io.shapez.game.components.ItemEjectorComponent;
 import io.shapez.game.components.StaticMapEntityComponent;
 
 import java.awt.*;
@@ -13,7 +14,8 @@ public class Entity {
     public Tile tile;
     public Image texture;
     public Direction direction;
-    public EntityComponentStorage components;
+    public EntityComponentStorage components = new EntityComponentStorage();
+    public Integer uid = 0;
 
     public Entity(Tile type, Image texture, Direction direction, int x, int y) {
         this.x = x;
@@ -23,10 +25,14 @@ public class Entity {
         this.direction = direction;
     }
 
+    public Entity() {
+
+    }
+
     public static class EntityComponentStorage {
         public StaticMapEntityComponent StaticMapEntity;
         public BeltComponent Belt;
-//        public ItemEjectorComponent ItemEjector;
+        public ItemEjectorComponent ItemEjector;
         public ItemAcceptorComponent ItemAcceptor;
 //        public MinerComponent Miner;
 //        public ItemProcessorComponent ItemProcessor;

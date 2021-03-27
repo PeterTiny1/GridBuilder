@@ -5,6 +5,7 @@ import io.shapez.core.Vector;
 import io.shapez.managers.SettingsManager;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Chunk {
@@ -245,5 +246,21 @@ public class Chunk {
         } else {
             return this.wireContents[localX][localY];
         }
+    }
+
+    public Entity[] getLayersContentMultipleFromWorldCoords(double worldX, double worldY) {
+        int localX = (int) (worldX - this.tileX);
+        int localY = (int) (worldY - this.tileY);
+        Entity regularContent = this.contents[localX][localY];
+        Entity wireContent = this.wireContents[localX][localY];
+
+        ArrayList<Entity> result = new ArrayList<>();
+        if (regularContent != null) {
+            result.add(regularContent);
+        }
+        if (wireContent != null) {
+            result.add(wireContent);
+        }
+        return (Entity[]) result.toArray();
     }
 }

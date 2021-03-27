@@ -52,7 +52,7 @@ public class BeltPath {
 
         Vector ejectSlotWsTile = lastStatic.localTileToWorld(new Vector(0, 0));
         Direction ejectSlotWsDirection = lastStatic.localDirectionToWorld(lastBeltComp.direction);
-        Vector ejectSlotWsDirectionVector = directionToVector(ejectSlotWsDirection);
+        Vector ejectSlotWsDirectionVector = Vector.directionToVector(ejectSlotWsDirection);
         Vector ejectSlotWsTargetWsTile = ejectSlotWsTile.add(ejectSlotWsDirectionVector);
 
         Entity targetEntity = GlobalConfig.map.getLayerContentXY(ejectSlotWsTargetWsTile.x, ejectSlotWsTargetWsTile.y, Layer.Regular);
@@ -80,20 +80,6 @@ public class BeltPath {
             return new AcceptingEntityAndSlot(targetEntity, Vector.invertDirection(ejectingDirection), matchingSlot.index);
         }
         return null;
-    }
-
-    static Vector directionToVector(Direction ejectSlotWsDirection) {
-        switch (ejectSlotWsDirection) {
-            case Top:
-                return new Vector(0, -1);
-            case Right:
-                return new Vector(1, 0);
-            case Bottom:
-                return new Vector(0, 1);
-            case Left:
-                return new Vector(-1, 0);
-        }
-        return new Vector();
     }
 
     private String deserialize(Object data) {
@@ -124,6 +110,3 @@ class AcceptingEntityAndSlot {
     }
 }
 
-class BaseItem {
-
-}

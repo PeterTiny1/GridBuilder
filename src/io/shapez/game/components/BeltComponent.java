@@ -6,7 +6,7 @@ import io.shapez.game.Component;
 
 public class BeltComponent implements Component {
     public Direction direction;
-    BeltPath assignedPath = null;
+    public BeltPath assignedPath = null;
 
     public BeltComponent(Direction direction) {
         super();

@@ -1,7 +1,5 @@
 package io.shapez.core;
 
-import io.shapez.game.Board;
-
 public class Vector {
     public double x;
     public double y;
@@ -20,18 +18,12 @@ public class Vector {
     }
 
     public static Direction invertDirection(Direction direction) {
-        switch (direction) {
-            case Top:
-                return Direction.Bottom;
-            case Right:
-                return Direction.Left;
-            case Left:
-                return Direction.Right;
-            case Bottom:
-                return Direction.Top;
-            default:
-                return direction;
-        }
+        return switch (direction) {
+            case Top -> Direction.Bottom;
+            case Right -> Direction.Left;
+            case Left -> Direction.Right;
+            case Bottom -> Direction.Top;
+        };
     }
 
     public double length() {
@@ -90,5 +82,14 @@ public class Vector {
 
     public boolean equals(Vector v) {
         return this.x == v.x && v.y == this.y;
+    }
+
+    public static Vector directionToVector(Direction ejectSlotWsDirection) {
+        return switch (ejectSlotWsDirection) {
+            case Top -> new Vector(0, -1);
+            case Right -> new Vector(1, 0);
+            case Bottom -> new Vector(0, 1);
+            case Left -> new Vector(-1, 0);
+        };
     }
 }

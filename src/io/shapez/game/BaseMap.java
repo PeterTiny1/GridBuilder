@@ -36,4 +36,12 @@ public class BaseMap {
         int chunkY = (int) Math.floor(tileY / GlobalConfig.mapChunkSize);
         return this.getChunk(chunkX, chunkY);
     }
+
+    public Entity[] getLayerContentsMultipleXY(double x, double y) {
+        Chunk chunk = this.getChunkAtTileOrNull(x, y);
+        if (chunk == null) {
+            return new Entity[]{};
+        }
+        return chunk.getLayersContentMultipleFromWorldCoords(x, y);
+    }
 }

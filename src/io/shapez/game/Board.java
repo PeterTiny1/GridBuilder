@@ -1,10 +1,10 @@
 package io.shapez.game;
 
 import io.shapez.Main;
-import io.shapez.core.Resources;
-import io.shapez.core.Direction;
-import io.shapez.core.Tile;
-import io.shapez.core.Vector;
+import io.shapez.core.*;
+import io.shapez.game.buildings.MetaBeltBuilding;
+import io.shapez.game.components.StaticMapEntityComponent;
+import io.shapez.game.systems.BeltSystem;
 import io.shapez.managers.NetworkLogicManager;
 import io.shapez.managers.SettingsManager;
 import io.shapez.managers.SoundManager;
@@ -19,7 +19,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import static io.shapez.managers.providers.MiscProvider.gameName;
 import static io.shapez.managers.providers.MiscProvider.getRandomTitlebar;
@@ -46,6 +45,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     private Rectangle heldItem = new Rectangle(0, 0, 0, 0);
     public final Main window;
+    GameSystemManager systemManager = new GameSystemManager();
 
     public Board(Main window) throws IOException {
         this.window = window;
@@ -94,30 +94,38 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         } catch (IOException e) {
             e.printStackTrace();
         }
+        initMetaBuildingRegistry();
         javax.swing.Timer timer = new javax.swing.Timer(SettingsManager.tickrateScreen, this);
         timer.start();
+    }
+
+    private void initMetaBuildingRegistry() {
+        Layer defaultBuildingVariant = Layer.Regular;
+        registerBuildingVariant(1, new MetaBeltBuilding(), defaultBuildingVariant, 0);
+        registerBuildingVariant(2, new MetaBeltBuilding(), defaultBuildingVariant, 1);
+        registerBuildingVariant(3, new MetaBeltBuilding(), defaultBuildingVariant, 2);
+    }
+
+    private void registerBuildingVariant(int code, MetaBuilding meta, Layer variant, int rotationVariant) {
+        ArrayList<StaticMapEntityComponent.BuildingVariantIdentifier> gBuildingVariants = new ArrayList<>();
+        gBuildingVariants.add(new StaticMapEntityComponent.BuildingVariantIdentifier(meta, variant, rotationVariant, meta.getDimensions(variant)));
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         DrawGrid(g2d);
-        DrawSelected();
         if (hasItemSelected) {
             g2d.drawImage(TileUtil.getTileTexture(item, cRot), heldItem.x, heldItem.y, heldItem.width, heldItem.height, null);
         }
         g2d.drawImage(Resources.vignette, 0, 0, getWidth(), getHeight(), null);
     }
 
-    private void DrawSelected() {
-
-    }
-
     private void DrawGrid(Graphics2D g2d) {
         Vector leftTopTile = new Vector(-gridOffsetX, -gridOffsetY);
         Vector rightBottomTile = new Vector(getWidth() / (float) scale - gridOffsetX, getHeight() / (float) scale - gridOffsetY);
-        Chunk leftTopChunk = GlobalConfig.map.getChunkAtTile((int) leftTopTile.x-1, (int) leftTopTile.y-1);
-        Chunk rightBottomChunk = GlobalConfig.map.getChunkAtTile((int) rightBottomTile.x+1, (int) rightBottomTile.y+1);
+        Chunk leftTopChunk = GlobalConfig.map.getChunkAtTile((int) leftTopTile.x - 1, (int) leftTopTile.y - 1);
+        Chunk rightBottomChunk = GlobalConfig.map.getChunkAtTile((int) rightBottomTile.x + 1, (int) rightBottomTile.y + 1);
 
         int c1x = leftTopChunk.x;
         int c1y = leftTopChunk.y;
@@ -138,18 +146,10 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         if (pressedKeys.size() > 0) {
             for (Character key : pressedKeys) {
                 switch (key) {
-                    case 'S':
-                        changeOffset(0, -moveValue);
-                        break;
-                    case 'W':
-                        changeOffset(0, moveValue);
-                        break;
-                    case 'A':
-                        changeOffset(moveValue, 0);
-                        break;
-                    case 'D':
-                        changeOffset(-moveValue, 0);
-                        break;
+                    case 'S' -> changeOffset(0, -moveValue);
+                    case 'W' -> changeOffset(0, moveValue);
+                    case 'A' -> changeOffset(moveValue, 0);
+                    case 'D' -> changeOffset(-moveValue, 0);
                 }
             }
         }
@@ -206,22 +206,22 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 centerPanel.selectItem(Tile.None);
             }
         }
+        // show save/load menu
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_F1:
+            case KeyEvent.VK_F1 -> {
                 centerPanel.setVisible(!centerPanel.isVisible());
                 topPanel.setVisible(!topPanel.isVisible());
-                break;
-            case KeyEvent.VK_F2:
+            }
+            case KeyEvent.VK_F2 -> {
                 long t1 = System.nanoTime();
                 System.out.println("GC start...");
                 System.gc();
                 long t2 = System.nanoTime();
                 System.out.println("GC end\nGC took " + (t2 - t1) / 1000000 + " ms");
-                break;
-            case KeyEvent.VK_F3:
+            }
+            case KeyEvent.VK_F3 -> {
                 int diagres = JOptionPane.showConfirmDialog(null, "(Benchmark) - This will overwrite a lot of tiles and you may lose progress. Continue?", "Benchmark", JOptionPane.YES_NO_OPTION);
                 if (diagres != JOptionPane.YES_OPTION) break;
-
                 Image tex = TileUtil.getTileTexture(item, cRot);
                 int x = 0;
                 while (x < 1000) {
@@ -232,23 +232,18 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                     }
                     x++;
                 }
-                break;
-            case KeyEvent.VK_F4:
-                // show save/load menu
-                MoreWindow.Show();
-                break;
-            case KeyEvent.VK_F5:
-                this.window.setTitle(gameName + getRandomTitlebar());
-                break;
-            case KeyEvent.VK_F6:
+            }
+            case KeyEvent.VK_F4 -> MoreWindow.Show();
+            case KeyEvent.VK_F5 -> this.window.setTitle(gameName + getRandomTitlebar());
+            case KeyEvent.VK_F6 -> {
                 offsetX += Integer.MAX_VALUE;
                 gridOffsetX += Integer.MAX_VALUE / scale;
                 offsetX %= scale;
                 offsetY += Integer.MAX_VALUE;
                 gridOffsetY += Integer.MAX_VALUE / scale;
                 offsetY %= scale;
-                break;
-            case KeyEvent.VK_F11:
+            }
+            case KeyEvent.VK_F11 -> {
                 if (window.getExtendedState() == JFrame.MAXIMIZED_BOTH)
                     window.setExtendedState(JFrame.NORMAL);
                 else
@@ -257,6 +252,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 window.dispose();
                 window.setUndecorated(!window.isUndecorated());
                 window.setVisible(true);
+            }
         }
 
     }
@@ -343,7 +339,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
 
-        if (TileUtil.checkInvalidTile(item, this.item, currentChunk, offX, offY)) return;
+        if (TileUtil.checkInvalidTile(item, Board.item, currentChunk, offX, offY)) return;
 
         if (currentChunk.contents[offX][offY] != null
                 && currentChunk.contents[offX][offY].tile != item
@@ -352,10 +348,10 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             //currentChunk.contents[offX][offY] = null;
             clearTile(offX, offY);
 
-            if(item != Tile.DEBUG_LowerLayer)
-            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
+            if (item != Tile.DEBUG_LowerLayer)
+                currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
             else
-            currentChunk.lowerLayer[offX][offY] = Color.red;
+                currentChunk.lowerLayer[offX][offY] = Color.red;
 
             usedChunks.add(currentChunk);
             return;
@@ -367,7 +363,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             else
                 SoundManager.playSound(Resources.generic_placeTileSound);
 
-            if(item == Tile.DEBUG_LowerLayer){
+            if (item == Tile.DEBUG_LowerLayer) {
                 currentChunk.lowerLayer[offX][offY] = Color.red;
                 usedChunks.add(currentChunk);
                 return;
