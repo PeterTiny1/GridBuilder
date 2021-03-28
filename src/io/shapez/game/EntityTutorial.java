@@ -16,19 +16,20 @@ public class EntityTutorial {
             "[DEBUG] Red lower layer tile"
     };
 
-    public static String GetTitle(Tile item){
-        if(item == Tile.None)return "";
+    public static String GetTitle(Tile item) {
+        if (item == Tile.None) return "";
         return item.toString();
     }
-    public static String GetDescription(Tile item){
-        if(item.ordinal() > descriptions.length || (item.ordinal()-1) < 0)return "";
 
-        return descriptions[item.ordinal()-1];
+    public static String GetDescription(Tile item) {
+        if (item.ordinal() > descriptions.length || (item.ordinal() - 1) < 0) return "";
+
+        return descriptions[item.ordinal() - 1];
     }
 
-    public static String GetHotkey(Tile item){
+    public static String GetHotkey(Tile item) {
         String h = "Hotkey: " + Tile.valueOf(item.toString()).ordinal();
-        if(h.contains("0"))return "";
+        if (h.contains("0")) return "";
         return h;
     }
 }

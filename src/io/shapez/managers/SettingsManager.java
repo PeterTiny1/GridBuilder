@@ -1,8 +1,8 @@
 package io.shapez.managers;
 
+import io.shapez.core.Resources;
 import io.shapez.game.Board;
 import io.shapez.game.GlobalConfig;
-import io.shapez.core.Resources;
 import io.shapez.managers.providers.SystemPathProvider;
 
 import javax.swing.*;

@@ -87,19 +87,14 @@ public class Chunk {
 
     private Color colorShapeTypeFromByte(int b) {
         // temporary
-        switch (b) {
-            case 0:
-                return Color.RED;
-            case 1:
-                return Color.GREEN;
-            case 2:
-                return Color.BLUE;
-// uncolored shape patch!!!
-            case 3:
-                return Color.LIGHT_GRAY;
-            default:
-                throw new IllegalArgumentException("Color index is not valid");
-        }
+        // uncolored shape patch!!!
+        return switch (b) {
+            case 0 -> Color.RED;
+            case 1 -> Color.GREEN;
+            case 2 -> Color.BLUE;
+            case 3 -> Color.LIGHT_GRAY;
+            default -> throw new IllegalArgumentException("Color index is not valid");
+        };
     }
 
     private long generateHash(String str) {
@@ -181,6 +176,7 @@ public class Chunk {
                     // Right: x+1, y
                     // Down: x, y+1
                     // Left: x-1, y
+                    assert movingContents[i] != null;
                     if (movingContents[i][j] != null) {
                         g.drawImage(movingContents[i][j].texture/*Not yet*/, drawn.x + drawn.width / 2, drawn.y + drawn.height / 2, drawn.width / 2, drawn.height / 2, null);
                     }

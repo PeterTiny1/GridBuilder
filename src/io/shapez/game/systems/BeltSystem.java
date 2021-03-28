@@ -1,6 +1,7 @@
 package io.shapez.game.systems;
 
 import io.shapez.core.Direction;
+import io.shapez.game.BeltPath;
 import io.shapez.game.Component;
 import io.shapez.game.GameSystemWithFilter;
 import io.shapez.game.components.BeltComponent;
@@ -12,9 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BeltSystem extends GameSystemWithFilter {
-    private HashMap<Direction, ArrayList<BufferedImage>> beltAnimations;
-    private HashMap<Direction, BufferedImage> beltSprites;
+    private final HashMap<Direction, ArrayList<BufferedImage>> beltAnimations;
+    private final HashMap<Direction, BufferedImage> beltSprites;
     final byte BELT_ANIM_COUNT = 14;
+    ArrayList<BeltPath> beltPaths = new ArrayList<>();
 
     public BeltSystem() throws IOException {
         super(new Component[]{new BeltComponent(null)});
@@ -33,5 +35,13 @@ public class BeltSystem extends GameSystemWithFilter {
             this.beltAnimations.get(Direction.Left).add(ImageIO.read(BeltSystem.class.getResource("/sprites/left_" + i + ".png")));
             this.beltAnimations.get(Direction.Right).add(ImageIO.read(BeltSystem.class.getResource("/sprites/right_" + i + ".png")));
         }
+    }
+
+    public Object[] serializePaths() {
+        ArrayList<Object> data = new ArrayList<>();
+        for (BeltPath beltPath : this.beltPaths) {
+            data.add(beltPath.serialize());
+        }
+        return data.toArray();
     }
 }

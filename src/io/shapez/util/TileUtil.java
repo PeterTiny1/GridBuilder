@@ -1,7 +1,7 @@
 package io.shapez.util;
 
-import io.shapez.core.Resources;
 import io.shapez.core.Direction;
+import io.shapez.core.Resources;
 import io.shapez.core.Tile;
 import io.shapez.game.Board;
 import io.shapez.game.Chunk;
@@ -11,7 +11,6 @@ import io.shapez.managers.SoundManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class TileUtil {
 
@@ -29,7 +28,7 @@ public class TileUtil {
             for (int i = 0; i < chunk.lowerLayer.length; i++) {
                 for (int j = 0; j < chunk.lowerLayer.length; j++) {
                     Color color = chunk.lowerLayer[i][j];
-                    if(color != null/* && (color == Color.RED || color == Color.GREEN || color == Color.BLUE || color == Color.LIGHT_GRAY)*/) {
+                    if (color != null/* && (color == Color.RED || color == Color.GREEN || color == Color.BLUE || color == Color.LIGHT_GRAY)*/) {
                         chunk.lowerLayer[i][j] = null;
                     }
                 }

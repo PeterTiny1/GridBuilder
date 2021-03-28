@@ -18,16 +18,19 @@ public class StaleAreaDetector {
     }
 
     public void recomputeOnComponentsChanged(Component[] components, int tilesAround) {
-        Object[] componentIds = Arrays.stream(components).map(Component::getId).toArray();
+        Object[] componentIds = /*(String[])*/ Arrays.stream(components).map(component -> {
+            return component.getId();
+        }).toArray();
 
-        Entity checker = new Entity();
-        for (Object componentId : componentIds) {
-            if (checker.components.get((String) componentId)) {
-//                Rectangle area = checker.components.StaticMapEntity.getTileSpaceBounds().expandedInAllDirections(tilesAround);
-//                this.invalidate(area);
-                return;
+        Consumer<Entity> checker = (entity) -> {
+            for (Object componentId : componentIds) {
+                if (entity.components.get((String) componentId)) {
+                    Rectangle area = entity.components.StaticMapEntity.getTileSpaceBounds()/*.expandedInAllDirections(tilesAround)*/;
+                    this.invalidate(area);
+                    return;
+                }
             }
-        }
+        };
     }
 
     private void invalidate(Rectangle area) {

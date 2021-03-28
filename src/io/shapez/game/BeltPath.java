@@ -6,13 +6,15 @@ import io.shapez.core.Vector;
 import io.shapez.game.components.BeltComponent;
 import io.shapez.game.components.ItemAcceptorComponent;
 import io.shapez.game.components.StaticMapEntityComponent;
+import io.shapez.game.savegame.BaseDataType;
+import io.shapez.game.savegame.BasicSerializableObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
-public class BeltPath {
+public class BeltPath extends BasicSerializableObject {
     static String getId = "BeltPath";
     private final HashMap<Integer, BaseItem> items = new HashMap<>();
-    ;
     private Entity[] entityPath = {};
     AcceptingEntityAndSlot acceptorTarget;
     private int numCompressedItemsAfterFirstItem;
@@ -94,6 +96,24 @@ public class BeltPath {
         if (data == null) {
             return "Got null data";
         }
+        return null;
+    }
+
+    public Object serialize() {
+        return serializeSchema(this, this.getCachedSchema());
+    }
+
+    private HashMap<String, HashMap<Object, Object>> serializeSchema(BeltPath obj, HashMap<String, BaseDataType> schema) {
+        HashMap<String, HashMap<Object, Object>> mergeWith = new HashMap<>();
+        for (Map.Entry<String, BaseDataType> entry : schema.entrySet()) {
+//            if (!obj.hasOwnProperty(entry.getKey()))
+            mergeWith.put(entry.getKey(), entry.getValue().serialize(/*obj.get(entry.getKey()*/""));
+        }
+        return mergeWith;
+    }
+
+    @Override
+    protected String getId() {
         return null;
     }
 }

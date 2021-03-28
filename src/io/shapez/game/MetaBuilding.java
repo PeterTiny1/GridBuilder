@@ -4,7 +4,7 @@ import io.shapez.core.Layer;
 import io.shapez.core.Vector;
 
 public class MetaBuilding {
-    private String id;
+    private final String id;
 
     public MetaBuilding(String id) {
         this.id = id;

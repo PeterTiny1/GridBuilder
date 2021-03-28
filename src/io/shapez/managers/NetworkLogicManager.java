@@ -1,7 +1,7 @@
 package io.shapez.managers;
 
-import io.shapez.core.Resources;
 import io.shapez.core.Direction;
+import io.shapez.core.Resources;
 import io.shapez.core.Tile;
 import io.shapez.game.*;
 import io.shapez.util.TileUtil;
@@ -10,11 +10,11 @@ import java.util.Arrays;
 
 public class NetworkLogicManager {
 
-    public static boolean isNetworkCompatible(Entity ent){
+    public static boolean isNetworkCompatible(Entity ent) {
         return Arrays.asList(TileUtil.networkEntities).contains(ent.tile);
     }
 
-    public static void updateLogic(){
+    public static void updateLogic() {
         // TODO: Optimize
         // INFO: Proof of concept
         for (Chunk chunk : Board.usedChunks) {

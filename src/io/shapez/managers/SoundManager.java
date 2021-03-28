@@ -9,7 +9,7 @@ public class SoundManager {
 
 
     public static synchronized void playSound(final URL str) {
-        if(!SettingsManager.allowSound)return;
+        if (!SettingsManager.allowSound) return;
         // The wrapper thread is unnecessary, unless it blocks on the
 // Clip finishing; see comments.
         new Thread(() -> {
@@ -24,8 +24,6 @@ public class SoundManager {
             }
         }).start();
     }
-
-
 
 
 }

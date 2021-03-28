@@ -1,6 +1,5 @@
 package io.shapez;
 
-
 import io.shapez.core.Resources;
 import io.shapez.game.Board;
 
@@ -10,7 +9,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.io.IOException;
 
-import static io.shapez.managers.providers.MiscProvider.*;
+import static io.shapez.managers.providers.MiscProvider.gameName;
+import static io.shapez.managers.providers.MiscProvider.getRandomTitlebar;
 
 public class Main extends JFrame implements WindowFocusListener {
     Board board;

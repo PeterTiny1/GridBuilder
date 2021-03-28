@@ -17,10 +17,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 
-import static io.shapez.managers.providers.MiscProvider.*;
-import io.shapez.game.GlobalConfig.*;
+import static io.shapez.managers.providers.MiscProvider.OP_LOAD;
+import static io.shapez.managers.providers.MiscProvider.OP_SAVE;
 
 public class SerializeManager {
 
@@ -49,7 +48,9 @@ public class SerializeManager {
 
                 while (i < SystemPathProvider.saveFile.length() / bytesPerTile) {
                     // variables marked with _ are temporary and used for save game checking
-                    if (i % (bytesPerTile*2) != 0) { elapsed++; }
+                    if (i % (bytesPerTile * 2) != 0) {
+                        elapsed++;
+                    }
                     //Per tile (data structure)
 
                     //4 Bytes - Entity x
@@ -63,7 +64,9 @@ public class SerializeManager {
                     //1 Byte - LowerLayer G
                     //1 Byte - LowerLayer B
 
-                    Tile type; Image tex; Direction rot;
+                    Tile type;
+                    Image tex;
+                    Direction rot;
                     int _type, _rot, tileX, tileY, lX, lY;
                     byte lR, lG, lB;
 
@@ -170,7 +173,7 @@ public class SerializeManager {
                     for (byte j = 0; j < GlobalConfig.mapChunkSize; j++) {
                         // Better approach?
                         Color color = chunk.lowerLayer[i][j];
-                        if(color == null)continue;
+                        if (color == null) continue;
                         ds.writeInt(i); // x
                         ds.writeInt(j); // y
                         ds.writeByte(color.getRed());     // r

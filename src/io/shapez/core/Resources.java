@@ -41,7 +41,7 @@ public class Resources {
 
 
     // Solid colors
-    public static BufferedImage solidRed = new BufferedImage(40,40,BufferedImage.TYPE_INT_RGB);
+    public static BufferedImage solidRed = new BufferedImage(40, 40, BufferedImage.TYPE_INT_RGB);
 
 
     // Make sure to run with these jvm options:
@@ -77,8 +77,8 @@ public class Resources {
             rotator = ImageIO.read(Resources.class.getResource("/sprites/rotator.png"));
 
             Graphics2D _gfx = solidRed.createGraphics();
-            _gfx.setPaint (new Color(255, 0, 0));
-            _gfx.fillRect (0,0,solidRed.getWidth(),solidRed.getHeight());
+            _gfx.setPaint(new Color(255, 0, 0));
+            _gfx.fillRect(0, 0, solidRed.getWidth(), solidRed.getHeight());
             long t2 = System.nanoTime();
             DebugUtil.printTime("[Resource] Initalized", "ms", t1, t2);
         } catch (IOException e) {

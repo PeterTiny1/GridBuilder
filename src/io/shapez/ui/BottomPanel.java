@@ -69,7 +69,7 @@ public class BottomPanel extends JPanel {
         if (Board.item == item) {
             Board.item = Tile.None;
             board.hasItemSelected = false;
-            System.out.println("Already selected. Now selected: " + board.item.toString());
+            System.out.println("Already selected. Now selected: " + Board.item.toString());
             UIUtil.updateButtonAppearance();
             return;
         }

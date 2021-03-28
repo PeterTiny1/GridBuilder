@@ -4,7 +4,6 @@ import io.shapez.Main;
 import io.shapez.core.*;
 import io.shapez.game.buildings.MetaBeltBuilding;
 import io.shapez.game.components.StaticMapEntityComponent;
-import io.shapez.game.systems.BeltSystem;
 import io.shapez.managers.NetworkLogicManager;
 import io.shapez.managers.SettingsManager;
 import io.shapez.managers.SoundManager;
