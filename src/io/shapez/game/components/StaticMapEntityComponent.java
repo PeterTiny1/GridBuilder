@@ -9,7 +9,7 @@ import io.shapez.game.MetaBuilding;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class StaticMapEntityComponent implements Component {
+public class StaticMapEntityComponent extends Component {
     private final Vector origin;
     private final short rotation;
     private final int code;

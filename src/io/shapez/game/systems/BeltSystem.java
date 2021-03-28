@@ -3,6 +3,7 @@ package io.shapez.game.systems;
 import io.shapez.core.Direction;
 import io.shapez.game.BeltPath;
 import io.shapez.game.Component;
+import io.shapez.game.Entity;
 import io.shapez.game.GameSystemWithFilter;
 import io.shapez.game.components.BeltComponent;
 
@@ -43,5 +44,32 @@ public class BeltSystem extends GameSystemWithFilter {
             data.add(beltPath.serialize());
         }
         return data.toArray();
+    }
+
+    public void onEntityDestroyed(Entity entity) {
+        if (entity.components.Belt == null) {
+            return;
+        }
+
+        BeltPath assignedPath = entity.components.Belt.assignedPath;
+        assert assignedPath != null;
+
+        this.deleteEntityFromPath(assignedPath, entity);
+    }
+
+    private void deleteEntityFromPath(BeltPath path, Entity entity) {
+        if (path.entityPath.size() == 1) {
+            this.beltPaths.remove(path);
+            return;
+        }
+
+        if (path.isStartEntity(entity)) {
+            path.deleteEntityOnStart(entity);
+        } else if (path.isEndEntity(entity)) {
+            path.deleteEntityOnEnd(entity);
+        } else {
+            BeltPath newPath = path.deleteEntityOnPathsSplitIntoTwo(entity); // great name :D
+            this.beltPaths.add(newPath);
+        }
     }
 }

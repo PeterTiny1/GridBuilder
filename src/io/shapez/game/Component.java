@@ -1,5 +1,7 @@
 package io.shapez.game;
 
-public interface Component {
-    String getId();
+import io.shapez.game.savegame.BasicSerializableObject;
+
+public abstract class Component extends BasicSerializableObject {
+    public abstract String getId();
 }

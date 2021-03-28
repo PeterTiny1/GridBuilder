@@ -6,7 +6,7 @@ import io.shapez.game.Component;
 
 import java.util.ArrayList;
 
-public class ItemAcceptorComponent implements Component {
+public class ItemAcceptorComponent extends Component {
     private ArrayList<ItemAcceptorSlot> slots;
 
     public ItemAcceptorLocatedSlot findMatchingSlot(Vector targetLocalTile, Direction fromLocalDirection) {

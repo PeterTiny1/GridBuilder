@@ -10,7 +10,7 @@ import io.shapez.game.Entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ItemEjectorComponent implements Component {
+public class ItemEjectorComponent extends Component {
     private boolean renderFloatingItems;
     public ArrayList<ItemEjectorSlot> slots;
 

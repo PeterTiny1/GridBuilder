@@ -379,6 +379,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int offY = cY % GlobalConfig.mapChunkSize;
         offX = offX < 0 ? offX + GlobalConfig.mapChunkSize : offX;
         offY = offY < 0 ? offY + GlobalConfig.mapChunkSize : offY;
+        systemManager.belt.onEntityDestroyed(new Entity(Tile.Belt, TileUtil.getTileTexture(Tile.Belt, Direction.Top), null, cX, cY));
         if (chunk.contents[offX][offY] != null) {
             chunk.contents[offX][offY] = null;
             for (int x = 0; x < GlobalConfig.mapChunkSize; x++) {

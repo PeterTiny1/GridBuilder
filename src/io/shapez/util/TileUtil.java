@@ -84,17 +84,12 @@ public class TileUtil {
             default:
                 return Resources.missingTexture;
         }
-        switch (rot) {
-            case Bottom:
-                a = rotateImageByDegrees(a, 180);
-                break;
-            case Left:
-                a = rotateImageByDegrees(a, -90);
-                break;
-            case Right:
-                a = rotateImageByDegrees(a, 90);
-                break;
-        }
+        a = switch (rot) {
+            case Bottom -> rotateImageByDegrees(a, 180);
+            case Left -> rotateImageByDegrees(a, -90);
+            case Right -> rotateImageByDegrees(a, 90);
+            default -> a;
+        };
 
         return a;
     }
