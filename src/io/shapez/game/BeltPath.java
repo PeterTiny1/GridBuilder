@@ -12,19 +12,20 @@ import io.shapez.game.savegame.BasicSerializableObject;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class BeltPath extends BasicSerializableObject {
     static String getId = "BeltPath";
     private final ArrayList<BaseItem> items = new ArrayList<>();
-    public ArrayList<Entity> entityPath = new ArrayList<>();
+    public LinkedList<Entity> entityPath = new LinkedList<>();
     AcceptingEntityAndSlot acceptorTarget;
     private int numCompressedItemsAfterFirstItem;
     private double totalLength;
     private double spacingToFirstItem;
     private Rectangle worldBounds;
 
-    BeltPath(ArrayList<Entity> entityPath) {
+    public BeltPath(LinkedList<Entity> entityPath) {
         this.entityPath = entityPath;
         this.init(true);
     }
@@ -68,7 +69,7 @@ public class BeltPath extends BasicSerializableObject {
         return bounds;
     }
 
-    private void onPathChanged() {
+    public void onPathChanged() {
         this.acceptorTarget = this.computeAcceptingEntityAndSlot();
         this.numCompressedItemsAfterFirstItem = 0;
     }
@@ -261,7 +262,7 @@ public class BeltPath extends BasicSerializableObject {
         java.util.List<Entity> secondEntities = this.entityPath.subList(firstPathEntityCount + 1, entityPath.size());
         this.entityPath.remove(this.entityPath.size() - 1);
 
-        BeltPath secondPath = new BeltPath((ArrayList<Entity>) secondEntities);
+        BeltPath secondPath = new BeltPath((LinkedList<Entity>) secondEntities);
         double itemPos = spacingToFirstItem;
         for (int i = 0; i < this.items.size(); i++) {
             BaseItem item = this.items.get(i);
@@ -294,6 +295,130 @@ public class BeltPath extends BasicSerializableObject {
         secondPath.onPathChanged();
         this.worldBounds = this.computeBounds();
         return secondPath;
+    }
+
+    public void onSurroundingsChanged() {
+        this.onPathChanged();
+    }
+
+    public void extendOnEnd(Entity entity) {
+        BeltComponent beltComponent = entity.components.Belt;
+
+        this.entityPath.add(entity);
+        this.onPathChanged();
+
+        double additionalLength = beltComponent.getEffectiveLengthTiles();
+        this.totalLength += additionalLength;
+
+        if (this.items.size() == 0) {
+            this.spacingToFirstItem = this.totalLength;
+        } /*else {
+//            BaseItem lastItem = this.items.get(this.items.size() - 1);
+//            lastItem[0] += additionalLength
+        }*/
+
+        beltComponent.assignedPath = this;
+
+        this.worldBounds = this.computeBounds();
+    }
+
+    public void extendByPath(BeltPath otherPath) {
+        assert otherPath != this;
+
+        LinkedList<Entity> entities = otherPath.entityPath;
+
+        double oldLength = this.totalLength;
+
+        for (Entity entity : entities) {
+            BeltComponent beltComp = entity.components.Belt;
+
+            this.entityPath.add(entity);
+            beltComp.assignedPath = this;
+
+            double additionalLength = beltComp.getEffectiveLengthTiles();
+            this.totalLength += additionalLength;
+        }
+
+        if (this.items.size() != 0) {
+            BaseItem lastItem = this.items.get(this.items.size() - 1);
+//            lastItem[nextDistance] += otherPath.spacingToFirstItem;
+        } else {
+            this.spacingToFirstItem = oldLength + otherPath.spacingToFirstItem;
+        }
+
+        for (int i = 0; i < otherPath.items.size(); i++) {
+            BaseItem item = items.get(i);
+            this.items.add(item);
+        }
+
+        this.worldBounds = this.computeBounds();
+
+        this.onPathChanged();
+    }
+
+    public void extendOnBeginning(Entity entity) {
+        BeltComponent beltComp = entity.components.Belt;
+
+        double length = beltComp.getEffectiveLengthTiles();
+
+        this.totalLength += length;
+
+        this.spacingToFirstItem += length;
+
+        beltComp.assignedPath = this;
+        this.entityPath.addFirst(entity);
+        this.onPathChanged();
+
+        this.worldBounds = this.computeBounds();
+    }
+
+    public void draw(Graphics2D g2d) {
+//        if (!g2d.visibleRect.containsRect(this.worldBounds)) {
+//            return;
+//        }
+
+        if (this.items.size() == 0) {
+            return;
+        }
+
+        if (this.checkIsPotatoMode()) {
+            BaseItem firstItem = this.items.get(0);
+            if (this.entityPath.size() > 1 && firstItem != null) {
+                int medianBeltIndex = Math.max(0, Math.min(this.entityPath.size() - 1, this.entityPath.size() / 2 - 1));
+                Entity medianBelt = this.entityPath.get(medianBeltIndex);
+                BeltComponent beltComp = medianBelt.components.Belt;
+                StaticMapEntityComponent staticComp = medianBelt.components.StaticMapEntity;
+                Vector centerPosLocal = beltComp.transformBeltToLocalSpace(this.entityPath.size() % 2 == 0 ? beltComp.getEffectiveLengthTiles() : 0.5);
+                Vector centerPos = staticComp.localTileToWorld(centerPosLocal).toWorldSpaceCenterOfTile();
+                firstItem.drawItemCenteredClipped(centerPos.x, centerPos.y, g2d);
+            }
+            return;
+        }
+        double currentItemPos = this.spacingToFirstItem;
+        int currentItemIndex = 0;
+        double trackPos = 0.0;
+
+        for (Entity entity : this.entityPath) {
+            BeltComponent beltComp = entity.components.Belt;
+            double beltLength = beltComp.getEffectiveLengthTiles();
+            while (trackPos + beltLength >= currentItemPos - 1e-5) { // this warning is here because of some problem I created
+                StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
+                Vector localPos = beltComp.transformBeltToLocalSpace(currentItemPos - trackPos);
+                Vector worldPos = staticComp.localTileToWorld(localPos).toWorldSpaceCenterOfTile();
+                items.get(currentItemIndex).drawItemCenteredClipped(worldPos.x, worldPos.y, g2d);
+//                currentItemPos += distance;
+                currentItemIndex++;
+                if (currentItemIndex >= this.items.size()) {
+                    return;
+                }
+            }
+            trackPos += beltLength;
+        }
+    }
+
+    private boolean checkIsPotatoMode() {
+//        if (this.) TODO: add setting
+        return false;
     }
 }
 

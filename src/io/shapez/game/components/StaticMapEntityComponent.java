@@ -10,13 +10,13 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class StaticMapEntityComponent extends Component {
-    private final Vector origin;
-    private final short rotation;
-    private final int code;
-    private final int originalRotation;
+    public Vector origin;
+    public short rotation;
+    public int code;
+    public final short originalRotation;
     private ArrayList<BuildingVariantIdentifier> gBuildingVariants;
 
-    public StaticMapEntityComponent(Vector origin,/* Vector tileSize,*/ short rotation, int originalRotation, int code) {
+    public StaticMapEntityComponent(Vector origin,/* Vector tileSize,*/ short rotation, short originalRotation, int code) {
         super();
         this.origin = origin;
         this.rotation = rotation;

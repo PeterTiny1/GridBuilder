@@ -1,6 +1,10 @@
 package io.shapez.core;
 
+import io.shapez.game.GlobalConfig;
+
 public class Vector {
+    static int tileSize = GlobalConfig.tileSize;
+    static int halfTileSize = GlobalConfig.halfTileSize;
     public double x;
     public double y;
     double xy;
@@ -91,5 +95,9 @@ public class Vector {
             case Bottom -> new Vector(0, 1);
             case Left -> new Vector(-1, 0);
         };
+    }
+
+    public Vector toWorldSpaceCenterOfTile() {
+        return new Vector(this.x * tileSize + halfTileSize, this.y * tileSize + halfTileSize);
     }
 }

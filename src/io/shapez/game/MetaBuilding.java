@@ -21,4 +21,18 @@ public class MetaBuilding {
     public Vector getDimensions(Layer variant) {
         return new Vector(1, 1);
     }
+
+    public short[] computeOptimalDirectionAndRotationVariantAtTile(Vector tile, short rotation, String variant, Layer layer) {
+        if (!this.getIsRotatable(variant)) {
+            return new short[]{0, 0};
+        }
+        return new short[]{rotation, 0};
+    }
+
+    private boolean getIsRotatable(String variant) {
+        return true;
+    }
+
+    public void updateVariants(Entity entity, short rotationVariant, String variant) {
+    }
 }

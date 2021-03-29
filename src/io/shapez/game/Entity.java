@@ -1,6 +1,7 @@
 package io.shapez.game;
 
 import io.shapez.core.Direction;
+import io.shapez.core.Layer;
 import io.shapez.core.Tile;
 
 import java.awt.*;
@@ -12,6 +13,7 @@ public class Entity {
     public Direction direction;
     public EntityComponentStorage components = new EntityComponentStorage();
     public Integer uid = 0;
+    public Layer layer;
 
     public Entity(Tile type, Image texture, Direction direction, int x, int y) {
         this.x = x;

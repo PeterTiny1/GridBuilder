@@ -114,10 +114,15 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         DrawGrid(g2d);
+        draw(g2d);
         if (hasItemSelected) {
             g2d.drawImage(TileUtil.getTileTexture(item, cRot), heldItem.x, heldItem.y, heldItem.width, heldItem.height, null);
         }
         g2d.drawImage(Resources.vignette, 0, 0, getWidth(), getHeight(), null);
+    }
+
+    private void draw(Graphics2D g2d) {
+        this.systemManager.belt.drawBeltItems(g2d);
     }
 
     private void DrawGrid(Graphics2D g2d) {
@@ -347,9 +352,11 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             //currentChunk.contents[offX][offY] = null;
             clearTile(offX, offY);
 
-            if (item != Tile.DEBUG_LowerLayer)
+            if (item != Tile.DEBUG_LowerLayer) {
+                systemManager.belt.onEntityAdded(new Entity(item, tileTexture, direction, cX, cY));
+                systemManager.belt.updateSurroundingBeltPlacement(new Entity(item, tileTexture, direction, cX, cY));
                 currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
-            else
+            } else
                 currentChunk.lowerLayer[offX][offY] = Color.red;
 
             usedChunks.add(currentChunk);
@@ -368,6 +375,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
                 return;
             }
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
+            systemManager.belt.onEntityAdded(new Entity(item, tileTexture, direction, cX, cY));
+            systemManager.belt.updateSurroundingBeltPlacement(new Entity(item, tileTexture, direction, cX, cY));
             usedChunks.add(currentChunk);
         }
     }
@@ -380,6 +389,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         offX = offX < 0 ? offX + GlobalConfig.mapChunkSize : offX;
         offY = offY < 0 ? offY + GlobalConfig.mapChunkSize : offY;
         systemManager.belt.onEntityDestroyed(new Entity(Tile.Belt, TileUtil.getTileTexture(Tile.Belt, Direction.Top), null, cX, cY));
+        systemManager.belt.updateSurroundingBeltPlacement(new Entity(Tile.Belt, TileUtil.getTileTexture(Tile.Belt, Direction.Top), null, cX, cY));
         if (chunk.contents[offX][offY] != null) {
             chunk.contents[offX][offY] = null;
             for (int x = 0; x < GlobalConfig.mapChunkSize; x++) {
@@ -405,9 +415,5 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     @Override
     public void mouseExited(MouseEvent e) {
 
-    }
-
-    public void __clearAll() {
-        TileUtil.clearAll();
     }
 }
