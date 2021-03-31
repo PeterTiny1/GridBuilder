@@ -2,7 +2,7 @@ package io.shapez.managers;
 
 import io.shapez.core.Direction;
 import io.shapez.core.Tile;
-import io.shapez.game.Board;
+import io.shapez.game.Application;
 import io.shapez.game.Chunk;
 import io.shapez.game.Entity;
 import io.shapez.game.GlobalConfig;
@@ -27,12 +27,12 @@ public class SerializeManager {
     public static int chunkSize = 0;
     public static final byte bytesPerTile = 25;
 
-    public static void loadAll(Board toReload) {
+    public static void loadAll(Application toReload) {
 
         // Start loading...
         long t1 = System.nanoTime();
         elapsed = 0;
-        chunkSize = Board.usedChunks.size();
+        chunkSize = Application.usedChunks.size();
         try {
             TileUtil.clearAll();
             FileInputStream fs = new FileInputStream(SystemPathProvider.saveFile);
@@ -115,7 +115,7 @@ public class SerializeManager {
         // Start saving...
         long t1 = System.nanoTime();
         elapsed = 0;
-        chunkSize = Board.usedChunks.size();
+        chunkSize = Application.usedChunks.size();
 
 
         // Documentation:
@@ -131,7 +131,7 @@ public class SerializeManager {
             // Write header
             ds.writeInt(chunkSize);
 
-            for (Chunk chunk : Board.usedChunks) {
+            for (Chunk chunk : Application.usedChunks) {
                 if (chunk == null) continue;
                 //for (int x = 0; x < chunk.contents.length; x++) {
                 //    for (int y = 0; y < chunk.contents.length; y++) {

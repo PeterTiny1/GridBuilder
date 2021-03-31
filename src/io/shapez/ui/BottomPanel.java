@@ -1,7 +1,7 @@
 package io.shapez.ui;
 
 import io.shapez.core.Tile;
-import io.shapez.game.Board;
+import io.shapez.game.Application;
 import io.shapez.util.UIUtil;
 
 import javax.swing.*;
@@ -11,15 +11,15 @@ import static io.shapez.core.Resources.*;
 import static io.shapez.managers.providers.MiscProvider.defDimensionBtn;
 
 public class BottomPanel extends JPanel {
-    private final Board board;
+    private final Application application;
     public static JButton beltButton = new JButton();
     public static JButton minerButton = new JButton();
     public static JButton trashButton = new JButton();
     public static JButton rotatorButton = new JButton();
     public static JButton lowerLayerButton = new JButton();
 
-    public BottomPanel(Board board) {
-        this.board = board;
+    public BottomPanel(Application application) {
+        this.application = application;
         setOpaque(false);
         JPanel innerPanel = new JPanel();
         innerPanel.setOpaque(false);
@@ -66,15 +66,15 @@ public class BottomPanel extends JPanel {
 
 
     public void selectItem(Tile item) {
-        if (Board.item == item) {
-            Board.item = Tile.None;
-            board.hasItemSelected = false;
-            System.out.println("Already selected. Now selected: " + Board.item.toString());
+        if (Application.item == item) {
+            Application.item = Tile.None;
+            application.hasItemSelected = false;
+            System.out.println("Already selected. Now selected: " + Application.item.toString());
             UIUtil.updateButtonAppearance();
             return;
         }
-        Board.item = item;
-        board.hasItemSelected = Board.item != Tile.None;
+        Application.item = item;
+        application.hasItemSelected = Application.item != Tile.None;
         System.out.println("Selected: " + item.toString());
         UIUtil.updateButtonAppearance();
     }

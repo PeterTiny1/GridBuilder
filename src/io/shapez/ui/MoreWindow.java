@@ -1,7 +1,7 @@
 package io.shapez.ui;
 
 import io.shapez.core.Resources;
-import io.shapez.game.Board;
+import io.shapez.game.Application;
 import io.shapez.managers.SerializeManager;
 import io.shapez.managers.SoundManager;
 import io.shapez.util.TileUtil;
@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 import static io.shapez.managers.providers.MiscProvider.*;
 
 public class MoreWindow extends JFrame {
-    public static Board board;
+    public static Application application;
 
     private static boolean initialised = false;
 
@@ -37,7 +37,7 @@ public class MoreWindow extends JFrame {
 
     public static void internalUI_LoadAllChunks() {
         SoundManager.playSound(Resources.uiClickSound);
-        SerializeManager.loadAll(board);
+        SerializeManager.loadAll(application);
         ResetTitle();
         SoundManager.playSound(Resources.uiSuccessSound);
     }
@@ -99,13 +99,13 @@ public class MoreWindow extends JFrame {
         L_moreFrame.pack();
         L_moreFrame.setLocationRelativeTo(null);
 
-        board.window.setVisible(false);
+        application.window.setVisible(false);
         L_moreFrame.setResizable(false);
 
         L_moreFrame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                board.window.setVisible(true);
+                application.window.setVisible(true);
                 SoundManager.playSound(Resources.uiClickSound);
             }
         });

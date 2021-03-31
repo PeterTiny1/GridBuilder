@@ -151,12 +151,12 @@ public class Chunk {
         }
         if (!containsEntity && entCount != 0 || mEntCount != 0) {
             containsEntity = true;
-            Board.usedChunks.remove(this);
-            Board.usedChunks.add(this);
+            Application.usedChunks.remove(this);
+            Application.usedChunks.add(this);
         }
         if (containsEntity && entCount == 0 || mEntCount == 0) {
             containsEntity = false;
-            Board.usedChunks.remove(this);
+            Application.usedChunks.remove(this);
         }
 
         if (scale > GlobalConfig.zoomedScale) {
@@ -211,8 +211,8 @@ public class Chunk {
                     g.drawString("Chunk " + x + "/" + y, constX, constY);
                     g.drawString("Entities " + entCount, constX, constY + 15);
                     g.drawString("LowLayer " + (lowCount - 31), constX, constY + 30);
-                    g.drawString("Used " + String.valueOf(Board.usedChunks.contains(this)).toUpperCase(), constX, constY + 45);
-                    g.drawString("Bad " + String.valueOf((!Board.usedChunks.contains(this) && entCount != 0) || Board.usedChunks.contains(this) && entCount == 0).toUpperCase(), constX, constY + 60);
+                    g.drawString("Used " + String.valueOf(Application.usedChunks.contains(this)).toUpperCase(), constX, constY + 45);
+                    g.drawString("Bad " + String.valueOf((!Application.usedChunks.contains(this) && entCount != 0) || Application.usedChunks.contains(this) && entCount == 0).toUpperCase(), constX, constY + 60);
                     g.setColor(Color.gray);
                 }
                 i++;

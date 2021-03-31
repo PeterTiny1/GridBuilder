@@ -3,7 +3,7 @@ package io.shapez.util;
 import io.shapez.core.Direction;
 import io.shapez.core.Resources;
 import io.shapez.core.Tile;
-import io.shapez.game.Board;
+import io.shapez.game.Application;
 import io.shapez.game.Chunk;
 import io.shapez.game.Entity;
 import io.shapez.game.GlobalConfig;
@@ -22,9 +22,9 @@ public class TileUtil {
 
     public static void clearAll() {
         //for (Chunk chunk : Board.usedChunks) {
-        for (int _i = 0; _i < Board.usedChunks.size(); _i++) {
-            Chunk chunk = Board.usedChunks.get(_i);
-            System.out.println(Board.usedChunks.size());
+        for (int _i = 0; _i < Application.usedChunks.size(); _i++) {
+            Chunk chunk = Application.usedChunks.get(_i);
+            System.out.println(Application.usedChunks.size());
             for (int i = 0; i < chunk.lowerLayer.length; i++) {
                 for (int j = 0; j < chunk.lowerLayer.length; j++) {
                     Color color = chunk.lowerLayer[i][j];
@@ -110,14 +110,14 @@ public class TileUtil {
         if (currentChunk.contents[offX][offY] != null) {
             currentChunk.contents[offX][offY] = null;
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
-            Board.usedChunks.add(currentChunk);
+            Application.usedChunks.add(currentChunk);
             return;
         }
 
         if (currentChunk.contents[offX][offY] == null) {
             SoundManager.playSound(item == Tile.Belt ? Resources.beltPlaceSound : Resources.generic_placeTileSound);
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
-            Board.usedChunks.add(currentChunk);
+            Application.usedChunks.add(currentChunk);
         }
 
         if (checkSpecialProperties(currentChunk, offX, offY, item)) {

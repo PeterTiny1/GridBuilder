@@ -1,7 +1,7 @@
 package io.shapez.util;
 
 import io.shapez.core.Resources;
-import io.shapez.game.Board;
+import io.shapez.game.Application;
 import io.shapez.game.EntityTutorial;
 import io.shapez.managers.SoundManager;
 import io.shapez.ui.BottomPanel;
@@ -29,7 +29,7 @@ public class UIUtil {
     }
 
     public static void updateButtonAppearance() {
-        switch (Board.item) {
+        switch (Application.item) {
             case None:
                 BottomPanel.minerButton.setSelected(false);
                 BottomPanel.beltButton.setSelected(false);
@@ -61,9 +61,9 @@ public class UIUtil {
                 BottomPanel.rotatorButton.setSelected(true);
                 break;
         }
-        TopPanel.selectedILabel_Name.setText(EntityTutorial.GetTitle(Board.item));
-        TopPanel.selectedILabel_Description.setText(EntityTutorial.GetDescription(Board.item));
-        TopPanel.selectedILabel_Hotkey.setText(EntityTutorial.GetHotkey(Board.item));
+        TopPanel.selectedILabel_Name.setText(EntityTutorial.GetTitle(Application.item));
+        TopPanel.selectedILabel_Description.setText(EntityTutorial.GetDescription(Application.item));
+        TopPanel.selectedILabel_Hotkey.setText(EntityTutorial.GetHotkey(Application.item));
         SoundManager.playSound(Resources.uiClickSound);
 
     }

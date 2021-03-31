@@ -17,7 +17,7 @@ public class NetworkLogicManager {
     public static void updateLogic() {
         // TODO: Optimize
         // INFO: Proof of concept
-        for (Chunk chunk : Board.usedChunks) {
+        for (Chunk chunk : Application.usedChunks) {
             for (int x = 0; x < GlobalConfig.mapChunkSize; x++) {
                 for (int y = 0; y < GlobalConfig.mapChunkSize; y++) {
                     Entity entTile = chunk.contents[x][y];

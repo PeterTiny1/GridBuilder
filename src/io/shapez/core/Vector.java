@@ -30,20 +30,6 @@ public class Vector {
         };
     }
 
-    public double length() {
-        return Math.sqrt(xy);
-    }
-
-    public Vector rotateFastMultipleOf90(int angle) {
-        return switch (angle) {
-            case 360, 0 -> new Vector(this.x, this.y);
-            case 90 -> new Vector(-this.y, this.x);
-            case 180 -> new Vector(-this.x, -this.y);
-            case 270 -> new Vector(this.y, -this.x);
-            default -> new Vector();
-        };
-    }
-
     public static Direction transformDirectionFromMultipleOf90(Direction direction, int angle) {
         if (angle == 0 || angle == 360) {
             return direction;
@@ -76,6 +62,33 @@ public class Vector {
         };
     }
 
+    public static Vector directionToVector(Direction ejectSlotWsDirection) {
+        return switch (ejectSlotWsDirection) {
+            case Top -> new Vector(0, -1);
+            case Right -> new Vector(1, 0);
+            case Bottom -> new Vector(0, 1);
+            case Left -> new Vector(-1, 0);
+        };
+    }
+
+    public static Vector mixVector(Vector v1, Vector v2, double a) {
+        return new Vector(v1.x * (1 - a) + v2.x * a, v1.y * (1 - a) + v2.y * a);
+    }
+
+    public double length() {
+        return Math.sqrt(xy);
+    }
+
+    public Vector rotateFastMultipleOf90(int angle) {
+        return switch (angle) {
+            case 360, 0 -> new Vector(this.x, this.y);
+            case 90 -> new Vector(-this.y, this.x);
+            case 180 -> new Vector(-this.x, -this.y);
+            case 270 -> new Vector(this.y, -this.x);
+            default -> new Vector();
+        };
+    }
+
     public Vector sub(Vector other) {
         return new Vector(this.x - other.x, this.y - other.y);
     }
@@ -88,16 +101,15 @@ public class Vector {
         return this.x == v.x && v.y == this.y;
     }
 
-    public static Vector directionToVector(Direction ejectSlotWsDirection) {
-        return switch (ejectSlotWsDirection) {
-            case Top -> new Vector(0, -1);
-            case Right -> new Vector(1, 0);
-            case Bottom -> new Vector(0, 1);
-            case Left -> new Vector(-1, 0);
-        };
-    }
-
     public Vector toWorldSpaceCenterOfTile() {
         return new Vector(this.x * tileSize + halfTileSize, this.y * tileSize + halfTileSize);
+    }
+
+    public Vector multiplyScalar(double f) {
+        return new Vector(this.x * f, this.y * f);
+    }
+
+    public Vector copy() {
+        return new Vector(this.x, this.y);
     }
 }

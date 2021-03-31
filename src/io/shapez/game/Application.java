@@ -4,6 +4,9 @@ import io.shapez.Main;
 import io.shapez.core.*;
 import io.shapez.game.buildings.MetaBeltBuilding;
 import io.shapez.game.components.StaticMapEntityComponent;
+import io.shapez.game.platform.PlatformWrapperInterface;
+import io.shapez.game.profile.ApplicationSettings;
+import io.shapez.game.savegame.Savegame;
 import io.shapez.managers.NetworkLogicManager;
 import io.shapez.managers.SettingsManager;
 import io.shapez.managers.SoundManager;
@@ -18,19 +21,25 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 
 import static io.shapez.managers.providers.MiscProvider.gameName;
 import static io.shapez.managers.providers.MiscProvider.getRandomTitlebar;
 
-public class Board extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener {
+public class Application extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener {
     // UI
     public BottomPanel centerPanel = new BottomPanel(this);
     public TopPanel topPanel = new TopPanel();
+    public Camera camera = null;
+    public PlatformWrapperInterface platformWrapper;
+    public ApplicationSettings settings = new ApplicationSettings(/*this*/);
+    public boolean visible = true;
 
     private int scale = 40;
     private int offsetX, offsetY;
     public final ArrayList<Character> pressedKeys = new ArrayList<>();
-    public static ArrayList<Chunk> usedChunks = new ArrayList<>();
+    public static java.util.List<Chunk> usedChunks = Collections.synchronizedList(new ArrayList<>());
     private int gridOffsetX, gridOffsetY;
     private int previousMX, previousMY;
     public boolean hasItemSelected = false;
@@ -45,9 +54,15 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
     private Rectangle heldItem = new Rectangle(0, 0, 0, 0);
     public final Main window;
     GameSystemManager systemManager = new GameSystemManager();
+    GameCore core = new GameCore(this);
+    Savegame savegame = null;
+    Date date = new Date();
+    private long time;
 
-    public Board(Main window) throws IOException {
+    public Application(Main window) throws IOException {
         this.window = window;
+
+        core.initializeRoot(this.savegame);
         initBoard();
     }
 
@@ -61,8 +76,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         setBackground(Color.WHITE);
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.SOUTH);
-        int b_HEIGHT = 350;
-        int b_WIDTH = 350;
+        int b_HEIGHT = 500;
+        int b_WIDTH = 500;
         setPreferredSize(new Dimension(b_WIDTH, b_HEIGHT));
 
 
@@ -82,10 +97,10 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             System.err.println("!!! Failed to load config !!!");
         }
 
-        MoreWindow.board = this;
+        MoreWindow.application = this;
         MoreWindow.Init();
 
-        SettingsManager.board = this;
+        SettingsManager.application = this;
         SettingsManager.initSettingsWnd();
 
         try {
@@ -96,6 +111,8 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         initMetaBuildingRegistry();
         javax.swing.Timer timer = new javax.swing.Timer(SettingsManager.tickrateScreen, this);
         timer.start();
+        java.util.Timer timer1 = new java.util.Timer();
+        timer1.schedule(new BackgroundTimer(this), 10);
     }
 
     private void initMetaBuildingRegistry() {
@@ -146,6 +163,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        long currentTime = date.getTime();
         int moveValue = (shiftPressed) ? 8 : 2;
         if (pressedKeys.size() > 0) {
             for (Character key : pressedKeys) {
@@ -158,7 +176,22 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
             }
         }
         NetworkLogicManager.updateLogic();
-        repaint();
+        onBackgroundTick(currentTime - time);
+        time = currentTime;
+        if (this.isRenderable()) {
+            repaint();
+        }
+    }
+
+    private void onBackgroundTick(long dt) {
+        if (this.isRenderable()) {
+            return;
+        }
+        this.core.tick(dt);
+    }
+
+    private boolean isRenderable() {
+        return visible;
     }
 
     @Override
@@ -343,7 +376,7 @@ public class Board extends JPanel implements ActionListener, MouseWheelListener,
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
 
-        if (TileUtil.checkInvalidTile(item, Board.item, currentChunk, offX, offY)) return;
+        if (TileUtil.checkInvalidTile(item, Application.item, currentChunk, offX, offY)) return;
 
         if (currentChunk.contents[offX][offY] != null
                 && currentChunk.contents[offX][offY].tile != item

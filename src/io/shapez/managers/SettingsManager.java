@@ -1,7 +1,7 @@
 package io.shapez.managers;
 
 import io.shapez.core.Resources;
-import io.shapez.game.Board;
+import io.shapez.game.Application;
 import io.shapez.game.GlobalConfig;
 import io.shapez.managers.providers.SystemPathProvider;
 
@@ -12,7 +12,7 @@ import java.io.*;
 import static io.shapez.managers.providers.MiscProvider.*;
 
 public class SettingsManager {
-    public static Board board;
+    public static Application application;
 
     public static JFrame settingsFrame;
     public static JPanel mainPanel;
@@ -166,7 +166,7 @@ public class SettingsManager {
                 try {
                     System.out.println("Saving settings...");
                     saveSettings(false); // window closed...
-                    board.window.setVisible(true);
+                    application.window.setVisible(true);
                 } catch (IOException e) {
                     SoundManager.playSound(Resources.uiDenySound);
                     System.err.println("Error saving settings");
@@ -185,7 +185,7 @@ public class SettingsManager {
     }
 
     public static void showSettingswnd() {
-        board.window.setVisible(false);
+        application.window.setVisible(false);
         settingsFrame.setVisible(true);
 
         try {
