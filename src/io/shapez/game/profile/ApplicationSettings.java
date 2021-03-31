@@ -1,5 +1,6 @@
 package io.shapez.game.profile;
 
+import io.shapez.game.core.ExplainedResult;
 import io.shapez.game.core.ReadWriteProxy;
 
 public class ApplicationSettings extends ReadWriteProxy {
@@ -17,6 +18,16 @@ public class ApplicationSettings extends ReadWriteProxy {
 
     private Object getAllSettings() {
 //        return this.currentData.settings; TODO: add ability to import settings
+        return null;
+    }
+
+    @Override
+    protected void debouncedWrite() {
+
+    }
+
+    @Override
+    protected ExplainedResult verify(Object data) {
         return null;
     }
 }

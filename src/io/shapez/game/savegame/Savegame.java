@@ -1,5 +1,6 @@
 package io.shapez.game.savegame;
 
+import io.shapez.game.core.ExplainedResult;
 import io.shapez.game.core.ReadWriteProxy;
 
 import java.util.Date;
@@ -27,5 +28,27 @@ public class Savegame extends ReadWriteProxy {
 
     public long getLastRealUpdate() {
         return this.currentData.lastUpdate;
+    }
+
+    public boolean isSavable() {
+        return true;
+    }
+
+    public void writeSavegameAndMetadata() {
+        this.writeAsync();
+    }
+    @Override
+    public void writeAsync() {
+        super.writeAsync();
+    }
+
+    @Override
+    protected void debouncedWrite() {
+
+    }
+
+    @Override
+    protected ExplainedResult verify(Object data) {
+        return null;
     }
 }

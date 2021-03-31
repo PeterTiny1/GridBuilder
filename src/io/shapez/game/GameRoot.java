@@ -13,4 +13,13 @@ public class GameRoot {
     public GameRoot(Application app) {
         this.app = app;
     }
+
+    public void doSave() {
+        if (this.savegame == null || !this.savegame.isSavable()) {
+            return;
+        }
+
+        this.savegame.writeSavegameAndMetadata();
+        
+    }
 }
