@@ -33,8 +33,9 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     public TopPanel topPanel = new TopPanel();
     public Camera camera = null;
     public PlatformWrapperInterface platformWrapper;
-    public ApplicationSettings settings = new ApplicationSettings(/*this*/);
+    public ApplicationSettings settings = new ApplicationSettings(this);
     public boolean visible = true;
+    public RestrictionManager restrictionMgr = new RestrictionManager(this);
 
     private int scale = 40;
     private int offsetX, offsetY;
@@ -53,7 +54,6 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
     private Rectangle heldItem = new Rectangle(0, 0, 0, 0);
     public final Main window;
-    GameSystemManager systemManager = new GameSystemManager();
     GameCore core = new GameCore(this);
     Savegame savegame = null;
     Date date = new Date();
@@ -139,7 +139,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     }
 
     private void draw(Graphics2D g2d) {
-        this.systemManager.belt.drawBeltItems(g2d);
+        core.root.systemMgr.belt.drawBeltItems(g2d);
     }
 
     private void DrawGrid(Graphics2D g2d) {
@@ -386,8 +386,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             clearTile(offX, offY);
 
             if (item != Tile.DEBUG_LowerLayer) {
-                systemManager.belt.onEntityAdded(new Entity(item, tileTexture, direction, cX, cY));
-                systemManager.belt.updateSurroundingBeltPlacement(new Entity(item, tileTexture, direction, cX, cY));
+                core.root.systemMgr.belt.onEntityAdded(new Entity(item, tileTexture, direction, cX, cY));
+                core.root.systemMgr.belt.updateSurroundingBeltPlacement(new Entity(item, tileTexture, direction, cX, cY));
                 currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
             } else
                 currentChunk.lowerLayer[offX][offY] = Color.red;
@@ -408,8 +408,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
                 return;
             }
             currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
-            systemManager.belt.onEntityAdded(new Entity(item, tileTexture, direction, cX, cY));
-            systemManager.belt.updateSurroundingBeltPlacement(new Entity(item, tileTexture, direction, cX, cY));
+            core.root.systemMgr.belt.onEntityAdded(new Entity(item, tileTexture, direction, cX, cY));
+            core.root.systemMgr.belt.updateSurroundingBeltPlacement(new Entity(item, tileTexture, direction, cX, cY));
             usedChunks.add(currentChunk);
         }
     }
@@ -421,8 +421,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         int offY = cY % GlobalConfig.mapChunkSize;
         offX = offX < 0 ? offX + GlobalConfig.mapChunkSize : offX;
         offY = offY < 0 ? offY + GlobalConfig.mapChunkSize : offY;
-        systemManager.belt.onEntityDestroyed(new Entity(Tile.Belt, TileUtil.getTileTexture(Tile.Belt, Direction.Top), null, cX, cY));
-        systemManager.belt.updateSurroundingBeltPlacement(new Entity(Tile.Belt, TileUtil.getTileTexture(Tile.Belt, Direction.Top), null, cX, cY));
+        core.root.systemMgr.belt.onEntityDestroyed(new Entity(Tile.Belt, TileUtil.getTileTexture(Tile.Belt, Direction.Top), null, cX, cY));
+        core.root.systemMgr.belt.updateSurroundingBeltPlacement(new Entity(Tile.Belt, TileUtil.getTileTexture(Tile.Belt, Direction.Top), null, cX, cY));
         if (chunk.contents[offX][offY] != null) {
             chunk.contents[offX][offY] = null;
             for (int x = 0; x < GlobalConfig.mapChunkSize; x++) {

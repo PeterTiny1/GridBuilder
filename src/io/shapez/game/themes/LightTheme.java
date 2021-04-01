@@ -42,13 +42,13 @@ public class LightTheme {
         }
 
         public static class Wires {
-            String overlayColor ="rgba(97, 161, 152, 0.75)";
+            String overlayColor = "rgba(97, 161, 152, 0.75)";
             String previewColor = "rgb(97, 161, 152, 0.4)";
             String highlightColor = "rgba(72, 137, 255, 1)";
         }
 
         public static class ConnectedMiners {
-            String overlay ="rgba(40, 50, 60, 0.5)";
+            String overlay = "rgba(40, 50, 60, 0.5)";
             String textColor = "#fff";
             String textColorCapped = "#ef5072";
             String background = "rgba(40, 50, 60, 0.8)";
@@ -56,7 +56,7 @@ public class LightTheme {
     }
 
     public static class Items {
-        String outline ="#55575a";
+        String outline = "#55575a";
         double outlineWidth = 0.75;
         String circleBackground = "rgba(40, 50, 65, 0.1)";
     }

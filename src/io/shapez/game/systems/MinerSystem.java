@@ -6,6 +6,7 @@ import io.shapez.game.components.MinerComponent;
 
 public class MinerSystem extends GameSystemWithFilter {
     boolean needsRecompute = true;
+
     public MinerSystem() {
         super(new Component[]{new MinerComponent()});
     }

@@ -13,6 +13,6 @@ public class GameSystemManager {
     MapResourcesSystem mapResources = new MapResourcesSystem();
     MinerSystem miner = new MinerSystem();
 
-    public GameSystemManager() throws IOException {
+    public GameSystemManager(GameRoot root) throws IOException {
     }
 }

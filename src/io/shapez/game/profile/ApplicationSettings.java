@@ -1,13 +1,15 @@
 package io.shapez.game.profile;
 
+import io.shapez.game.Application;
 import io.shapez.game.core.ExplainedResult;
 import io.shapez.game.core.ReadWriteProxy;
+import io.shapez.game.savegame.SavegameData;
 
 import static java.lang.Integer.parseInt;
 
 public class ApplicationSettings extends ReadWriteProxy {
-    public ApplicationSettings() {
-        super("app_settings.bin");
+    public ApplicationSettings(Application app) {
+        super(app, "app_settings.bin");
     }
 
     public int getAutosaveIntervalSeconds() {
@@ -30,6 +32,11 @@ public class ApplicationSettings extends ReadWriteProxy {
 
     @Override
     protected ExplainedResult verify(Object data) {
+        return null;
+    }
+
+    @Override
+    public SavegameData getDefaultData() {
         return null;
     }
 

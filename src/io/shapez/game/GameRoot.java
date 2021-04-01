@@ -1,7 +1,9 @@
 package io.shapez.game;
 
+import io.shapez.game.hud.GameHUD;
 import io.shapez.game.savegame.Savegame;
 import io.shapez.game.time.GameTime;
+import io.shapez.managers.SoundManager;
 
 public class GameRoot {
     public final Application app;
@@ -11,6 +13,14 @@ public class GameRoot {
     public AutomaticSave automaticSave;
     public DynamicTickrate dynamicTickrate = null;
     public MapView map = null;
+    public GameLogic logic = null;
+    public GameHUD hud = null;
+    public SoundProxy soundProxy = null;
+    public EntityManager entityMgr = null;
+    public GameSystemManager systemMgr = null;
+    public ShapeDefinitionManager shapeDefinitionMgr = null;
+    public GameMode gameMode = null;
+    public HubGoals hubGoals = null;
 
     public GameRoot(Application app) {
         this.app = app;

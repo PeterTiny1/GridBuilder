@@ -1,5 +1,6 @@
 package io.shapez.game.savegame;
 
+import io.shapez.game.Application;
 import io.shapez.game.core.ExplainedResult;
 import io.shapez.game.core.ReadWriteProxy;
 
@@ -11,7 +12,7 @@ public class Savegame extends ReadWriteProxy {
     SavegameData currentData = this.getDefaultData();
     Date date = new Date();
 
-    private SavegameData getDefaultData() {
+    public SavegameData getDefaultData() {
         assert date != null;
         return new SavegameData(getCurrentVersion(), null, new SavegameStats(), date.getTime());
     }
@@ -20,8 +21,8 @@ public class Savegame extends ReadWriteProxy {
         return 1007;
     }
 
-    public Savegame(String internalId, String metaDataRef) {
-        super("savegame-" + internalId + ".bin");
+    public Savegame(Application app, String internalId, String metaDataRef) {
+        super(app, "savegame-" + internalId + ".bin");
         this.internalId = internalId;
         this.metaDataRef = metaDataRef;
     }
@@ -37,14 +38,10 @@ public class Savegame extends ReadWriteProxy {
     public void writeSavegameAndMetadata() {
         this.writeAsync();
     }
+
     @Override
     public void writeAsync() {
         super.writeAsync();
-    }
-
-    @Override
-    protected void debouncedWrite() {
-
     }
 
     @Override

@@ -1,10 +1,13 @@
 package io.shapez.game.core;
 
+import io.shapez.game.Application;
+import io.shapez.game.savegame.SavegameData;
+
 public abstract class ReadWriteProxy {
     private final String filename;
-    public Object currentData = null;
+    public SavegameData currentData = null;
 
-    public ReadWriteProxy(String filename) {
+    public ReadWriteProxy(Application app, String filename) {
         this.filename = filename;
 
     }
@@ -19,7 +22,9 @@ public abstract class ReadWriteProxy {
         this.debouncedWrite();
     }
 
-    protected abstract void debouncedWrite();
+    protected void debouncedWrite() {
+        // TODO: 01/04/2021 Implement writing using this class
+    }
 
     private ExplainedResult internalVerifyEntry(Object data) {
         /*if (data.version != this.getCurrentVersion) {
@@ -44,4 +49,6 @@ public abstract class ReadWriteProxy {
 //        } TODO: implement this
         return ExplainedResult.good();
     }
+
+    public abstract SavegameData getDefaultData();
 }
