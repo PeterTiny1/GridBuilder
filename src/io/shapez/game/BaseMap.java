@@ -9,7 +9,7 @@ public class BaseMap {
     public int seed;
     HashMap<String, Chunk> chunksById = new HashMap<>();
 
-    public BaseMap() {
+    public BaseMap(GameRoot root) {
         Random rng = new Random();
         seed = (int) Math.round(rng.nextDouble() * 100000);
     }

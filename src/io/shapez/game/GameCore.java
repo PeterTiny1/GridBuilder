@@ -23,7 +23,10 @@ public class GameCore {
         this.root = new GameRoot(this.application);
         this.root.savegame = savegame;
 
+        root.dynamicTickrate = new DynamicTickrate(root);
+
         root.camera = new Camera(root, application);
+        root.map = new MapView(root);
         root.time = new GameTime();
         root.automaticSave = new AutomaticSave(root);
     }

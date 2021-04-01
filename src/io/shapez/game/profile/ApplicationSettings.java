@@ -3,22 +3,24 @@ package io.shapez.game.profile;
 import io.shapez.game.core.ExplainedResult;
 import io.shapez.game.core.ReadWriteProxy;
 
+import static java.lang.Integer.parseInt;
+
 public class ApplicationSettings extends ReadWriteProxy {
     public ApplicationSettings() {
         super("app_settings.bin");
     }
 
     public int getAutosaveIntervalSeconds() {
-//        String id = this.getAllSettings().autosaveInterval; // TODO: make this work
-//        for (int i = 0; i < movementSpeeds.; i++) { // TODO: also make this work
-//
-//        }
-        return 1;
+        AutosaveInterval id = this.getAllSettings().autosaveInterval;
+        if (id != null) {
+            return id.getSeconds();
+        }
+        return 120;
     }
 
-    private Object getAllSettings() {
-//        return this.currentData.settings; TODO: add ability to import settings
-        return null;
+    private SettingsStorage getAllSettings() {
+//        return this.currentData.settings; //TODO: add ability to import settings
+        return new SettingsStorage();
     }
 
     @Override
@@ -29,5 +31,27 @@ public class ApplicationSettings extends ReadWriteProxy {
     @Override
     protected ExplainedResult verify(Object data) {
         return null;
+    }
+
+    public int getDesiredFps() {
+        return parseInt(this.getAllSettings().refreshRate);
+    }
+
+    public enum AutosaveInterval {
+        one_minute(60),
+        two_minutes(120),
+        five_minutes(5 * 60),
+        ten_minutes(10 * 60),
+        twenty_minutes(20 * 60);
+
+        protected final int seconds;
+
+        AutosaveInterval(int seconds) {
+            this.seconds = seconds;
+        }
+
+        int getSeconds() {
+            return seconds;
+        }
     }
 }

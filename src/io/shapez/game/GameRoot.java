@@ -9,6 +9,8 @@ public class GameRoot {
     public GameTime time = null;
     public Camera camera;
     public AutomaticSave automaticSave;
+    public DynamicTickrate dynamicTickrate = null;
+    public MapView map = null;
 
     public GameRoot(Application app) {
         this.app = app;
@@ -20,6 +22,6 @@ public class GameRoot {
         }
 
         this.savegame.writeSavegameAndMetadata();
-        
+
     }
 }
