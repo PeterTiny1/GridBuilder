@@ -7,7 +7,6 @@ import io.shapez.game.components.StaticMapEntityComponent;
 import io.shapez.game.platform.PlatformWrapperInterface;
 import io.shapez.game.profile.ApplicationSettings;
 import io.shapez.game.savegame.Savegame;
-import io.shapez.managers.NetworkLogicManager;
 import io.shapez.managers.SettingsManager;
 import io.shapez.managers.SoundManager;
 import io.shapez.ui.BottomPanel;
@@ -175,7 +174,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
                 }
             }
         }
-        NetworkLogicManager.updateLogic();
+//        NetworkLogicManager.updateLogic();
         onBackgroundTick(currentTime - time);
         time = currentTime;
         if (this.isRenderable()) {
