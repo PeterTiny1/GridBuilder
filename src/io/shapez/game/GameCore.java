@@ -44,5 +44,7 @@ public class GameCore {
         root.systemMgr = new GameSystemManager(root);
         root.shapeDefinitionMgr = new ShapeDefinitionManager(root);
         root.hubGoals = new HubGoals(root);
+
+        this.root.hud.initialize();
     }
 }

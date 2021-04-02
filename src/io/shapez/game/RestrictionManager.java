@@ -29,6 +29,10 @@ public class RestrictionManager extends ReadWriteProxy {
     }
 
     private boolean isLimitedVersion() {
-        return true;
+        return false;
+    }
+
+    public boolean getIsStandaloneMarketingActive() {
+        return this.isLimitedVersion();
     }
 }

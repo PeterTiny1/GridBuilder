@@ -20,7 +20,7 @@ public class ApplicationSettings extends ReadWriteProxy {
         return 120;
     }
 
-    private SettingsStorage getAllSettings() {
+    public SettingsStorage getAllSettings() {
 //        return this.currentData.settings; //TODO: add ability to import settings
         return new SettingsStorage();
     }
