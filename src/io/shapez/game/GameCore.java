@@ -1,10 +1,10 @@
 package io.shapez.game;
 
+import io.shapez.Application;
 import io.shapez.game.hud.GameHUD;
 import io.shapez.game.modes.RegularGameMode;
 import io.shapez.game.savegame.Savegame;
 import io.shapez.game.time.GameTime;
-import io.shapez.managers.SoundManager;
 
 import java.io.IOException;
 

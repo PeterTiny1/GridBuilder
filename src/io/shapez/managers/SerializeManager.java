@@ -2,7 +2,7 @@ package io.shapez.managers;
 
 import io.shapez.core.Direction;
 import io.shapez.core.Tile;
-import io.shapez.game.Application;
+import io.shapez.Application;
 import io.shapez.game.Chunk;
 import io.shapez.game.Entity;
 import io.shapez.game.GlobalConfig;

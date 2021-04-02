@@ -1,6 +1,6 @@
 package io.shapez.game.savegame;
 
-import io.shapez.game.Application;
+import io.shapez.Application;
 import io.shapez.game.core.ExplainedResult;
 import io.shapez.game.core.ReadWriteProxy;
 

@@ -1,5 +1,6 @@
 package io.shapez.managers;
 
+import io.shapez.Application;
 import io.shapez.core.Direction;
 import io.shapez.core.Resources;
 import io.shapez.core.Tile;

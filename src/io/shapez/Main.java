@@ -1,7 +1,6 @@
 package io.shapez;
 
 import io.shapez.core.Resources;
-import io.shapez.game.Application;
 
 import javax.swing.*;
 import java.awt.*;

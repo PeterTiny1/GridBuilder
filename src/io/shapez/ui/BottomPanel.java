@@ -1,7 +1,7 @@
 package io.shapez.ui;
 
 import io.shapez.core.Tile;
-import io.shapez.game.Application;
+import io.shapez.Application;
 import io.shapez.util.UIUtil;
 
 import javax.swing.*;

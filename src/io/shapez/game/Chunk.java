@@ -1,5 +1,6 @@
 package io.shapez.game;
 
+import io.shapez.Application;
 import io.shapez.core.Layer;
 import io.shapez.core.Vector;
 import io.shapez.managers.SettingsManager;

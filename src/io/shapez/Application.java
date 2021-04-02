@@ -1,7 +1,7 @@
-package io.shapez.game;
+package io.shapez;
 
-import io.shapez.Main;
 import io.shapez.core.*;
+import io.shapez.game.*;
 import io.shapez.game.buildings.MetaBeltBuilding;
 import io.shapez.game.components.StaticMapEntityComponent;
 import io.shapez.game.platform.PlatformWrapperInterface;
@@ -56,7 +56,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     public final Main window;
     GameCore core = new GameCore(this);
     Savegame savegame = null;
-    Date date = new Date();
+    public Date date = new Date();
     private long time;
 
     public Application(Main window) throws IOException {

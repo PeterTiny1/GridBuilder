@@ -1,5 +1,7 @@
 package io.shapez.game;
 
+import io.shapez.Application;
+
 import java.util.Date;
 import java.util.TimerTask;
 

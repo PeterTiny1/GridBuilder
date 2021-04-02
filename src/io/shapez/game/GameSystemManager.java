@@ -8,7 +8,7 @@ import io.shapez.game.systems.MinerSystem;
 import java.io.IOException;
 
 public class GameSystemManager {
-    BeltSystem belt = new BeltSystem();
+    public BeltSystem belt = new BeltSystem();
     ItemEjectorSystem itemEjector = new ItemEjectorSystem();
     MapResourcesSystem mapResources = new MapResourcesSystem();
     MinerSystem miner = new MinerSystem();

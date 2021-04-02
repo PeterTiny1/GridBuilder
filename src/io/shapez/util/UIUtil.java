@@ -1,7 +1,7 @@
 package io.shapez.util;
 
 import io.shapez.core.Resources;
-import io.shapez.game.Application;
+import io.shapez.Application;
 import io.shapez.game.EntityTutorial;
 import io.shapez.managers.SoundManager;
 import io.shapez.ui.BottomPanel;

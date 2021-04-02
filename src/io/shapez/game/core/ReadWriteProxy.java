@@ -1,6 +1,6 @@
 package io.shapez.game.core;
 
-import io.shapez.game.Application;
+import io.shapez.Application;
 import io.shapez.game.savegame.SavegameData;
 
 public abstract class ReadWriteProxy {

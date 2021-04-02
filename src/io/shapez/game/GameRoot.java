@@ -1,9 +1,9 @@
 package io.shapez.game;
 
+import io.shapez.Application;
 import io.shapez.game.hud.GameHUD;
 import io.shapez.game.savegame.Savegame;
 import io.shapez.game.time.GameTime;
-import io.shapez.managers.SoundManager;
 
 public class GameRoot {
     public final Application app;
