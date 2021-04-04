@@ -133,10 +133,10 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         DrawGrid(g2d);
-        draw(g2d);
         if (hasItemSelected) {
             g2d.drawImage(TileUtil.getTileTexture(item, cRot), heldItem.x, heldItem.y, heldItem.width, heldItem.height, null);
         }
+        draw(g2d);
         g2d.drawImage(Resources.vignette, 0, 0, getWidth(), getHeight(), null);
     }
 
