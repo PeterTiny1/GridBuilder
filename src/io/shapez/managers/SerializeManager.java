@@ -3,9 +3,7 @@ package io.shapez.managers;
 import io.shapez.core.Direction;
 import io.shapez.core.Tile;
 import io.shapez.Application;
-import io.shapez.game.Chunk;
-import io.shapez.game.Entity;
-import io.shapez.game.GlobalConfig;
+import io.shapez.game.*;
 import io.shapez.managers.providers.SystemPathProvider;
 import io.shapez.ui.MoreWindow;
 import io.shapez.util.DebugUtil;
@@ -27,7 +25,7 @@ public class SerializeManager {
     public static int chunkSize = 0;
     public static final byte bytesPerTile = 25;
 
-    public static void loadAll(Application toReload) {
+    public static void loadAll(GameRoot root) {
 
         // Start loading...
         long t1 = System.nanoTime();
@@ -89,7 +87,7 @@ public class SerializeManager {
                     type = Tile.valueOf(_type);
                     rot = Direction.valueOf(_rot);
                     tex = TileUtil.getTileTexture(type, rot);
-                    TileUtil.forcePlace(tileX, tileY, type, rot, tex);
+                    TileUtil.forcePlace(root, tileX, tileY, type, rot, tex);
 
                     //for(Chunk chunk : Board.usedChunks){
                     //    chunk.lowerLayer[lX][lY] = new Color(lR, lG, lB);
@@ -131,7 +129,7 @@ public class SerializeManager {
             // Write header
             ds.writeInt(chunkSize);
 
-            for (Chunk chunk : Application.usedChunks) {
+            for (MapChunk chunk : Application.usedChunks) {
                 if (chunk == null) continue;
                 //for (int x = 0; x < chunk.contents.length; x++) {
                 //    for (int y = 0; y < chunk.contents.length; y++) {
@@ -172,13 +170,13 @@ public class SerializeManager {
                 for (byte i = 0; i < GlobalConfig.mapChunkSize; i++) {
                     for (byte j = 0; j < GlobalConfig.mapChunkSize; j++) {
                         // Better approach?
-                        Color color = chunk.lowerLayer[i][j];
-                        if (color == null) continue;
+                        BaseItem item = chunk.lowerLayer[i][j];
+                        if (item == null) continue;
                         ds.writeInt(i); // x
                         ds.writeInt(j); // y
-                        ds.writeByte(color.getRed());     // r
-                        ds.writeByte(color.getGreen()); // g
-                        ds.writeByte(color.getBlue()); // b
+//                        ds.writeByte(color.getRed());     // r TODO: Allow saving of this stuff
+//                        ds.writeByte(color.getGreen()); // g
+//                        ds.writeByte(color.getBlue()); // b
                     }
                 }
                 elapsed++;

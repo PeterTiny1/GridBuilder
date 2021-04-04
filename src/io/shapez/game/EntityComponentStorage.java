@@ -1,9 +1,6 @@
 package io.shapez.game;
 
-import io.shapez.game.components.BeltComponent;
-import io.shapez.game.components.ItemAcceptorComponent;
-import io.shapez.game.components.ItemEjectorComponent;
-import io.shapez.game.components.StaticMapEntityComponent;
+import io.shapez.game.components.*;
 
 public class EntityComponentStorage {
     public StaticMapEntityComponent StaticMapEntity;
@@ -16,7 +13,7 @@ public class EntityComponentStorage {
 //        public HubComponent Hub;
 //        public StorageComponent Storage;
 //        public WiredPinsComponent WiredPins;
-//        public BeltUnderlaysComponent BeltUnderlays;
+        public BeltUnderlaysComponent BeltUnderlays;
 //        public WireComponent Wire;
 //        public ConstantSignalComponent ConstantSignal;
 //        public LogicGateComponent LogicGate;

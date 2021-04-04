@@ -1,4 +1,6 @@
-package io.shapez.managers;
+package io.shapez.game.platform;
+
+import io.shapez.managers.SettingsManager;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -6,7 +8,6 @@ import javax.sound.sampled.Clip;
 import java.net.URL;
 
 public class SoundManager {
-
 
     public static synchronized void playSound(final URL str) {
         if (!SettingsManager.allowSound) return;

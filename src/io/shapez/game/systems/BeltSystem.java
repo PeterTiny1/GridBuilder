@@ -1,6 +1,8 @@
 package io.shapez.game.systems;
 
 import io.shapez.core.Direction;
+import io.shapez.core.DrawParameters;
+import io.shapez.core.Layer;
 import io.shapez.core.Vector;
 import io.shapez.game.Component;
 import io.shapez.game.*;
@@ -22,11 +24,11 @@ import static io.shapez.game.buildings.MetaBeltBuilding.arrayBeltVariantToRotati
 public class BeltSystem extends GameSystemWithFilter {
     private final HashMap<Direction, ArrayList<BufferedImage>> beltAnimations;
     private final HashMap<Direction, BufferedImage> beltSprites;
-    final byte BELT_ANIM_COUNT = 14;
+    public static final byte BELT_ANIM_COUNT = 14;
     ArrayList<BeltPath> beltPaths = new ArrayList<>();
 
-    public BeltSystem() throws IOException {
-        super(new Component[]{new BeltComponent(null)});
+    public BeltSystem(GameRoot root) throws IOException {
+        super(root, new Component[]{new BeltComponent(null)});
         beltSprites = new HashMap<>() {{
             put(Direction.Top, ImageIO.read(BeltSystem.class.getResource("/sprites/forward_0.png")));
             put(Direction.Left, ImageIO.read(BeltSystem.class.getResource("/sprites/left_0.png")));
@@ -95,7 +97,7 @@ public class BeltSystem extends GameSystemWithFilter {
                     continue;
                 }
 
-                Entity[] targetEntities = GlobalConfig.map.getLayerContentsMultipleXY(x, y);
+                Entity[] targetEntities = root.map.getLayerContentsMultipleXY(x, y);
                 for (Entity targetEntity : targetEntities) {
                     BeltComponent targetBeltComp = targetEntity.components.Belt;
                     StaticMapEntityComponent targetStaticComp = targetEntity.components.StaticMapEntity;
@@ -151,7 +153,7 @@ public class BeltSystem extends GameSystemWithFilter {
                 BeltPath toPath = toEntity.components.Belt.assignedPath;
                 toPath.extendOnBeginning(entity);
             } else {
-                BeltPath path = new BeltPath(new LinkedList<>() {{
+                BeltPath path = new BeltPath(root, new LinkedList<>() {{
                     add(entity);
                 }});
                 this.beltPaths.add(path);
@@ -167,7 +169,7 @@ public class BeltSystem extends GameSystemWithFilter {
         Vector followUpVector = Vector.directionToVector(followUpDirection);
 
         Vector followUpTile = staticComp.origin.add(followUpVector);
-        Entity followUpEntity = GlobalConfig.map.getLayerContentXY(followUpTile.x, followUpTile.y, entity.layer);
+        Entity followUpEntity = root.map.getLayerContentXY(followUpTile.x, followUpTile.y, entity.layer);
 
         if (followUpEntity != null) {
             BeltComponent followUpBeltComp = followUpEntity.components.Belt;
@@ -191,7 +193,7 @@ public class BeltSystem extends GameSystemWithFilter {
         Vector supplyVector = Vector.directionToVector(supplyDirection);
 
         Vector supplyTile = staticComp.origin.add(supplyVector);
-        Entity supplyEntity = GlobalConfig.map.getLayerContentXY(supplyTile.x, supplyTile.y, entity.layer);
+        Entity supplyEntity = root.map.getLayerContentXY(supplyTile.x, supplyTile.y, entity.layer);
 
         if (supplyEntity != null) {
             BeltComponent supplyBeltComp = supplyEntity.components.Belt;
@@ -221,8 +223,39 @@ public class BeltSystem extends GameSystemWithFilter {
     }
 
     public void drawBeltItems(Graphics2D g2d) {
-        for (int i = 0; i < this.beltPaths.size(); i++) {
-            this.beltPaths.get(i).draw(g2d);
+        for (BeltPath beltPath : this.beltPaths) {
+            beltPath.draw(g2d);
+        }
+    }
+
+    public void drawChunk(DrawParameters parameters, MapChunkView chunk) {
+        int speedMultiplier = Math.min(this.root.hubGoals.getBeltBaseSpeed(), 10);
+
+        int animationIndex = (int) ((this.root.time.realtimeNow() * speedMultiplier * BELT_ANIM_COUNT * 126) / 42 * GlobalConfig.itemSpacingOnBelts);
+        ArrayList<Entity> contents = chunk.containedEntitiesByLayer.get(Layer.Regular);
+        if (this.root.app.settings.getAllSettings().simplifiedBelts) {
+            BeltPath hoveredBeltPath = null;
+            Vector mousePos = new Vector(this.root.app.getMousePosition());
+            if (this.root.currentLayer == Layer.Regular) {
+                Vector tile = this.root.camera.screenToWorld(mousePos).toTileSpace();
+                Entity content = this.root.map.getLayerContentXY(tile.x, tile.y, Layer.Regular);
+                if (content != null && content.components.Belt != null) {
+                    hoveredBeltPath = content.components.Belt.assignedPath;
+                }
+            }
+
+            for (int i = 0; i < contents.size(); i++) {
+                Entity entity = contents.get(i);
+                if (entity.components.Belt != null) {
+                    Direction direction = entity.components.Belt.direction;
+                    BufferedImage sprite = this.beltAnimations.get(direction).get(0);
+                    if (entity.components.Belt.assignedPath == hoveredBeltPath) {
+                        sprite = this.beltAnimations.get(direction).get(animationIndex % BELT_ANIM_COUNT);
+                    }
+
+                    entity.components.StaticMapEntity.drawSpriteOnBoundsClipped(sprite, parameters, sprite, 0);
+                }
+            }
         }
     }
 

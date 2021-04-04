@@ -4,10 +4,8 @@ import io.shapez.core.Direction;
 import io.shapez.core.Layer;
 import io.shapez.core.StaleAreaDetector;
 import io.shapez.core.Vector;
+import io.shapez.game.*;
 import io.shapez.game.Component;
-import io.shapez.game.Entity;
-import io.shapez.game.GameSystemWithFilter;
-import io.shapez.game.GlobalConfig;
 import io.shapez.game.components.BeltComponent;
 import io.shapez.game.components.ItemAcceptorComponent;
 import io.shapez.game.components.ItemEjectorComponent;
@@ -19,8 +17,8 @@ import java.util.HashSet;
 public class ItemEjectorSystem extends GameSystemWithFilter {
     private final StaleAreaDetector staleAreaDetector;
 
-    public ItemEjectorSystem() {
-        super(new Component[]{new ItemEjectorComponent()});
+    public ItemEjectorSystem(GameRoot root) {
+        super(root, new Component[]{new ItemEjectorComponent()});
 
         this.staleAreaDetector = new StaleAreaDetector("item-ejector", this::recomputeArea);
 
@@ -34,7 +32,7 @@ public class ItemEjectorSystem extends GameSystemWithFilter {
                 int tileX = area.x + x;
                 int tileY = area.y + y;
 
-                Entity contents = GlobalConfig.map.getLayerContentXY(tileX, tileY, Layer.Regular);
+                Entity contents = root.map.getLayerContentXY(tileX, tileY, Layer.Regular);
                 if (contents != null && contents.components.ItemEjector != null) {
                     if (!seenUids.contains(contents.uid)) {
                         seenUids.add(contents.uid);
@@ -61,7 +59,7 @@ public class ItemEjectorSystem extends GameSystemWithFilter {
             Vector ejectSlotWsDirectionVector = Vector.directionToVector(ejectSlotWsDirection);
             Vector ejectSlotTargetWsTile = ejectSlotWsTile.add(ejectSlotWsDirectionVector);
 
-            Entity[] targetEntities = GlobalConfig.map.getLayerContentsMultipleXY(ejectSlotTargetWsTile.x, ejectSlotTargetWsTile.y);
+            Entity[] targetEntities = root.map.getLayerContentsMultipleXY(ejectSlotTargetWsTile.x, ejectSlotTargetWsTile.y);
 
             for (Entity targetEntity : targetEntities) {
                 StaticMapEntityComponent targetStaticComp = targetEntity.components.StaticMapEntity;

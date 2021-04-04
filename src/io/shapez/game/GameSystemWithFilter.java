@@ -2,12 +2,13 @@ package io.shapez.game;
 
 import java.util.ArrayList;
 
-public class GameSystemWithFilter {
+public class GameSystemWithFilter extends GameSystem {
     private final Component[] requiredComponents;
     ArrayList<String> requiredComponentIds = new ArrayList<>();
     ArrayList<Entity> allEntities = new ArrayList<>();
 
-    public GameSystemWithFilter(Component[] requiredComponents) {
+    public GameSystemWithFilter(GameRoot root, Component[] requiredComponents) {
+        super(root);
         this.requiredComponents = requiredComponents;
         for (Component requiredComponent : requiredComponents) {
             requiredComponentIds.add(requiredComponent.getId());

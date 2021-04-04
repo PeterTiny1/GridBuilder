@@ -2,6 +2,8 @@ package io.shapez.core;
 
 import io.shapez.game.GlobalConfig;
 
+import java.awt.*;
+
 public class Vector {
     static int tileSize = GlobalConfig.tileSize;
     static int halfTileSize = GlobalConfig.halfTileSize;
@@ -19,6 +21,12 @@ public class Vector {
         this.x = 0;
         this.y = 0;
         this.xy = 0;
+    }
+
+    public Vector(Point mousePosition) {
+        this.x = mousePosition.x;
+        this.y = mousePosition.y;
+        this.xy = mousePosition.x * mousePosition.x + mousePosition.y + mousePosition.y;
     }
 
     public static Direction invertDirection(Direction direction) {
@@ -75,6 +83,15 @@ public class Vector {
         return new Vector(v1.x * (1 - a) + v2.x * a, v1.y * (1 - a) + v2.y * a);
     }
 
+    public static int directionToAngle(Direction direction) {
+        return switch (direction) {
+            case Top -> 0;
+            case Right -> 90;
+            case Bottom -> 180;
+            case Left -> 270;
+        };
+    }
+
     public double length() {
         return Math.sqrt(xy);
     }
@@ -111,5 +128,17 @@ public class Vector {
 
     public Vector copy() {
         return new Vector(this.x, this.y);
+    }
+
+    public Vector divideScalar(double f) {
+        return new Vector(this.x / f, this.y / f);
+    }
+
+    public Vector subScalars(int x, int y) {
+        return new Vector(this.x - x, this.y - y);
+    }
+
+    public Vector toTileSpace() {
+        return new Vector(Math.floor(this.x / tileSize), Math.floor(this.y / tileSize));
     }
 }

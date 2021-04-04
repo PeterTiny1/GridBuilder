@@ -12,7 +12,7 @@ public class LightTheme {
         String selectionOverlay = "rgba(74, 163, 223, 0.7)";
         String selectionOutline = "rgba(74, 163, 223, 0.5)";
         String selectionBackground = "rgba(74, 163, 223, 0.2)";
-        String chunkBorders = "rgba(0, 30, 50, 0.03)";
+        public static Color chunkBorders = new Color(0.0f, 30 / 256.0f, 50/256.0f, 0.03f);
 
         public static class DirectionLock {
             public static class Regular {

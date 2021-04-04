@@ -4,11 +4,13 @@ import io.shapez.core.*;
 import io.shapez.game.*;
 import io.shapez.game.buildings.MetaBeltBuilding;
 import io.shapez.game.components.StaticMapEntityComponent;
+import io.shapez.game.items.ColorItem;
 import io.shapez.game.platform.PlatformWrapperInterface;
 import io.shapez.game.profile.ApplicationSettings;
 import io.shapez.game.savegame.Savegame;
 import io.shapez.managers.SettingsManager;
-import io.shapez.managers.SoundManager;
+import io.shapez.game.platform.SoundManager;
+import io.shapez.platform.PlatformWrapperImpl;
 import io.shapez.ui.BottomPanel;
 import io.shapez.ui.MoreWindow;
 import io.shapez.ui.TopPanel;
@@ -39,7 +41,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     private int scale = 40;
     private int offsetX, offsetY;
     public final ArrayList<Character> pressedKeys = new ArrayList<>();
-    public static java.util.List<Chunk> usedChunks = Collections.synchronizedList(new ArrayList<>());
+    public static java.util.List<MapChunk> usedChunks = Collections.synchronizedList(new ArrayList<>());
     private int gridOffsetX, gridOffsetY;
     private int previousMX, previousMY;
     public boolean hasItemSelected = false;
@@ -61,11 +63,10 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     public Application(Main window) throws IOException {
         this.window = window;
 
-        core.initializeRoot(this.savegame);
         initBoard();
     }
 
-    private void initBoard() {
+    private void initBoard() throws IOException {
         addKeyListener(this);
         addMouseMotionListener(this);
         addMouseListener(this);
@@ -97,7 +98,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         }
 
         MoreWindow.application = this;
-        MoreWindow.Init();
+        core.initializeRoot(this.savegame);
+        MoreWindow.init(core.root);
 
         SettingsManager.application = this;
         SettingsManager.initSettingsWnd();
@@ -108,6 +110,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             e.printStackTrace();
         }
         initMetaBuildingRegistry();
+        this.platformWrapper = new PlatformWrapperImpl(this);
         javax.swing.Timer timer = new javax.swing.Timer(SettingsManager.tickrateScreen, this);
         timer.start();
         java.util.Timer timer1 = new java.util.Timer();
@@ -138,14 +141,14 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     }
 
     private void draw(Graphics2D g2d) {
-        core.root.systemMgr.belt.drawBeltItems(g2d);
+        core.draw(g2d);
     }
 
     private void DrawGrid(Graphics2D g2d) {
         Vector leftTopTile = new Vector(-gridOffsetX, -gridOffsetY);
         Vector rightBottomTile = new Vector(getWidth() / (float) scale - gridOffsetX, getHeight() / (float) scale - gridOffsetY);
-        Chunk leftTopChunk = GlobalConfig.map.getChunkAtTile((int) leftTopTile.x - 1, (int) leftTopTile.y - 1);
-        Chunk rightBottomChunk = GlobalConfig.map.getChunkAtTile((int) rightBottomTile.x + 1, (int) rightBottomTile.y + 1);
+        MapChunk leftTopChunk = core.root.map.getChunkAtTile((int) leftTopTile.x - 1, (int) leftTopTile.y - 1);
+        MapChunk rightBottomChunk = core.root.map.getChunkAtTile((int) rightBottomTile.x + 1, (int) rightBottomTile.y + 1);
 
         int c1x = leftTopChunk.x;
         int c1y = leftTopChunk.y;
@@ -154,7 +157,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
         for (int x = c1x - 1; ++x < c2x + 1; ) {
             for (int y = c1y - 1; ++y < c2y + 1; ) {
-                Chunk currentChunk = GlobalConfig.map.getChunk(x, y);
+                MapChunk currentChunk = core.root.map.getChunk(x, y);
                 currentChunk.drawChunk(g2d, offsetX, offsetY, gridOffsetX, gridOffsetY, scale, usedChunks.contains(currentChunk));
             }
         }
@@ -189,7 +192,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         this.core.tick(dt);
     }
 
-    private boolean isRenderable() {
+    public boolean isRenderable() {
         return visible;
     }
 
@@ -370,7 +373,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         int cX = (x - offsetX) / scale - gridOffsetX;
         int cY = (y - offsetY) / scale - gridOffsetY;
 
-        Chunk currentChunk = GlobalConfig.map.getChunkAtTile(cX, cY);
+        MapChunk currentChunk = core.root.map.getChunkAtTile(cX, cY);
 
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
@@ -389,7 +392,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
                 core.root.systemMgr.belt.updateSurroundingBeltPlacement(new Entity(item, tileTexture, direction, cX, cY));
                 currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
             } else
-                currentChunk.lowerLayer[offX][offY] = Color.red;
+                currentChunk.lowerLayer[offX][offY] = new ColorItem(Colors.red);
 
             usedChunks.add(currentChunk);
             return;
@@ -402,7 +405,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
                 SoundManager.playSound(Resources.generic_placeTileSound);
 
             if (item == Tile.DEBUG_LowerLayer) {
-                currentChunk.lowerLayer[offX][offY] = Color.red;
+                currentChunk.lowerLayer[offX][offY] = new ColorItem(Colors.red);
                 usedChunks.add(currentChunk);
                 return;
             }
@@ -415,7 +418,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
 
     private void clearTile(int cX, int cY) {
-        Chunk chunk = GlobalConfig.map.getChunkAtTile(cX, cY);
+        MapChunk chunk = core.root.map.getChunkAtTile(cX, cY);
         int offX = cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize;
         offX = offX < 0 ? offX + GlobalConfig.mapChunkSize : offX;

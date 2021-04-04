@@ -18,6 +18,7 @@ import java.util.Map;
 public class BeltPath extends BasicSerializableObject {
     static String getId = "BeltPath";
     private final ArrayList<BaseItem> items = new ArrayList<>();
+    private GameRoot root;
     public LinkedList<Entity> entityPath = new LinkedList<>();
     AcceptingEntityAndSlot acceptorTarget;
     private int numCompressedItemsAfterFirstItem;
@@ -25,7 +26,8 @@ public class BeltPath extends BasicSerializableObject {
     private double spacingToFirstItem;
     private Rectangle worldBounds;
 
-    public BeltPath(LinkedList<Entity> entityPath) {
+    public BeltPath(GameRoot root, LinkedList<Entity> entityPath) {
+        this.root = root;
         this.entityPath = entityPath;
         this.init(true);
     }
@@ -84,7 +86,7 @@ public class BeltPath extends BasicSerializableObject {
         Vector ejectSlotWsDirectionVector = Vector.directionToVector(ejectSlotWsDirection);
         Vector ejectSlotWsTargetWsTile = ejectSlotWsTile.add(ejectSlotWsDirectionVector);
 
-        Entity targetEntity = GlobalConfig.map.getLayerContentXY(ejectSlotWsTargetWsTile.x, ejectSlotWsTargetWsTile.y, Layer.Regular);
+        Entity targetEntity = root.map.getLayerContentXY(ejectSlotWsTargetWsTile.x, ejectSlotWsTargetWsTile.y, Layer.Regular);
 
         if (targetEntity != null) {
             StaticMapEntityComponent targetStaticComp = targetEntity.components.StaticMapEntity;
@@ -262,7 +264,7 @@ public class BeltPath extends BasicSerializableObject {
         java.util.List<Entity> secondEntities = this.entityPath.subList(firstPathEntityCount + 1, entityPath.size());
         this.entityPath.remove(this.entityPath.size() - 1);
 
-        BeltPath secondPath = new BeltPath((LinkedList<Entity>) secondEntities);
+        BeltPath secondPath = new BeltPath(root, (LinkedList<Entity>) secondEntities);
         double itemPos = spacingToFirstItem;
         for (int i = 0; i < this.items.size(); i++) {
             BaseItem item = this.items.get(i);
@@ -390,7 +392,7 @@ public class BeltPath extends BasicSerializableObject {
                 StaticMapEntityComponent staticComp = medianBelt.components.StaticMapEntity;
                 Vector centerPosLocal = beltComp.transformBeltToLocalSpace(this.entityPath.size() % 2 == 0 ? beltComp.getEffectiveLengthTiles() : 0.5);
                 Vector centerPos = staticComp.localTileToWorld(centerPosLocal).toWorldSpaceCenterOfTile();
-                firstItem.drawItemCenteredClipped(centerPos.x, centerPos.y, g2d);
+//                firstItem.drawItemCenteredClipped(centerPos.x, centerPos.y, g2d);
             }
             return;
         }
@@ -405,7 +407,7 @@ public class BeltPath extends BasicSerializableObject {
                 StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
                 Vector localPos = beltComp.transformBeltToLocalSpace(currentItemPos - trackPos);
                 Vector worldPos = staticComp.localTileToWorld(localPos).toWorldSpaceCenterOfTile();
-                items.get(currentItemIndex).drawItemCenteredClipped(worldPos.x, worldPos.y, g2d);
+//                items.get(currentItemIndex).drawItemCenteredClipped(worldPos.x, worldPos.y, g2d);
 //                currentItemPos += distance;
                 currentItemIndex++;
                 if (currentItemIndex >= this.items.size()) {

@@ -4,10 +4,8 @@ import io.shapez.core.Direction;
 import io.shapez.core.Resources;
 import io.shapez.core.Tile;
 import io.shapez.Application;
-import io.shapez.game.Chunk;
-import io.shapez.game.Entity;
-import io.shapez.game.GlobalConfig;
-import io.shapez.managers.SoundManager;
+import io.shapez.game.*;
+import io.shapez.game.platform.SoundManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -23,12 +21,12 @@ public class TileUtil {
     public static void clearAll() {
         //for (Chunk chunk : Board.usedChunks) {
         for (int _i = 0; _i < Application.usedChunks.size(); _i++) {
-            Chunk chunk = Application.usedChunks.get(_i);
+            MapChunk chunk = Application.usedChunks.get(_i);
             System.out.println(Application.usedChunks.size());
             for (int i = 0; i < chunk.lowerLayer.length; i++) {
                 for (int j = 0; j < chunk.lowerLayer.length; j++) {
-                    Color color = chunk.lowerLayer[i][j];
-                    if (color != null/* && (color == Color.RED || color == Color.GREEN || color == Color.BLUE || color == Color.LIGHT_GRAY)*/) {
+                    BaseItem item = chunk.lowerLayer[i][j];
+                    if (item != null/* && (color == Color.RED || color == Color.GREEN || color == Color.BLUE || color == Color.LIGHT_GRAY)*/) {
                         chunk.lowerLayer[i][j] = null;
                     }
                 }
@@ -67,6 +65,9 @@ public class TileUtil {
 
     public static Image getTileTexture(Tile tile, Direction rot) {
         BufferedImage a;
+        if (tile == null) {
+            return Resources.missingTexture;
+        }
         switch (tile) {
             case Belt:
                 a = Resources.belt;
@@ -94,16 +95,16 @@ public class TileUtil {
         return a;
     }
 
-    public static void forcePlace(int cX, int cY, Tile item, Direction direction, Image tileTexture) {
+    public static void forcePlace(GameRoot root, int cX, int cY, Tile item, Direction direction, Image tileTexture) {
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
-        Chunk currentChunk = GlobalConfig.map.getChunkAtTile(offX, offY);
+        MapChunk currentChunk = root.map.getChunkAtTile(offX, offY);
         currentChunk.contents[offX][offY] = null;
         currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
     }
 
-    public static void placeEntity(int cX, int cY, Tile item, Direction direction, Image tileTexture) {
-        Chunk currentChunk = GlobalConfig.map.getChunkAtTile(cX, cY);
+    public static void placeEntity(GameRoot root, int cX, int cY, Tile item, Direction direction, Image tileTexture) {
+        MapChunk currentChunk = root.map.getChunkAtTile(cX, cY);
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
 
@@ -125,18 +126,18 @@ public class TileUtil {
         }
     }
 
-    public static boolean checkSpecialProperties(Chunk currentChunk, int offX, int offY, Tile item) {
+    public static boolean checkSpecialProperties(MapChunk currentChunk, int offX, int offY, Tile item) {
         // Return:  0 if all is ok
         //          1 if tile should be removed (invalid placement)
         //          2 if (...) to be continued for later versions
         if (item == Tile.Miner) {
             /* chunk border */
-            return currentChunk.lowerLayer[offX][offY] == null || currentChunk.lowerLayer[offX][offY] == Color.gray;
+            return currentChunk.lowerLayer[offX][offY] == null;
         }
         return false;
     }
 
-    public static boolean checkInvalidTile(Tile item, Tile selecteditem, Chunk currentChunk, int offX, int offY) {
+    public static boolean checkInvalidTile(Tile item, Tile selecteditem, MapChunk currentChunk, int offX, int offY) {
         boolean result;
         result = checkSpecialProperties(currentChunk, offX, offY, item);
         return result;

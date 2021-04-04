@@ -2,7 +2,7 @@ package io.shapez.ui;
 
 import io.shapez.core.Resources;
 import io.shapez.managers.SettingsManager;
-import io.shapez.managers.SoundManager;
+import io.shapez.game.platform.SoundManager;
 
 import javax.swing.*;
 import java.awt.*;

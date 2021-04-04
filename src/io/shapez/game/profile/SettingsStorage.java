@@ -6,4 +6,9 @@ public class SettingsStorage {
     public boolean offerHints = true;
     public boolean vignette = true;
     public boolean enableColorBlindHelper = false;
+    public boolean lowQualityTextures = false;
+    public boolean disableTileGrid = false;
+    public boolean displayChunkBorders = true;
+    public boolean lowQualityMapResources = false;
+    public boolean simplifiedBelts = false;
 }

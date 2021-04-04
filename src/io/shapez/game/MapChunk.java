@@ -3,39 +3,45 @@ package io.shapez.game;
 import io.shapez.Application;
 import io.shapez.core.Layer;
 import io.shapez.core.Vector;
+import io.shapez.game.items.ColorItem;
 import io.shapez.managers.SettingsManager;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
-public class Chunk {
-    private final int tileX;
-    private final int tileY;
-    public int x, y;
+public class MapChunk {
+    public final int tileX;
+    public final int tileY;
+    public GameRoot root;
+    public final int x, y;
+    public ArrayList<Patch> patches = new ArrayList<>();
+    public Rectangle tileSpaceRectangle;
     Rectangle drawn;
-    public Color[][] lowerLayer;
+    public BaseItem[][] lowerLayer;
     public Entity[][] contents;
     public MovingEntity[][] movingContents;
     private Entity[][] wireContents;
 
 
-    public Chunk(int x, int y) {
+    public MapChunk(GameRoot root, int x, int y) {
+        this.root = root;
         this.x = x;
         this.y = y;
         this.tileX = x * GlobalConfig.mapChunkSize;
         this.tileY = y * GlobalConfig.mapChunkSize;
+        tileSpaceRectangle = new Rectangle(this.tileX, this.tileY, GlobalConfig.mapChunkSize, GlobalConfig.mapChunkSize);
 
-        lowerLayer = new Color[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
+        lowerLayer = new BaseItem[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
         contents = new Entity[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
         movingContents = new MovingEntity[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
 
-        setSides();
         generateLowerLayer();
     }
 
     public void generateLowerLayer() {
-        String code = x + "|" + y + "|" + GlobalConfig.map.seed;
+        String code = x + "|" + y + "|" + root.map.seed;
         Random rng = new Random(generateHash(code));
         Vector chunkCenter = new Vector(x + 0.5, this.y + 0.5);
         double distanceToOriginInChunks = Math.round(chunkCenter.length());
@@ -44,15 +50,29 @@ public class Chunk {
         if (colorPatchChance < 0.2) colorPatchChance = 0.2;
         if (rng.nextDouble() < colorPatchChance) {
             double colorPatchSize = Math.max(2, Math.round(1 + max));
-            internalGeneratePatch(rng, colorPatchSize,
+            internalGenerateShapePatch(rng, colorPatchSize,
                     rng.nextInt(4));
         }
     }
 
-    private void internalGeneratePatch(Random rng, double patchSize, int color) {
+    private void internalGenerateShapePatch(Random rng, double colorPatchSize, int distanceToOriginInChunks) {
+        ArrayList<Colors> availableColors = new ArrayList<>() {{
+            add(Colors.red);
+            add(Colors.green);
+        }};
+        if (distanceToOriginInChunks > 2) {
+            availableColors.add(Colors.green);
+        }
+        this.internalGeneratePatch(rng, colorPatchSize, new ColorItem(availableColors.get(rng.nextInt(availableColors.size()))));
+    }
+
+    private void internalGeneratePatch(Random rng, double patchSize, BaseItem item) {
         int border = (int) (patchSize / 2) + 3;
         int patchX = (int) Math.floor(rng.nextDouble() * (GlobalConfig.mapChunkSize - border - 1 - border) + border);
         int patchY = (int) Math.floor(rng.nextDouble() * (GlobalConfig.mapChunkSize - border - 1 - border) + border);
+
+        Vector avgPos = new Vector(0, 0);
+        int patchesDrawn = 0;
 
         var i = 0;
         while (i < patchSize) {
@@ -75,7 +95,10 @@ public class Chunk {
                         double originalDx = dx / circleScaleX;
                         double originalDy = dy / circleScaleY;
                         if (originalDx * originalDx + originalDy * originalDy <= circleRadiusSquare) {
-                            lowerLayer[x][y] = colorShapeTypeFromByte(color);
+                            lowerLayer[x][y] = item;
+                            ++patchesDrawn;
+                            avgPos.x += x;
+                            avgPos.y += y;
                         }
                     }
                     ++dy;
@@ -84,18 +107,7 @@ public class Chunk {
             }
             i++;
         }
-    }
-
-    private Color colorShapeTypeFromByte(int b) {
-        // temporary
-        // uncolored shape patch!!!
-        return switch (b) {
-            case 0 -> Color.RED;
-            case 1 -> Color.GREEN;
-            case 2 -> Color.BLUE;
-            case 3 -> Color.LIGHT_GRAY;
-            default -> throw new IllegalArgumentException("Color index is not valid");
-        };
+        this.patches.add(new Patch(avgPos.divideScalar(patchesDrawn), item, patchSize));
     }
 
     private long generateHash(String str) {
@@ -109,19 +121,19 @@ public class Chunk {
         return hash;
     }
 
-    private void setSides() {
-        if (!SettingsManager.drawChunkEdges) return;
-        for (int x = 0; x < GlobalConfig.mapChunkSize; x++) {
-            if (lowerLayer[x][0] == null) {
-                lowerLayer[x][0] = Color.GRAY;
-            }
-        }
-        for (int y = 0; y < GlobalConfig.mapChunkSize; y++) {
-            if (lowerLayer[0][y] == null) {
-                lowerLayer[0][y] = Color.GRAY;
-            }
-        }
-    }
+//    private void setSides() {
+//        if (!SettingsManager.drawChunkEdges) return;
+//        for (int x = 0; x < GlobalConfig.mapChunkSize; x++) {
+//            if (lowerLayer[x][0] == null) {
+//                lowerLayer[x][0] = Color.GRAY;
+//            }
+//        }
+//        for (int y = 0; y < GlobalConfig.mapChunkSize; y++) {
+//            if (lowerLayer[0][y] == null) {
+//                lowerLayer[0][y] = Color.GRAY;
+//            }
+//        }
+//    }
 
     public void drawChunk(Graphics2D g, int offsetX, int offsetY, int gridOffsetX, int gridOffsetY, int scale, boolean containsEntity) {
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
@@ -167,7 +179,7 @@ public class Chunk {
                 while (j < GlobalConfig.mapChunkSize) {
                     drawn = new Rectangle((x * GlobalConfig.mapChunkSize + gridOffsetX + i) * scale + offsetX, (y * GlobalConfig.mapChunkSize + gridOffsetY + j) * scale + offsetY, scale, scale);
                     if (lowerLayer[i][j] != null) {
-                        g.setColor(lowerLayer[i][j]);
+                        g.setColor(lowerLayer[i][j].getBackgroundColorAsResource());
                         g.fillRect(drawn.x, drawn.y, drawn.width, drawn.height);
                     }
                     if (contents[i][j] != null) {
@@ -202,10 +214,10 @@ public class Chunk {
                     }
                     int lowCount = 0;
 
-                    for (Color[] color : lowerLayer) {
+                    for (BaseItem[] item : lowerLayer) {
                         int _k = 0;
                         while (_k < lowerLayer.length) {
-                            if (color[_k] != null) lowCount++;
+                            if (item[_k] != null) lowCount++;
                             _k++;
                         }
                     }
@@ -259,5 +271,17 @@ public class Chunk {
             result.add(wireContent);
         }
         return (Entity[]) result.toArray();
+    }
+
+    public class Patch {
+        public final Vector pos;
+        public final BaseItem item;
+        private final double size;
+
+        public Patch(Vector pos, BaseItem item, double size) {
+            this.pos = pos;
+            this.item = item;
+            this.size = size;
+        }
     }
 }

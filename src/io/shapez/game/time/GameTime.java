@@ -21,4 +21,8 @@ public class GameTime {
     public double systemNow() {
         return (this.realtimeSeconds - this.realtimeAdjust) * 1000.0;
     }
+
+    public double realtimeNow() {
+        return this.realtimeSeconds;
+    }
 }

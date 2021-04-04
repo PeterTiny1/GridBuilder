@@ -1,9 +1,13 @@
 package io.shapez.game;
 
 import io.shapez.Application;
+import io.shapez.core.BufferMaintainer;
+import io.shapez.core.Layer;
 import io.shapez.game.hud.GameHUD;
 import io.shapez.game.savegame.Savegame;
 import io.shapez.game.time.GameTime;
+
+import java.awt.*;
 
 public class GameRoot {
     public final Application app;
@@ -21,6 +25,8 @@ public class GameRoot {
     public ShapeDefinitionManager shapeDefinitionMgr = null;
     public GameMode gameMode = null;
     public HubGoals hubGoals = null;
+    public BufferMaintainer buffers = null;
+    public Layer currentLayer;
 
     public GameRoot(Application app) {
         this.app = app;

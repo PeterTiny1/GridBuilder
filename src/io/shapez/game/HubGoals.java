@@ -1,6 +1,7 @@
 package io.shapez.game;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class HubGoals {
     private final GameRoot root;
@@ -12,6 +13,14 @@ public class HubGoals {
 
     public HubGoals(GameRoot root) {
         this.root = root;
-        var upgrades = this.root.gameMode.getUpgrades();
+        HashMap<String, GameMode.UpgradeTiers> upgrades = this.root.gameMode.getUpgrades();
+        for (Map.Entry<String, GameMode.UpgradeTiers> entry: upgrades.entrySet()){
+            upgradeLevels.put(entry.getKey(), 0);
+            upgradeImprovements.put(entry.getKey(), 1);
+        }
+    }
+
+    public int getBeltBaseSpeed() {
+        return GlobalConfig.beltSpeedItemsPerSecond * this.upgradeImprovements.get("belt");
     }
 }

@@ -7,7 +7,7 @@ import io.shapez.game.Component;
 import java.util.ArrayList;
 
 public class ItemAcceptorComponent extends Component {
-    private ArrayList<ItemAcceptorSlot> slots;
+    public ArrayList<ItemAcceptorSlot> slots;
 
     public ItemAcceptorLocatedSlot findMatchingSlot(Vector targetLocalTile, Direction fromLocalDirection) {
         Direction desiredDirection = Vector.invertDirection(fromLocalDirection);
@@ -31,7 +31,7 @@ public class ItemAcceptorComponent extends Component {
         return "ItemAcceptor";
     }
 
-    private static class ItemAcceptorSlot {
+    public static class ItemAcceptorSlot {
 
         public Vector pos;
         public Direction[] directions;

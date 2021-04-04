@@ -2,8 +2,9 @@ package io.shapez.ui;
 
 import io.shapez.core.Resources;
 import io.shapez.Application;
+import io.shapez.game.GameRoot;
 import io.shapez.managers.SerializeManager;
-import io.shapez.managers.SoundManager;
+import io.shapez.game.platform.SoundManager;
 import io.shapez.util.TileUtil;
 import io.shapez.util.UIUtil;
 
@@ -35,9 +36,9 @@ public class MoreWindow extends JFrame {
         SoundManager.playSound(Resources.uiSuccessSound);
     }
 
-    public static void internalUI_LoadAllChunks() {
+    public static void internalUI_LoadAllChunks(GameRoot root) {
         SoundManager.playSound(Resources.uiClickSound);
-        SerializeManager.loadAll(application);
+        SerializeManager.loadAll(root);
         ResetTitle();
         SoundManager.playSound(Resources.uiSuccessSound);
     }
@@ -50,7 +51,7 @@ public class MoreWindow extends JFrame {
         ResetTitle();
     }
 
-    public static void Init() {
+    public static void init(GameRoot root) {
 
         L_ioPanel.setOpaque(false);
 
@@ -62,7 +63,7 @@ public class MoreWindow extends JFrame {
         saveButton.setPreferredSize(defDimensionBtn);
         saveButton.setMaximumSize(defDimensionBtn);
 
-        loadButton.addActionListener((ActionEvent e) -> internalUI_LoadAllChunks());
+        loadButton.addActionListener((ActionEvent e) -> internalUI_LoadAllChunks(root));
         loadButton.setFocusable(false);
         loadButton.setIcon(new ImageIcon(Resources.loadImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
         loadButton.setPreferredSize(defDimensionBtn);

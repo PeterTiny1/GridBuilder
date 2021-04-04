@@ -39,4 +39,12 @@ public class GameHUD {
 
         // TODO: Add elements to GUI
     }
+
+    public boolean shouldPauseRendering() {
+        return false;
+    }
+
+    public void update() {
+
+    }
 }

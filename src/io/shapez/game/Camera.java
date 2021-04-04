@@ -2,11 +2,16 @@ package io.shapez.game;
 
 import io.shapez.Application;
 import io.shapez.core.Vector;
+import io.shapez.game.platform.PlatformWrapperInterface;
+import io.shapez.managers.providers.MiscProvider;
+
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 import static io.shapez.core.Vector.mixVector;
 
 public class Camera {
-    private final Application application;
+    private final Application app;
     private final double velocityStrength = 0.4;
     private final double velocityFade = 0.98;
     private final byte ticksBeforeErasingVelocity = 10;
@@ -23,18 +28,20 @@ public class Camera {
     private Vector center = new Vector(0, 0);
     private Vector desiredPan = new Vector(0, 0);
     private Vector currentPan = new Vector(0, 0);
-    private double zoomLevel;
+    public double zoomLevel;
+    private Vector currentShake = new Vector(0, 0);
+    private double desiredZoom;
 
     public Camera(GameRoot root, Application application) {
         this.root = root;
-        this.application = application;
+        this.app = application;
         zoomLevel = this.findInitialZoom();
     }
 
     private double findInitialZoom() {
         int desiredWorldSpaceWidth = 15 * GlobalConfig.tileSize;
-        int zoomLevelX = this.application.getWidth() / desiredWorldSpaceWidth;
-        int zoomLevelY = this.application.getHeight() / desiredWorldSpaceWidth;
+        int zoomLevelX = this.app.getWidth() / desiredWorldSpaceWidth;
+        int zoomLevelY = this.app.getHeight() / desiredWorldSpaceWidth;
 
         return Math.min(zoomLevelX, zoomLevelY);
     }
@@ -55,7 +62,7 @@ public class Camera {
     }
 
     private void internalUpdatePanning(double now, double dt) {
-        double baseStrength = velocityStrength * this.application.platformWrapper.getTouchPanStrength();
+        double baseStrength = velocityStrength * this.app.platformWrapper.getTouchPanStrength();
 
         this.touchPostMoveVelocity = this.touchPostMoveVelocity.multiplyScalar(velocityFade);
 
@@ -85,5 +92,56 @@ public class Camera {
             this.currentPan = mixVector(this.currentPan, this.desiredPan, 0.06);
             this.center = this.center.add(this.currentPan.multiplyScalar((0.5 * dt) / this.zoomLevel));
         }
+    }
+
+    public Rectangle getVisibleRect() {
+        return new Rectangle((int) Math.floor(this.getViewportLeft()), (int) Math.floor(this.getViewportTop()), (int) Math.ceil(this.getViewportRight() - this.getViewportLeft()), (int) Math.ceil(this.getViewportBottom() - getViewportTop()));
+    }
+
+    private double getViewportRight() {
+        return this.center.x + this.getViewportWidth() / 2 + (this.currentShake.x * 10) / this.zoomLevel;
+    }
+
+    private double getViewportBottom() {
+        return this.center.y + this.getViewportHeight() / 2 + (this.currentShake.x * 10) / this.zoomLevel;
+    }
+
+    private double getViewportLeft() {
+        return this.center.x - this.getViewportWidth() / 2 + (this.currentShake.x * 10) / this.zoomLevel;
+    }
+
+    private double getViewportWidth() {
+        return this.root.app.getWidth() / this.zoomLevel;
+    }
+
+    private double getViewportTop() {
+        return this.center.y + this.getViewportHeight() / 2 + (this.currentShake.x * 10) / this.zoomLevel;
+    }
+
+    private double getViewportHeight() {
+        return this.root.app.getHeight() / this.zoomLevel;
+    }
+
+    public void transform(Graphics2D context) {
+        this.clampZoomLevel();
+        double zoom = this.zoomLevel;
+
+        context.setTransform(new AffineTransform(zoom, 0, 0, zoom, -zoom * this.getViewportLeft(), -zoom * this.getViewportTop()));
+    }
+
+    private void clampZoomLevel() {
+        PlatformWrapperInterface wrapper = this.root.app.platformWrapper;
+        this.zoomLevel = MiscProvider.clamp(this.zoomLevel, wrapper.getMinimumZoom(app), wrapper.getMaximumZoom(app));
+
+        this.desiredZoom = MiscProvider.clamp(this.desiredZoom, wrapper.getMinimumZoom(app), wrapper.getMaximumZoom(app));
+    }
+
+    public boolean getIsMapOverlayActive() {
+        return this.zoomLevel < GlobalConfig.mapChunkOverviewMinZoom;
+    }
+
+    public Vector screenToWorld(Vector screen) {
+        Vector centerSpace = screen.subScalars(this.root.app.getWidth() / 2, this.root.app.getHeight() / 2);
+        return centerSpace.divideScalar(this.zoomLevel).add(this.center);
     }
 }
