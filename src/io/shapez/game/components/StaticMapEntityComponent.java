@@ -77,7 +77,7 @@ public class StaticMapEntityComponent extends Component {
         return gBuildingVariants.get(code);
     }
 
-    public void drawSpriteOnBoundsClipped(BufferedImage image, DrawParameters parameters, BufferedImage sprite, int extrudePixels) {
+    public void drawSpriteOnBoundsClipped(DrawParameters parameters, BufferedImage sprite, int extrudePixels) {
         if (!this.shouldBeDrawn(parameters)) {
             return;
         }
@@ -86,7 +86,7 @@ public class StaticMapEntityComponent extends Component {
         double worldY = this.origin.y * GlobalConfig.tileSize;
 
         if (this.rotation == 0) {
-            drawCached(image, parameters, worldX - extrudePixels * size.x, worldY - extrudePixels * size.y, GlobalConfig.tileSize * size.x + 2 * extrudePixels * size.x, GlobalConfig.tileSize * size.y + 2 * extrudePixels * size.y);
+            drawCached(sprite, parameters, worldX - extrudePixels * size.x, worldY - extrudePixels * size.y, GlobalConfig.tileSize * size.x + 2 * extrudePixels * size.x, GlobalConfig.tileSize * size.y + 2 * extrudePixels * size.y);
         }
     }
 

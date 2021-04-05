@@ -32,7 +32,6 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     // UI
     public BottomPanel centerPanel = new BottomPanel(this);
     public TopPanel topPanel = new TopPanel();
-    public Camera camera = null;
     public PlatformWrapperInterface platformWrapper;
     public ApplicationSettings settings = new ApplicationSettings(this);
     public boolean visible = true;

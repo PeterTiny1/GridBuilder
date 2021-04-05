@@ -244,8 +244,7 @@ public class BeltSystem extends GameSystemWithFilter {
                 }
             }
 
-            for (int i = 0; i < contents.size(); i++) {
-                Entity entity = contents.get(i);
+            for (Entity entity : contents) {
                 if (entity.components.Belt != null) {
                     Direction direction = entity.components.Belt.direction;
                     BufferedImage sprite = this.beltAnimations.get(direction).get(0);
@@ -253,7 +252,7 @@ public class BeltSystem extends GameSystemWithFilter {
                         sprite = this.beltAnimations.get(direction).get(animationIndex % BELT_ANIM_COUNT);
                     }
 
-                    entity.components.StaticMapEntity.drawSpriteOnBoundsClipped(sprite, parameters, sprite, 0);
+                    entity.components.StaticMapEntity.drawSpriteOnBoundsClipped(parameters, sprite, 0);
                 }
             }
         }
