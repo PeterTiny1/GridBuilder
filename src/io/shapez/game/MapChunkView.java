@@ -28,6 +28,7 @@ public class MapChunkView extends MapChunk {
         GameSystemManager systemMgr = root.systemMgr;
         systemMgr.itemEjector.drawChunk(parameters, this);
         systemMgr.itemAcceptor.drawChunk(parameters, this);
+        systemMgr.miner.drawChunk(parameters, this);
     }
 
     public enum Methods {
