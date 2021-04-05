@@ -36,8 +36,7 @@ public class BeltUnderlaysSystem extends GameSystemWithFilter {
 
             StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
             BeltUnderlaysComponent.BeltUnderlayTile[] underlays = underlayComp.underlays;
-            for (int j = 0; j < underlays.length; j++) {
-                BeltUnderlaysComponent.BeltUnderlayTile underlay = underlays[j];
+            for (BeltUnderlaysComponent.BeltUnderlayTile underlay : underlays) {
                 Vector transformedPos = staticComp.localTileToWorld(underlay.pos);
                 double destX = transformedPos.x * GlobalConfig.tileSize;
                 double destY = transformedPos.y * GlobalConfig.tileSize;
@@ -53,7 +52,7 @@ public class BeltUnderlaysSystem extends GameSystemWithFilter {
                 Direction worldDirection = staticComp.localDirectionToWorld(underlay.direction);
                 int angle = Vector.directionToAngle(worldDirection);
 
-                BeltUnderlaysComponent.ClippedBeltUnderlayType underlayType = this.computeBeltUnderlayType(entity, underlays[j]);
+                BeltUnderlaysComponent.ClippedBeltUnderlayType underlayType = this.computeBeltUnderlayType(entity, underlay);
                 Rectangle clipRect = underlayTypeToClipRect(underlayType);
                 if (clipRect == null) {
                     continue;

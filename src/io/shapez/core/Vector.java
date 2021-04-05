@@ -134,7 +134,7 @@ public class Vector {
         return new Vector(this.x / f, this.y / f);
     }
 
-    public Vector subScalars(int x, int y) {
+    public Vector subScalars(double x, double y) {
         return new Vector(this.x - x, this.y - y);
     }
 

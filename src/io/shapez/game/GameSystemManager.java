@@ -8,6 +8,7 @@ public class GameSystemManager {
     private final GameRoot root;
     public BeltSystem belt;
     public BeltUnderlaysSystem beltUnderlays;
+    public ItemAcceptorSystem itemAcceptor;
     ItemEjectorSystem itemEjector;
     MapResourcesSystem mapResources;
     MinerSystem miner;
@@ -19,5 +20,6 @@ public class GameSystemManager {
         itemEjector = new ItemEjectorSystem(root);
         miner = new MinerSystem(root);
         beltUnderlays = new BeltUnderlaysSystem(root);
+        itemAcceptor = new ItemAcceptorSystem(root);
     }
 }

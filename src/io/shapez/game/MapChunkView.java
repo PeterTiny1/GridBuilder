@@ -27,6 +27,7 @@ public class MapChunkView extends MapChunk {
     public void drawForegroundDynamicLayer(DrawParameters parameters) {
         GameSystemManager systemMgr = root.systemMgr;
         systemMgr.itemEjector.drawChunk(parameters, this);
+        systemMgr.itemAcceptor.drawChunk(parameters, this);
     }
 
     public enum Methods {

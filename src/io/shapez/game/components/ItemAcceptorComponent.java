@@ -2,12 +2,18 @@ package io.shapez.game.components;
 
 import io.shapez.core.Direction;
 import io.shapez.core.Vector;
+import io.shapez.game.BaseItem;
 import io.shapez.game.Component;
 
 import java.util.ArrayList;
 
 public class ItemAcceptorComponent extends Component {
     public ArrayList<ItemAcceptorSlot> slots;
+    public ArrayList<ItemConsumptionAnimation> itemConsumptionAnimations = new ArrayList<>();
+
+    public ItemAcceptorComponent() {
+
+    }
 
     public ItemAcceptorLocatedSlot findMatchingSlot(Vector targetLocalTile, Direction fromLocalDirection) {
         Direction desiredDirection = Vector.invertDirection(fromLocalDirection);
@@ -47,6 +53,13 @@ public class ItemAcceptorComponent extends Component {
             this.index = index;
             this.acceptedDirection = acceptedDirection;
         }
+    }
+
+    public class ItemConsumptionAnimation {
+        public int slotIndex;
+        public Direction direction;
+        public double progress;
+        public BaseItem item;
     }
 }
 
