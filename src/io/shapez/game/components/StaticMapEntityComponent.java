@@ -133,11 +133,16 @@ public class StaticMapEntityComponent extends Component {
         return parameters.visibleRect.intersects(x * GlobalConfig.tileSize, y * GlobalConfig.tileSize, w * GlobalConfig.tileSize, h * GlobalConfig.tileSize);
     }
 
+    public BufferedImage getImage() {
+        return getBuildingDataFromCode(this.code).image;
+    }
+
     public static class BuildingVariantIdentifier {
         private final int rotationVariant;
         private final Layer variant;
         private final MetaBuilding meta;
         public Vector tileSize;
+        public BufferedImage image;
 
         public BuildingVariantIdentifier(MetaBuilding meta, Layer variant, int rotationVariant, Vector tileSize) {
             this.meta = meta;

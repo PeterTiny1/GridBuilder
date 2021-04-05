@@ -81,6 +81,7 @@ public class MapView extends BaseMap {
                 switch (method) {
                     case drawBackgroundLayer -> chunk.drawBackgroundLayer(parameters);
                     case drawForegroundDynamicLayer -> chunk.drawForegroundDynamicLayer(parameters);
+                    case drawForegroundStaticLayer -> chunk.drawForegroundStaticLayer(parameters);
                 }
             }
         }
@@ -88,5 +89,6 @@ public class MapView extends BaseMap {
 
     public void drawForeground(DrawParameters parameters) {
         this.drawVisibleChunks(parameters, MapChunkView.Methods.drawForegroundDynamicLayer);
+        this.drawVisibleChunks(parameters, MapChunkView.Methods.drawForegroundStaticLayer);
     }
 }

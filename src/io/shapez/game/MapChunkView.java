@@ -31,7 +31,12 @@ public class MapChunkView extends MapChunk {
         systemMgr.miner.drawChunk(parameters, this);
     }
 
+    public void drawForegroundStaticLayer(DrawParameters parameters) {
+        GameSystemManager systemManager = this.root.systemMgr;
+        systemManager.staticMapEntities.drawChunk(parameters, this);
+    }
+
     public enum Methods {
-        drawForegroundDynamicLayer, drawBackgroundLayer
+        drawForegroundDynamicLayer, drawForegroundStaticLayer, drawBackgroundLayer
     }
 }

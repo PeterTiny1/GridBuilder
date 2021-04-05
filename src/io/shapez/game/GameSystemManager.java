@@ -9,6 +9,7 @@ public class GameSystemManager {
     public BeltSystem belt;
     public BeltUnderlaysSystem beltUnderlays;
     public ItemAcceptorSystem itemAcceptor;
+    public StaticMapEntitySystem staticMapEntities;
     ItemEjectorSystem itemEjector;
     MapResourcesSystem mapResources;
     MinerSystem miner;
@@ -21,5 +22,6 @@ public class GameSystemManager {
         miner = new MinerSystem(root);
         beltUnderlays = new BeltUnderlaysSystem(root);
         itemAcceptor = new ItemAcceptorSystem(root);
+        staticMapEntities = new StaticMapEntitySystem(root);
     }
 }
