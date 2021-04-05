@@ -272,7 +272,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
                     x++;
                 }
             }
-            case KeyEvent.VK_F4 -> MoreWindow.Show();
+            case KeyEvent.VK_F7 -> MoreWindow.Show();
             case KeyEvent.VK_F5 -> this.window.setTitle(gameName + getRandomTitlebar());
             case KeyEvent.VK_F6 -> {
                 offsetX += Integer.MAX_VALUE;

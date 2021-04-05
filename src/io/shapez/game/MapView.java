@@ -6,7 +6,6 @@ import io.shapez.game.themes.LightTheme;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.function.Consumer;
 
 public class MapView extends BaseMap {
     byte backgroundCacheDPI = 2;
