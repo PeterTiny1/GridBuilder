@@ -14,10 +14,10 @@ public class EntityComponentStorage {
 //        public StorageComponent Storage;
 //        public WiredPinsComponent WiredPins;
     public BeltUnderlaysComponent BeltUnderlays;
-//        public WireComponent Wire;
+    //        public WireComponent Wire;
 //        public ConstantSignalComponent ConstantSignal;
 //        public LogicGateComponent LogicGate;
-//        public LeverComponent Lever;
+    public LeverComponent Lever;
 //        public WireTunnelComponent WireTunnel;
 //        public DisplayComponent Display;
 //        public BeltReaderComponent BeltReader;

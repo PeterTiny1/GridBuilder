@@ -30,9 +30,9 @@ public class BeltSystem extends GameSystemWithFilter {
     public BeltSystem(GameRoot root) throws IOException {
         super(root, new Component[]{new BeltComponent(null)});
         beltSprites = new HashMap<>() {{
-            put(Direction.Top, ImageIO.read(BeltSystem.class.getResource("/sprites/forward_0.png")));
-            put(Direction.Left, ImageIO.read(BeltSystem.class.getResource("/sprites/left_0.png")));
-            put(Direction.Right, ImageIO.read(BeltSystem.class.getResource("/sprites/right_0.png")));
+            put(Direction.Top, ImageIO.read(BeltSystem.class.getResource("/sprites/belt/forward_0.png")));
+            put(Direction.Left, ImageIO.read(BeltSystem.class.getResource("/sprites/belt/left_0.png")));
+            put(Direction.Right, ImageIO.read(BeltSystem.class.getResource("/sprites/belt/right_0.png")));
         }};
         beltAnimations = new HashMap<>() {{
             put(Direction.Top, new ArrayList<>());
@@ -40,9 +40,9 @@ public class BeltSystem extends GameSystemWithFilter {
             put(Direction.Right, new ArrayList<>());
         }};
         for (int i = 0; i < BELT_ANIM_COUNT; i++) {
-            this.beltAnimations.get(Direction.Top).add(ImageIO.read(BeltSystem.class.getResource("/sprites/forward_" + i + ".png")));
-            this.beltAnimations.get(Direction.Left).add(ImageIO.read(BeltSystem.class.getResource("/sprites/left_" + i + ".png")));
-            this.beltAnimations.get(Direction.Right).add(ImageIO.read(BeltSystem.class.getResource("/sprites/right_" + i + ".png")));
+            this.beltAnimations.get(Direction.Top).add(ImageIO.read(BeltSystem.class.getResource("/sprites/belt/forward_" + i + ".png")));
+            this.beltAnimations.get(Direction.Left).add(ImageIO.read(BeltSystem.class.getResource("/sprites/belt/left_" + i + ".png")));
+            this.beltAnimations.get(Direction.Right).add(ImageIO.read(BeltSystem.class.getResource("/sprites/belt/right_" + i + ".png")));
         }
     }
 

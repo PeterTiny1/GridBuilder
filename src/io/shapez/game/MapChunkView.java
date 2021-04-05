@@ -34,6 +34,7 @@ public class MapChunkView extends MapChunk {
     public void drawForegroundStaticLayer(DrawParameters parameters) {
         GameSystemManager systemManager = this.root.systemMgr;
         systemManager.staticMapEntities.drawChunk(parameters, this);
+        systemManager.lever.drawChunk(parameters, this);
     }
 
     public enum Methods {

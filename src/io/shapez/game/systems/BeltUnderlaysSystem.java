@@ -21,7 +21,7 @@ public class BeltUnderlaysSystem extends GameSystemWithFilter {
     public BeltUnderlaysSystem(GameRoot root) throws IOException {
         super(root, new Component[]{new BeltUnderlaysComponent()});
         for (int i = 0; i < BeltSystem.BELT_ANIM_COUNT; i++) {
-            this.underlayBeltSprites.add(ImageIO.read(this.getClass().getResource("/sprites/forward_" + i + ".png")));
+            this.underlayBeltSprites.add(ImageIO.read(this.getClass().getResource("/sprites/belt/forward_" + i + ".png")));
         }
     }
 

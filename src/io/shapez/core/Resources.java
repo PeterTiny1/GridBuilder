@@ -71,7 +71,7 @@ public class Resources {
 
             vignette = ImageIO.read(Resources.class.getResource("/vignette.lossless.png"));
             missingTexture = ImageIO.read(Resources.class.getResource("/missing.png"));
-            belt = ImageIO.read(Resources.class.getResource("/sprites/forward_0.png"));
+            belt = ImageIO.read(Resources.class.getResource("/sprites/belt/forward_0.png"));
             miner = ImageIO.read(Resources.class.getResource("/sprites/miner.png"));
             trash = ImageIO.read(Resources.class.getResource("/sprites/trash.png"));
             rotator = ImageIO.read(Resources.class.getResource("/sprites/rotator.png"));
