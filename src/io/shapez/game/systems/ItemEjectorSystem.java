@@ -1,9 +1,6 @@
 package io.shapez.game.systems;
 
-import io.shapez.core.Direction;
-import io.shapez.core.Layer;
-import io.shapez.core.StaleAreaDetector;
-import io.shapez.core.Vector;
+import io.shapez.core.*;
 import io.shapez.game.*;
 import io.shapez.game.Component;
 import io.shapez.game.components.BeltComponent;
@@ -12,6 +9,7 @@ import io.shapez.game.components.ItemEjectorComponent;
 import io.shapez.game.components.StaticMapEntityComponent;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ItemEjectorSystem extends GameSystemWithFilter {
@@ -87,6 +85,61 @@ public class ItemEjectorSystem extends GameSystemWithFilter {
                 ejectorSlot.cachedTargetEntity = targetEntity;
                 ejectorSlot.cachedDestSlot = matchingSlot;
                 break;
+            }
+        }
+    }
+
+    public void drawChunk(DrawParameters parameters, MapChunkView chunk) {
+        if (this.root.app.settings.getAllSettings().simplifiedBelts) {
+            return;
+        }
+
+        ArrayList<Entity> contents = chunk.containedEntitiesByLayer.get(Layer.Regular);
+
+        for (Entity entity : contents) {
+            ItemEjectorComponent ejectorComp = entity.components.ItemEjector;
+            if (ejectorComp == null) {
+                continue;
+            }
+
+            StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
+
+            for (int i = 0; i < ejectorComp.slots.size(); i++) {
+                ItemEjectorComponent.ItemEjectorSlot slot = ejectorComp.slots.get(i);
+                BaseItem ejectedItem = slot.item;
+                if (ejectedItem == null) {
+                    continue;
+                }
+                if (!ejectedItem.renderFloatingItems && slot.cachedTargetEntity == null) {
+                    continue;
+                }
+
+                double progress = slot.progress;
+                BeltPath nextBeltPath = slot.cachedBeltPath;
+                if (nextBeltPath != null) {
+                    double maxProgress = (0.5 + nextBeltPath.spacingToFirstItem - GlobalConfig.itemSpacingOnBelts) * 2;
+                    progress = Math.min(maxProgress, progress);
+                }
+
+                if (progress < 0.05) {
+                    continue;
+                }
+
+                Vector realPosition = staticComp.localTileToWorld(slot.pos);
+                if (!chunk.tileSpaceRectangle.contains(realPosition.x, realPosition.y)) {
+                    continue;
+                }
+
+                Direction realDirection = staticComp.localDirectionToWorld(slot.direction);
+                Vector realDirectionVector = Vector.directionToVector(realDirection);
+
+                double tileX = realPosition.x + 0.5 + realDirectionVector.x * 0.5 * progress;
+                double tileY = realPosition.y + 0.5 + realDirectionVector.x * 0.5 * progress;
+
+                double worldX = tileX * GlobalConfig.tileSize;
+                double worldY = tileY * GlobalConfig.tileSize;
+
+                ejectedItem.drawItemCenteredClipped(worldX, worldY, parameters, GlobalConfig.defaultItemDiameter);
             }
         }
     }

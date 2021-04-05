@@ -24,7 +24,7 @@ public class BeltPath extends BasicSerializableObject {
     AcceptingEntityAndSlot acceptorTarget;
     private int numCompressedItemsAfterFirstItem;
     private double totalLength;
-    private double spacingToFirstItem;
+    public double spacingToFirstItem;
     private Rectangle worldBounds;
 
     public BeltPath(GameRoot root, LinkedList<Entity> entityPath) {

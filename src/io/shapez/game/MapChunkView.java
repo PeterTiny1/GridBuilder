@@ -23,4 +23,13 @@ public class MapChunkView extends MapChunk {
         systemManager.beltUnderlays.drawChunk(parameters, this);
         systemManager.belt.drawChunk(parameters, this);
     }
+
+    public void drawForegroundDynamicLayer(DrawParameters parameters) {
+        GameSystemManager systemMgr = root.systemMgr;
+        systemMgr.itemEjector.drawChunk(parameters, this);
+    }
+
+    public enum Methods {
+        drawForegroundDynamicLayer, drawBackgroundLayer
+    }
 }

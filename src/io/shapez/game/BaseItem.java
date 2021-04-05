@@ -5,6 +5,8 @@ import io.shapez.core.DrawParameters;
 import java.awt.*;
 
 public abstract class BaseItem {
+    public boolean renderFloatingItems = true;
+
     public void drawItemCenteredClipped(double x, double y, DrawParameters parameters, double diameter) {
 //        int diameter = GlobalConfig.defaultItemDiameter;
         if (parameters.visibleRect.contains(x, y)) {
@@ -12,7 +14,7 @@ public abstract class BaseItem {
         }
     }
 
-    protected abstract void drawItemCenteredImpl(double x, double y, DrawParameters g2d, double diameter);
+    protected abstract void drawItemCenteredImpl(double x, double y, DrawParameters parameters, double diameter);
 
     public abstract Color getBackgroundColorAsResource();
 

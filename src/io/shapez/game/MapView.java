@@ -53,10 +53,10 @@ public class MapView extends BaseMap {
             parameters.context.scale(dpi, dpi);
         }
 
-        this.drawVisibleChunks(parameters);
+        this.drawVisibleChunks(parameters, MapChunkView.Methods.drawBackgroundLayer);
     }
 
-    private void drawVisibleChunks(DrawParameters parameters) {
+    private void drawVisibleChunks(DrawParameters parameters, MapChunkView.Methods method) {
         Rectangle cullRange = new Rectangle(parameters.visibleRect.x / GlobalConfig.tileSize, parameters.visibleRect.y / GlobalConfig.tileSize, parameters.visibleRect.width / GlobalConfig.tileSize, parameters.visibleRect.height / GlobalConfig.tileSize);
         int top = cullRange.y;
         int right = cullRange.x + cullRange.width;
@@ -78,8 +78,15 @@ public class MapView extends BaseMap {
         for (int chunkX = chunkStartsX; chunkX <= chunkEndX; chunkX++) {
             for (int chunkY = chunkStartsY; chunkY <= chunkEndY; ++chunkY) {
                 MapChunkView chunk = this.root.map.getChunk(chunkX, chunkY);
-                chunk.drawBackgroundLayer(parameters);
+                switch (method) {
+                    case drawBackgroundLayer -> chunk.drawBackgroundLayer(parameters);
+                    case drawForegroundDynamicLayer -> chunk.drawForegroundDynamicLayer(parameters);
+                }
             }
         }
+    }
+
+    public void drawForeground(DrawParameters parameters) {
+        this.drawVisibleChunks(parameters, MapChunkView.Methods.drawForegroundDynamicLayer);
     }
 }
