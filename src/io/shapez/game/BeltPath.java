@@ -1,6 +1,7 @@
 package io.shapez.game;
 
 import io.shapez.core.Direction;
+import io.shapez.core.DrawParameters;
 import io.shapez.core.Layer;
 import io.shapez.core.Vector;
 import io.shapez.game.components.BeltComponent;
@@ -374,10 +375,10 @@ public class BeltPath extends BasicSerializableObject {
         this.worldBounds = this.computeBounds();
     }
 
-    public void draw(Graphics2D g2d) {
-//        if (!g2d.visibleRect.containsRect(this.worldBounds)) {
-//            return;
-//        }
+    public void draw(DrawParameters parameters) {
+        if (!parameters.visibleRect.contains(this.worldBounds)) {
+            return;
+        }
 
         if (this.items.size() == 0) {
             return;
@@ -407,7 +408,7 @@ public class BeltPath extends BasicSerializableObject {
                 StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
                 Vector localPos = beltComp.transformBeltToLocalSpace(currentItemPos - trackPos);
                 Vector worldPos = staticComp.localTileToWorld(localPos).toWorldSpaceCenterOfTile();
-//                items.get(currentItemIndex).drawItemCenteredClipped(worldPos.x, worldPos.y, g2d);
+                items.get(currentItemIndex).drawItemCenteredClipped(worldPos.x, worldPos.y, parameters);
 //                currentItemPos += distance;
                 currentItemIndex++;
                 if (currentItemIndex >= this.items.size()) {

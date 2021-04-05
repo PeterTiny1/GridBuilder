@@ -1,5 +1,6 @@
 package io.shapez.game.items;
 
+import io.shapez.core.DrawParameters;
 import io.shapez.game.BaseItem;
 import io.shapez.game.Colors;
 
@@ -18,7 +19,7 @@ public class ColorItem extends BaseItem {
     }
 
     @Override
-    protected void drawItemCenteredImpl(double x, double y, Graphics2D g2d, double diameter) {
+    protected void drawItemCenteredImpl(double x, double y, DrawParameters g2d, double diameter) {
 
     }
 

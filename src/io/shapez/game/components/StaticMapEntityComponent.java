@@ -5,7 +5,6 @@ import io.shapez.core.DrawParameters;
 import io.shapez.core.Layer;
 import io.shapez.core.Vector;
 import io.shapez.game.Component;
-import io.shapez.game.GameLogic;
 import io.shapez.game.GlobalConfig;
 import io.shapez.game.MetaBuilding;
 

@@ -89,6 +89,7 @@ public class GameCore {
 
         if (this.overlayAlpha < 0.99) {
             root.map.drawBackground(params);
+            systemMgr.belt.drawBeltItems(params);
         }
     }
 

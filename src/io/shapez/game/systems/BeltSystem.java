@@ -222,9 +222,9 @@ public class BeltSystem extends GameSystemWithFilter {
         this.addEntityToPaths(entity);
     }
 
-    public void drawBeltItems(Graphics2D g2d) {
+    public void drawBeltItems(DrawParameters parameters) {
         for (BeltPath beltPath : this.beltPaths) {
-            beltPath.draw(g2d);
+            beltPath.draw(parameters);
         }
     }
 
