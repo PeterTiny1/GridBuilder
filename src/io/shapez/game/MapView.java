@@ -73,10 +73,10 @@ public class MapView extends BaseMap {
         int chunkStartsY = minY / GlobalConfig.mapChunkSize;
 
         int chunkEndX = maxX / GlobalConfig.mapChunkSize;
-        int chunkEndY = maxX / GlobalConfig.mapChunkSize;
+        int chunkEndY = maxY / GlobalConfig.mapChunkSize;
 
-        for (int chunkX = 0; chunkX <= chunkEndX; chunkX++) {
-            for (int chunkY = 0; chunkY <= chunkEndY; ++chunkY) {
+        for (int chunkX = chunkStartsX; chunkX <= chunkEndX; chunkX++) {
+            for (int chunkY = chunkStartsY; chunkY <= chunkEndY; ++chunkY) {
                 MapChunkView chunk = this.root.map.getChunk(chunkX, chunkY);
                 chunk.drawBackgroundLayer(parameters);
             }
