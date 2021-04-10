@@ -197,9 +197,9 @@ public class MapChunk {
                 }
                 i++;
             }
-            g.setColor(Color.gray);
             // Draw grid
             i = 0;
+            g.setColor(Color.gray);
 
             while (i < GlobalConfig.mapChunkSize) {
                 int movX = (_x + i) * scale + offsetX;
@@ -209,9 +209,7 @@ public class MapChunk {
                 g.drawLine(constX, movY, constX + _s, movY);
 
                 if (SettingsManager.drawChunkEdges) {
-                    if (g.getColor() != Color.red) {
-                        g.setColor(Color.RED);
-                    }
+                    g.setColor(Color.RED);
                     int lowCount = 0;
 
                     for (BaseItem[] item : lowerLayer) {
@@ -234,12 +232,12 @@ public class MapChunk {
         } else {
             drawn = new Rectangle((x * GlobalConfig.mapChunkSize + gridOffsetX) * scale + offsetX, (y * GlobalConfig.mapChunkSize + gridOffsetY) * scale + offsetY, GlobalConfig.mapChunkSize * scale, GlobalConfig.mapChunkSize * scale);
             if (!containsEntity) {
-                g.setColor(Color.GRAY);
+                g.setColor(Color.gray);
                 g.fillRect(drawn.x, drawn.y, drawn.width, drawn.height);
                 int movX = (_x) * scale + offsetX;
                 int movY = (y * GlobalConfig.mapChunkSize + gridOffsetY) * scale + offsetY;
 
-                g.setColor(Color.BLACK);
+                g.setColor(Color.black);
                 g.drawLine(movX, constY, movX, constY + _s);
 
                 g.drawLine(constX, movY, constX + _s, movY);

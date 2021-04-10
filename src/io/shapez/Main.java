@@ -27,11 +27,12 @@ public class Main extends JFrame implements WindowFocusListener, WindowStateList
         add(scrollPane);
         addWindowFocusListener(this);
         addWindowStateListener(this);
-        pack();
         setIconImage(Resources.logo.getImage());
         setTitle(gameName + getRandomTitlebar());
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+
     }
 
     public static void main(String[] args) {
@@ -59,10 +60,10 @@ public class Main extends JFrame implements WindowFocusListener, WindowStateList
 
     @Override
     public void windowStateChanged(WindowEvent e) {
-        if ((e.getOldState() & Frame.ICONIFIED) == 0 && (e.getNewState() & Frame.ICONIFIED) != 0) {
-            application.visible = false;
-        } else if ((e.getOldState() & Frame.ICONIFIED) != 0 && (e.getNewState() & Frame.ICONIFIED) == 0) {
-            application.visible = true;
-        }
+        //if ((e.getOldState() & Frame.ICONIFIED) == 0 && (e.getNewState() & Frame.ICONIFIED) != 0) {
+        //    application.visible = false;
+        //} else if ((e.getOldState() & Frame.ICONIFIED) != 0 && (e.getNewState() & Frame.ICONIFIED) == 0) {
+        //    application.visible = true;
+        //}
     }
 }

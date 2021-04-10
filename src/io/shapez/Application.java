@@ -73,6 +73,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         requestFocusInWindow();
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
+        setDoubleBuffered(true);
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.SOUTH);
         int b_HEIGHT = 500;

@@ -21,6 +21,7 @@ public class BottomPanel extends JPanel {
     public BottomPanel(Application application) {
         this.application = application;
         setOpaque(false);
+        setDoubleBuffered(true);
         JPanel innerPanel = new JPanel();
         innerPanel.setOpaque(false);
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.LINE_AXIS));
