@@ -6,13 +6,14 @@ import io.shapez.game.themes.LightTheme;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class MapResourcesSystem extends GameSystem {
     public MapResourcesSystem(GameRoot root) {
         super(root);
     }
 
-    public void drawChunk(DrawParameters parameters, MapChunkView chunk) {
+    public void drawChunk(DrawParameters parameters, MapChunkView chunk) throws IOException {
         BufferedImage basicChunkBackground = this.root.buffers.getForKey("mapresourcebg", chunk.renderKey, GlobalConfig.mapChunkSize, GlobalConfig.mapChunkSize, 1, this, chunk);
         drawSpriteClipped(parameters, basicChunkBackground, chunk.tileX * GlobalConfig.tileSize, chunk.tileY * GlobalConfig.tileSize, GlobalConfig.mapChunkWorldSize, GlobalConfig.mapChunkWorldSize, GlobalConfig.mapChunkSize, GlobalConfig.mapChunkSize);
         parameters.context.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .5f));

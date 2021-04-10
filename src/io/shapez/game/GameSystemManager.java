@@ -11,6 +11,7 @@ public class GameSystemManager {
     public ItemAcceptorSystem itemAcceptor;
     public StaticMapEntitySystem staticMapEntities;
     public LeverSystem lever;
+    public DisplaySystem display;
     ItemEjectorSystem itemEjector;
     MapResourcesSystem mapResources;
     MinerSystem miner;
@@ -25,5 +26,6 @@ public class GameSystemManager {
         itemAcceptor = new ItemAcceptorSystem(root);
         staticMapEntities = new StaticMapEntitySystem(root);
         lever = new LeverSystem(root);
+        display = new DisplaySystem(root);
     }
 }

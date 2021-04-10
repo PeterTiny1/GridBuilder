@@ -222,7 +222,7 @@ public class BeltSystem extends GameSystemWithFilter {
         this.addEntityToPaths(entity);
     }
 
-    public void drawBeltItems(DrawParameters parameters) {
+    public void drawBeltItems(DrawParameters parameters) throws IOException {
         for (BeltPath beltPath : this.beltPaths) {
             beltPath.draw(parameters);
         }

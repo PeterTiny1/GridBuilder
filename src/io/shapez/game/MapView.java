@@ -6,6 +6,7 @@ import io.shapez.game.themes.LightTheme;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class MapView extends BaseMap {
     byte backgroundCacheDPI = 2;
@@ -43,7 +44,7 @@ public class MapView extends BaseMap {
         return new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
     }
 
-    public void drawBackground(DrawParameters parameters) {
+    public void drawBackground(DrawParameters parameters) throws IOException {
         if (!this.root.app.settings.getAllSettings().disableTileGrid) {
             byte dpi = this.backgroundCacheDPI;
             parameters.context.scale(1.0 / dpi, 1.0 / dpi);
@@ -56,7 +57,7 @@ public class MapView extends BaseMap {
         this.drawVisibleChunks(parameters, MapChunkView.Methods.drawBackgroundLayer);
     }
 
-    private void drawVisibleChunks(DrawParameters parameters, MapChunkView.Methods method) {
+    private void drawVisibleChunks(DrawParameters parameters, MapChunkView.Methods method) throws IOException {
         Rectangle cullRange = new Rectangle(parameters.visibleRect.x / GlobalConfig.tileSize, parameters.visibleRect.y / GlobalConfig.tileSize, parameters.visibleRect.width / GlobalConfig.tileSize, parameters.visibleRect.height / GlobalConfig.tileSize);
         int top = cullRange.y;
         int right = cullRange.x + cullRange.width;
@@ -87,7 +88,7 @@ public class MapView extends BaseMap {
         }
     }
 
-    public void drawForeground(DrawParameters parameters) {
+    public void drawForeground(DrawParameters parameters) throws IOException {
         this.drawVisibleChunks(parameters, MapChunkView.Methods.drawForegroundDynamicLayer);
         this.drawVisibleChunks(parameters, MapChunkView.Methods.drawForegroundStaticLayer);
     }

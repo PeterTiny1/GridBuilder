@@ -12,14 +12,14 @@ public class EntityComponentStorage {
 //        public UndergroundBeltComponent UndergroundBelt;
 //        public HubComponent Hub;
 //        public StorageComponent Storage;
-//        public WiredPinsComponent WiredPins;
+    public WiredPinsComponent WiredPins;
     public BeltUnderlaysComponent BeltUnderlays;
     //        public WireComponent Wire;
 //        public ConstantSignalComponent ConstantSignal;
 //        public LogicGateComponent LogicGate;
     public LeverComponent Lever;
-//        public WireTunnelComponent WireTunnel;
-//        public DisplayComponent Display;
+    //        public WireTunnelComponent WireTunnel;
+    public DisplayComponent Display;
 //        public BeltReaderComponent BeltReader;
 //        public FilterComponent Filter;
 //        public ItemProducerComponent ItemProducer;

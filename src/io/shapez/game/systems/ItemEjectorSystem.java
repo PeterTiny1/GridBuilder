@@ -9,6 +9,7 @@ import io.shapez.game.components.ItemEjectorComponent;
 import io.shapez.game.components.StaticMapEntityComponent;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -89,7 +90,7 @@ public class ItemEjectorSystem extends GameSystemWithFilter {
         }
     }
 
-    public void drawChunk(DrawParameters parameters, MapChunkView chunk) {
+    public void drawChunk(DrawParameters parameters, MapChunkView chunk) throws IOException {
         if (this.root.app.settings.getAllSettings().simplifiedBelts) {
             return;
         }

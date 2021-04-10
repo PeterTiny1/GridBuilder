@@ -6,6 +6,7 @@ import io.shapez.game.*;
 import io.shapez.game.components.MinerComponent;
 import io.shapez.game.components.StaticMapEntityComponent;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MinerSystem extends GameSystemWithFilter {
@@ -15,7 +16,7 @@ public class MinerSystem extends GameSystemWithFilter {
         super(root, new Component[]{new MinerComponent()});
     }
 
-    public void drawChunk(DrawParameters parameters, MapChunkView chunk) {
+    public void drawChunk(DrawParameters parameters, MapChunkView chunk) throws IOException {
         ArrayList<Entity> contents = chunk.containedEntitiesByLayer.get(Layer.Regular);
 
         for (Entity entity : contents) {

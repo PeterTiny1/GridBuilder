@@ -136,11 +136,15 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         if (hasItemSelected) {
             g2d.drawImage(TileUtil.getTileTexture(item, cRot), heldItem.x, heldItem.y, heldItem.width, heldItem.height, null);
         }
-        draw(g2d);
+        try {
+            draw(g2d);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         g2d.drawImage(Resources.vignette, 0, 0, getWidth(), getHeight(), null);
     }
 
-    private void draw(Graphics2D g2d) {
+    private void draw(Graphics2D g2d) throws IOException {
         core.draw(g2d);
     }
 

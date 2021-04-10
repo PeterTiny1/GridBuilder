@@ -8,6 +8,7 @@ import io.shapez.game.*;
 import io.shapez.game.components.ItemAcceptorComponent;
 import io.shapez.game.components.StaticMapEntityComponent;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ItemAcceptorSystem extends GameSystemWithFilter {
@@ -15,7 +16,7 @@ public class ItemAcceptorSystem extends GameSystemWithFilter {
         super(root, new Component[]{new ItemAcceptorComponent()});
     }
 
-    public void drawChunk(DrawParameters parameters, MapChunkView chunk) {
+    public void drawChunk(DrawParameters parameters, MapChunkView chunk) throws IOException {
         if (this.root.app.settings.getAllSettings().simplifiedBelts) {
             return;
         }

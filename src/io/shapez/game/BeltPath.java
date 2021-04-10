@@ -11,6 +11,7 @@ import io.shapez.game.savegame.BaseDataType;
 import io.shapez.game.savegame.BasicSerializableObject;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -375,7 +376,7 @@ public class BeltPath extends BasicSerializableObject {
         this.worldBounds = this.computeBounds();
     }
 
-    public void draw(DrawParameters parameters) {
+    public void draw(DrawParameters parameters) throws IOException {
         if (!parameters.visibleRect.contains(this.worldBounds)) {
             return;
         }

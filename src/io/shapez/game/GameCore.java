@@ -54,7 +54,7 @@ public class GameCore {
         this.root.hud.initialize();
     }
 
-    public void draw(Graphics2D context) {
+    public void draw(Graphics2D context) throws IOException {
         GameSystemManager systemMgr = root.systemMgr;
 
         root.dynamicTickrate.onFrameRendered();

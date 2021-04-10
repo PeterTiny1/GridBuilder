@@ -1,13 +1,14 @@
 package io.shapez.game.items;
 
 import io.shapez.core.DrawParameters;
+import io.shapez.core.ItemType;
 import io.shapez.game.BaseItem;
 import io.shapez.game.Colors;
 
 import java.awt.*;
 
 public class ColorItem extends BaseItem {
-    private final Colors color;
+    public final Colors color;
 
     public ColorItem(Colors color) {
         super();
@@ -35,5 +36,10 @@ public class ColorItem extends BaseItem {
             case yellow -> Color.YELLOW;
             case purple -> Color.MAGENTA;
         };
+    }
+
+    @Override
+    public ItemType getItemType() {
+        return ItemType.color;
     }
 }
