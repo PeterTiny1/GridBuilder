@@ -26,14 +26,14 @@ public class ColorItem extends BaseItem {
     @Override
     public Color getBackgroundColorAsResource() {
         return switch (color) {
-            case red -> Color.red;
-            case green -> Color.green;
-            case blue -> Color.blue;
-            case cyan -> Color.cyan;
-            case uncolored -> Color.gray;
-            case white -> Color.white;
-            case yellow -> Color.yellow;
-            case purple -> Color.magenta;
+            case red -> Color.RED;
+            case green -> Color.GREEN;
+            case blue -> Color.BLUE;
+            case cyan -> Color.CYAN;
+            case uncolored -> Color.GRAY;
+            case white -> Color.WHITE;
+            case yellow -> Color.YELLOW;
+            case purple -> Color.MAGENTA;
         };
     }
 }

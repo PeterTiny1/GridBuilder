@@ -86,6 +86,14 @@ public class StaticMapEntityComponent extends Component {
 
         if (this.rotation == 0) {
             drawCached(sprite, parameters, worldX - extrudePixels * size.x, worldY - extrudePixels * size.y, GlobalConfig.tileSize * size.x + 2 * extrudePixels * size.x, GlobalConfig.tileSize * size.y + 2 * extrudePixels * size.y);
+        } else {
+            double rotationCenterX = worldX - GlobalConfig.halfTileSize;
+            double rotationCenterY = worldY - GlobalConfig.halfTileSize;
+            parameters.context.translate(rotationCenterX, rotationCenterY);
+            parameters.context.rotate(Math.toRadians(this.rotation));
+            drawCached(sprite, parameters, -GlobalConfig.halfTileSize - extrudePixels * size.x, -GlobalConfig.halfTileSize - extrudePixels * size.x, GlobalConfig.tileSize * size.x + 2 * extrudePixels * size.x, GlobalConfig.tileSize * size.y + 2 * extrudePixels * size.y);
+            parameters.context.translate(-rotationCenterX, -rotationCenterY);
+            parameters.context.rotate(-Math.toRadians(this.rotation));
         }
     }
 
