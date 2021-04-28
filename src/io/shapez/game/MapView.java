@@ -47,6 +47,7 @@ public class MapView extends BaseMap {
     public void drawBackground(DrawParameters parameters) throws IOException {
         if (!this.root.app.settings.getAllSettings().disableTileGrid) {
             byte dpi = this.backgroundCacheDPI;
+            parameters.context.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
             parameters.context.scale(1.0 / dpi, 1.0 / dpi);
 
             parameters.context.setPaint(new TexturePaint(cachedBackgroundBuffer, new Rectangle2D.Float(0, 0, cachedBackgroundBuffer.getWidth(), cachedBackgroundBuffer.getHeight())));
