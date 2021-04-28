@@ -61,7 +61,7 @@ public class MapChunk {
             add(Colors.green);
         }};
         if (distanceToOriginInChunks > 2) {
-            availableColors.add(Colors.green);
+            availableColors.add(Colors.blue);
         }
         this.internalGeneratePatch(rng, colorPatchSize, new ColorItem(availableColors.get(rng.nextInt(availableColors.size()))));
     }
