@@ -13,15 +13,16 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BeltUnderlaysSystem extends GameSystemWithFilter {
     private static final Rectangle FULL_CLIP_RECT = new Rectangle(0, 0, 1, 1);
-    private ArrayList<BufferedImage> underlayBeltSprites = new ArrayList<>();
+    private final ArrayList<BufferedImage> underlayBeltSprites = new ArrayList<>();
 
     public BeltUnderlaysSystem(GameRoot root) throws IOException {
         super(root, new Component[]{new BeltUnderlaysComponent()});
         for (int i = 0; i < BeltSystem.BELT_ANIM_COUNT; i++) {
-            this.underlayBeltSprites.add(ImageIO.read(this.getClass().getResource("/sprites/belt/forward_" + i + ".png")));
+            this.underlayBeltSprites.add(ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/sprites/belt/forward_" + i + ".png"))));
         }
     }
 

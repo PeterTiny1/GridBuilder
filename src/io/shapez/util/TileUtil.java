@@ -37,12 +37,6 @@ public class TileUtil {
                         chunk.contents[x][y] = null;
                 }
             }
-            for (int x = 0; x < chunk.movingContents.length; x++) {
-                for (int y = 0; y < chunk.movingContents.length; y++) {
-                    if (chunk.movingContents[x][y] != null)
-                        chunk.movingContents[x][y] = null;
-                }
-            }
             for (int x = 0; x < chunk.lowerLayer.length; x++) {
                 for (int y = 0; y < chunk.lowerLayer.length; y++) {
                     if (chunk.lowerLayer[x][y] != null)

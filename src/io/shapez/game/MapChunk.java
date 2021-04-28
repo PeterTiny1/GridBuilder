@@ -21,7 +21,6 @@ public class MapChunk {
     Rectangle drawn;
     public BaseItem[][] lowerLayer;
     public Entity[][] contents;
-    public MovingEntity[][] movingContents;
     private Entity[][] wireContents;
 
 
@@ -35,7 +34,6 @@ public class MapChunk {
 
         lowerLayer = new BaseItem[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
         contents = new Entity[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
-        movingContents = new MovingEntity[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
 
         generateLowerLayer();
     }
@@ -145,16 +143,7 @@ public class MapChunk {
         int constX = (_x) * scale + offsetX;
         int constY = (_y) * scale + offsetY;
         // Do NOT touch this. I have done this with a very good reason.
-        int entCount = 0, mEntCount = 0;
-
-        /*  [IMPORTANT] DO NOT touch or modify  this code */
-        for (MovingEntity[] ignored : movingContents) {
-            int __k = 0;
-            while (__k < movingContents.length) {
-                if (movingContents[__k] != null) mEntCount++;
-                __k++;
-            }
-        }
+        int entCount = 0;
         for (Entity[] content : contents) {
             int _k = 0;
             while (_k < contents.length) {
@@ -162,12 +151,12 @@ public class MapChunk {
                 _k++;
             }
         }
-        if (!containsEntity && entCount != 0 || mEntCount != 0) {
+        if (!containsEntity && entCount != 0) {
             containsEntity = true;
             Application.usedChunks.remove(this);
             Application.usedChunks.add(this);
         }
-        if (containsEntity && entCount == 0 || mEntCount == 0) {
+        if (containsEntity && entCount == 0) {
             containsEntity = false;
             Application.usedChunks.remove(this);
         }
@@ -189,10 +178,6 @@ public class MapChunk {
                     // Right: x+1, y
                     // Down: x, y+1
                     // Left: x-1, y
-                    assert movingContents[i] != null;
-                    if (movingContents[i][j] != null) {
-                        g.drawImage(movingContents[i][j].texture/*Not yet*/, drawn.x + drawn.width / 2, drawn.y + drawn.height / 2, drawn.width / 2, drawn.height / 2, null);
-                    }
                     j++;
                 }
                 i++;
