@@ -8,7 +8,6 @@ import io.shapez.managers.SettingsManager;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 public class MapChunk {
@@ -256,7 +255,7 @@ public class MapChunk {
         return (Entity[]) result.toArray();
     }
 
-    public class Patch {
+    public static class Patch {
         public final Vector pos;
         public final BaseItem item;
         private final double size;
