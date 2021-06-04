@@ -6,10 +6,10 @@ import io.shapez.game.buildings.MetaBeltBuilding;
 import io.shapez.game.components.StaticMapEntityComponent;
 import io.shapez.game.items.ColorItem;
 import io.shapez.game.platform.PlatformWrapperInterface;
+import io.shapez.game.platform.SoundManager;
 import io.shapez.game.profile.ApplicationSettings;
 import io.shapez.game.savegame.Savegame;
 import io.shapez.managers.SettingsManager;
-import io.shapez.game.platform.SoundManager;
 import io.shapez.platform.PlatformWrapperImpl;
 import io.shapez.ui.BottomPanel;
 import io.shapez.ui.MoreWindow;
@@ -132,6 +132,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         DrawGrid(g2d);
         if (hasItemSelected) {
             g2d.drawImage(TileUtil.getTileTexture(item, cRot), heldItem.x, heldItem.y, heldItem.width, heldItem.height, null);
@@ -158,7 +159,9 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         int c1y = leftTopChunk.y;
         int c2x = rightBottomChunk.x;
         int c2y = rightBottomChunk.y;
-
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         for (int x = c1x - 1; ++x < c2x + 1; ) {
             for (int y = c1y - 1; ++y < c2y + 1; ) {
                 MapChunk currentChunk = core.root.map.getChunk(x, y);
@@ -212,9 +215,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
             changeOffset((int) Math.round((getWidth() - getWidth() / 1.2) / 2), (int) Math.round((getHeight() - getHeight() / 1.2) / 2));
         }
-        if (hasItemSelected) {
-            heldItem = new Rectangle(previousMX - (scale / 2), previousMY - (scale / 2), scale - 2, scale - 2);
-        }
+        heldItem = new Rectangle(previousMX - (scale / 2), previousMY - (scale / 2), scale - 2, scale - 2);
     }
 
     @Override

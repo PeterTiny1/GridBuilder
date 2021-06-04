@@ -118,24 +118,7 @@ public class MapChunk {
         return hash;
     }
 
-//    private void setSides() {
-//        if (!SettingsManager.drawChunkEdges) return;
-//        for (int x = 0; x < GlobalConfig.mapChunkSize; x++) {
-//            if (lowerLayer[x][0] == null) {
-//                lowerLayer[x][0] = Color.GRAY;
-//            }
-//        }
-//        for (int y = 0; y < GlobalConfig.mapChunkSize; y++) {
-//            if (lowerLayer[0][y] == null) {
-//                lowerLayer[0][y] = Color.GRAY;
-//            }
-//        }
-//    }
-
     public void drawChunk(Graphics2D g, int offsetX, int offsetY, int gridOffsetX, int gridOffsetY, int scale, boolean containsEntity) {
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         int _x = x * GlobalConfig.mapChunkSize + gridOffsetX;
         int _y = y * GlobalConfig.mapChunkSize + gridOffsetY; // Micro-optimization: avoid computing inside loops!
         int _s = GlobalConfig.mapChunkSize * scale;
@@ -214,12 +197,12 @@ public class MapChunk {
             }
 
         } else {
-            drawn = new Rectangle((x * GlobalConfig.mapChunkSize + gridOffsetX) * scale + offsetX, (y * GlobalConfig.mapChunkSize + gridOffsetY) * scale + offsetY, GlobalConfig.mapChunkSize * scale, GlobalConfig.mapChunkSize * scale);
+            int movY = (y * GlobalConfig.mapChunkSize + gridOffsetY) * scale + offsetY;
+            drawn = new Rectangle((x * GlobalConfig.mapChunkSize + gridOffsetX) * scale + offsetX, movY, GlobalConfig.mapChunkSize * scale, GlobalConfig.mapChunkSize * scale);
             if (!containsEntity) {
                 g.setColor(Color.gray);
                 g.fillRect(drawn.x, drawn.y, drawn.width, drawn.height);
                 int movX = (_x) * scale + offsetX;
-                int movY = (y * GlobalConfig.mapChunkSize + gridOffsetY) * scale + offsetY;
 
                 g.setColor(Color.black);
                 g.drawLine(movX, constY, movX, constY + _s);
