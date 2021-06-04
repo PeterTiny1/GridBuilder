@@ -89,29 +89,29 @@ public class TileUtil {
         return a;
     }
 
-    public static void forcePlace(GameRoot root, int cX, int cY, Tile item, Direction direction, Image tileTexture) {
+    public static void forcePlace(GameRoot root, int cX, int cY, Tile item, Direction direction) {
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
         MapChunk currentChunk = root.map.getChunkAtTile(offX, offY);
         currentChunk.contents[offX][offY] = null;
-        currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
+        currentChunk.contents[offX][offY] = new Entity(item, direction, cX, cY);
     }
 
-    public static void placeEntity(GameRoot root, int cX, int cY, Tile item, Direction direction, Image tileTexture) {
+    public static void placeEntity(GameRoot root, int cX, int cY, Tile item, Direction direction) {
         MapChunk currentChunk = root.map.getChunkAtTile(cX, cY);
         int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
 
         if (currentChunk.contents[offX][offY] != null) {
             currentChunk.contents[offX][offY] = null;
-            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
+            currentChunk.contents[offX][offY] = new Entity(item, direction, cX, cY);
             Application.usedChunks.add(currentChunk);
             return;
         }
 
         if (currentChunk.contents[offX][offY] == null) {
             SoundManager.playSound(item == Tile.Belt ? Resources.beltPlaceSound : Resources.generic_placeTileSound);
-            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
+            currentChunk.contents[offX][offY] = new Entity(item, direction, cX, cY);
             Application.usedChunks.add(currentChunk);
         }
 

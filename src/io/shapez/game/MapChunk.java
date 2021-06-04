@@ -5,6 +5,7 @@ import io.shapez.core.Layer;
 import io.shapez.core.Vector;
 import io.shapez.game.items.ColorItem;
 import io.shapez.managers.SettingsManager;
+import io.shapez.util.TileUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -154,7 +155,7 @@ public class MapChunk {
                         g.fillRect(drawn.x, drawn.y, drawn.width, drawn.height);
                     }
                     if (contents[i][j] != null) {
-                        g.drawImage(contents[i][j].texture, drawn.x, drawn.y, drawn.width, drawn.height, null);
+                        g.drawImage(TileUtil.getTileTexture(contents[i][j].tile, contents[i][j].direction), drawn.x, drawn.y, drawn.width, drawn.height, null);
                     }
                     // Up: x, y-1
                     // Right: x+1, y

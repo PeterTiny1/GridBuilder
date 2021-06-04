@@ -266,12 +266,11 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             case KeyEvent.VK_F3 -> {
                 int diagres = JOptionPane.showConfirmDialog(null, "(Benchmark) - This will overwrite a lot of tiles and you may lose progress. Continue?", "Benchmark", JOptionPane.YES_NO_OPTION);
                 if (diagres != JOptionPane.YES_OPTION) break;
-                Image tex = TileUtil.getTileTexture(item, cRot);
                 int x = 0;
                 while (x < 1000) {
                     int y = 0;
                     while (y < 1000) {
-                        placeEntity(x, y, item, cRot, tex);
+                        placeEntity(x, y, item, cRot);
                         y++;
                     }
                     x++;
@@ -330,7 +329,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
                 changeOffset(e.getX() - previousMX, e.getY() - previousMY);
             } else {
                 heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
-                placeEntity(e.getX(), e.getY(), item, cRot, TileUtil.getTileTexture(item, cRot));
+                placeEntity(e.getX(), e.getY(), item, cRot);
             }
         }
         previousMX = e.getX();
@@ -365,7 +364,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             }
         } else if (SwingUtilities.isLeftMouseButton(e)) {
             if (hasItemSelected && item != Tile.None) {
-                placeEntity(e.getX(), e.getY(), item, cRot, TileUtil.getTileTexture(item, cRot));
+                placeEntity(e.getX(), e.getY(), item, cRot);
             }
         } else if (SwingUtilities.isMiddleMouseButton(e)) {
             scale = 40;
@@ -374,7 +373,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     }
 
 
-    public void placeEntity(int x, int y, Tile item, Direction direction, Image tileTexture) {
+    public void placeEntity(int x, int y, Tile item, Direction direction) {
         int cX = (x - offsetX) / scale - gridOffsetX;
         int cY = (y - offsetY) / scale - gridOffsetY;
 
@@ -393,9 +392,9 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             clearTile(offX, offY);
 
             if (item != Tile.DEBUG_LowerLayer) {
-                core.root.systemMgr.belt.onEntityAdded(new Entity(item, tileTexture, direction, cX, cY));
-                core.root.systemMgr.belt.updateSurroundingBeltPlacement(new Entity(item, tileTexture, direction, cX, cY));
-                currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
+                core.root.systemMgr.belt.onEntityAdded(new Entity(item, direction, cX, cY));
+                core.root.systemMgr.belt.updateSurroundingBeltPlacement(new Entity(item, direction, cX, cY));
+                currentChunk.contents[offX][offY] = new Entity(item, direction, cX, cY);
             } else
                 currentChunk.lowerLayer[offX][offY] = new ColorItem(Colors.red);
 
@@ -414,9 +413,9 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
                 usedChunks.add(currentChunk);
                 return;
             }
-            currentChunk.contents[offX][offY] = new Entity(item, tileTexture, direction, cX, cY);
-            core.root.systemMgr.belt.onEntityAdded(new Entity(item, tileTexture, direction, cX, cY));
-            core.root.systemMgr.belt.updateSurroundingBeltPlacement(new Entity(item, tileTexture, direction, cX, cY));
+            currentChunk.contents[offX][offY] = new Entity(item, direction, cX, cY);
+            core.root.systemMgr.belt.onEntityAdded(new Entity(item, direction, cX, cY));
+            core.root.systemMgr.belt.updateSurroundingBeltPlacement(new Entity(item, direction, cX, cY));
             usedChunks.add(currentChunk);
         }
     }
@@ -428,8 +427,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         int offY = cY % GlobalConfig.mapChunkSize;
         offX = offX < 0 ? offX + GlobalConfig.mapChunkSize : offX;
         offY = offY < 0 ? offY + GlobalConfig.mapChunkSize : offY;
-        core.root.systemMgr.belt.onEntityDestroyed(new Entity(Tile.Belt, TileUtil.getTileTexture(Tile.Belt, Direction.Top), null, cX, cY));
-        core.root.systemMgr.belt.updateSurroundingBeltPlacement(new Entity(Tile.Belt, TileUtil.getTileTexture(Tile.Belt, Direction.Top), null, cX, cY));
+        core.root.systemMgr.belt.onEntityDestroyed(new Entity(Tile.Belt, null, cX, cY));
+        core.root.systemMgr.belt.updateSurroundingBeltPlacement(new Entity(Tile.Belt, null, cX, cY));
         if (chunk.contents[offX][offY] != null) {
             chunk.contents[offX][offY] = null;
             for (int x = 0; x < GlobalConfig.mapChunkSize; x++) {

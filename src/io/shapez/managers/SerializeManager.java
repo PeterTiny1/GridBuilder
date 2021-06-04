@@ -86,8 +86,7 @@ public class SerializeManager {
                     }
                     type = Tile.valueOf(_type);
                     rot = Direction.valueOf(_rot);
-                    tex = TileUtil.getTileTexture(type, rot);
-                    TileUtil.forcePlace(root, tileX, tileY, type, rot, tex);
+                    TileUtil.forcePlace(root, tileX, tileY, type, rot);
 
                     //for(Chunk chunk : Board.usedChunks){
                     //    chunk.lowerLayer[lX][lY] = new Color(lR, lG, lB);
