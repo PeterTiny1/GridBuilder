@@ -25,8 +25,9 @@ public class GameRoot {
     public HubGoals hubGoals = null;
     public BufferMaintainer buffers = null;
     public Layer currentLayer;
+    public boolean gameIsFresh;
 
-    public GameRoot(Application app) {
+    public GameRoot(final Application app) {
         this.app = app;
     }
 

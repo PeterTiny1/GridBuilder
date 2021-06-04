@@ -1,9 +1,10 @@
 package io.shapez;
 
-import io.shapez.core.*;
+import io.shapez.core.Direction;
+import io.shapez.core.Resources;
+import io.shapez.core.Tile;
+import io.shapez.core.Vector;
 import io.shapez.game.*;
-import io.shapez.game.buildings.MetaBeltBuilding;
-import io.shapez.game.components.StaticMapEntityComponent;
 import io.shapez.game.items.ColorItem;
 import io.shapez.game.platform.PlatformWrapperInterface;
 import io.shapez.game.platform.SoundManager;
@@ -110,24 +111,10 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         } catch (final IOException e) {
             e.printStackTrace();
         }
-        initMetaBuildingRegistry();
         this.platformWrapper = new PlatformWrapperImpl(this);
+        this.core.initNewGame();
         final javax.swing.Timer timer = new javax.swing.Timer(SettingsManager.tickrateScreen, this);
         timer.start();
-        final java.util.Timer timer1 = new java.util.Timer();
-        timer1.schedule(new BackgroundTimer(this), 10);
-    }
-
-    private void initMetaBuildingRegistry() {
-        final Layer defaultBuildingVariant = Layer.Regular;
-        registerBuildingVariant(1, new MetaBeltBuilding(), defaultBuildingVariant, 0);
-        registerBuildingVariant(2, new MetaBeltBuilding(), defaultBuildingVariant, 1);
-        registerBuildingVariant(3, new MetaBeltBuilding(), defaultBuildingVariant, 2);
-    }
-
-    private void registerBuildingVariant(final int code, final MetaBuilding meta, final Layer variant, final int rotationVariant) {
-        final ArrayList<StaticMapEntityComponent.BuildingVariantIdentifier> gBuildingVariants = new ArrayList<>();
-        gBuildingVariants.add(new StaticMapEntityComponent.BuildingVariantIdentifier(meta, variant, rotationVariant, meta.getDimensions(variant)));
     }
 
     public void paintComponent(final Graphics g) {

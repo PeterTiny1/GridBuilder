@@ -3,6 +3,9 @@ package io.shapez.game;
 import io.shapez.Application;
 import io.shapez.core.BufferMaintainer;
 import io.shapez.core.DrawParameters;
+import io.shapez.core.Layer;
+import io.shapez.core.Vector;
+import io.shapez.game.components.StaticMapEntityComponent;
 import io.shapez.game.hud.GameHUD;
 import io.shapez.game.modes.RegularGameMode;
 import io.shapez.game.savegame.Savegame;
@@ -11,6 +14,7 @@ import io.shapez.game.time.GameTime;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
+import java.util.Random;
 
 public class GameCore {
     private static final String ORIGINAL_SPRITE_SCALE = "0.75";
@@ -18,11 +22,11 @@ public class GameCore {
     public GameRoot root;
     private double overlayAlpha = 0;
 
-    public GameCore(Application app) {
+    public GameCore(final Application app) {
         this.app = app;
     }
 
-    public void tick(long deltaMs) {
+    public void tick(final long deltaMs) {
         root.time.updateRealtimeNow();
 
         root.camera.update(deltaMs);
@@ -30,7 +34,7 @@ public class GameCore {
         root.automaticSave.update();
     }
 
-    public void initializeRoot(Savegame savegame) throws IOException {
+    public void initializeRoot(final Savegame savegame) throws IOException {
         this.root = new GameRoot(this.app);
         this.root.savegame = savegame;
 
@@ -55,8 +59,8 @@ public class GameCore {
         this.root.hud.initialize();
     }
 
-    public void draw(Graphics2D context) throws IOException {
-        GameSystemManager systemMgr = root.systemMgr;
+    public void draw(final Graphics2D context) throws IOException {
+        final GameSystemManager systemMgr = root.systemMgr;
 
         root.dynamicTickrate.onFrameRendered();
 
@@ -65,26 +69,26 @@ public class GameCore {
             return;
         }
 
-        double zoomLevel = root.camera.zoomLevel;
-        boolean lowQuality = root.app.settings.getAllSettings().lowQualityTextures;
-        double effectiveZoomLevel = (zoomLevel / GlobalConfig.assetsDpi) * getDeviceDPI() * GlobalConfig.assetsSharpness;
+        final double zoomLevel = root.camera.zoomLevel;
+        final boolean lowQuality = root.app.settings.getAllSettings().lowQualityTextures;
+        final double effectiveZoomLevel = (zoomLevel / GlobalConfig.assetsDpi) * getDeviceDPI() * GlobalConfig.assetsSharpness;
         String desiredAtlasScale = "0.25";
 
         if (effectiveZoomLevel > 0.5 && !lowQuality) {
-            desiredAtlasScale = ORIGINAL_SPRITE_SCALE;
+            desiredAtlasScale = GameCore.ORIGINAL_SPRITE_SCALE;
         } else if (effectiveZoomLevel > 0.35 && !lowQuality) {
             desiredAtlasScale = "0.5";
         }
 
-        DrawParameters params = new DrawParameters(context, root.camera.getVisibleRect(), desiredAtlasScale, zoomLevel, root);
+        final DrawParameters params = new DrawParameters(context, root.camera.getVisibleRect(), desiredAtlasScale, zoomLevel, root);
 
-        AffineTransform oldTransform = context.getTransform();
+        final AffineTransform oldTransform = context.getTransform();
 
         root.camera.transform(context);
 
         root.hud.update();
 
-        double desiredOverlayAlpha = this.root.camera.getIsMapOverlayActive() ? 1 : 0;
+        final double desiredOverlayAlpha = this.root.camera.getIsMapOverlayActive() ? 1 : 0;
 
         if (this.root.entityMgr.entities.size() > 5000 || this.root.dynamicTickrate.averageFps < 50) {
             this.overlayAlpha = desiredOverlayAlpha;
@@ -109,5 +113,13 @@ public class GameCore {
         }
 
         return this.app.isRenderable();
+    }
+
+    public void initNewGame() {
+        this.root.gameIsFresh = true;
+        this.root.map.seed = new Random().nextInt(10000);
+        final Entity hub = new Entity(); // new MetaHubBuilding(root, new Vector(-2, -2), 0, 0, 0, "default");
+        hub.layer = Layer.Regular;
+        hub.addComponent(new StaticMapEntityComponent(new Vector(-2, -2), 0, 0, new Vector(4, 4), 26));
     }
 }
