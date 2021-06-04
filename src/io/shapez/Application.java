@@ -60,7 +60,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     public final Date date = new Date();
     private long time;
 
-    public Application(Main window) throws IOException {
+    public Application(final Main window) throws IOException {
         this.window = window;
 
         initBoard();
@@ -77,8 +77,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         setDoubleBuffered(true);
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.SOUTH);
-        int b_HEIGHT = 500;
-        int b_WIDTH = 500;
+        final int b_HEIGHT = 500;
+        final int b_WIDTH = 500;
         setPreferredSize(new Dimension(b_WIDTH, b_HEIGHT));
 
 
@@ -86,7 +86,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.updateComponentTreeUI(this);
 
-        } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException e) {
+        } catch (final ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace(); // your os is unsupported or registry is fucked if this happens
             JOptionPane.showMessageDialog(null, "Unsupported styles. " +
                     "Your OS is not supported or registry may be broken. " +
@@ -94,7 +94,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         }
         try {
             SettingsManager.loadSettings(false);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             System.err.println("!!! Failed to load config !!!");
         }
 
@@ -107,76 +107,76 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
         try {
             SettingsManager.loadSettings(false);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
         initMetaBuildingRegistry();
         this.platformWrapper = new PlatformWrapperImpl(this);
-        javax.swing.Timer timer = new javax.swing.Timer(SettingsManager.tickrateScreen, this);
+        final javax.swing.Timer timer = new javax.swing.Timer(SettingsManager.tickrateScreen, this);
         timer.start();
-        java.util.Timer timer1 = new java.util.Timer();
+        final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new BackgroundTimer(this), 10);
     }
 
     private void initMetaBuildingRegistry() {
-        Layer defaultBuildingVariant = Layer.Regular;
+        final Layer defaultBuildingVariant = Layer.Regular;
         registerBuildingVariant(1, new MetaBeltBuilding(), defaultBuildingVariant, 0);
         registerBuildingVariant(2, new MetaBeltBuilding(), defaultBuildingVariant, 1);
         registerBuildingVariant(3, new MetaBeltBuilding(), defaultBuildingVariant, 2);
     }
 
-    private void registerBuildingVariant(int code, MetaBuilding meta, Layer variant, int rotationVariant) {
-        ArrayList<StaticMapEntityComponent.BuildingVariantIdentifier> gBuildingVariants = new ArrayList<>();
+    private void registerBuildingVariant(final int code, final MetaBuilding meta, final Layer variant, final int rotationVariant) {
+        final ArrayList<StaticMapEntityComponent.BuildingVariantIdentifier> gBuildingVariants = new ArrayList<>();
         gBuildingVariants.add(new StaticMapEntityComponent.BuildingVariantIdentifier(meta, variant, rotationVariant, meta.getDimensions(variant)));
     }
 
-    public void paintComponent(Graphics g) {
+    public void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
+        final Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         DrawGrid(g2d);
         if (hasItemSelected) {
-            g2d.drawImage(TileUtil.getTileTexture(item, cRot), heldItem.x, heldItem.y, heldItem.width, heldItem.height, null);
+            g2d.drawImage(TileUtil.getTileTexture(Application.item, cRot), heldItem.x, heldItem.y, heldItem.width, heldItem.height, null);
         }
         try {
             draw(g2d);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
         g2d.drawImage(Resources.vignette, 0, 0, getWidth(), getHeight(), null);
     }
 
-    private void draw(Graphics2D g2d) throws IOException {
+    private void draw(final Graphics2D g2d) throws IOException {
         core.draw(g2d);
     }
 
-    private void DrawGrid(Graphics2D g2d) {
-        Vector leftTopTile = new Vector(-gridOffsetX, -gridOffsetY);
-        Vector rightBottomTile = new Vector(getWidth() / (float) scale - gridOffsetX, getHeight() / (float) scale - gridOffsetY);
-        MapChunk leftTopChunk = core.root.map.getChunkAtTile((int) leftTopTile.x - 1, (int) leftTopTile.y - 1);
-        MapChunk rightBottomChunk = core.root.map.getChunkAtTile((int) rightBottomTile.x + 1, (int) rightBottomTile.y + 1);
+    private void DrawGrid(final Graphics2D g2d) {
+        final Vector leftTopTile = new Vector(-gridOffsetX, -gridOffsetY);
+        final Vector rightBottomTile = new Vector(getWidth() / (float) scale - gridOffsetX, getHeight() / (float) scale - gridOffsetY);
+        final MapChunk leftTopChunk = core.root.map.getChunkAtTile((int) leftTopTile.x - 1, (int) leftTopTile.y - 1);
+        final MapChunk rightBottomChunk = core.root.map.getChunkAtTile((int) rightBottomTile.x + 1, (int) rightBottomTile.y + 1);
 
-        int c1x = leftTopChunk.x;
-        int c1y = leftTopChunk.y;
-        int c2x = rightBottomChunk.x;
-        int c2y = rightBottomChunk.y;
+        final int c1x = leftTopChunk.x;
+        final int c1y = leftTopChunk.y;
+        final int c2x = rightBottomChunk.x;
+        final int c2y = rightBottomChunk.y;
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         for (int x = c1x - 1; ++x < c2x + 1; ) {
             for (int y = c1y - 1; ++y < c2y + 1; ) {
-                MapChunk currentChunk = core.root.map.getChunk(x, y);
-                currentChunk.drawChunk(g2d, offsetX, offsetY, gridOffsetX, gridOffsetY, scale, usedChunks.contains(currentChunk));
+                final MapChunk currentChunk = core.root.map.getChunk(x, y);
+                currentChunk.drawChunk(g2d, offsetX, offsetY, gridOffsetX, gridOffsetY, scale, Application.usedChunks.contains(currentChunk));
             }
         }
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        long currentTime = date.getTime();
-        int moveValue = (shiftPressed) ? 8 : 2;
+    public void actionPerformed(final ActionEvent e) {
+        final long currentTime = date.getTime();
+        final int moveValue = (shiftPressed) ? 8 : 2;
         if (pressedKeys.size() > 0) {
-            for (Character key : pressedKeys) {
+            for (final Character key : pressedKeys) {
                 switch (key) {
                     case 'S' -> changeOffset(0, -moveValue);
                     case 'W' -> changeOffset(0, moveValue);
@@ -193,7 +193,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         }
     }
 
-    private void onBackgroundTick(long dt) {
+    private void onBackgroundTick(final long dt) {
         if (this.isRenderable()) {
             return;
         }
@@ -205,7 +205,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     }
 
     @Override
-    public void mouseWheelMoved(MouseWheelEvent e) {
+    public void mouseWheelMoved(final MouseWheelEvent e) {
         if (e.getWheelRotation() < 0) {
             if (scale < 120) {
                 scale *= 1.2;
@@ -220,13 +220,13 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
+    public void keyTyped(final KeyEvent e) {
 
     }
 
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(final KeyEvent e) {
         shiftPressed |= e.getKeyCode() == KeyEvent.VK_SHIFT;
         controlPressed |= e.getKeyCode() == KeyEvent.VK_CONTROL;
         if (!pressedKeys.contains(Character.toUpperCase(e.getKeyChar()))) {
@@ -242,13 +242,15 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
                 cRot = Direction.values()[rotIndex];
             }
-            System.out.println(e.getKeyChar());
             if (controlPressed && e.getKeyCode() == KeyEvent.VK_S) {
                 System.out.println("It's supposed to save but I couldn't be bothered");
             }
+            if (Character.toUpperCase(e.getKeyChar()) == 'Q') {
+                selectTile(previousMX, previousMY);
+            }
         }
-        char key = e.getKeyChar();
-        int index = Character.getNumericValue(key);
+        final char key = e.getKeyChar();
+        final int index = Character.getNumericValue(key);
         if (!Character.isLetter(key) && index > -1) {
             if (index < Tile.values().length) {
                 centerPanel.selectItem(Tile.values()[index]);
@@ -263,20 +265,20 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
                 topPanel.setVisible(!topPanel.isVisible());
             }
             case KeyEvent.VK_F2 -> {
-                long t1 = System.nanoTime();
+                final long t1 = System.nanoTime();
                 System.out.println("GC start...");
                 System.gc();
-                long t2 = System.nanoTime();
+                final long t2 = System.nanoTime();
                 System.out.println("GC end\nGC took " + (t2 - t1) / 1000000 + " ms");
             }
             case KeyEvent.VK_F3 -> {
-                int diagres = JOptionPane.showConfirmDialog(null, "(Benchmark) - This will overwrite a lot of tiles and you may lose progress. Continue?", "Benchmark", JOptionPane.YES_NO_OPTION);
+                final int diagres = JOptionPane.showConfirmDialog(null, "(Benchmark) - This will overwrite a lot of tiles and you may lose progress. Continue?", "Benchmark", JOptionPane.YES_NO_OPTION);
                 if (diagres != JOptionPane.YES_OPTION) break;
                 int x = 0;
                 while (x < 1000) {
                     int y = 0;
                     while (y < 1000) {
-                        placeEntity(x, y, item, cRot);
+                        placeEntity(x, y, Application.item, cRot);
                         y++;
                     }
                     x++;
@@ -306,9 +308,26 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
     }
 
+    private void selectTile(final int previousMX, final int previousMY) {
+        final int cX = (previousMX - offsetX) / scale - gridOffsetX;
+        final int cY = (previousMY - offsetY) / scale - gridOffsetY;
+
+        final MapChunk chunk = core.root.map.getChunkAtTile(cX, cY);
+
+        final int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
+        final int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
+
+        if (chunk.contents[offX][offY] != null) {
+            hasItemSelected = true;
+            Application.item = chunk.contents[offX][offY].tile;
+            cRot = chunk.contents[offX][offY].direction;
+            rotIndex = (byte) cRot.getValue();
+        }
+    }
+
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(final KeyEvent e) {
         shiftPressed &= e.getKeyCode() != KeyEvent.VK_SHIFT;
         controlPressed &= e.getKeyCode() != KeyEvent.VK_CONTROL;
         if (pressedKeys.contains(Character.toUpperCase(e.getKeyChar()))) {
@@ -316,7 +335,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         }
     }
 
-    public void changeOffset(int x, int y) {
+    public void changeOffset(final int x, final int y) {
         offsetX += x;
         gridOffsetX += offsetX / scale;
         offsetX %= scale;
@@ -326,17 +345,17 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
+    public void mouseDragged(final MouseEvent e) {
         if (SwingUtilities.isRightMouseButton(e)) {
-            int cX = (e.getX() - offsetX) / scale - gridOffsetX;
-            int cY = (e.getY() - offsetY) / scale - gridOffsetY;
+            final int cX = (e.getX() - offsetX) / scale - gridOffsetX;
+            final int cY = (e.getY() - offsetY) / scale - gridOffsetY;
             clearTile(cX, cY);
         } else if (SwingUtilities.isLeftMouseButton(e)) {
             if (!hasItemSelected) {
                 changeOffset(e.getX() - previousMX, e.getY() - previousMY);
             } else {
                 heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
-                placeEntity(e.getX(), e.getY(), item, cRot);
+                placeEntity(e.getX(), e.getY(), Application.item, cRot);
             }
         }
         previousMX = e.getX();
@@ -344,7 +363,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {
+    public void mouseMoved(final MouseEvent e) {
         previousMX = e.getX();
         previousMY = e.getY();
 
@@ -353,25 +372,25 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(final MouseEvent e) {
 
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-        int cX = (e.getX() - offsetX) / scale - gridOffsetX;
-        int cY = (e.getY() - offsetY) / scale - gridOffsetY;
+    public void mousePressed(final MouseEvent e) {
+        final int cX = (e.getX() - offsetX) / scale - gridOffsetX;
+        final int cY = (e.getY() - offsetY) / scale - gridOffsetY;
         if (SwingUtilities.isRightMouseButton(e)) {
-            if (item != Tile.None) {
-                item = Tile.None;
+            if (Application.item != Tile.None) {
+                Application.item = Tile.None;
                 hasItemSelected = false;
                 UIUtil.updateButtonAppearance();
             } else {
                 clearTile(cX, cY);
             }
         } else if (SwingUtilities.isLeftMouseButton(e)) {
-            if (hasItemSelected && item != Tile.None) {
-                placeEntity(e.getX(), e.getY(), item, cRot);
+            if (hasItemSelected && Application.item != Tile.None) {
+                placeEntity(e.getX(), e.getY(), Application.item, cRot);
             }
         } else if (SwingUtilities.isMiddleMouseButton(e)) {
             scale = 40;
@@ -380,14 +399,14 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     }
 
 
-    public void placeEntity(int x, int y, Tile item, Direction direction) {
-        int cX = (x - offsetX) / scale - gridOffsetX;
-        int cY = (y - offsetY) / scale - gridOffsetY;
+    public void placeEntity(final int x, final int y, final Tile item, final Direction direction) {
+        final int cX = (x - offsetX) / scale - gridOffsetX;
+        final int cY = (y - offsetY) / scale - gridOffsetY;
 
-        MapChunk currentChunk = core.root.map.getChunkAtTile(cX, cY);
+        final MapChunk currentChunk = core.root.map.getChunkAtTile(cX, cY);
 
-        int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
-        int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
+        final int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
+        final int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
 
         if (TileUtil.checkInvalidTile(item, Application.item, currentChunk, offX, offY)) return;
 
@@ -405,7 +424,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             } else
                 currentChunk.lowerLayer[offX][offY] = new ColorItem(Colors.red);
 
-            usedChunks.add(currentChunk);
+            Application.usedChunks.add(currentChunk);
             return;
         }
 
@@ -417,19 +436,19 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
             if (item == Tile.DEBUG_LowerLayer) {
                 currentChunk.lowerLayer[offX][offY] = new ColorItem(Colors.red);
-                usedChunks.add(currentChunk);
+                Application.usedChunks.add(currentChunk);
                 return;
             }
             currentChunk.contents[offX][offY] = new Entity(item, direction, cX, cY);
             core.root.systemMgr.belt.onEntityAdded(new Entity(item, direction, cX, cY));
             core.root.systemMgr.belt.updateSurroundingBeltPlacement(new Entity(item, direction, cX, cY));
-            usedChunks.add(currentChunk);
+            Application.usedChunks.add(currentChunk);
         }
     }
 
 
-    private void clearTile(int cX, int cY) {
-        MapChunk chunk = core.root.map.getChunkAtTile(cX, cY);
+    private void clearTile(final int cX, final int cY) {
+        final MapChunk chunk = core.root.map.getChunkAtTile(cX, cY);
         int offX = cX % GlobalConfig.mapChunkSize;
         int offY = cY % GlobalConfig.mapChunkSize;
         offX = offX < 0 ? offX + GlobalConfig.mapChunkSize : offX;
@@ -440,8 +459,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             chunk.contents[offX][offY] = null;
             for (int x = 0; x < GlobalConfig.mapChunkSize; x++) {
                 for (int y = 0; y < GlobalConfig.mapChunkSize; y++) {
-                    if (usedChunks.contains(chunk) && chunk.contents[x][y] != null) {
-                        usedChunks.remove(chunk);
+                    if (Application.usedChunks.contains(chunk) && chunk.contents[x][y] != null) {
+                        Application.usedChunks.remove(chunk);
                     }
                 }
             }
@@ -450,16 +469,16 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(final MouseEvent e) {
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
+    public void mouseEntered(final MouseEvent e) {
 
     }
 
     @Override
-    public void mouseExited(MouseEvent e) {
+    public void mouseExited(final MouseEvent e) {
 
     }
 }
