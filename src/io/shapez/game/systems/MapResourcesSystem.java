@@ -16,8 +16,8 @@ public class MapResourcesSystem extends GameSystem {
     public void drawChunk(DrawParameters parameters, MapChunkView chunk) throws IOException {
         BufferedImage basicChunkBackground = this.root.buffers.getForKey("mapresourcebg", chunk.renderKey, GlobalConfig.mapChunkSize, GlobalConfig.mapChunkSize, 1, this, chunk);
         drawSpriteClipped(parameters, basicChunkBackground, chunk.tileX * GlobalConfig.tileSize, chunk.tileY * GlobalConfig.tileSize, GlobalConfig.mapChunkWorldSize, GlobalConfig.mapChunkWorldSize, GlobalConfig.mapChunkSize, GlobalConfig.mapChunkSize);
+        Composite composite = parameters.context.getComposite();
         parameters.context.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .5f));
-
         if (this.root.app.settings.getAllSettings().lowQualityMapResources) {
             for (int i = 0; i < chunk.patches.size(); i++) {
                 MapChunk.Patch patch = chunk.patches.get(i);
@@ -52,7 +52,7 @@ public class MapResourcesSystem extends GameSystem {
                 }
             }
         }
-        parameters.context.setComposite(AlphaComposite.Clear);
+        parameters.context.setComposite(composite);
     }
 
     private void drawSpriteClipped(DrawParameters parameters, BufferedImage sprite, int x, int y, int w, int h, byte originalW, byte originalH) {

@@ -7,8 +7,6 @@ import io.shapez.game.hud.GameHUD;
 import io.shapez.game.savegame.Savegame;
 import io.shapez.game.time.GameTime;
 
-import java.awt.*;
-
 public class GameRoot {
     public final Application app;
     public Savegame savegame = null;

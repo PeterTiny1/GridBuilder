@@ -9,6 +9,7 @@ import io.shapez.game.savegame.Savegame;
 import io.shapez.game.time.GameTime;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.io.IOException;
 
 public class GameCore {
@@ -58,7 +59,7 @@ public class GameCore {
         GameSystemManager systemMgr = root.systemMgr;
 
         root.dynamicTickrate.onFrameRendered();
-        
+
         if (!this.shouldRender()) {
             root.hud.update();
             return;
@@ -77,6 +78,8 @@ public class GameCore {
 
         DrawParameters params = new DrawParameters(context, root.camera.getVisibleRect(), desiredAtlasScale, zoomLevel, root);
 
+        AffineTransform oldTransform = context.getTransform();
+
         root.camera.transform(context);
 
         root.hud.update();
@@ -92,6 +95,8 @@ public class GameCore {
             systemMgr.belt.drawBeltItems(params);
             root.map.drawForeground(params);
         }
+
+        context.setTransform(oldTransform);
     }
 
     private double getDeviceDPI() {
