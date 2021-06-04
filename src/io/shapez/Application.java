@@ -51,6 +51,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     public Direction cRot = Direction.Top;
 
     private boolean shiftPressed;
+    private boolean controlPressed;
 
     private Rectangle heldItem = new Rectangle(0, 0, 0, 0);
     public final Main window;
@@ -227,6 +228,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     @Override
     public void keyPressed(KeyEvent e) {
         shiftPressed |= e.getKeyCode() == KeyEvent.VK_SHIFT;
+        controlPressed |= e.getKeyCode() == KeyEvent.VK_CONTROL;
         if (!pressedKeys.contains(Character.toUpperCase(e.getKeyChar()))) {
             pressedKeys.add(Character.toUpperCase(e.getKeyChar()));
             if (Character.toUpperCase(e.getKeyChar()) == 'R') {
@@ -239,6 +241,10 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
                 System.out.println("Rot from index; " + Direction.values()[rotIndex]);
 
                 cRot = Direction.values()[rotIndex];
+            }
+            System.out.println(e.getKeyChar());
+            if (controlPressed && e.getKeyCode() == KeyEvent.VK_S) {
+                System.out.println("It's supposed to save but I couldn't be bothered");
             }
         }
         char key = e.getKeyChar();
@@ -304,6 +310,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     @Override
     public void keyReleased(KeyEvent e) {
         shiftPressed &= e.getKeyCode() != KeyEvent.VK_SHIFT;
+        controlPressed &= e.getKeyCode() != KeyEvent.VK_CONTROL;
         if (pressedKeys.contains(Character.toUpperCase(e.getKeyChar()))) {
             pressedKeys.remove((Character) Character.toUpperCase(e.getKeyChar()));
         }
