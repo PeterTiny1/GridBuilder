@@ -323,6 +323,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             cRot = chunk.contents[offX][offY].direction;
             rotIndex = (byte) cRot.getValue();
         }
+        UIUtil.updateButtonAppearance();
     }
 
 
