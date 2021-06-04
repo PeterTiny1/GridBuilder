@@ -22,6 +22,7 @@ public class GameCore {
     private final Application app;
     public GameRoot root;
     private double overlayAlpha = 0;
+    private boolean duringLogicUpdate;
 
     public GameCore(final Application app) {
         this.app = app;
@@ -124,5 +125,17 @@ public class GameCore {
         hub.components.StaticMapEntity = new StaticMapEntityComponent(new Vector(-2, -2), 0, 0, new Vector(4, 4), BuildingCodes.getCodeFromBuildingData(new MetaHubBuilding(), BuildingCodes.defaultBuildingVariant, 0));
         this.root.map.placeStaticEntity(hub);
         this.root.entityMgr.registerEntity(hub);
+    }
+
+    public void updateLogic() {
+        final GameRoot root = this.root;
+
+        root.dynamicTickrate.beginTick();
+
+        this.duringLogicUpdate = true;
+
+        root.entityMgr.update();
+
+        root.systemMgr.update();
     }
 }

@@ -15,10 +15,10 @@ public class ItemAcceptorComponent extends Component {
 
     }
 
-    public ItemAcceptorLocatedSlot findMatchingSlot(Vector targetLocalTile, Direction fromLocalDirection) {
-        Direction desiredDirection = Vector.invertDirection(fromLocalDirection);
+    public ItemAcceptorLocatedSlot findMatchingSlot(final Vector targetLocalTile, final Direction fromLocalDirection) {
+        final Direction desiredDirection = Vector.invertDirection(fromLocalDirection);
         for (int slotIndex = 0; slotIndex < this.slots.size(); ++slotIndex) {
-            ItemAcceptorSlot slot = this.slots.get(slotIndex);
+            final ItemAcceptorSlot slot = this.slots.get(slotIndex);
             if (!slot.pos.equals(targetLocalTile)) {
                 continue;
             }
@@ -48,7 +48,7 @@ public class ItemAcceptorComponent extends Component {
         public final int index;
         private final Direction acceptedDirection;
 
-        public ItemAcceptorLocatedSlot(ItemAcceptorSlot slot, int index, Direction acceptedDirection) {
+        public ItemAcceptorLocatedSlot(final ItemAcceptorSlot slot, final int index, final Direction acceptedDirection) {
             this.slot = slot;
             this.index = index;
             this.acceptedDirection = acceptedDirection;
@@ -58,7 +58,7 @@ public class ItemAcceptorComponent extends Component {
     public class ItemConsumptionAnimation {
         public int slotIndex;
         public Direction direction;
-        public double progress;
+        public double animProgress;
         public BaseItem item;
     }
 }

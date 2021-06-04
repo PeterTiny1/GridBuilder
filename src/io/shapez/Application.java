@@ -115,6 +115,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         }
         this.platformWrapper = new PlatformWrapperImpl(this);
         this.core.initNewGame();
+        this.core.root.logicInitialized = true;
+        this.core.updateLogic();
         final javax.swing.Timer timer = new javax.swing.Timer(SettingsManager.tickrateScreen, this);
         timer.start();
     }
@@ -306,13 +308,15 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         final int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
         final int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
 
-        if (chunk.contents[offX][offY] != null) {
+        if (chunk.contents[offX][offY] != null && chunk.contents[offX][offY].tile != null) {
             hasItemSelected = true;
             Application.item = chunk.contents[offX][offY].tile;
             cRot = chunk.contents[offX][offY].direction;
-            rotIndex = (byte) cRot.getValue();
+            if (cRot != null) {
+                rotIndex = (byte) cRot.getValue();
+            }
+            UIUtil.updateButtonAppearance();
         }
-        UIUtil.updateButtonAppearance();
     }
 
 

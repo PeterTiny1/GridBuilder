@@ -16,7 +16,7 @@ public class GameSystemManager {
     MapResourcesSystem mapResources;
     MinerSystem miner;
 
-    public GameSystemManager(GameRoot root) throws IOException {
+    public GameSystemManager(final GameRoot root) throws IOException {
         this.root = root;
         mapResources = new MapResourcesSystem(root);
         belt = new BeltSystem(root);
@@ -27,5 +27,9 @@ public class GameSystemManager {
         staticMapEntities = new StaticMapEntitySystem(root);
         lever = new LeverSystem(root);
         display = new DisplaySystem(root);
+    }
+
+    public void update() {
+        itemAcceptor.update();
     }
 }

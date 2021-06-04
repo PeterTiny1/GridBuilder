@@ -11,37 +11,69 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ItemAcceptorSystem extends GameSystemWithFilter {
-    public ItemAcceptorSystem(GameRoot root) {
+    private int accumulatedTicksWhileInMapOverview;
+
+    public ItemAcceptorSystem(final GameRoot root) {
         super(root, new Component[]{new ItemAcceptorComponent()});
     }
 
-    public void drawChunk(DrawParameters parameters, MapChunkView chunk) throws IOException {
+    public void drawChunk(final DrawParameters parameters, final MapChunkView chunk) throws IOException {
         if (this.root.app.settings.getAllSettings().simplifiedBelts) {
             return;
         }
 
-        ArrayList<Entity> contents = chunk.containedEntitiesByLayer.get(Layer.Regular);
-        for (Entity entity : contents) {
-            ItemAcceptorComponent acceptorComp = entity.components.ItemAcceptor;
+        final ArrayList<Entity> contents = chunk.containedEntitiesByLayer.get(Layer.Regular);
+        for (final Entity entity : contents) {
+            final ItemAcceptorComponent acceptorComp = entity.components.ItemAcceptor;
             if (acceptorComp == null) {
                 continue;
             }
 
-            StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
+            final StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
             for (int animIndex = 0; animIndex < acceptorComp.itemConsumptionAnimations.size(); animIndex++) {
-                ItemAcceptorComponent.ItemConsumptionAnimation anim = acceptorComp.itemConsumptionAnimations.get(animIndex);
+                final ItemAcceptorComponent.ItemConsumptionAnimation anim = acceptorComp.itemConsumptionAnimations.get(animIndex);
 
-                ItemAcceptorComponent.ItemAcceptorSlot slotData = acceptorComp.slots.get(anim.slotIndex);
-                Vector realSlotPos = staticComp.localTileToWorld(slotData.pos);
+                final ItemAcceptorComponent.ItemAcceptorSlot slotData = acceptorComp.slots.get(anim.slotIndex);
+                final Vector realSlotPos = staticComp.localTileToWorld(slotData.pos);
 
                 if (!chunk.tileSpaceRectangle.contains(realSlotPos.x, realSlotPos.y)) {
                     continue;
                 }
 
-                Vector fadeOutDirection = Vector.directionToVector(staticComp.localDirectionToWorld(anim.direction));
-                Vector finalTile = realSlotPos.subScalars(fadeOutDirection.x * (anim.progress / 2 - 0.5),fadeOutDirection.y * (anim.progress / 2 - 0.5));
+                final Vector fadeOutDirection = Vector.directionToVector(staticComp.localDirectionToWorld(anim.direction));
+                final Vector finalTile = realSlotPos.subScalars(fadeOutDirection.x * (anim.animProgress / 2 - 0.5), fadeOutDirection.y * (anim.animProgress / 2 - 0.5));
 
                 anim.item.drawItemCenteredClipped((finalTile.x + 0.5) * GlobalConfig.tileSize, (finalTile.y + 0.5) * GlobalConfig.tileSize, parameters, GlobalConfig.defaultItemDiameter);
+            }
+        }
+    }
+
+    public void update() {
+        if (this.root.app.settings.getAllSettings().simplifiedBelts) {
+            return;
+        }
+
+        if (this.root.camera.getIsMapOverlayActive()) {
+            ++this.accumulatedTicksWhileInMapOverview;
+            return;
+        }
+
+        final int numTicks = 1 + this.accumulatedTicksWhileInMapOverview;
+        final double progress = this.root.dynamicTickrate.deltaSeconds * 2 * this.root.hubGoals.getBeltBaseSpeed() * GlobalConfig.itemSpacingOnBelts * numTicks;
+
+        this.accumulatedTicksWhileInMapOverview = 0;
+
+        for (final Entity entity : this.allEntities) {
+            final ItemAcceptorComponent acceptorComp = entity.components.ItemAcceptor;
+            final ArrayList<ItemAcceptorComponent.ItemConsumptionAnimation> animations = acceptorComp.itemConsumptionAnimations;
+
+            for (int animIndex = 0; animIndex < animations.size(); ++animIndex) {
+                final ItemAcceptorComponent.ItemConsumptionAnimation anim = animations.get(animIndex);
+                anim.animProgress += progress;
+                if (anim.animProgress > 1) {
+                    animations.remove(animIndex);
+                    animIndex -= 1;
+                }
             }
         }
     }

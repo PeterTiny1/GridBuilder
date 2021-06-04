@@ -26,6 +26,7 @@ public class GameRoot {
     public BufferMaintainer buffers = null;
     public Layer currentLayer;
     public boolean gameIsFresh;
+    public boolean logicInitialized = false;
 
     public GameRoot(final Application app) {
         this.app = app;

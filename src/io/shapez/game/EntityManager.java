@@ -30,4 +30,22 @@ public class EntityManager extends BasicSerializableObject {
     private int generateUid() {
         return this.nextUid++;
     }
+
+    public void update() {
+        this.processDestroyList();
+    }
+
+    private void processDestroyList() {
+        for (final Entity entity : this.destroyList) {
+            this.entities.remove(entity);
+//            this.unregisterEntityComponents(entity);
+        }
+        this.destroyList = new ArrayList<>();
+    }
+
+//    private void unregisterEntityComponents(Entity entity) {
+////        for (componentId : entity.components) {
+////            if (entity.components.get())
+////        }
+//    }
 }
