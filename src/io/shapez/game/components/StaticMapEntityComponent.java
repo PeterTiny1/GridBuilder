@@ -78,7 +78,6 @@ public class StaticMapEntityComponent extends Component {
     }
 
     private BuildingCodes.BuildingVariantIdentifier getBuildingDataFromCode(final int code) {
-        System.out.println(code);
         return BuildingCodes.gBuildingVariants.get(code);
     }
 

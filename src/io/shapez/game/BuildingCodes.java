@@ -26,7 +26,6 @@ public class BuildingCodes {
         for (final Integer code : BuildingCodes.gBuildingVariants.keySet()) {
             final BuildingVariantIdentifier data = BuildingCodes.gBuildingVariants.get(code);
             final String hash = data.metaBuilding.getId() + "/" + data.variant + "/" + data.rotationVariant;
-            System.out.println(hash);
             BuildingCodes.variantsCache.put(hash, code);
         }
     }
