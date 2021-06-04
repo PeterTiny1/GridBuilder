@@ -24,12 +24,12 @@ public class StaticMapEntityComponent extends Component {
         this.originalRotation = originalRotation;
     }
 
-    public StaticMapEntityComponent(final Vector origin, final int rotation, final int originalRotation, final Vector vector, final int i) {
+    public StaticMapEntityComponent(final Vector origin, final int rotation, final int originalRotation, final Vector vector, final int code) {
         super();
         this.origin = origin;
         this.rotation = (short) rotation;
         this.originalRotation = (short) originalRotation;
-
+        this.code = code;
     }
 
     public Vector localTileToWorld(final Vector localTile) {
@@ -78,6 +78,7 @@ public class StaticMapEntityComponent extends Component {
     }
 
     private BuildingCodes.BuildingVariantIdentifier getBuildingDataFromCode(final int code) {
+        System.out.println(code);
         return BuildingCodes.gBuildingVariants.get(code);
     }
 

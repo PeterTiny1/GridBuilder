@@ -12,12 +12,22 @@ public class EntityManager extends BasicSerializableObject {
     HashMap<String, ArrayList<Entity>> componentToEntity = new HashMap<>();
     int nextUid = 10000;
 
-    public EntityManager(GameRoot root) {
+    public EntityManager(final GameRoot root) {
         this.root = root;
     }
 
     @Override
     protected String getId() {
         return null;
+    }
+
+    public void registerEntity(final Entity entity) {
+        this.entities.add(entity);
+
+        entity.uid = this.generateUid();
+    }
+
+    private int generateUid() {
+        return this.nextUid++;
     }
 }

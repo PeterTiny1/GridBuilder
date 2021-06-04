@@ -5,6 +5,7 @@ import io.shapez.core.BufferMaintainer;
 import io.shapez.core.DrawParameters;
 import io.shapez.core.Layer;
 import io.shapez.core.Vector;
+import io.shapez.game.buildings.MetaHubBuilding;
 import io.shapez.game.components.StaticMapEntityComponent;
 import io.shapez.game.hud.GameHUD;
 import io.shapez.game.modes.RegularGameMode;
@@ -120,6 +121,8 @@ public class GameCore {
         this.root.map.seed = new Random().nextInt(10000);
         final Entity hub = new Entity(); // new MetaHubBuilding(root, new Vector(-2, -2), 0, 0, 0, "default");
         hub.layer = Layer.Regular;
-        hub.addComponent(new StaticMapEntityComponent(new Vector(-2, -2), 0, 0, new Vector(4, 4), 26));
+        hub.components.StaticMapEntity = new StaticMapEntityComponent(new Vector(-2, -2), 0, 0, new Vector(4, 4), BuildingCodes.getCodeFromBuildingData(new MetaHubBuilding(), BuildingCodes.defaultBuildingVariant, 0));
+        this.root.map.placeStaticEntity(hub);
+        this.root.entityMgr.registerEntity(hub);
     }
 }

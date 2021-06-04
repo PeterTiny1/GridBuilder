@@ -3,7 +3,6 @@ package io.shapez.game;
 import io.shapez.core.Direction;
 import io.shapez.core.Layer;
 import io.shapez.core.Tile;
-import io.shapez.game.components.StaticMapEntityComponent;
 
 public class Entity {
     public int x, y;
@@ -22,9 +21,5 @@ public class Entity {
 
     public Entity() {
 
-    }
-
-    public void addComponent(StaticMapEntityComponent staticMapEntityComponent) {
-        
     }
 }

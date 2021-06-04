@@ -99,6 +99,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             System.err.println("!!! Failed to load config !!!");
         }
 
+        BuildingCodes.buildBuildingCodeCache();
+
         MoreWindow.application = this;
         core.initializeRoot(this.savegame);
         MoreWindow.init(core.root);
