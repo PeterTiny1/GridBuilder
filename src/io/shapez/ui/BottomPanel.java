@@ -12,10 +12,10 @@ import static io.shapez.managers.providers.MiscProvider.defDimensionBtn;
 
 public class BottomPanel extends JPanel {
     private final Application application;
-    public static JButton beltButton = new JButton();
-    public static JButton minerButton = new JButton();
-    public static JButton trashButton = new JButton();
-    public static JButton rotatorButton = new JButton();
+    public static final JButton beltButton = new JButton();
+    public static final JButton minerButton = new JButton();
+    public static final JButton trashButton = new JButton();
+    public static final JButton rotatorButton = new JButton();
     public static JButton lowerLayerButton = new JButton();
 
     public BottomPanel(Application application) {
@@ -70,7 +70,7 @@ public class BottomPanel extends JPanel {
         if (Application.item == item) {
             Application.item = Tile.None;
             application.hasItemSelected = false;
-            System.out.println("Already selected. Now selected: " + Application.item.toString());
+            System.out.println("Already selected. Now selected: " + Application.item);
             UIUtil.updateButtonAppearance();
             return;
         }

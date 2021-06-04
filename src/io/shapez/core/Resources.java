@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 
 public class Resources {
 
@@ -41,7 +42,7 @@ public class Resources {
 
 
     // Solid colors
-    public static BufferedImage solidRed = new BufferedImage(40, 40, BufferedImage.TYPE_INT_RGB);
+    public static final BufferedImage solidRed = new BufferedImage(40, 40, BufferedImage.TYPE_INT_RGB);
 
 
     // Make sure to run with these jvm options:
@@ -52,15 +53,15 @@ public class Resources {
         try {
             long t1 = System.nanoTime();
             System.out.println("[Resources] Initializing...");
-            logo = new ImageIcon(Resources.class.getResource("/ui/logo.png"));
-            settingsImage = ImageIO.read(Resources.class.getResource("/ui/settings.png"));
-            saveImage = ImageIO.read(Resources.class.getResource("/ui/save.png"));
-            loadImage = ImageIO.read(Resources.class.getResource("/ui/open.png"));
-            clearImage = ImageIO.read(Resources.class.getResource("/ui/remove.png"));
-            ui_beltImage = ImageIO.read(Resources.class.getResource("/ui/belt.png"));
-            ui_minerImage = ImageIO.read(Resources.class.getResource("/ui/miner.png"));
-            ui_trashImage = ImageIO.read(Resources.class.getResource("/ui/trash.png"));
-            ui_rotatorImage = ImageIO.read(Resources.class.getResource("/ui/rotator.png"));
+            logo = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/ui/logo.png")));
+            settingsImage = ImageIO.read(Objects.requireNonNull(Resources.class.getResource("/ui/settings.png")));
+            saveImage = ImageIO.read(Objects.requireNonNull(Resources.class.getResource("/ui/save.png")));
+            loadImage = ImageIO.read(Objects.requireNonNull(Resources.class.getResource("/ui/open.png")));
+            clearImage = ImageIO.read(Objects.requireNonNull(Resources.class.getResource("/ui/remove.png")));
+            ui_beltImage = ImageIO.read(Objects.requireNonNull(Resources.class.getResource("/ui/belt.png")));
+            ui_minerImage = ImageIO.read(Objects.requireNonNull(Resources.class.getResource("/ui/miner.png")));
+            ui_trashImage = ImageIO.read(Objects.requireNonNull(Resources.class.getResource("/ui/trash.png")));
+            ui_rotatorImage = ImageIO.read(Objects.requireNonNull(Resources.class.getResource("/ui/rotator.png")));
 
             beltPlaceSound = Resources.class.getResource("/sound/place_belt.wav");
             generic_placeTileSound = Resources.class.getResource("/sound/place_building.wav");
@@ -69,12 +70,12 @@ public class Resources {
             uiSuccessSound = Resources.class.getResource("/sound/uisuccess.wav");
             uiDenySound = Resources.class.getResource("/sound/uierror.wav");
 
-            vignette = ImageIO.read(Resources.class.getResource("/vignette.lossless.png"));
-            missingTexture = ImageIO.read(Resources.class.getResource("/missing.png"));
-            belt = ImageIO.read(Resources.class.getResource("/sprites/belt/forward_0.png"));
-            miner = ImageIO.read(Resources.class.getResource("/sprites/miner.png"));
-            trash = ImageIO.read(Resources.class.getResource("/sprites/trash.png"));
-            rotator = ImageIO.read(Resources.class.getResource("/sprites/rotator.png"));
+            vignette = ImageIO.read(Objects.requireNonNull(Resources.class.getResource("/vignette.lossless.png")));
+            missingTexture = ImageIO.read(Objects.requireNonNull(Resources.class.getResource("/missing.png")));
+            belt = ImageIO.read(Objects.requireNonNull(Resources.class.getResource("/sprites/belt/forward_0.png")));
+            miner = ImageIO.read(Objects.requireNonNull(Resources.class.getResource("/sprites/miner.png")));
+            trash = ImageIO.read(Objects.requireNonNull(Resources.class.getResource("/sprites/trash.png")));
+            rotator = ImageIO.read(Objects.requireNonNull(Resources.class.getResource("/sprites/rotator.png")));
 
             Graphics2D _gfx = solidRed.createGraphics();
             _gfx.setPaint(new Color(255, 0, 0));

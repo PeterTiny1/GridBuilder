@@ -10,11 +10,11 @@ import java.awt.*;
 import static io.shapez.managers.providers.MiscProvider.defDimensionBtn;
 
 public class TopPanel extends JPanel {
-    JButton settingsButton = new JButton();
+    final JButton settingsButton = new JButton();
 
-    public static JLabel selectedILabel_Name = new JLabel();
-    public static JLabel selectedILabel_Description = new JLabel();
-    public static JLabel selectedILabel_Hotkey = new JLabel();
+    public static final JLabel selectedILabel_Name = new JLabel();
+    public static final JLabel selectedILabel_Description = new JLabel();
+    public static final JLabel selectedILabel_Hotkey = new JLabel();
 
     void showSettings() {
         SoundManager.playSound(Resources.uiClickSound);

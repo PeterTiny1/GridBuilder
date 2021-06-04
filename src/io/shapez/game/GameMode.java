@@ -7,7 +7,7 @@ public abstract class GameMode {
     public abstract HashMap<String, UpgradeTiers> getUpgrades();
 
     public class UpgradeTiers {
-        ArrayList<TierRequirement> required;
+        final ArrayList<TierRequirement> required;
 
         public UpgradeTiers(ArrayList<TierRequirement> required) {
             this.required = required;
@@ -30,8 +30,8 @@ public abstract class GameMode {
     }
 
     public class UpgradeRequirement {
-        String shape;
-        int amount;
+        final String shape;
+        final int amount;
 
         public UpgradeRequirement(String shape, int amount) {
             this.shape = shape;

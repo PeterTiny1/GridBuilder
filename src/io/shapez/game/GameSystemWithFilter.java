@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class GameSystemWithFilter extends GameSystem {
     private final Component[] requiredComponents;
-    ArrayList<String> requiredComponentIds = new ArrayList<>();
+    final ArrayList<String> requiredComponentIds = new ArrayList<>();
     ArrayList<Entity> allEntities = new ArrayList<>();
 
     public GameSystemWithFilter(GameRoot root, Component[] requiredComponents) {

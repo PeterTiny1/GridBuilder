@@ -6,7 +6,7 @@ public class WireSystem {
     public class WireNetwork {
 
         public BaseItem currentValue = null;
-        private boolean valueConflict = false;
+        private final boolean valueConflict = false;
 
         public boolean hasValue() {
             return this.currentValue != null && !this.valueConflict;

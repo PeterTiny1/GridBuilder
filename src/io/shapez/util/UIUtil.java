@@ -12,54 +12,47 @@ import static io.shapez.managers.providers.MiscProvider.*;
 public class UIUtil {
 
     public static String getProcTitle(byte type) {
-        String msg = moreWndName;
-        // I forgot Java doesnt have pointers XD
-        switch (type) {
-            case OP_SAVE:
-                msg = msg.concat(" - Saving");
-                break;
-            case OP_LOAD:
-                msg = msg.concat(" - Loading");
-                break;
-            case OP_CLEAR:
-                msg = msg.concat(" - Clearing");
-                break;
-        }
-        return msg;
+        return switch (type) {
+            case OP_SAVE -> moreWndName.concat(" - Saving");
+            case OP_LOAD -> moreWndName.concat(" - Loading");
+            case OP_CLEAR -> moreWndName.concat(" - Clearing");
+            default -> moreWndName;
+            // I forgot Java doesnt have pointers XD
+        };
     }
 
     public static void updateButtonAppearance() {
         switch (Application.item) {
-            case None:
+            case None -> {
                 BottomPanel.minerButton.setSelected(false);
                 BottomPanel.beltButton.setSelected(false);
                 BottomPanel.trashButton.setSelected(false);
                 BottomPanel.rotatorButton.setSelected(false);
-                break;
-            case Belt:
+            }
+            case Belt -> {
                 BottomPanel.minerButton.setSelected(false);
                 BottomPanel.trashButton.setSelected(false);
                 BottomPanel.rotatorButton.setSelected(false);
                 BottomPanel.beltButton.setSelected(true);
-                break;
-            case Miner:
+            }
+            case Miner -> {
                 BottomPanel.beltButton.setSelected(false);
                 BottomPanel.trashButton.setSelected(false);
                 BottomPanel.rotatorButton.setSelected(false);
                 BottomPanel.minerButton.setSelected(true);
-                break;
-            case Trash:
+            }
+            case Trash -> {
                 BottomPanel.beltButton.setSelected(false);
                 BottomPanel.minerButton.setSelected(false);
                 BottomPanel.rotatorButton.setSelected(false);
                 BottomPanel.trashButton.setSelected(true);
-                break;
-            case Rotator:
+            }
+            case Rotator -> {
                 BottomPanel.minerButton.setSelected(false);
                 BottomPanel.beltButton.setSelected(false);
                 BottomPanel.trashButton.setSelected(false);
                 BottomPanel.rotatorButton.setSelected(true);
-                break;
+            }
         }
         TopPanel.selectedILabel_Name.setText(EntityTutorial.GetTitle(Application.item));
         TopPanel.selectedILabel_Description.setText(EntityTutorial.GetDescription(Application.item));

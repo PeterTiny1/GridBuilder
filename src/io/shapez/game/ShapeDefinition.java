@@ -5,7 +5,7 @@ import io.shapez.game.savegame.BasicSerializableObject;
 import java.util.ArrayList;
 
 public class ShapeDefinition extends BasicSerializableObject {
-    ArrayList<ShapeLayer> layers = new ArrayList<ShapeLayer>();
+    ArrayList<ShapeLayer> layers = new ArrayList<>();
 
     @Override
     protected String getId() {

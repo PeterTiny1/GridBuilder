@@ -8,7 +8,7 @@ public class EntityTutorial {
 
     protected static Random rng = new Random();
 
-    public static String[] descriptions = {
+    public static final String[] descriptions = {
             "Used to transport items", //  How to use: descriptions[tileIndex]
             "Used to extract items",
             "Used to delete items",

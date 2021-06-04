@@ -1,6 +1,5 @@
 package io.shapez.game.systems;
 
-import io.shapez.core.Direction;
 import io.shapez.core.DrawParameters;
 import io.shapez.core.Layer;
 import io.shapez.core.Vector;

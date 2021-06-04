@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.TimerTask;
 
 public class BackgroundTimer extends TimerTask {
-    private long time;
+    private final long time;
     private final Application application;
     Date date = new Date();
     private final GameCore core;

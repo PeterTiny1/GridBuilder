@@ -9,7 +9,7 @@ import java.util.Date;
 public class Savegame extends ReadWriteProxy {
     private final String internalId;
     private final String metaDataRef;
-    SavegameData currentData = this.getDefaultData();
+    final SavegameData currentData = this.getDefaultData();
     Date date = new Date();
 
     public SavegameData getDefaultData() {

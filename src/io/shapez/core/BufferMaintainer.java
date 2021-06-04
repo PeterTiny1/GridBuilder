@@ -11,8 +11,8 @@ import java.util.HashMap;
 
 public class BufferMaintainer {
     private final GameRoot root;
-    HashMap<String, HashMap<String, CacheEntry>> cache = new HashMap<>();
-    int iterationIndex = 1;
+    final HashMap<String, HashMap<String, CacheEntry>> cache = new HashMap<>();
+    final int iterationIndex = 1;
     int lastIteration = 0;
 
     public BufferMaintainer(GameRoot root) {
@@ -44,7 +44,7 @@ public class BufferMaintainer {
     static class CacheEntry {
         private final Graphics2D context;
         public int lastUse;
-        public BufferedImage canvas;
+        public final BufferedImage canvas;
 
         public CacheEntry(BufferedImage canvas, Graphics2D context, int lastUse) {
             this.canvas = canvas;

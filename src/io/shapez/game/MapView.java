@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class MapView extends BaseMap {
-    byte backgroundCacheDPI = 2;
+    final byte backgroundCacheDPI = 2;
     BufferedImage cachedBackgroundBuffer = null;
 
     public MapView(GameRoot root) {

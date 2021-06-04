@@ -7,7 +7,7 @@ import java.awt.*;
 import java.io.IOException;
 
 public abstract class BaseItem {
-    public boolean renderFloatingItems = true;
+    public final boolean renderFloatingItems = true;
 //    public BooleanItem value;
 
     public void drawItemCenteredClipped(double x, double y, DrawParameters parameters, double diameter) throws IOException {

@@ -15,17 +15,18 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class DisplaySystem extends GameSystemWithFilter {
-    HashMap<Colors, BufferedImage> displaySprites = new HashMap<>() {{
+    final HashMap<Colors, BufferedImage> displaySprites = new HashMap<>() {{
         try {
-            put(Colors.white, ImageIO.read(this.getClass().getResource("/sprites/wires/display/white.png")));
-            put(Colors.blue, ImageIO.read(this.getClass().getResource("/sprites/wires/display/blue.png")));
-            put(Colors.cyan, ImageIO.read(this.getClass().getResource("/sprites/wires/display/cyan.png")));
-            put(Colors.green, ImageIO.read(this.getClass().getResource("/sprites/wires/display/green.png")));
-            put(Colors.purple, ImageIO.read(this.getClass().getResource("/sprites/wires/display/purple.png")));
-            put(Colors.red, ImageIO.read(this.getClass().getResource("/sprites/wires/display/red.png")));
-            put(Colors.yellow, ImageIO.read(this.getClass().getResource("/sprites/wires/display/yellow.png")));
+            put(Colors.white, ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/sprites/wires/display/white.png"))));
+            put(Colors.blue, ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/sprites/wires/display/blue.png"))));
+            put(Colors.cyan, ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/sprites/wires/display/cyan.png"))));
+            put(Colors.green, ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/sprites/wires/display/green.png"))));
+            put(Colors.purple, ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/sprites/wires/display/purple.png"))));
+            put(Colors.red, ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/sprites/wires/display/red.png"))));
+            put(Colors.yellow, ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/sprites/wires/display/yellow.png"))));
         } catch (IOException e) {
             e.printStackTrace();
         }

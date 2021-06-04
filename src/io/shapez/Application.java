@@ -30,17 +30,17 @@ import static io.shapez.managers.providers.MiscProvider.getRandomTitlebar;
 
 public class Application extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener {
     // UI
-    public BottomPanel centerPanel = new BottomPanel(this);
-    public TopPanel topPanel = new TopPanel();
+    public final BottomPanel centerPanel = new BottomPanel(this);
+    public final TopPanel topPanel = new TopPanel();
     public PlatformWrapperInterface platformWrapper;
-    public ApplicationSettings settings = new ApplicationSettings(this);
-    public boolean visible = true;
-    public RestrictionManager restrictionMgr = new RestrictionManager(this);
+    public final ApplicationSettings settings = new ApplicationSettings(this);
+    public final boolean visible = true;
+    public final RestrictionManager restrictionMgr = new RestrictionManager(this);
 
     private int scale = 40;
     private int offsetX, offsetY;
     public final ArrayList<Character> pressedKeys = new ArrayList<>();
-    public static java.util.List<MapChunk> usedChunks = Collections.synchronizedList(new ArrayList<>());
+    public static final java.util.List<MapChunk> usedChunks = Collections.synchronizedList(new ArrayList<>());
     private int gridOffsetX, gridOffsetY;
     private int previousMX, previousMY;
     public boolean hasItemSelected = false;
@@ -55,9 +55,9 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
     private Rectangle heldItem = new Rectangle(0, 0, 0, 0);
     public final Main window;
-    GameCore core = new GameCore(this);
-    Savegame savegame = null;
-    public Date date = new Date();
+    final GameCore core = new GameCore(this);
+    final Savegame savegame = null;
+    public final Date date = new Date();
     private long time;
 
     public Application(Main window) throws IOException {

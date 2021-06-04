@@ -26,10 +26,10 @@ public class Camera {
     private int numTicksStandingStill;
     private Vector lastMovingPosition;
     private Vector center = new Vector(0, 0);
-    private Vector desiredPan = new Vector(0, 0);
+    private final Vector desiredPan = new Vector(0, 0);
     private Vector currentPan = new Vector(0, 0);
     public double zoomLevel;
-    private Vector currentShake = new Vector(0, 0);
+    private final Vector currentShake = new Vector(0, 0);
     private double desiredZoom;
 
     public Camera(GameRoot root, Application application) {

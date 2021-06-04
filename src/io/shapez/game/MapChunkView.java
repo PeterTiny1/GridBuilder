@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class MapChunkView extends MapChunk {
     public String renderKey;
-    public HashMap<Layer, ArrayList<Entity>> containedEntitiesByLayer = new HashMap<>() {{
+    public final HashMap<Layer, ArrayList<Entity>> containedEntitiesByLayer = new HashMap<>() {{
         put(Layer.Regular, new ArrayList<>());
         put(Layer.Wires, new ArrayList<>());
     }};

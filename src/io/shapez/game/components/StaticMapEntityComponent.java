@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class StaticMapEntityComponent extends Component {
-    public Vector origin;
+    public final Vector origin;
     public short rotation;
     public int code;
     public final short originalRotation;
@@ -149,7 +149,7 @@ public class StaticMapEntityComponent extends Component {
         private final int rotationVariant;
         private final Layer variant;
         private final MetaBuilding meta;
-        public Vector tileSize;
+        public final Vector tileSize;
         public BufferedImage image;
 
         public BuildingVariantIdentifier(MetaBuilding meta, Layer variant, int rotationVariant, Vector tileSize) {

@@ -5,8 +5,8 @@ import io.shapez.game.GlobalConfig;
 import java.awt.*;
 
 public class Vector {
-    static int tileSize = GlobalConfig.tileSize;
-    static int halfTileSize = GlobalConfig.halfTileSize;
+    static final int tileSize = GlobalConfig.tileSize;
+    static final int halfTileSize = GlobalConfig.halfTileSize;
     public double x;
     public double y;
     double xy;

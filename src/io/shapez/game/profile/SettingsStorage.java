@@ -1,14 +1,14 @@
 package io.shapez.game.profile;
 
 public class SettingsStorage {
-    public String refreshRate = "60";
-    public ApplicationSettings.AutosaveInterval autosaveInterval = ApplicationSettings.AutosaveInterval.two_minutes;
-    public boolean offerHints = true;
-    public boolean vignette = true;
-    public boolean enableColorBlindHelper = false;
-    public boolean lowQualityTextures = false;
-    public boolean disableTileGrid = false;
-    public boolean displayChunkBorders = true;
-    public boolean lowQualityMapResources = false;
-    public boolean simplifiedBelts = false;
+    public final String refreshRate = "60";
+    public final ApplicationSettings.AutosaveInterval autosaveInterval = ApplicationSettings.AutosaveInterval.two_minutes;
+    public final boolean offerHints = true;
+    public final boolean vignette = true;
+    public final boolean enableColorBlindHelper = false;
+    public final boolean lowQualityTextures = false;
+    public final boolean disableTileGrid = false;
+    public final boolean displayChunkBorders = true;
+    public final boolean lowQualityMapResources = false;
+    public final boolean simplifiedBelts = false;
 }

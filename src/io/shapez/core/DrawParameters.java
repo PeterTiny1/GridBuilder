@@ -5,7 +5,7 @@ import io.shapez.game.GameRoot;
 import java.awt.*;
 
 public class DrawParameters {
-    public Graphics2D context;
+    public final Graphics2D context;
     public final Rectangle visibleRect;
     public final String desiredAtlasScale;
     public final double zoomLevel;

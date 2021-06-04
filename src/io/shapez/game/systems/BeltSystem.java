@@ -14,10 +14,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
 
 import static io.shapez.game.buildings.MetaBeltBuilding.arrayBeltVariantToRotation;
 
@@ -25,14 +22,14 @@ public class BeltSystem extends GameSystemWithFilter {
     private final HashMap<Direction, ArrayList<BufferedImage>> beltAnimations;
     private final HashMap<Direction, BufferedImage> beltSprites;
     public static final byte BELT_ANIM_COUNT = 14;
-    ArrayList<BeltPath> beltPaths = new ArrayList<>();
+    final ArrayList<BeltPath> beltPaths = new ArrayList<>();
 
     public BeltSystem(GameRoot root) throws IOException {
         super(root, new Component[]{new BeltComponent(null)});
         beltSprites = new HashMap<>() {{
-            put(Direction.Top, ImageIO.read(BeltSystem.class.getResource("/sprites/belt/forward_0.png")));
-            put(Direction.Left, ImageIO.read(BeltSystem.class.getResource("/sprites/belt/left_0.png")));
-            put(Direction.Right, ImageIO.read(BeltSystem.class.getResource("/sprites/belt/right_0.png")));
+            put(Direction.Top, ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/forward_0.png"))));
+            put(Direction.Left, ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/left_0.png"))));
+            put(Direction.Right, ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/right_0.png"))));
         }};
         beltAnimations = new HashMap<>() {{
             put(Direction.Top, new ArrayList<>());
@@ -40,9 +37,9 @@ public class BeltSystem extends GameSystemWithFilter {
             put(Direction.Right, new ArrayList<>());
         }};
         for (int i = 0; i < BELT_ANIM_COUNT; i++) {
-            this.beltAnimations.get(Direction.Top).add(ImageIO.read(BeltSystem.class.getResource("/sprites/belt/forward_" + i + ".png")));
-            this.beltAnimations.get(Direction.Left).add(ImageIO.read(BeltSystem.class.getResource("/sprites/belt/left_" + i + ".png")));
-            this.beltAnimations.get(Direction.Right).add(ImageIO.read(BeltSystem.class.getResource("/sprites/belt/right_" + i + ".png")));
+            this.beltAnimations.get(Direction.Top).add(ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/forward_" + i + ".png"))));
+            this.beltAnimations.get(Direction.Left).add(ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/left_" + i + ".png"))));
+            this.beltAnimations.get(Direction.Right).add(ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/right_" + i + ".png"))));
         }
     }
 
@@ -105,7 +102,7 @@ public class BeltSystem extends GameSystemWithFilter {
                         continue;
                     }
                     String defaultBuildingVariant = "default";
-                    short[] rotations = metaBelt.computeOptimalDirectionAndRotationVariantAtTile(new Vector(x, y), targetStaticComp.originalRotation, defaultBuildingVariant, targetEntity.layer);
+                    short[] rotations = Objects.requireNonNull(metaBelt).computeOptimalDirectionAndRotationVariantAtTile(new Vector(x, y), targetStaticComp.originalRotation, defaultBuildingVariant, targetEntity.layer);
                     Direction newDirection = arrayBeltVariantToRotation[rotations[1]];
                     if (targetStaticComp.rotation != rotations[0] || newDirection != targetBeltComp.direction) {
                         BeltPath originalPath = targetBeltComp.assignedPath;

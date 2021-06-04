@@ -19,11 +19,11 @@ public class MoreWindow extends JFrame {
 
     private static boolean initialised = false;
 
-    public static JFrame L_moreFrame = new JFrame(moreWndName);
-    public static JButton saveButton = new JButton();
-    public static JButton loadButton = new JButton();
-    public static JButton clearButton = new JButton();
-    public static JPanel L_ioPanel = new JPanel();
+    public static final JFrame L_moreFrame = new JFrame(moreWndName);
+    public static final JButton saveButton = new JButton();
+    public static final JButton loadButton = new JButton();
+    public static final JButton clearButton = new JButton();
+    public static final JPanel L_ioPanel = new JPanel();
 
     private static void ResetTitle() {
         L_moreFrame.setTitle(gameName);

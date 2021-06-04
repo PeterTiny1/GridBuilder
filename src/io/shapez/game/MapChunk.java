@@ -14,13 +14,13 @@ import java.util.Random;
 public class MapChunk {
     public final int tileX;
     public final int tileY;
-    public GameRoot root;
+    public final GameRoot root;
     public final int x, y;
-    public ArrayList<Patch> patches = new ArrayList<>();
-    public Rectangle tileSpaceRectangle;
+    public final ArrayList<Patch> patches = new ArrayList<>();
+    public final Rectangle tileSpaceRectangle;
     Rectangle drawn;
-    public BaseItem[][] lowerLayer;
-    public Entity[][] contents;
+    public final BaseItem[][] lowerLayer;
+    public final Entity[][] contents;
     private Entity[][] wireContents;
 
 

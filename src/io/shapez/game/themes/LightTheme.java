@@ -6,13 +6,13 @@ public class LightTheme {
     String uiStyle = "light";
 
     public static class Map {
-        public static Color background = new Color(0xFFFFFF);
-        public static Color grid = new Color(0xFAFAFA);
-        public static int gridLineWidth = 1;
+        public static final Color background = new Color(0xFFFFFF);
+        public static final Color grid = new Color(0xFAFAFA);
+        public static final int gridLineWidth = 1;
         String selectionOverlay = "rgba(74, 163, 223, 0.7)";
         String selectionOutline = "rgba(74, 163, 223, 0.5)";
         String selectionBackground = "rgba(74, 163, 223, 0.2)";
-        public static Color chunkBorders = new Color(0.0f, 30 / 256.0f, 50/256.0f, 0.03f);
+        public static final Color chunkBorders = new Color(0.0f, 30 / 256.0f, 50/256.0f, 0.03f);
 
         public static class DirectionLock {
             public static class Regular {

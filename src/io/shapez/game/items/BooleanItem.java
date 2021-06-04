@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class BooleanItem extends BaseItem {
     public boolean value;
@@ -15,9 +16,9 @@ public class BooleanItem extends BaseItem {
     protected void drawItemCenteredImpl(double x, double y, DrawParameters parameters, double diameter) throws IOException {
         BufferedImage sprite;
         if (this.value) {
-            sprite = ImageIO.read(this.getClass().getResource("/sprites/wires/boolean_true.png"));
+            sprite = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/sprites/wires/boolean_true.png")));
         } else {
-            sprite = ImageIO.read(this.getClass().getResource("/sprites/wires/boolean_false.png"));
+            sprite = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/sprites/wires/boolean_false.png")));
         }
         drawCachedCentered(sprite, parameters, x, y, diameter);
     }

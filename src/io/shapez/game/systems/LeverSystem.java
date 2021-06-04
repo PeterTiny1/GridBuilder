@@ -9,10 +9,11 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class LeverSystem extends GameSystemWithFilter {
-    private final BufferedImage spriteOn = ImageIO.read(LeverSystem.class.getResource("/sprites/wires/lever_on.png"));
-    private final BufferedImage spriteOff = ImageIO.read(LeverSystem.class.getResource("/sprites/wires/lever.png"));
+    private final BufferedImage spriteOn = ImageIO.read(Objects.requireNonNull(LeverSystem.class.getResource("/sprites/wires/lever_on.png")));
+    private final BufferedImage spriteOff = ImageIO.read(Objects.requireNonNull(LeverSystem.class.getResource("/sprites/wires/lever.png")));
 
     public LeverSystem(GameRoot root) throws IOException {
         super(root, new Component[]{new LeverComponent()});
