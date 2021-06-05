@@ -12,7 +12,7 @@ public class LightTheme {
         String selectionOverlay = "rgba(74, 163, 223, 0.7)";
         String selectionOutline = "rgba(74, 163, 223, 0.5)";
         String selectionBackground = "rgba(74, 163, 223, 0.2)";
-        public static final Color chunkBorders = new Color(0.0f, 30 / 256.0f, 50/256.0f, 0.03f);
+        public static final Color chunkBorders = new Color(0.0f, 30 / 256.0f, 50 / 256.0f, 0.03f);
 
         public static class DirectionLock {
             public static class Regular {
@@ -29,8 +29,8 @@ public class LightTheme {
         String colorBlindPickerTile = "rgba(50, 50, 50, 0.4)";
 
         public static class Resources {
-            String shape = "#eaebec";
-            String red = "#ffbfc1";
+            public static Color shape = new Color(0xeaebec);
+            public static Color red = new Color(0xffbfc1);
             String green = "#cbffc4";
             String blue = "#bfdaff";
         }
@@ -58,7 +58,7 @@ public class LightTheme {
     public static class Items {
         String outline = "#55575a";
         double outlineWidth = 0.75;
-        String circleBackground = "rgba(40, 50, 65, 0.1)";
+        public static final Color circleBackground = new Color(40, 50, 65, 25);
     }
 }
 

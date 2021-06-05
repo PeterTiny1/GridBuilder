@@ -24,7 +24,7 @@ public class BeltSystem extends GameSystemWithFilter {
     public static final byte BELT_ANIM_COUNT = 14;
     final ArrayList<BeltPath> beltPaths = new ArrayList<>();
 
-    public BeltSystem(GameRoot root) throws IOException {
+    public BeltSystem(final GameRoot root) throws IOException {
         super(root, new Component[]{new BeltComponent(null)});
         beltSprites = new HashMap<>() {{
             put(Direction.Top, ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/forward_0.png"))));
@@ -36,7 +36,7 @@ public class BeltSystem extends GameSystemWithFilter {
             put(Direction.Left, new ArrayList<>());
             put(Direction.Right, new ArrayList<>());
         }};
-        for (int i = 0; i < BELT_ANIM_COUNT; i++) {
+        for (int i = 0; i < BeltSystem.BELT_ANIM_COUNT; i++) {
             this.beltAnimations.get(Direction.Top).add(ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/forward_" + i + ".png"))));
             this.beltAnimations.get(Direction.Left).add(ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/left_" + i + ".png"))));
             this.beltAnimations.get(Direction.Right).add(ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/right_" + i + ".png"))));
@@ -44,25 +44,25 @@ public class BeltSystem extends GameSystemWithFilter {
     }
 
     public Object[] serializePaths() {
-        ArrayList<Object> data = new ArrayList<>();
-        for (BeltPath beltPath : this.beltPaths) {
+        final ArrayList<Object> data = new ArrayList<>();
+        for (final BeltPath beltPath : this.beltPaths) {
             data.add(beltPath.serialize());
         }
         return data.toArray();
     }
 
-    public void onEntityDestroyed(Entity entity) {
+    public void onEntityDestroyed(final Entity entity) {
         if (entity.components.Belt == null) {
             return;
         }
 
-        BeltPath assignedPath = entity.components.Belt.assignedPath;
+        final BeltPath assignedPath = entity.components.Belt.assignedPath;
         assert assignedPath != null;
 
         this.deleteEntityFromPath(assignedPath, entity);
     }
 
-    private void deleteEntityFromPath(BeltPath path, Entity entity) {
+    private void deleteEntityFromPath(final BeltPath path, final Entity entity) {
         if (path.entityPath.size() == 1) {
             this.beltPaths.remove(path);
             return;
@@ -73,20 +73,20 @@ public class BeltSystem extends GameSystemWithFilter {
         } else if (path.isEndEntity(entity)) {
             path.deleteEntityOnEnd(entity);
         } else {
-            BeltPath newPath = path.deleteEntityOnPathsSplitIntoTwo(entity); // great name :D
+            final BeltPath newPath = path.deleteEntityOnPathsSplitIntoTwo(entity); // great name :D
             this.beltPaths.add(newPath);
         }
     }
 
-    public void updateSurroundingBeltPlacement(Entity entity) {
-        StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
+    public void updateSurroundingBeltPlacement(final Entity entity) {
+        final StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
         if (staticComp == null) return;
-        SingletonFactory<MetaBuilding> gMetaBuildingRegistry = new SingletonFactory<>();
-        MetaBeltBuilding metaBelt = (MetaBeltBuilding) gMetaBuildingRegistry.findByClass(new MetaBeltBuilding());
-        Rectangle originalRect = staticComp.getTileSpaceBounds();
-        Rectangle affectedArea = staticComp.getTileSpaceBounds()/*originalRect.expandedInAllDirections(1)*/;
+        final SingletonFactory<MetaBuilding> gMetaBuildingRegistry = new SingletonFactory<>();
+        final MetaBeltBuilding metaBelt = (MetaBeltBuilding) gMetaBuildingRegistry.findByClass(new MetaBeltBuilding());
+        final Rectangle originalRect = staticComp.getTileSpaceBounds();
+        final Rectangle affectedArea = staticComp.getTileSpaceBounds()/*originalRect.expandedInAllDirections(1)*/;
         // TODO: Increase size of it in all directions
-        HashSet<BeltPath> changedPaths = new HashSet<>();
+        final HashSet<BeltPath> changedPaths = new HashSet<>();
 
         for (int x = affectedArea.x; x < affectedArea.width + affectedArea.x; x++) {
             for (int y = affectedArea.y; y < affectedArea.y + affectedArea.width; y++) {
@@ -94,18 +94,18 @@ public class BeltSystem extends GameSystemWithFilter {
                     continue;
                 }
 
-                Entity[] targetEntities = root.map.getLayerContentsMultipleXY(x, y);
-                for (Entity targetEntity : targetEntities) {
-                    BeltComponent targetBeltComp = targetEntity.components.Belt;
-                    StaticMapEntityComponent targetStaticComp = targetEntity.components.StaticMapEntity;
+                final Entity[] targetEntities = root.map.getLayerContentsMultipleXY(x, y);
+                for (final Entity targetEntity : targetEntities) {
+                    final BeltComponent targetBeltComp = targetEntity.components.Belt;
+                    final StaticMapEntityComponent targetStaticComp = targetEntity.components.StaticMapEntity;
                     if (targetBeltComp == null) {
                         continue;
                     }
-                    String defaultBuildingVariant = "default";
-                    short[] rotations = Objects.requireNonNull(metaBelt).computeOptimalDirectionAndRotationVariantAtTile(new Vector(x, y), targetStaticComp.originalRotation, defaultBuildingVariant, targetEntity.layer);
-                    Direction newDirection = arrayBeltVariantToRotation[rotations[1]];
+                    final String defaultBuildingVariant = "default";
+                    final short[] rotations = Objects.requireNonNull(metaBelt).computeOptimalDirectionAndRotationVariantAtTile(new Vector(x, y), targetStaticComp.originalRotation, defaultBuildingVariant, targetEntity.layer);
+                    final Direction newDirection = arrayBeltVariantToRotation[rotations[1]];
                     if (targetStaticComp.rotation != rotations[0] || newDirection != targetBeltComp.direction) {
-                        BeltPath originalPath = targetBeltComp.assignedPath;
+                        final BeltPath originalPath = targetBeltComp.assignedPath;
 
                         this.deleteEntityFromPath(targetBeltComp.assignedPath, targetEntity);
 
@@ -129,16 +129,16 @@ public class BeltSystem extends GameSystemWithFilter {
         changedPaths.forEach(BeltPath::onSurroundingsChanged);
     }
 
-    private void addEntityToPaths(Entity entity) {
-        Entity fromEntity = this.findSupplyingEntity(entity);
-        Entity toEntity = this.findFollowUpEntity(entity);
+    private void addEntityToPaths(final Entity entity) {
+        final Entity fromEntity = this.findSupplyingEntity(entity);
+        final Entity toEntity = this.findFollowUpEntity(entity);
 
         if (fromEntity != null) {
-            BeltPath fromPath = fromEntity.components.Belt.assignedPath;
+            final BeltPath fromPath = fromEntity.components.Belt.assignedPath;
             fromPath.extendOnEnd(entity);
 
             if (toEntity != null) {
-                BeltPath toPath = toEntity.components.Belt.assignedPath;
+                final BeltPath toPath = toEntity.components.Belt.assignedPath;
 
                 if (fromPath != toPath) {
                     fromPath.extendByPath(toPath);
@@ -147,10 +147,10 @@ public class BeltSystem extends GameSystemWithFilter {
             }
         } else {
             if (toEntity != null) {
-                BeltPath toPath = toEntity.components.Belt.assignedPath;
+                final BeltPath toPath = toEntity.components.Belt.assignedPath;
                 toPath.extendOnBeginning(entity);
             } else {
-                BeltPath path = new BeltPath(root, new LinkedList<>() {{
+                final BeltPath path = new BeltPath(root, new LinkedList<>() {{
                     add(entity);
                 }});
                 this.beltPaths.add(path);
@@ -158,22 +158,22 @@ public class BeltSystem extends GameSystemWithFilter {
         }
     }
 
-    private Entity findFollowUpEntity(Entity entity) {
-        StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
-        BeltComponent beltComp = entity.components.Belt;
+    private Entity findFollowUpEntity(final Entity entity) {
+        final StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
+        final BeltComponent beltComp = entity.components.Belt;
 
-        Direction followUpDirection = staticComp.localDirectionToWorld(beltComp.direction);
-        Vector followUpVector = Vector.directionToVector(followUpDirection);
+        final Direction followUpDirection = staticComp.localDirectionToWorld(beltComp.direction);
+        final Vector followUpVector = Vector.directionToVector(followUpDirection);
 
-        Vector followUpTile = staticComp.origin.add(followUpVector);
-        Entity followUpEntity = root.map.getLayerContentXY(followUpTile.x, followUpTile.y, entity.layer);
+        final Vector followUpTile = staticComp.origin.add(followUpVector);
+        final Entity followUpEntity = root.map.getLayerContentXY(followUpTile.x, followUpTile.y, entity.layer);
 
         if (followUpEntity != null) {
-            BeltComponent followUpBeltComp = followUpEntity.components.Belt;
+            final BeltComponent followUpBeltComp = followUpEntity.components.Belt;
             if (followUpBeltComp != null) {
-                StaticMapEntityComponent followUpStatic = followUpEntity.components.StaticMapEntity;
+                final StaticMapEntityComponent followUpStatic = followUpEntity.components.StaticMapEntity;
 
-                Direction acceptedDirection = followUpStatic.localDirectionToWorld(Direction.Top);
+                final Direction acceptedDirection = followUpStatic.localDirectionToWorld(Direction.Top);
                 if (acceptedDirection == followUpDirection) {
                     return followUpEntity;
                 }
@@ -183,20 +183,20 @@ public class BeltSystem extends GameSystemWithFilter {
         return null;
     }
 
-    private Entity findSupplyingEntity(Entity entity) {
-        StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
+    private Entity findSupplyingEntity(final Entity entity) {
+        final StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
 
-        Direction supplyDirection = staticComp.localDirectionToWorld(Direction.Bottom);
-        Vector supplyVector = Vector.directionToVector(supplyDirection);
+        final Direction supplyDirection = staticComp.localDirectionToWorld(Direction.Bottom);
+        final Vector supplyVector = Vector.directionToVector(supplyDirection);
 
-        Vector supplyTile = staticComp.origin.add(supplyVector);
-        Entity supplyEntity = root.map.getLayerContentXY(supplyTile.x, supplyTile.y, entity.layer);
+        final Vector supplyTile = staticComp.origin.add(supplyVector);
+        final Entity supplyEntity = root.map.getLayerContentXY(supplyTile.x, supplyTile.y, entity.layer);
 
         if (supplyEntity != null) {
-            BeltComponent supplyBeltComp = supplyEntity.components.Belt;
+            final BeltComponent supplyBeltComp = supplyEntity.components.Belt;
             if (supplyBeltComp != null) {
-                StaticMapEntityComponent supplyStatic = supplyEntity.components.StaticMapEntity;
-                Direction otherDirection = supplyStatic.localDirectionToWorld(Vector.invertDirection(supplyBeltComp.direction));
+                final StaticMapEntityComponent supplyStatic = supplyEntity.components.StaticMapEntity;
+                final Direction otherDirection = supplyStatic.localDirectionToWorld(Vector.invertDirection(supplyBeltComp.direction));
 
                 if (otherDirection == supplyDirection) {
                     return supplyEntity;
@@ -206,47 +206,47 @@ public class BeltSystem extends GameSystemWithFilter {
         return null;
     }
 
-    private int getCodeFromBuildingData(MetaBuilding metaBuilding, String variant, short rotationVariant) {
-        String hash = metaBuilding.getId() + "/" + variant + "/" + rotationVariant;
-        HashMap<String, Integer> variantsCache = new HashMap<>();
+    private int getCodeFromBuildingData(final MetaBuilding metaBuilding, final String variant, final short rotationVariant) {
+        final String hash = metaBuilding.getId() + "/" + variant + "/" + rotationVariant;
+        final HashMap<String, Integer> variantsCache = new HashMap<>();
         return variantsCache.get(hash);
     }
 
-    public void onEntityAdded(Entity entity) {
+    public void onEntityAdded(final Entity entity) {
         if (entity.components.Belt == null) {
             return;
         }
         this.addEntityToPaths(entity);
     }
 
-    public void drawBeltItems(DrawParameters parameters) throws IOException {
-        for (BeltPath beltPath : this.beltPaths) {
+    public void drawBeltItems(final DrawParameters parameters) throws IOException {
+        for (final BeltPath beltPath : this.beltPaths) {
             beltPath.draw(parameters);
         }
     }
 
-    public void drawChunk(DrawParameters parameters, MapChunkView chunk) {
-        int speedMultiplier = Math.min(this.root.hubGoals.getBeltBaseSpeed(), 10);
+    public void drawChunk(final DrawParameters parameters, final MapChunkView chunk) {
+        final int speedMultiplier = Math.min(this.root.hubGoals.getBeltBaseSpeed(), 10);
 
-        int animationIndex = (int) ((this.root.time.realtimeNow() * speedMultiplier * BELT_ANIM_COUNT * 126) / 42 * GlobalConfig.itemSpacingOnBelts);
-        ArrayList<Entity> contents = chunk.containedEntitiesByLayer.get(Layer.Regular);
+        final int animationIndex = (int) ((this.root.time.realtimeNow() * speedMultiplier * BeltSystem.BELT_ANIM_COUNT * 126) / 42 * GlobalConfig.itemSpacingOnBelts);
+        final ArrayList<Entity> contents = chunk.containedEntitiesByLayer.get(Layer.Regular);
         if (this.root.app.settings.getAllSettings().simplifiedBelts) {
             BeltPath hoveredBeltPath = null;
-            Vector mousePos = new Vector(this.root.app.getMousePosition());
+            final Vector mousePos = new Vector(this.root.app.getMousePosition());
             if (this.root.currentLayer == Layer.Regular) {
-                Vector tile = this.root.camera.screenToWorld(mousePos).toTileSpace();
-                Entity content = this.root.map.getLayerContentXY(tile.x, tile.y, Layer.Regular);
+                final Vector tile = this.root.camera.screenToWorld(mousePos).toTileSpace();
+                final Entity content = this.root.map.getLayerContentXY(tile.x, tile.y, Layer.Regular);
                 if (content != null && content.components.Belt != null) {
                     hoveredBeltPath = content.components.Belt.assignedPath;
                 }
             }
 
-            for (Entity entity : contents) {
+            for (final Entity entity : contents) {
                 if (entity.components.Belt != null) {
-                    Direction direction = entity.components.Belt.direction;
+                    final Direction direction = entity.components.Belt.direction;
                     BufferedImage sprite = this.beltAnimations.get(direction).get(0);
                     if (entity.components.Belt.assignedPath == hoveredBeltPath) {
-                        sprite = this.beltAnimations.get(direction).get(animationIndex % BELT_ANIM_COUNT);
+                        sprite = this.beltAnimations.get(direction).get(animationIndex % BeltSystem.BELT_ANIM_COUNT);
                     }
 
                     entity.components.StaticMapEntity.drawSpriteOnBoundsClipped(parameters, sprite, 0);
@@ -255,19 +255,21 @@ public class BeltSystem extends GameSystemWithFilter {
         }
     }
 
+    public void update() {
+        for (final BeltPath beltPath : this.beltPaths) {
+            beltPath.update();
+        }
+    }
+
     private static class SingletonFactory<T> {
         private ArrayList<T> entries;
-
-        private SingletonFactory(ArrayList<T> entries) {
-            this.entries = entries;
-        }
 
         public SingletonFactory() {
 
         }
 
-        public T findByClass(Object classHandle) {
-            for (T entry : this.entries) {
+        public T findByClass(final Object classHandle) {
+            for (final T entry : this.entries) {
                 if (entry.getClass() == classHandle.getClass()) {
                     return entry;
                 }

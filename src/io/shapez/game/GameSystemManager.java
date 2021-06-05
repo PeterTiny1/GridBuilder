@@ -12,6 +12,8 @@ public class GameSystemManager {
     public StaticMapEntitySystem staticMapEntities;
     public LeverSystem lever;
     public DisplaySystem display;
+    public ItemProcessorSystem itemProcessor;
+    public FilterSystem filter;
     ItemEjectorSystem itemEjector;
     MapResourcesSystem mapResources;
     MinerSystem miner;
@@ -27,9 +29,11 @@ public class GameSystemManager {
         staticMapEntities = new StaticMapEntitySystem(root);
         lever = new LeverSystem(root);
         display = new DisplaySystem(root);
+        itemProcessor = new ItemProcessorSystem(root);
     }
 
     public void update() {
         itemAcceptor.update();
+        belt.update();
     }
 }

@@ -12,14 +12,11 @@ import io.shapez.game.savegame.BasicSerializableObject;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class BeltPath extends BasicSerializableObject {
     static String getId = "BeltPath";
-    private final ArrayList<BaseItem> items = new ArrayList<>();
+    private final ArrayList<AbstractMap.SimpleEntry<Double, BaseItem>> items = new ArrayList<>();
     private GameRoot root;
     public LinkedList<Entity> entityPath = new LinkedList<>();
     AcceptingEntityAndSlot acceptorTarget;
@@ -28,7 +25,7 @@ public class BeltPath extends BasicSerializableObject {
     public double spacingToFirstItem;
     private Rectangle worldBounds;
 
-    public BeltPath(GameRoot root, LinkedList<Entity> entityPath) {
+    public BeltPath(final GameRoot root, final LinkedList<Entity> entityPath) {
         this.root = root;
         this.entityPath = entityPath;
         this.init(true);
@@ -38,8 +35,8 @@ public class BeltPath extends BasicSerializableObject {
 
     }
 
-    static BeltPath fromSerialized(Object data) {
-        BeltPath fakeObject = new BeltPath();
+    static BeltPath fromSerialized(final Object data) {
+        final BeltPath fakeObject = new BeltPath();
 // String errorCodeDesiralize = fakeObject.deserialize(data);
 // if (errorCodeDesiralize != null) {
 //     return errorCodeDesiralize;
@@ -48,7 +45,7 @@ public class BeltPath extends BasicSerializableObject {
         return fakeObject;
     }
 
-    private void init(boolean computeSpacing) {
+    private void init(final boolean computeSpacing) {
         this.onPathChanged();
         this.totalLength = this.computeTotalLength();
 
@@ -58,7 +55,7 @@ public class BeltPath extends BasicSerializableObject {
 
         this.worldBounds = computeBounds();
 
-        for (Entity entity : this.entityPath) {
+        for (final Entity entity : this.entityPath) {
             entity.components.Belt.assignedPath = this;
         }
     }
@@ -66,8 +63,8 @@ public class BeltPath extends BasicSerializableObject {
     private Rectangle computeBounds() {
         Rectangle bounds = this.entityPath.get(0).components.StaticMapEntity.getTileSpaceBounds();
         for (int i = 1; i < this.entityPath.size(); i++) {
-            StaticMapEntityComponent staticComp = this.entityPath.get(i).components.StaticMapEntity;
-            Rectangle otherBounds = staticComp.getTileSpaceBounds();
+            final StaticMapEntityComponent staticComp = this.entityPath.get(i).components.StaticMapEntity;
+            final Rectangle otherBounds = staticComp.getTileSpaceBounds();
             bounds = bounds.union(otherBounds);
         }
         return bounds;
@@ -79,34 +76,34 @@ public class BeltPath extends BasicSerializableObject {
     }
 
     private AcceptingEntityAndSlot computeAcceptingEntityAndSlot() {
-        Entity lastEntity = this.entityPath.get(this.entityPath.size() - 1);
-        StaticMapEntityComponent lastStatic = lastEntity.components.StaticMapEntity;
-        BeltComponent lastBeltComp = lastEntity.components.Belt;
+        final Entity lastEntity = this.entityPath.get(this.entityPath.size() - 1);
+        final StaticMapEntityComponent lastStatic = lastEntity.components.StaticMapEntity;
+        final BeltComponent lastBeltComp = lastEntity.components.Belt;
 
-        Vector ejectSlotWsTile = lastStatic.localTileToWorld(new Vector(0, 0));
-        Direction ejectSlotWsDirection = lastStatic.localDirectionToWorld(lastBeltComp.direction);
-        Vector ejectSlotWsDirectionVector = Vector.directionToVector(ejectSlotWsDirection);
-        Vector ejectSlotWsTargetWsTile = ejectSlotWsTile.add(ejectSlotWsDirectionVector);
+        final Vector ejectSlotWsTile = lastStatic.localTileToWorld(new Vector(0, 0));
+        final Direction ejectSlotWsDirection = lastStatic.localDirectionToWorld(lastBeltComp.direction);
+        final Vector ejectSlotWsDirectionVector = Vector.directionToVector(ejectSlotWsDirection);
+        final Vector ejectSlotWsTargetWsTile = ejectSlotWsTile.add(ejectSlotWsDirectionVector);
 
-        Entity targetEntity = root.map.getLayerContentXY(ejectSlotWsTargetWsTile.x, ejectSlotWsTargetWsTile.y, Layer.Regular);
+        final Entity targetEntity = root.map.getLayerContentXY(ejectSlotWsTargetWsTile.x, ejectSlotWsTargetWsTile.y, Layer.Regular);
 
         if (targetEntity != null) {
-            StaticMapEntityComponent targetStaticComp = targetEntity.components.StaticMapEntity;
-            BeltComponent targetBeltComp = targetEntity.components.Belt;
+            final StaticMapEntityComponent targetStaticComp = targetEntity.components.StaticMapEntity;
+            final BeltComponent targetBeltComp = targetEntity.components.Belt;
 
             if (targetBeltComp != null) {
-                Direction beltAcceptingDirection = targetStaticComp.localDirectionToWorld(Direction.Top);
+                final Direction beltAcceptingDirection = targetStaticComp.localDirectionToWorld(Direction.Top);
                 if (ejectSlotWsDirection == beltAcceptingDirection) {
                     return new AcceptingEntityAndSlot(targetEntity, null, 0);
                 }
             }
-            ItemAcceptorComponent targetAcceptorComp = targetEntity.components.ItemAcceptor;
+            final ItemAcceptorComponent targetAcceptorComp = targetEntity.components.ItemAcceptor;
             if (targetAcceptorComp == null) {
                 return null;
             }
 
-            Direction ejectingDirection = targetStaticComp.worldDirectionToLocal(ejectSlotWsDirection);
-            ItemAcceptorComponent.ItemAcceptorLocatedSlot matchingSlot = targetAcceptorComp.findMatchingSlot(targetStaticComp.worldToLocalTile(ejectSlotWsTile), ejectingDirection);
+            final Direction ejectingDirection = targetStaticComp.worldDirectionToLocal(ejectSlotWsDirection);
+            final ItemAcceptorComponent.ItemAcceptorLocatedSlot matchingSlot = targetAcceptorComp.findMatchingSlot(targetStaticComp.worldToLocalTile(ejectSlotWsTile), ejectingDirection);
             if (matchingSlot == null) {
                 return null;
             }
@@ -115,11 +112,11 @@ public class BeltPath extends BasicSerializableObject {
         return null;
     }
 
-    private String deserialize(Object data) {
+    private String deserialize(final Object data) {
         return deserializeSchema(this, data, null);
     }
 
-    private String deserializeSchema(BeltPath beltPath, Object data, String baseClassErrorResult) {
+    private String deserializeSchema(final BeltPath beltPath, final Object data, final String baseClassErrorResult) {
         if (baseClassErrorResult != null) {
             return baseClassErrorResult;
         }
@@ -134,9 +131,9 @@ public class BeltPath extends BasicSerializableObject {
         return serializeSchema(this, this.getCachedSchema());
     }
 
-    private HashMap<String, HashMap<Object, Object>> serializeSchema(BeltPath obj, HashMap<String, BaseDataType> schema) {
-        HashMap<String, HashMap<Object, Object>> mergeWith = new HashMap<>();
-        for (Map.Entry<String, BaseDataType> entry : schema.entrySet()) {
+    private HashMap<String, HashMap<Object, Object>> serializeSchema(final BeltPath obj, final HashMap<String, BaseDataType> schema) {
+        final HashMap<String, HashMap<Object, Object>> mergeWith = new HashMap<>();
+        for (final Map.Entry<String, BaseDataType> entry : schema.entrySet()) {
 //            if (!obj.hasOwnProperty(entry.getKey()))
             mergeWith.put(entry.getKey(), entry.getValue().serialize(/*obj.get(entry.getKey()*/""));
         }
@@ -148,15 +145,15 @@ public class BeltPath extends BasicSerializableObject {
         return null;
     }
 
-    public boolean isStartEntity(Entity entity) {
+    public boolean isStartEntity(final Entity entity) {
         return this.entityPath.get(0) == entity;
     }
 
-    public void deleteEntityOnStart(Entity entity) {
+    public void deleteEntityOnStart(final Entity entity) {
         assert entity == this.entityPath.get(0);
 
-        BeltComponent beltComp = entity.components.Belt;
-        double beltLength = beltComp.getEffectiveLengthTiles();
+        final BeltComponent beltComp = entity.components.Belt;
+        final double beltLength = beltComp.getEffectiveLengthTiles();
         this.totalLength -= beltLength;
         this.entityPath.remove(0);
         this.onPathChanged();
@@ -194,21 +191,21 @@ public class BeltPath extends BasicSerializableObject {
 
     private double computeTotalLength() {
         double length = 0;
-        for (Entity entity : this.entityPath) {
+        for (final Entity entity : this.entityPath) {
             length += entity.components.Belt.getEffectiveLengthTiles();
         }
         return length;
     }
 
-    public boolean isEndEntity(Entity entity) {
+    public boolean isEndEntity(final Entity entity) {
         return this.entityPath.get(this.entityPath.size() - 1) == entity;
     }
 
-    public void deleteEntityOnEnd(Entity entity) {
+    public void deleteEntityOnEnd(final Entity entity) {
         assert this.entityPath.get(this.entityPath.size() - 1) == entity;
 
-        BeltComponent beltComp = entity.components.Belt;
-        double beltLength = beltComp.getEffectiveLengthTiles();
+        final BeltComponent beltComp = entity.components.Belt;
+        final double beltLength = beltComp.getEffectiveLengthTiles();
 
         this.totalLength -= beltLength;
         this.entityPath.remove(entityPath.size() - 1);
@@ -233,7 +230,7 @@ public class BeltPath extends BasicSerializableObject {
             }
 
             if (this.items.size() > 0) {
-                double lastDistance = this.totalLength - lastItemOffset;
+                final double lastDistance = this.totalLength - lastItemOffset;
                 assert lastDistance >= 0.0;
 //                this.items.get(this.items.size() - 1) = lastDistance;
             } else {
@@ -243,16 +240,16 @@ public class BeltPath extends BasicSerializableObject {
         this.worldBounds = this.computeBounds();
     }
 
-    public BeltPath deleteEntityOnPathsSplitIntoTwo(Entity entity) {
-        BeltComponent beltComp = entity.components.Belt;
+    public BeltPath deleteEntityOnPathsSplitIntoTwo(final Entity entity) {
+        final BeltComponent beltComp = entity.components.Belt;
         beltComp.assignedPath = null;
-        double entityLength = beltComp.getEffectiveLengthTiles();
+        final double entityLength = beltComp.getEffectiveLengthTiles();
 
         int firstPathEntityCount = 0;
         double firstPathLength = 0;
 //        Entity firstPathEndEntity = null;
 
-        for (Entity otherEntity : this.entityPath) {
+        for (final Entity otherEntity : this.entityPath) {
             if (otherEntity == entity) {
                 break;
             }
@@ -262,15 +259,15 @@ public class BeltPath extends BasicSerializableObject {
         }
 
 //        double secondPathLength = this.totalLength - firstPathLength - entityLength;
-        double secondPathStart = firstPathLength + entityLength;
-        java.util.List<Entity> secondEntities = this.entityPath.subList(firstPathEntityCount + 1, entityPath.size());
+        final double secondPathStart = firstPathLength + entityLength;
+        final java.util.List<Entity> secondEntities = this.entityPath.subList(firstPathEntityCount + 1, entityPath.size());
         this.entityPath.remove(this.entityPath.size() - 1);
 
-        BeltPath secondPath = new BeltPath(root, (LinkedList<Entity>) secondEntities);
+        final BeltPath secondPath = new BeltPath(root, (LinkedList<Entity>) secondEntities);
         double itemPos = spacingToFirstItem;
         for (int i = 0; i < this.items.size(); i++) {
-            BaseItem item = this.items.get(i);
-            int distanceToNext = i;
+            final AbstractMap.SimpleEntry<Double, BaseItem> item = this.items.get(i);
+            final double distanceToNext = item.getKey();
             if (itemPos >= firstPathLength) {
                 items.remove(i);
                 i -= 1;
@@ -283,7 +280,7 @@ public class BeltPath extends BasicSerializableObject {
                     System.out.println("Item removed forever!!!");
                 }
             } else {
-                double clampedDistanceToNext = Math.min(itemPos + distanceToNext, firstPathLength) - itemPos;
+                final double clampedDistanceToNext = Math.min(itemPos + distanceToNext, firstPathLength) - itemPos;
 //                if (clampedDistanceToNext < distanceToNext) {
 //                    //???
 //                }
@@ -305,13 +302,13 @@ public class BeltPath extends BasicSerializableObject {
         this.onPathChanged();
     }
 
-    public void extendOnEnd(Entity entity) {
-        BeltComponent beltComponent = entity.components.Belt;
+    public void extendOnEnd(final Entity entity) {
+        final BeltComponent beltComponent = entity.components.Belt;
 
         this.entityPath.add(entity);
         this.onPathChanged();
 
-        double additionalLength = beltComponent.getEffectiveLengthTiles();
+        final double additionalLength = beltComponent.getEffectiveLengthTiles();
         this.totalLength += additionalLength;
 
         if (this.items.size() == 0) {
@@ -326,32 +323,32 @@ public class BeltPath extends BasicSerializableObject {
         this.worldBounds = this.computeBounds();
     }
 
-    public void extendByPath(BeltPath otherPath) {
+    public void extendByPath(final BeltPath otherPath) {
         assert otherPath != this;
 
-        LinkedList<Entity> entities = otherPath.entityPath;
+        final LinkedList<Entity> entities = otherPath.entityPath;
 
-        double oldLength = this.totalLength;
+        final double oldLength = this.totalLength;
 
-        for (Entity entity : entities) {
-            BeltComponent beltComp = entity.components.Belt;
+        for (final Entity entity : entities) {
+            final BeltComponent beltComp = entity.components.Belt;
 
             this.entityPath.add(entity);
             beltComp.assignedPath = this;
 
-            double additionalLength = beltComp.getEffectiveLengthTiles();
+            final double additionalLength = beltComp.getEffectiveLengthTiles();
             this.totalLength += additionalLength;
         }
 
         if (this.items.size() != 0) {
-            BaseItem lastItem = this.items.get(this.items.size() - 1);
-//            lastItem[nextDistance] += otherPath.spacingToFirstItem;
+            final AbstractMap.SimpleEntry<Double, BaseItem> lastItem = this.items.get(this.items.size() - 1);
+            this.items.set(this.items.size() - 1, new AbstractMap.SimpleEntry<Double, BaseItem>(lastItem.getKey() + otherPath.spacingToFirstItem, lastItem.getValue()));
         } else {
             this.spacingToFirstItem = oldLength + otherPath.spacingToFirstItem;
         }
 
         for (int i = 0; i < otherPath.items.size(); i++) {
-            BaseItem item = items.get(i);
+            final AbstractMap.SimpleEntry<Double, BaseItem> item = items.get(i);
             this.items.add(item);
         }
 
@@ -360,10 +357,10 @@ public class BeltPath extends BasicSerializableObject {
         this.onPathChanged();
     }
 
-    public void extendOnBeginning(Entity entity) {
-        BeltComponent beltComp = entity.components.Belt;
+    public void extendOnBeginning(final Entity entity) {
+        final BeltComponent beltComp = entity.components.Belt;
 
-        double length = beltComp.getEffectiveLengthTiles();
+        final double length = beltComp.getEffectiveLengthTiles();
 
         this.totalLength += length;
 
@@ -376,7 +373,7 @@ public class BeltPath extends BasicSerializableObject {
         this.worldBounds = this.computeBounds();
     }
 
-    public void draw(DrawParameters parameters) throws IOException {
+    public void draw(final DrawParameters parameters) throws IOException {
         if (!parameters.visibleRect.contains(this.worldBounds)) {
             return;
         }
@@ -386,30 +383,30 @@ public class BeltPath extends BasicSerializableObject {
         }
 
         if (this.checkIsPotatoMode()) {
-            BaseItem firstItem = this.items.get(0);
+            final AbstractMap.SimpleEntry<Double, BaseItem> firstItem = this.items.get(0);
             if (this.entityPath.size() > 1 && firstItem != null) {
-                int medianBeltIndex = Math.max(0, Math.min(this.entityPath.size() - 1, this.entityPath.size() / 2 - 1));
-                Entity medianBelt = this.entityPath.get(medianBeltIndex);
-                BeltComponent beltComp = medianBelt.components.Belt;
-                StaticMapEntityComponent staticComp = medianBelt.components.StaticMapEntity;
-                Vector centerPosLocal = beltComp.transformBeltToLocalSpace(this.entityPath.size() % 2 == 0 ? beltComp.getEffectiveLengthTiles() : 0.5);
-                Vector centerPos = staticComp.localTileToWorld(centerPosLocal).toWorldSpaceCenterOfTile();
+                final int medianBeltIndex = Math.max(0, Math.min(this.entityPath.size() - 1, this.entityPath.size() / 2 - 1));
+                final Entity medianBelt = this.entityPath.get(medianBeltIndex);
+                final BeltComponent beltComp = medianBelt.components.Belt;
+                final StaticMapEntityComponent staticComp = medianBelt.components.StaticMapEntity;
+                final Vector centerPosLocal = beltComp.transformBeltToLocalSpace(this.entityPath.size() % 2 == 0 ? beltComp.getEffectiveLengthTiles() : 0.5);
+                final Vector centerPos = staticComp.localTileToWorld(centerPosLocal).toWorldSpaceCenterOfTile();
 //                firstItem.drawItemCenteredClipped(centerPos.x, centerPos.y, g2d);
             }
             return;
         }
-        double currentItemPos = this.spacingToFirstItem;
+        final double currentItemPos = this.spacingToFirstItem;
         int currentItemIndex = 0;
         double trackPos = 0.0;
 
-        for (Entity entity : this.entityPath) {
-            BeltComponent beltComp = entity.components.Belt;
-            double beltLength = beltComp.getEffectiveLengthTiles();
+        for (final Entity entity : this.entityPath) {
+            final BeltComponent beltComp = entity.components.Belt;
+            final double beltLength = beltComp.getEffectiveLengthTiles();
             while (trackPos + beltLength >= currentItemPos - 1e-5) { // this warning is here because of some problem I created
-                StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
-                Vector localPos = beltComp.transformBeltToLocalSpace(currentItemPos - trackPos);
-                Vector worldPos = staticComp.localTileToWorld(localPos).toWorldSpaceCenterOfTile();
-                items.get(currentItemIndex).drawItemCenteredClipped(worldPos.x, worldPos.y, parameters);
+                final StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
+                final Vector localPos = beltComp.transformBeltToLocalSpace(currentItemPos - trackPos);
+                final Vector worldPos = staticComp.localTileToWorld(localPos).toWorldSpaceCenterOfTile();
+                items.get(currentItemIndex).getValue().drawItemCenteredClipped(worldPos.x, worldPos.y, parameters);
 //                currentItemPos += distance;
                 currentItemIndex++;
                 if (currentItemIndex >= this.items.size()) {
@@ -424,14 +421,68 @@ public class BeltPath extends BasicSerializableObject {
 //        if (this.) TODO: add setting
         return false;
     }
+
+    public void update() {
+        final double beltSpeed = this.root.hubGoals.getBeltBaseSpeed() * this.root.dynamicTickrate.deltaSeconds * GlobalConfig.itemSpacingOnBelts;
+        final boolean isFirstItemProcessed = true;
+        double remainingVelocity = beltSpeed;
+        int lastItemProcessed;
+
+        for (lastItemProcessed = this.items.size() - 1; lastItemProcessed >= 0; --lastItemProcessed) {
+            AbstractMap.SimpleEntry<Double, BaseItem> nextDistanceAndItem = this.items.get(lastItemProcessed);
+
+            final double minimumSpacing = lastItemProcessed == this.items.size() - 1 ? 0 : GlobalConfig.itemSpacingOnBelts;
+
+            final double clampedProgress = Math.max(0, Math.min(remainingVelocity, nextDistanceAndItem.getKey()));
+
+            remainingVelocity -= clampedProgress;
+
+            nextDistanceAndItem = new AbstractMap.SimpleEntry<>(nextDistanceAndItem.getKey() - clampedProgress, nextDistanceAndItem.getValue());
+
+            this.spacingToFirstItem += clampedProgress;
+
+            if (isFirstItemProcessed && nextDistanceAndItem.getKey() < 1e-7) {
+                final double excessVelocity = beltSpeed - clampedProgress;
+
+                if (this.tryHandOverItem(nextDistanceAndItem.getValue(), excessVelocity)) {
+
+                }
+            }
+        }
+    }
+
+    private boolean tryHandOverItem(final BaseItem item, final double remainingProgress) {
+        assert !(this.acceptorTarget == null);
+        final ItemAcceptorComponent targetAcceptorComp = this.acceptorTarget.entity.components.ItemAcceptor;
+        if (targetAcceptorComp != null && !targetAcceptorComp.canAcceptItem(this.acceptorTarget.slot, item)) {
+            return false;
+        }
+
+        if (this.root.systemMgr.itemEjector.tryPassOverItem(item, this.acceptorTarget.entity, this.acceptorTarget.slot)) {
+
+        }
+        return false;
+    }
+
+    public boolean tryAcceptItem(final BaseItem item) {
+        if (this.spacingToFirstItem >= GlobalConfig.itemSpacingOnBelts) {
+            final double beltProgressPerTick = this.root.hubGoals.getBeltBaseSpeed() * this.root.dynamicTickrate.deltaSeconds * GlobalConfig.itemSpacingOnBelts;
+            final double maxProgress = Math.max(0, this.spacingToFirstItem - GlobalConfig.itemSpacingOnBelts);
+            final double initialProgress = Math.min(maxProgress, beltProgressPerTick);
+            this.items.add(0, new AbstractMap.SimpleEntry<>(this.spacingToFirstItem - initialProgress, item));
+            this.spacingToFirstItem = initialProgress;
+            return true;
+        }
+        return false;
+    }
 }
 
 class AcceptingEntityAndSlot {
-    private final Entity entity;
+    public final Entity entity;
     private final Direction direction;
-    private final int slot;
+    public final int slot;
 
-    public AcceptingEntityAndSlot(Entity entity, Direction direction, int slot) {
+    public AcceptingEntityAndSlot(final Entity entity, final Direction direction, final int slot) {
         this.entity = entity;
         this.direction = direction;
         this.slot = slot;

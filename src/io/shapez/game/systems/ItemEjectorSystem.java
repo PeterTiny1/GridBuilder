@@ -1,12 +1,9 @@
 package io.shapez.game.systems;
 
 import io.shapez.core.*;
-import io.shapez.game.*;
 import io.shapez.game.Component;
-import io.shapez.game.components.BeltComponent;
-import io.shapez.game.components.ItemAcceptorComponent;
-import io.shapez.game.components.ItemEjectorComponent;
-import io.shapez.game.components.StaticMapEntityComponent;
+import io.shapez.game.*;
+import io.shapez.game.components.*;
 
 import java.awt.*;
 import java.io.IOException;
@@ -16,7 +13,7 @@ import java.util.HashSet;
 public class ItemEjectorSystem extends GameSystemWithFilter {
     private final StaleAreaDetector staleAreaDetector;
 
-    public ItemEjectorSystem(GameRoot root) {
+    public ItemEjectorSystem(final GameRoot root) {
         super(root, new Component[]{new ItemEjectorComponent()});
 
         this.staleAreaDetector = new StaleAreaDetector("item-ejector", this::recomputeArea);
@@ -24,14 +21,14 @@ public class ItemEjectorSystem extends GameSystemWithFilter {
         this.staleAreaDetector.recomputeOnComponentsChanged(new Component[]{new ItemEjectorComponent(), new ItemAcceptorComponent(), new BeltComponent()}, 1);
     }
 
-    private void recomputeArea(Rectangle area) {
-        HashSet<Integer> seenUids = new HashSet<>();
+    private void recomputeArea(final Rectangle area) {
+        final HashSet<Integer> seenUids = new HashSet<>();
         for (int x = 0; x < area.width; ++x) {
             for (int y = 0; y < area.height; ++y) {
-                int tileX = area.x + x;
-                int tileY = area.y + y;
+                final int tileX = area.x + x;
+                final int tileY = area.y + y;
 
-                Entity contents = root.map.getLayerContentXY(tileX, tileY, Layer.Regular);
+                final Entity contents = root.map.getLayerContentXY(tileX, tileY, Layer.Regular);
                 if (contents != null && contents.components.ItemEjector != null) {
                     if (!seenUids.contains(contents.uid)) {
                         seenUids.add(contents.uid);
@@ -42,30 +39,30 @@ public class ItemEjectorSystem extends GameSystemWithFilter {
         }
     }
 
-    private void recomputeSingleEntityCache(Entity entity) {
-        ItemEjectorComponent ejectorComp = entity.components.ItemEjector;
-        StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
+    private void recomputeSingleEntityCache(final Entity entity) {
+        final ItemEjectorComponent ejectorComp = entity.components.ItemEjector;
+        final StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
 
         for (int slotIndex = 0; slotIndex < ejectorComp.slots.size(); ++slotIndex) {
-            ItemEjectorComponent.ItemEjectorSlot ejectorSlot = ejectorComp.slots.get(slotIndex);
+            final ItemEjectorComponent.ItemEjectorSlot ejectorSlot = ejectorComp.slots.get(slotIndex);
 
             ejectorSlot.cachedDestSlot = null;
             ejectorSlot.cachedTargetEntity = null;
             ejectorSlot.cachedBeltPath = null;
 
-            Vector ejectSlotWsTile = staticComp.localTileToWorld(ejectorSlot.pos);
-            Direction ejectSlotWsDirection = staticComp.localDirectionToWorld(ejectorSlot.direction);
-            Vector ejectSlotWsDirectionVector = Vector.directionToVector(ejectSlotWsDirection);
-            Vector ejectSlotTargetWsTile = ejectSlotWsTile.add(ejectSlotWsDirectionVector);
+            final Vector ejectSlotWsTile = staticComp.localTileToWorld(ejectorSlot.pos);
+            final Direction ejectSlotWsDirection = staticComp.localDirectionToWorld(ejectorSlot.direction);
+            final Vector ejectSlotWsDirectionVector = Vector.directionToVector(ejectSlotWsDirection);
+            final Vector ejectSlotTargetWsTile = ejectSlotWsTile.add(ejectSlotWsDirectionVector);
 
-            Entity[] targetEntities = root.map.getLayerContentsMultipleXY(ejectSlotTargetWsTile.x, ejectSlotTargetWsTile.y);
+            final Entity[] targetEntities = root.map.getLayerContentsMultipleXY(ejectSlotTargetWsTile.x, ejectSlotTargetWsTile.y);
 
-            for (Entity targetEntity : targetEntities) {
-                StaticMapEntityComponent targetStaticComp = targetEntity.components.StaticMapEntity;
-                BeltComponent targetBeltComp = targetEntity.components.Belt;
+            for (final Entity targetEntity : targetEntities) {
+                final StaticMapEntityComponent targetStaticComp = targetEntity.components.StaticMapEntity;
+                final BeltComponent targetBeltComp = targetEntity.components.Belt;
 
                 if (targetBeltComp != null) {
-                    Direction beltAcceptingDirection = targetStaticComp.localDirectionToWorld(Direction.Top);
+                    final Direction beltAcceptingDirection = targetStaticComp.localDirectionToWorld(Direction.Top);
                     if (ejectSlotWsDirection == beltAcceptingDirection) {
                         ejectorSlot.cachedTargetEntity = targetEntity;
                         ejectorSlot.cachedBeltPath = targetBeltComp.assignedPath;
@@ -73,12 +70,12 @@ public class ItemEjectorSystem extends GameSystemWithFilter {
                     }
                 }
 
-                ItemAcceptorComponent targetAcceptorComp = targetEntity.components.ItemAcceptor;
+                final ItemAcceptorComponent targetAcceptorComp = targetEntity.components.ItemAcceptor;
                 if (targetAcceptorComp == null) {
                     continue;
                 }
 
-                ItemAcceptorComponent.ItemAcceptorLocatedSlot matchingSlot = targetAcceptorComp.findMatchingSlot(targetStaticComp.worldToLocalTile(ejectSlotWsTile), targetStaticComp.worldDirectionToLocal(ejectSlotWsDirection));
+                final ItemAcceptorComponent.ItemAcceptorLocatedSlot matchingSlot = targetAcceptorComp.findMatchingSlot(targetStaticComp.worldToLocalTile(ejectSlotWsTile), targetStaticComp.worldDirectionToLocal(ejectSlotWsDirection));
                 if (matchingSlot == null) {
                     continue;
                 }
@@ -90,24 +87,24 @@ public class ItemEjectorSystem extends GameSystemWithFilter {
         }
     }
 
-    public void drawChunk(DrawParameters parameters, MapChunkView chunk) throws IOException {
+    public void drawChunk(final DrawParameters parameters, final MapChunkView chunk) throws IOException {
         if (this.root.app.settings.getAllSettings().simplifiedBelts) {
             return;
         }
 
-        ArrayList<Entity> contents = chunk.containedEntitiesByLayer.get(Layer.Regular);
+        final ArrayList<Entity> contents = chunk.containedEntitiesByLayer.get(Layer.Regular);
 
-        for (Entity entity : contents) {
-            ItemEjectorComponent ejectorComp = entity.components.ItemEjector;
+        for (final Entity entity : contents) {
+            final ItemEjectorComponent ejectorComp = entity.components.ItemEjector;
             if (ejectorComp == null) {
                 continue;
             }
 
-            StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
+            final StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
 
             for (int i = 0; i < ejectorComp.slots.size(); i++) {
-                ItemEjectorComponent.ItemEjectorSlot slot = ejectorComp.slots.get(i);
-                BaseItem ejectedItem = slot.item;
+                final ItemEjectorComponent.ItemEjectorSlot slot = ejectorComp.slots.get(i);
+                final BaseItem ejectedItem = slot.item;
                 if (ejectedItem == null) {
                     continue;
                 }
@@ -116,9 +113,9 @@ public class ItemEjectorSystem extends GameSystemWithFilter {
                 }
 
                 double progress = slot.progress;
-                BeltPath nextBeltPath = slot.cachedBeltPath;
+                final BeltPath nextBeltPath = slot.cachedBeltPath;
                 if (nextBeltPath != null) {
-                    double maxProgress = (0.5 + nextBeltPath.spacingToFirstItem - GlobalConfig.itemSpacingOnBelts) * 2;
+                    final double maxProgress = (0.5 + nextBeltPath.spacingToFirstItem - GlobalConfig.itemSpacingOnBelts) * 2;
                     progress = Math.min(maxProgress, progress);
                 }
 
@@ -126,22 +123,60 @@ public class ItemEjectorSystem extends GameSystemWithFilter {
                     continue;
                 }
 
-                Vector realPosition = staticComp.localTileToWorld(slot.pos);
+                final Vector realPosition = staticComp.localTileToWorld(slot.pos);
                 if (!chunk.tileSpaceRectangle.contains(realPosition.x, realPosition.y)) {
                     continue;
                 }
 
-                Direction realDirection = staticComp.localDirectionToWorld(slot.direction);
-                Vector realDirectionVector = Vector.directionToVector(realDirection);
+                final Direction realDirection = staticComp.localDirectionToWorld(slot.direction);
+                final Vector realDirectionVector = Vector.directionToVector(realDirection);
 
-                double tileX = realPosition.x + 0.5 + realDirectionVector.x * 0.5 * progress;
-                double tileY = realPosition.y + 0.5 + realDirectionVector.x * 0.5 * progress;
+                final double tileX = realPosition.x + 0.5 + realDirectionVector.x * 0.5 * progress;
+                final double tileY = realPosition.y + 0.5 + realDirectionVector.x * 0.5 * progress;
 
-                double worldX = tileX * GlobalConfig.tileSize;
-                double worldY = tileY * GlobalConfig.tileSize;
+                final double worldX = tileX * GlobalConfig.tileSize;
+                final double worldY = tileY * GlobalConfig.tileSize;
 
                 ejectedItem.drawItemCenteredClipped(worldX, worldY, parameters, GlobalConfig.defaultItemDiameter);
             }
         }
+    }
+
+    public boolean tryPassOverItem(final BaseItem item, final Entity receiver, final int slotIndex) {
+        final BeltComponent beltComp = receiver.components.Belt;
+        if (beltComp != null) {
+            final BeltPath path = beltComp.assignedPath;
+            assert path != null;
+            return path.tryAcceptItem(item);
+        }
+
+        final ItemProcessorComponent itemProcessorComp = receiver.components.ItemProcessor;
+        if (itemProcessorComp != null) {
+            if (!this.root.systemMgr.itemProcessor.checkRequirements(receiver, item, slotIndex)) {
+                return false;
+            }
+
+            return itemProcessorComp.tryTakeItem(item, slotIndex);
+        }
+
+        final UndergroundBeltComponent undergroundBeltComp = receiver.components.UndergroundBelt;
+
+        if (undergroundBeltComp != null) {
+            return undergroundBeltComp.tryAcceptExternalItem(item, this.root.hubGoals.undergroundBeltBaseSpeed());
+        }
+        final StorageComponent storageComp = receiver.components.Storage;
+        if (storageComp != null) {
+            if (storageComp.canAcceptItem(item)) {
+                storageComp.takeItem(item);
+                return true;
+            }
+            return false;
+        }
+
+        final FilterComponent filterComp = receiver.components.Filter;
+        if (filterComp != null) {
+            return this.root.systemMgr.filter.tryAcceptItem(receiver, slotIndex, item);
+        }
+        return false;
     }
 }

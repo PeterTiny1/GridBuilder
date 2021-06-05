@@ -11,10 +11,10 @@ public class HubGoals {
     final HashMap<String, Integer> upgradeLevels = new HashMap<>();
     final HashMap<String, Integer> upgradeImprovements = new HashMap<>();
 
-    public HubGoals(GameRoot root) {
+    public HubGoals(final GameRoot root) {
         this.root = root;
-        HashMap<String, GameMode.UpgradeTiers> upgrades = this.root.gameMode.getUpgrades();
-        for (Map.Entry<String, GameMode.UpgradeTiers> entry: upgrades.entrySet()){
+        final HashMap<String, GameMode.UpgradeTiers> upgrades = this.root.gameMode.getUpgrades();
+        for (final Map.Entry<String, GameMode.UpgradeTiers> entry : upgrades.entrySet()) {
             upgradeLevels.put(entry.getKey(), 0);
             upgradeImprovements.put(entry.getKey(), 1);
         }
@@ -22,5 +22,9 @@ public class HubGoals {
 
     public int getBeltBaseSpeed() {
         return GlobalConfig.beltSpeedItemsPerSecond * this.upgradeImprovements.get("belt");
+    }
+
+    public int undergroundBeltBaseSpeed() {
+        return GlobalConfig.beltSpeedItemsPerSecond * this.upgradeImprovements.get("miner");
     }
 }

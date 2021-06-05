@@ -1,6 +1,7 @@
 package io.shapez.game.components;
 
 import io.shapez.core.Direction;
+import io.shapez.core.ItemType;
 import io.shapez.core.Vector;
 import io.shapez.game.BaseItem;
 import io.shapez.game.Component;
@@ -37,10 +38,16 @@ public class ItemAcceptorComponent extends Component {
         return "ItemAcceptor";
     }
 
+    public boolean canAcceptItem(final int slotIndex, final BaseItem item) {
+        final ItemAcceptorSlot slot = this.slots.get(slotIndex);
+        return slot.filter == null || slot.filter == item.getItemType();
+    }
+
     public static class ItemAcceptorSlot {
 
         public Vector pos;
         public Direction[] directions;
+        public ItemType filter;
     }
 
     public static class ItemAcceptorLocatedSlot {

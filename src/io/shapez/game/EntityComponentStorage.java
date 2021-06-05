@@ -8,10 +8,10 @@ public class EntityComponentStorage {
     public ItemEjectorComponent ItemEjector;
     public ItemAcceptorComponent ItemAcceptor;
     public MinerComponent Miner;
-    //        public ItemProcessorComponent ItemProcessor;
-//        public UndergroundBeltComponent UndergroundBelt;
-//        public HubComponent Hub;
-//        public StorageComponent Storage;
+    public ItemProcessorComponent ItemProcessor;
+    public UndergroundBeltComponent UndergroundBelt;
+    //        public HubComponent Hub;
+    public StorageComponent Storage;
     public WiredPinsComponent WiredPins;
     public BeltUnderlaysComponent BeltUnderlays;
     //        public WireComponent Wire;
@@ -20,11 +20,11 @@ public class EntityComponentStorage {
     public LeverComponent Lever;
     //        public WireTunnelComponent WireTunnel;
     public DisplayComponent Display;
-//        public BeltReaderComponent BeltReader;
-//        public FilterComponent Filter;
+    //        public BeltReaderComponent BeltReader;
+    public FilterComponent Filter;
 //        public ItemProducerComponent ItemProducer;
 
-    public boolean get(String id) {
+    public boolean get(final String id) {
         return true;
     }
 }

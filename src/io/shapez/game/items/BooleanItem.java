@@ -12,9 +12,27 @@ import java.util.Objects;
 
 public class BooleanItem extends BaseItem {
     public boolean value;
+
+    public BooleanItem(final boolean value) {
+        super();
+        this.value = value;
+    }
+
+    public static boolean isTruthyItem(final BaseItem item) {
+        if (item == null) {
+            return false;
+        }
+
+        if (item.getItemType() == ItemType.bool) {
+            return ((BooleanItem) item).value;
+        }
+
+        return true;
+    }
+
     @Override
-    protected void drawItemCenteredImpl(double x, double y, DrawParameters parameters, double diameter) throws IOException {
-        BufferedImage sprite;
+    protected void drawItemCenteredImpl(final double x, final double y, final DrawParameters parameters, final double diameter) throws IOException {
+        final BufferedImage sprite;
         if (this.value) {
             sprite = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/sprites/wires/boolean_true.png")));
         } else {
@@ -23,11 +41,11 @@ public class BooleanItem extends BaseItem {
         drawCachedCentered(sprite, parameters, x, y, diameter);
     }
 
-    private void drawCachedCentered(BufferedImage sprite, DrawParameters parameters, double x, double y, double size) {
+    private void drawCachedCentered(final BufferedImage sprite, final DrawParameters parameters, final double x, final double y, final double size) {
         this.drawCached(sprite, parameters, x, y, size);
     }
 
-    private void drawCached(BufferedImage sprite, DrawParameters parameters, double x, double y, double size) {
+    private void drawCached(final BufferedImage sprite, final DrawParameters parameters, final double x, final double y, final double size) {
 //        Rectangle visibleRect = parameters.visibleRect;
 //
 //        String scale = parameters.desiredAtlasScale; //TODO: maybe implement this

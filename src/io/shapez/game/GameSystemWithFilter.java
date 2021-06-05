@@ -2,7 +2,7 @@ package io.shapez.game;
 
 import java.util.ArrayList;
 
-public class GameSystemWithFilter extends GameSystem {
+public abstract class GameSystemWithFilter extends GameSystem {
     private final Component[] requiredComponents;
     final ArrayList<String> requiredComponentIds = new ArrayList<>();
     protected ArrayList<Entity> allEntities = new ArrayList<>();
@@ -16,11 +16,4 @@ public class GameSystemWithFilter extends GameSystem {
 //        this.root.entityAdded.add();
     }
 
-    private void internalPushEntityIfMatching(final Entity entity) {
-        for (final String requiredComponentId : this.requiredComponentIds) {
-            if (!entity.components.get(requiredComponentId)) {
-                return;
-            }
-        }
-    }
 }

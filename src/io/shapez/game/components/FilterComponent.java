@@ -1,0 +1,31 @@
+package io.shapez.game.components;
+
+import io.shapez.game.BaseItem;
+import io.shapez.game.Component;
+
+import java.util.ArrayList;
+
+public class FilterComponent extends Component {
+    public ArrayList<PendingFilterItem> pendingItemsToLeaveThrough = new ArrayList<>();
+    public ArrayList<PendingFilterItem> pendingItemsToReject = new ArrayList<>();
+
+    public String getId() {
+        return "Filter";
+    }
+
+    public FilterComponent() {
+        super();
+    }
+
+    public static class PendingFilterItem {
+        BaseItem item;
+        double progress;
+
+        public PendingFilterItem(final BaseItem item, final double progress) {
+            this.item = item;
+            this.progress = progress;
+        }
+    }
+}
+
+

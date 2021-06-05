@@ -12,4 +12,5 @@ public class GlobalConfig {
     public static int mapChunkWorldSize;
     public static final int beltSpeedItemsPerSecond = 2;
     public static final double itemSpacingOnBelts = 0.63;
+    public static final double shapesSharpness = 1.4;
 }
