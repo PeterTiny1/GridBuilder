@@ -6,7 +6,7 @@ import java.util.HashMap;
 public abstract class GameMode {
     public abstract HashMap<String, UpgradeTiers> getUpgrades();
 
-    public class UpgradeTiers {
+    public static class UpgradeTiers {
         final ArrayList<TierRequirement> required;
 
         public UpgradeTiers(final ArrayList<TierRequirement> required) {

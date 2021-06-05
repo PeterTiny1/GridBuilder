@@ -17,21 +17,21 @@ public class RegularGameMode extends GameMode {
     private final String finalGameShape = "RuCw--Cw:----Ru--";
     private final String rocketShape = "CbCuCbCu:Sr------:--CrSrCr:CwCwCwCw";
 
-    public RegularGameMode(GameRoot root) {
+    public RegularGameMode(final GameRoot root) {
         super();
         this.root = root;
     }
 
     @Override
     public HashMap<String, UpgradeTiers> getUpgrades() {
-        HashMap<String, UpgradeTiers> fullVersionUpgrades = generateUpgrades(false);
-        HashMap<String, UpgradeTiers> demoVersionUpgrades = generateUpgrades(true);
+        final HashMap<String, UpgradeTiers> fullVersionUpgrades = generateUpgrades(false);
+        final HashMap<String, UpgradeTiers> demoVersionUpgrades = generateUpgrades(true);
         return this.root.app.restrictionMgr.getHasExtendedUpgrades() ? fullVersionUpgrades : demoVersionUpgrades;
     }
 
-    private HashMap<String, UpgradeTiers> generateUpgrades(boolean limitedVersion) {
-        ArrayList<Double> fixedImprovements = (ArrayList<Double>) DoubleStream.of(0.5, 0.5, 1.0, 1.0, 2.0, 1.0).boxed().collect(Collectors.toList());
-        int numEndgameUpgrades = limitedVersion ? 0 : 1000 - fixedImprovements.size() - 1;
+    private HashMap<String, UpgradeTiers> generateUpgrades(final boolean limitedVersion) {
+        final ArrayList<Double> fixedImprovements = (ArrayList<Double>) DoubleStream.of(0.5, 0.5, 1.0, 1.0, 2.0, 1.0).boxed().collect(Collectors.toList());
+        final int numEndgameUpgrades = limitedVersion ? 0 : 1000 - fixedImprovements.size() - 1;
 
         for (int i = 0; i < numEndgameUpgrades; i++) {
             if (i < 20) {
@@ -90,8 +90,8 @@ public class RegularGameMode extends GameMode {
         }};
     }
 
-    List<TierRequirement> generateInfiniteUnlocks(int numEndgameUpgrades) {
-        List<TierRequirement> temporaryArray = Arrays.asList(new TierRequirement[numEndgameUpgrades]);
+    List<TierRequirement> generateInfiniteUnlocks(final int numEndgameUpgrades) {
+        final List<TierRequirement> temporaryArray = Arrays.asList(new TierRequirement[numEndgameUpgrades]);
         IntStream.range(0, temporaryArray.size()).forEach(index -> temporaryArray.set(index, new TierRequirement(new UpgradeRequirement[]{new UpgradeRequirement(preparementShape, 30000 + index * 10000), new UpgradeRequirement(finalGameShape, 20000 + index * 5000), new UpgradeRequirement(rocketShape, 20000 + index * 5000)}, true)));
         return temporaryArray;
     }

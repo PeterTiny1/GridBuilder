@@ -345,7 +345,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             final int cY = (e.getY() - offsetY) / scale - gridOffsetY;
             clearTile(cX, cY);
         } else if (SwingUtilities.isLeftMouseButton(e)) {
-            if (!hasItemSelected) {
+            if (!hasItemSelected && !controlPressed) {
                 changeOffset(e.getX() - previousMX, e.getY() - previousMY);
             } else {
                 heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
