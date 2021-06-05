@@ -7,7 +7,7 @@ public class SoundProxy {
     ArrayList<Object> playing3DSounds = new ArrayList<>();
     ArrayList<Object> playingUiSounds = new ArrayList<>();
 
-    public SoundProxy(GameRoot root) {
+    public SoundProxy(final GameRoot root) {
         this.root = root;
     }
 }

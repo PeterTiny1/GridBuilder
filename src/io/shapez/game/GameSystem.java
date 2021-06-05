@@ -1,9 +1,9 @@
 package io.shapez.game;
 
 public class GameSystem {
-    public GameRoot root;
+    public final GameRoot root;
 
-    public GameSystem(GameRoot root) {
+    public GameSystem(final GameRoot root) {
         this.root = root;
     }
 }

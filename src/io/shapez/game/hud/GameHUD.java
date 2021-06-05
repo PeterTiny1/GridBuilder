@@ -13,7 +13,7 @@ public class GameHUD {
     private HUDVignetteOverlay vignetteOverlay;
     private HUDColorBlindHelper colorBlindHelper;
 
-    public GameHUD(GameRoot root) {
+    public GameHUD(final GameRoot root) {
         this.root = root;
     }
 
@@ -32,7 +32,7 @@ public class GameHUD {
         if (this.root.app.settings.getAllSettings().vignette) {
             this.vignetteOverlay = new HUDVignetteOverlay(this.root);
         }
-        
+
         if (this.root.app.settings.getAllSettings().enableColorBlindHelper) {
             this.colorBlindHelper = new HUDColorBlindHelper(this.root);
         }

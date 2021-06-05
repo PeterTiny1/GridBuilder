@@ -14,26 +14,26 @@ public class MapChunkView extends MapChunk {
         put(Layer.Wires, new ArrayList<>());
     }};
 
-    public MapChunkView(GameRoot root, int x, int y) {
+    public MapChunkView(final GameRoot root, final int x, final int y) {
         super(root, x, y);
     }
 
-    void drawBackgroundLayer(DrawParameters parameters) throws IOException {
-        GameSystemManager systemManager = this.root.systemMgr;
+    void drawBackgroundLayer(final DrawParameters parameters) throws IOException {
+        final GameSystemManager systemManager = this.root.systemMgr;
         systemManager.mapResources.drawChunk(parameters, this);
         systemManager.beltUnderlays.drawChunk(parameters, this);
         systemManager.belt.drawChunk(parameters, this);
     }
 
-    public void drawForegroundDynamicLayer(DrawParameters parameters) throws IOException {
-        GameSystemManager systemMgr = root.systemMgr;
+    public void drawForegroundDynamicLayer(final DrawParameters parameters) throws IOException {
+        final GameSystemManager systemMgr = root.systemMgr;
         systemMgr.itemEjector.drawChunk(parameters, this);
         systemMgr.itemAcceptor.drawChunk(parameters, this);
         systemMgr.miner.drawChunk(parameters, this);
     }
 
-    public void drawForegroundStaticLayer(DrawParameters parameters) throws IOException {
-        GameSystemManager systemManager = this.root.systemMgr;
+    public void drawForegroundStaticLayer(final DrawParameters parameters) throws IOException {
+        final GameSystemManager systemManager = this.root.systemMgr;
         systemManager.staticMapEntities.drawChunk(parameters, this);
         systemManager.lever.drawChunk(parameters, this);
         systemManager.display.drawChunk(parameters, this);

@@ -7,13 +7,13 @@ public abstract class ReadWriteProxy {
     private final String filename;
     public SavegameData currentData = null;
 
-    public ReadWriteProxy(Application app, String filename) {
+    public ReadWriteProxy(final Application app, final String filename) {
         this.filename = filename;
 
     }
 
     public void writeAsync() {
-        ExplainedResult verifyResult = this.internalVerifyEntry(this.currentData);
+        final ExplainedResult verifyResult = this.internalVerifyEntry(this.currentData);
 
         if (verifyResult == null) {
             return;
@@ -26,11 +26,11 @@ public abstract class ReadWriteProxy {
         // TODO: 01/04/2021 Implement writing using this class
     }
 
-    private ExplainedResult internalVerifyEntry(Object data) {
+    private ExplainedResult internalVerifyEntry(final Object data) {
         /*if (data.version != this.getCurrentVersion) {
          *   return ExplainedResult.bad(); //TODO: implement this*/
 
-        ExplainedResult verifyStructureError = this.internalVerifyBasicStructure(data);
+        final ExplainedResult verifyStructureError = this.internalVerifyBasicStructure(data);
         if (!verifyStructureError.isGood()) {
             return verifyStructureError;
         }
@@ -40,7 +40,7 @@ public abstract class ReadWriteProxy {
 
     protected abstract ExplainedResult verify(Object data);
 
-    private ExplainedResult internalVerifyBasicStructure(Object data) {
+    private ExplainedResult internalVerifyBasicStructure(final Object data) {
         if (data == null) {
             return ExplainedResult.bad("Data is empty");
         }

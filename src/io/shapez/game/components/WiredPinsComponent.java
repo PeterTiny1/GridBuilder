@@ -6,14 +6,14 @@ import io.shapez.game.systems.WireSystem;
 import java.util.ArrayList;
 
 public class WiredPinsComponent extends Component {
-    public ArrayList<WirePinSlot> slots = new ArrayList<>();
+    public final ArrayList<WirePinSlot> slots = new ArrayList<>();
 
     @Override
     public String getId() {
         return "WiredPins";
     }
 
-    public class WirePinSlot {
+    public static class WirePinSlot {
         public WireSystem.WireNetwork linkedNetwork;
     }
 }

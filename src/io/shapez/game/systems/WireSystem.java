@@ -3,9 +3,9 @@ package io.shapez.game.systems;
 import io.shapez.game.BaseItem;
 
 public class WireSystem {
-    public class WireNetwork {
+    public static class WireNetwork {
 
-        public BaseItem currentValue = null;
+        public final BaseItem currentValue = null;
         private final boolean valueConflict = false;
 
         public boolean hasValue() {

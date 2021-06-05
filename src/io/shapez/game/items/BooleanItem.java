@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class BooleanItem extends BaseItem {
-    public boolean value;
+    public final boolean value;
 
     public BooleanItem(final boolean value) {
         super();

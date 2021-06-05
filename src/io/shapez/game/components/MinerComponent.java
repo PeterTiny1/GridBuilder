@@ -10,7 +10,7 @@ public class MinerComponent extends Component {
     int lastMiningTime = 0;
     boolean chainable;
     ArrayList<BaseItem> itemChainBuffer = new ArrayList<>();
-    public BaseItem cachedMinedItem = null;
+    public final BaseItem cachedMinedItem = null;
     Entity cachedChainedMiner = null;
 
     @Override

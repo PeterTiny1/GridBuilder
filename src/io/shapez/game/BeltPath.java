@@ -342,7 +342,7 @@ public class BeltPath extends BasicSerializableObject {
 
         if (this.items.size() != 0) {
             final AbstractMap.SimpleEntry<Double, BaseItem> lastItem = this.items.get(this.items.size() - 1);
-            this.items.set(this.items.size() - 1, new AbstractMap.SimpleEntry<Double, BaseItem>(lastItem.getKey() + otherPath.spacingToFirstItem, lastItem.getValue()));
+            this.items.set(this.items.size() - 1, new AbstractMap.SimpleEntry<>(lastItem.getKey() + otherPath.spacingToFirstItem, lastItem.getValue()));
         } else {
             this.spacingToFirstItem = oldLength + otherPath.spacingToFirstItem;
         }

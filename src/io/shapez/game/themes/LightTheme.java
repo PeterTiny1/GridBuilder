@@ -29,7 +29,7 @@ public class LightTheme {
         String colorBlindPickerTile = "rgba(50, 50, 50, 0.4)";
 
         public static class Resources {
-            public static Color shape = new Color(0xeaebec);
+            public static final Color shape = new Color(0xeaebec);
             public static Color red = new Color(0xffbfc1);
             String green = "#cbffc4";
             String blue = "#bfdaff";

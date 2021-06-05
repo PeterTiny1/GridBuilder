@@ -9,7 +9,7 @@ public class Vector {
     static final int halfTileSize = GlobalConfig.halfTileSize;
     public double x;
     public double y;
-    double xy;
+    final double xy;
 
     public Vector(double x, double y) {
         this.x = x;

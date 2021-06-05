@@ -9,31 +9,31 @@ public abstract class GameMode {
     public class UpgradeTiers {
         final ArrayList<TierRequirement> required;
 
-        public UpgradeTiers(ArrayList<TierRequirement> required) {
+        public UpgradeTiers(final ArrayList<TierRequirement> required) {
             this.required = required;
         }
     }
 
-    public class TierRequirement {
+    public static class TierRequirement {
         private final boolean excludePrevious;
         private final UpgradeRequirement[] required;
 
-        public TierRequirement(UpgradeRequirement[] required) {
+        public TierRequirement(final UpgradeRequirement[] required) {
             this.required = required;
             excludePrevious = false;
         }
 
-        public TierRequirement(UpgradeRequirement[] required, boolean excludePrevious) {
+        public TierRequirement(final UpgradeRequirement[] required, final boolean excludePrevious) {
             this.required = required;
             this.excludePrevious = excludePrevious;
         }
     }
 
-    public class UpgradeRequirement {
+    public static class UpgradeRequirement {
         final String shape;
         final int amount;
 
-        public UpgradeRequirement(String shape, int amount) {
+        public UpgradeRequirement(final String shape, final int amount) {
             this.shape = shape;
             this.amount = amount;
         }

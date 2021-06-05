@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class GameTime {
     private final GameRoot root;
-    Date date = new Date();
+    final Date date = new Date();
     private double realtimeSeconds = 0;
     private final double realtimeAdjust = 0;
 

@@ -10,18 +10,18 @@ public class Savegame extends ReadWriteProxy {
     private final String internalId;
     private final String metaDataRef;
     final SavegameData currentData = this.getDefaultData();
-    Date date = new Date();
+    final Date date = new Date();
 
     public SavegameData getDefaultData() {
         assert date != null;
-        return new SavegameData(getCurrentVersion(), null, new SavegameStats(), date.getTime());
+        return new SavegameData(Savegame.getCurrentVersion(), null, new SavegameStats(), date.getTime());
     }
 
     static int getCurrentVersion() {
         return 1007;
     }
 
-    public Savegame(Application app, String internalId, String metaDataRef) {
+    public Savegame(final Application app, final String internalId, final String metaDataRef) {
         super(app, "savegame-" + internalId + ".bin");
         this.internalId = internalId;
         this.metaDataRef = metaDataRef;
@@ -45,7 +45,7 @@ public class Savegame extends ReadWriteProxy {
     }
 
     @Override
-    protected ExplainedResult verify(Object data) {
+    protected ExplainedResult verify(final Object data) {
         return null;
     }
 }

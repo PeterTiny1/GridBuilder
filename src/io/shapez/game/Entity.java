@@ -8,7 +8,7 @@ public class Entity {
     public int x, y;
     public Tile tile;
     public Direction direction;
-    public EntityComponentStorage components = new EntityComponentStorage();
+    public final EntityComponentStorage components = new EntityComponentStorage();
     public Integer uid = 0;
     public Layer layer;
 

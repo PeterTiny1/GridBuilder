@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class ItemProcessorComponent extends Component {
     public ItemProcessorRequirements processingRequirement;
-    ItemProcessorTypes type = ItemProcessorTypes.balancer;
-    ArrayList<AbstractMap.SimpleEntry<BaseItem, Integer>> inputSlots = new ArrayList<>();
+    final ItemProcessorTypes type = ItemProcessorTypes.balancer;
+    final ArrayList<AbstractMap.SimpleEntry<BaseItem, Integer>> inputSlots = new ArrayList<>();
 
     @Override
     public String getId() {
@@ -32,7 +32,7 @@ public class ItemProcessorComponent extends Component {
     }
 
     public enum ItemProcessorRequirements {
-        painterQuad;
+        painterQuad
     }
 
     enum ItemProcessorTypes {

@@ -1,7 +1,7 @@
 package io.shapez.managers;
 
-import io.shapez.core.Resources;
 import io.shapez.Application;
+import io.shapez.core.Resources;
 import io.shapez.game.GlobalConfig;
 import io.shapez.game.platform.SoundManager;
 import io.shapez.managers.providers.SystemPathProvider;
@@ -30,10 +30,10 @@ public class SettingsManager {
     public static boolean noLoD;
 
     public static void updateValues() {
-        tickrateScreen = Byte.parseByte(txt1.getText());
-        allowSound = chk1.isSelected();
-        drawChunkEdges = chk2.isSelected();
-        noLoD = chk3.isSelected();
+        SettingsManager.tickrateScreen = Byte.parseByte(SettingsManager.txt1.getText());
+        SettingsManager.allowSound = SettingsManager.chk1.isSelected();
+        SettingsManager.drawChunkEdges = SettingsManager.chk2.isSelected();
+        SettingsManager.noLoD = SettingsManager.chk3.isSelected();
     }
 
     public static void fixPaths() {
@@ -48,37 +48,37 @@ public class SettingsManager {
         if (!SystemPathProvider.settingsFile.exists()) {
             try {
                 SystemPathProvider.settingsFile.createNewFile();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 System.err.println("Fixing file failed (path doesn't exist?)");
             }
         }
     }
 
-    public boolean contains(String str, char chr) {
+    public boolean contains(final String str, final char chr) {
         return str.indexOf(chr) != -1;
     }
 
     public static void validateSettings() {
-        String __parsetickrate = String.valueOf(tickrateScreen);
+        final String __parsetickrate = String.valueOf(SettingsManager.tickrateScreen);
         if (__parsetickrate.matches("[0-9]+") && __parsetickrate.length() > 2)
-            tickrateScreen = clampByte(tickrateScreen, (byte) 1, Byte.MAX_VALUE);
+            SettingsManager.tickrateScreen = clampByte(SettingsManager.tickrateScreen, (byte) 1, Byte.MAX_VALUE);
         else
-            tickrateScreen = 1;
+            SettingsManager.tickrateScreen = 1;
 
     }
 
-    public static void saveSettings(boolean internal) throws IOException {
-        fixPaths();
-        validateSettings();
+    public static void saveSettings(final boolean internal) throws IOException {
+        SettingsManager.fixPaths();
+        SettingsManager.validateSettings();
         System.out.println("Saving settings in unsafe environment");
-        FileOutputStream fs = new FileOutputStream(SystemPathProvider.settingsFile);
-        DataOutputStream ds = new DataOutputStream(fs);
+        final FileOutputStream fs = new FileOutputStream(SystemPathProvider.settingsFile);
+        final DataOutputStream ds = new DataOutputStream(fs);
 
-        updateValues();
-        ds.writeByte(tickrateScreen);
-        ds.writeBoolean(allowSound);
-        ds.writeBoolean(drawChunkEdges);
-        ds.writeBoolean(noLoD);
+        SettingsManager.updateValues();
+        ds.writeByte(SettingsManager.tickrateScreen);
+        ds.writeBoolean(SettingsManager.allowSound);
+        ds.writeBoolean(SettingsManager.drawChunkEdges);
+        ds.writeBoolean(SettingsManager.noLoD);
 
         ds.flush(); // push the buffer to file, just in case something failed
         ds.close();
@@ -86,99 +86,95 @@ public class SettingsManager {
             SoundManager.playSound(Resources.uiSuccessSound);
     }
 
-    public static void loadSettings(boolean internal) throws IOException {
-        fixPaths();
+    public static void loadSettings(final boolean internal) throws IOException {
+        SettingsManager.fixPaths();
         System.out.println("Loading settings in unsafe environment");
 
         FileInputStream fs = null;
         try {
             fs = new FileInputStream(SystemPathProvider.settingsFile);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             SystemPathProvider.settingsFile.createNewFile();
             e.printStackTrace();
         }
         assert fs != null;
-        DataInputStream ds = new DataInputStream(fs);
+        final DataInputStream ds = new DataInputStream(fs);
 
         while (ds.available() > 0) {
-            tickrateScreen = ds.readByte();
-            allowSound = ds.readBoolean();
-            drawChunkEdges = ds.readBoolean();
-            noLoD = ds.readBoolean();
+            SettingsManager.tickrateScreen = ds.readByte();
+            SettingsManager.allowSound = ds.readBoolean();
+            SettingsManager.drawChunkEdges = ds.readBoolean();
+            SettingsManager.noLoD = ds.readBoolean();
         }
         if (internal) {
-            txt1.setText(String.valueOf(tickrateScreen));
-            chk1.setSelected(allowSound);
-            chk2.setSelected(drawChunkEdges);
-            chk3.setSelected(noLoD);
+            SettingsManager.txt1.setText(String.valueOf(SettingsManager.tickrateScreen));
+            SettingsManager.chk1.setSelected(SettingsManager.allowSound);
+            SettingsManager.chk2.setSelected(SettingsManager.drawChunkEdges);
+            SettingsManager.chk3.setSelected(SettingsManager.noLoD);
         }
 
-        if (noLoD)
+        if (SettingsManager.noLoD)
             GlobalConfig.zoomedScale = 1;
 
         ds.close();
     }
 
 
-    private static void internal_OnClose() {
-
-    }
-
     public static void initSettingsWnd() {
-        settingsFrame = new JFrame(settingsWndName);
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));
+        SettingsManager.settingsFrame = new JFrame(settingsWndName);
+        SettingsManager.mainPanel = new JPanel();
+        SettingsManager.mainPanel.setLayout(new BoxLayout(SettingsManager.mainPanel, BoxLayout.LINE_AXIS));
 
-        txt1 = new JTextField();
+        SettingsManager.txt1 = new JTextField();
         //txt1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        txt1.setMaximumSize(defDimensionTxt);
+        SettingsManager.txt1.setMaximumSize(defDimensionTxt);
 
-        chk1 = new JCheckBox();
-        chk1.setSelected(allowSound);
-        chk1.setText("Enable Sound");
-        chk1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        chk1.setFocusPainted(false); // this can be considered a hack such as ActiveControl = null
-
-
-        chk2 = new JCheckBox();
-        chk2.setSelected(drawChunkEdges);
-        chk2.setText("Debug View");
-        chk2.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        chk2.setFocusPainted(false); // this can be considered a hack such as ActiveControl = null
-
-        chk3 = new JCheckBox();
-        chk3.setSelected(noLoD);
-        chk3.setText("No LoD");
-        chk3.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        chk3.setFocusPainted(false); // this can be considered a hack such as ActiveControl = null
-
-        mainPanel.add(chk1, BorderLayout.WEST);
-        mainPanel.add(chk2, BorderLayout.WEST);
-        mainPanel.add(chk3, BorderLayout.WEST);
-        mainPanel.add(txt1, BorderLayout.WEST);
+        SettingsManager.chk1 = new JCheckBox();
+        SettingsManager.chk1.setSelected(SettingsManager.allowSound);
+        SettingsManager.chk1.setText("Enable Sound");
+        SettingsManager.chk1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        SettingsManager.chk1.setFocusPainted(false); // this can be considered a hack such as ActiveControl = null
 
 
-        settingsFrame.add(mainPanel);
-        settingsFrame.setResizable(false);
+        SettingsManager.chk2 = new JCheckBox();
+        SettingsManager.chk2.setSelected(SettingsManager.drawChunkEdges);
+        SettingsManager.chk2.setText("Debug View");
+        SettingsManager.chk2.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        SettingsManager.chk2.setFocusPainted(false); // this can be considered a hack such as ActiveControl = null
 
-        settingsFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+        SettingsManager.chk3 = new JCheckBox();
+        SettingsManager.chk3.setSelected(SettingsManager.noLoD);
+        SettingsManager.chk3.setText("No LoD");
+        SettingsManager.chk3.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        SettingsManager.chk3.setFocusPainted(false); // this can be considered a hack such as ActiveControl = null
+
+        SettingsManager.mainPanel.add(SettingsManager.chk1, BorderLayout.WEST);
+        SettingsManager.mainPanel.add(SettingsManager.chk2, BorderLayout.WEST);
+        SettingsManager.mainPanel.add(SettingsManager.chk3, BorderLayout.WEST);
+        SettingsManager.mainPanel.add(SettingsManager.txt1, BorderLayout.WEST);
+
+
+        SettingsManager.settingsFrame.add(SettingsManager.mainPanel);
+        SettingsManager.settingsFrame.setResizable(false);
+
+        SettingsManager.settingsFrame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+            public void windowClosing(final java.awt.event.WindowEvent windowEvent) {
                 try {
                     System.out.println("Saving settings...");
-                    saveSettings(false); // window closed...
-                    application.window.setVisible(true);
-                } catch (IOException e) {
+                    SettingsManager.saveSettings(false); // window closed...
+                    SettingsManager.application.window.setVisible(true);
+                } catch (final IOException e) {
                     SoundManager.playSound(Resources.uiDenySound);
                     System.err.println("Error saving settings");
                     e.printStackTrace();
                 }
             }
         });
-        settingsFrame.setSize(defWndDimension);
-        settingsFrame.setLocationRelativeTo(null);
-        settingsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Free frame on close ...
-        settingsFrame.setIconImage(Resources.settingsImage);
+        SettingsManager.settingsFrame.setSize(defWndDimension);
+        SettingsManager.settingsFrame.setLocationRelativeTo(null);
+        SettingsManager.settingsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Free frame on close ...
+        SettingsManager.settingsFrame.setIconImage(Resources.settingsImage);
 
         // style 1 (exit on close) also terminates process...
 
@@ -186,12 +182,12 @@ public class SettingsManager {
     }
 
     public static void showSettingswnd() {
-        application.window.setVisible(false);
-        settingsFrame.setVisible(true);
+        SettingsManager.application.window.setVisible(false);
+        SettingsManager.settingsFrame.setVisible(true);
 
         try {
-            loadSettings(true);
-        } catch (IOException e) {
+            SettingsManager.loadSettings(true);
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }

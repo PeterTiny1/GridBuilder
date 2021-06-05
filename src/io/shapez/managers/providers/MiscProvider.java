@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class MiscProvider {
     public static final Date date = new Date();
-    public static final String year = String.valueOf(date.getYear() + 1900);
+    public static final String year = String.valueOf(MiscProvider.date.getYear() + 1900);
 
     public static final String gameVersion = "1.1";
 
@@ -21,12 +21,12 @@ public class MiscProvider {
             " - Uses JSwing",
             " - Optimized!",
             " - Thanks tobspr",
-            " - " + year,
+            " - " + MiscProvider.year,
             " - Made in Deutschland and the UK!",
             " - github.com/PeterTiny1/GridBuilder",
             " - Green!",
             " - Belts and belts and belts",
-            " - " + gameVersion,
+            " - " + MiscProvider.gameVersion,
             " - When the!"
     };
 
@@ -40,25 +40,25 @@ public class MiscProvider {
     public static final Dimension defWndDimension = new Dimension(500, 300);
 
     public static final String gameName = "GridBuilder";
-    public static final String mainWndName = gameName + " - Java Edition";
-    public static final String settingsWndName = gameName + " - Settings";
-    public static final String moreWndName = gameName + " - More";
+    public static final String mainWndName = MiscProvider.gameName + " - Java Edition";
+    public static final String settingsWndName = MiscProvider.gameName + " - Settings";
+    public static final String moreWndName = MiscProvider.gameName + " - More";
 
 
     public static String getRandomTitlebar() {
-        Random rng = new Random();
-        return splashes[rng.nextInt(splashes.length)];
+        final Random rng = new Random();
+        return MiscProvider.splashes[rng.nextInt(MiscProvider.splashes.length)];
     }
 
-    public static double clamp(double val, double min, double max) {
+    public static double clamp(final double val, final double min, final double max) {
         return Math.max(min, Math.min(max, val));
     }
 
-    public static int clampInt(int val, int min, int max) {
+    public static int clampInt(final int val, final int min, final int max) {
         return Math.max(min, Math.min(max, val));
     }
 
-    public static byte clampByte(byte val, byte min, byte max) {
+    public static byte clampByte(final byte val, final byte min, final byte max) {
         return (byte) Math.max(min, Math.min(max, val));
     }
 }

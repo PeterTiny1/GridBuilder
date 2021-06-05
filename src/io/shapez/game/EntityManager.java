@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class EntityManager extends BasicSerializableObject {
     private final GameRoot root;
-    ArrayList<Entity> entities = new ArrayList<>();
+    final ArrayList<Entity> entities = new ArrayList<>();
     ArrayList<Entity> destroyList = new ArrayList<>();
     HashMap<String, ArrayList<Entity>> componentToEntity = new HashMap<>();
     int nextUid = 10000;

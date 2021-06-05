@@ -2,7 +2,7 @@ package io.shapez.game.profile;
 
 public class SettingsStorage {
     public final String refreshRate = "60";
-    public final ApplicationSettings.AutosaveInterval autosaveInterval = ApplicationSettings.AutosaveInterval.two_minutes;
+    public final ApplicationSettings.AutosaveInterval autosaveInterval = null;
     public final boolean offerHints = true;
     public final boolean vignette = true;
     public final boolean enableColorBlindHelper = false;

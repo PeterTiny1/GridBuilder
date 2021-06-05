@@ -15,7 +15,7 @@ public class GameSystemManager {
     public ItemProcessorSystem itemProcessor;
     public FilterSystem filter;
     ItemEjectorSystem itemEjector;
-    MapResourcesSystem mapResources;
+    final MapResourcesSystem mapResources;
     MinerSystem miner;
 
     public GameSystemManager(final GameRoot root) throws IOException {

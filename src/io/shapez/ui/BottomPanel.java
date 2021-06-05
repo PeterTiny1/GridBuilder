@@ -77,7 +77,7 @@ public class BottomPanel extends JPanel {
             }
             Application.item = item;
             application.hasItemSelected = Application.item != Tile.None;
-            System.out.println("Selected: " + item.toString());
+            System.out.println("Selected: " + item);
             UIUtil.updateButtonAppearance();
         }
     }

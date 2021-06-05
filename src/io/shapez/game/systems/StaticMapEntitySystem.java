@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class StaticMapEntitySystem extends GameSystem {
-    HashSet<Integer> drawnUids = new HashSet<>();
+    final HashSet<Integer> drawnUids = new HashSet<>();
 
     public StaticMapEntitySystem(GameRoot root) {
         super(root);

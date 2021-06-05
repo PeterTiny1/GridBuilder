@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ShapeDefinition extends BasicSerializableObject {
-    ArrayList<ShapeLayer> layers = new ArrayList<>();
+    final ArrayList<ShapeLayer> layers = new ArrayList<>();
     private Object bufferGnerator;
     private final Vector[] arrayQuadrantIndexToOffset = new Vector[]{new Vector(1, -1), new Vector(1, 1), new Vector(-1, 1), new Vector(-1, -1)};
     private String cachedHash = null;
@@ -94,7 +94,7 @@ public class ShapeDefinition extends BasicSerializableObject {
 //    }
 
     private static class ShapeLayer {
-        ShapeLayerItem[] layerItems = new ShapeLayerItem[4];
+        final ShapeLayerItem[] layerItems = new ShapeLayerItem[4];
     }
 
     private static class ShapeLayerItem {

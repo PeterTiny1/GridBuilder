@@ -32,16 +32,16 @@ public class Camera {
     private final Vector currentShake = new Vector(0, 0);
     private double desiredZoom;
 
-    public Camera(GameRoot root, Application application) {
+    public Camera(final GameRoot root, final Application application) {
         this.root = root;
         this.app = application;
         zoomLevel = this.findInitialZoom();
     }
 
     private double findInitialZoom() {
-        int desiredWorldSpaceWidth = 15 * GlobalConfig.tileSize;
-        int zoomLevelX = this.app.getWidth() / desiredWorldSpaceWidth;
-        int zoomLevelY = this.app.getHeight() / desiredWorldSpaceWidth;
+        final int desiredWorldSpaceWidth = 15 * GlobalConfig.tileSize;
+        final int zoomLevelX = this.app.getWidth() / desiredWorldSpaceWidth;
+        final int zoomLevelY = this.app.getHeight() / desiredWorldSpaceWidth;
 
         return Math.min(zoomLevelX, zoomLevelY);
     }
@@ -50,8 +50,8 @@ public class Camera {
         dt = Math.min(dt, 33);
         this.cameraUpdateTimeBucket += dt;
 
-        int updatesPerFrame = 4;
-        double physicsStepSizeMs = 1000.0 / (60.0 * updatesPerFrame);
+        final int updatesPerFrame = 4;
+        final double physicsStepSizeMs = 1000.0 / (60.0 * updatesPerFrame);
 
         double now = this.root.time.systemNow() - 3 * physicsStepSizeMs;
         while (this.cameraUpdateTimeBucket > physicsStepSizeMs) {
@@ -61,8 +61,8 @@ public class Camera {
         }
     }
 
-    private void internalUpdatePanning(double now, double dt) {
-        double baseStrength = velocityStrength * this.app.platformWrapper.getTouchPanStrength();
+    private void internalUpdatePanning(final double now, final double dt) {
+        final double baseStrength = velocityStrength * this.app.platformWrapper.getTouchPanStrength();
 
         this.touchPostMoveVelocity = this.touchPostMoveVelocity.multiplyScalar(velocityFade);
 
@@ -81,7 +81,7 @@ public class Camera {
         }
 
         if (!this.currentlyMoving && !this.currentlyPinching) {
-            double len = this.touchPostMoveVelocity.length();
+            final double len = this.touchPostMoveVelocity.length();
             if (len >= velocityMax) {
                 this.touchPostMoveVelocity.x = (this.touchPostMoveVelocity.x * velocityMax) / len;
                 this.touchPostMoveVelocity.y = (this.touchPostMoveVelocity.y * velocityMax) / len;
@@ -122,15 +122,15 @@ public class Camera {
         return this.root.app.getHeight() / this.zoomLevel;
     }
 
-    public void transform(Graphics2D context) {
+    public void transform(final Graphics2D context) {
         this.clampZoomLevel();
-        double zoom = this.zoomLevel;
+        final double zoom = this.zoomLevel;
 
         context.setTransform(new AffineTransform(zoom, 0, 0, zoom, -zoom * this.getViewportLeft(), -zoom * this.getViewportTop()));
     }
 
     private void clampZoomLevel() {
-        PlatformWrapperInterface wrapper = this.root.app.platformWrapper;
+        final PlatformWrapperInterface wrapper = this.root.app.platformWrapper;
         this.zoomLevel = MiscProvider.clamp(this.zoomLevel, wrapper.getMinimumZoom(app), wrapper.getMaximumZoom(app));
 
         this.desiredZoom = MiscProvider.clamp(this.desiredZoom, wrapper.getMinimumZoom(app), wrapper.getMaximumZoom(app));
@@ -140,8 +140,8 @@ public class Camera {
         return this.zoomLevel < GlobalConfig.mapChunkOverviewMinZoom;
     }
 
-    public Vector screenToWorld(Vector screen) {
-        Vector centerSpace = screen.subScalars(this.root.app.getWidth() / 2, this.root.app.getHeight() / 2);
+    public Vector screenToWorld(final Vector screen) {
+        final Vector centerSpace = screen.subScalars((double) this.root.app.getWidth() / 2, (double) this.root.app.getHeight() / 2);
         return centerSpace.divideScalar(this.zoomLevel).add(this.center);
     }
 }

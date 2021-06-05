@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class ItemAcceptorComponent extends Component {
     public ArrayList<ItemAcceptorSlot> slots;
-    public ArrayList<ItemConsumptionAnimation> itemConsumptionAnimations = new ArrayList<>();
+    public final ArrayList<ItemConsumptionAnimation> itemConsumptionAnimations = new ArrayList<>();
 
     public ItemAcceptorComponent() {
 
@@ -62,7 +62,7 @@ public class ItemAcceptorComponent extends Component {
         }
     }
 
-    public class ItemConsumptionAnimation {
+    public static class ItemConsumptionAnimation {
         public int slotIndex;
         public Direction direction;
         public double animProgress;

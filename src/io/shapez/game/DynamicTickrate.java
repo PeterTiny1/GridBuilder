@@ -8,7 +8,7 @@ public class DynamicTickrate {
     double averageTickDuration = 0;
     int accumulatedFps = 0;
     long accumulatedFpsLastUpdate = 0;
-    int averageFps = 60;
+    final int averageFps = 60;
     private int currentTickRate;
     private double deltaMs;
     public double deltaSeconds;

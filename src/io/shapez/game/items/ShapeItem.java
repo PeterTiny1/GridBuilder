@@ -7,13 +7,12 @@ import io.shapez.game.ShapeDefinition;
 import io.shapez.game.themes.LightTheme;
 
 import java.awt.*;
-import java.io.IOException;
 
 public class ShapeItem extends BaseItem {
     public ShapeDefinition definition;
 
     @Override
-    protected void drawItemCenteredImpl(final double x, final double y, final DrawParameters parameters, final double diameter) throws IOException {
+    protected void drawItemCenteredImpl(final double x, final double y, final DrawParameters parameters, final double diameter) {
         this.definition.drawCentered(x, y, parameters, diameter);
     }
 

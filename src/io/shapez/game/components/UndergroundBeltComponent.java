@@ -11,7 +11,7 @@ public class UndergroundBeltComponent extends Component {
     private final int tier;
     private final UndergroundBeltMode mode;
     ArrayList<ItemAcceptorComponent.ItemConsumptionAnimation> consumptionAnimations = new ArrayList<>();
-    HashMap<BaseItem, Integer> pendingItems = new HashMap<>();
+    final HashMap<BaseItem, Integer> pendingItems = new HashMap<>();
     LinkedUndergroundBelt cachedLinkedEntity = null;
 
     public String getId() {

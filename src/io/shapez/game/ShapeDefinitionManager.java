@@ -8,7 +8,7 @@ public class ShapeDefinitionManager extends BasicSerializableObject {
     private final GameRoot root;
     HashMap<String, ShapeDefinition> shapeKeyToDefinition = new HashMap<>();
 
-    public ShapeDefinitionManager(GameRoot root) {
+    public ShapeDefinitionManager(final GameRoot root) {
         this.root = root;
     }
 

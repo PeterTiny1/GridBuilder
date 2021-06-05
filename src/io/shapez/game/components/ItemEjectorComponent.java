@@ -39,13 +39,13 @@ public class ItemEjectorComponent extends Component {
     }
 
     public static class ItemEjectorSlot {
-        public int progress;
+        public final int progress;
         public ItemAcceptorComponent.ItemAcceptorLocatedSlot cachedDestSlot;
         public Entity cachedTargetEntity;
         public BeltPath cachedBeltPath;
-        public Vector pos;
-        public Direction direction;
-        public BaseItem item;
+        public final Vector pos;
+        public final Direction direction;
+        public final BaseItem item;
 
         public ItemEjectorSlot(Vector pos, Direction direction, BaseItem item, int progress, ItemAcceptorComponent.ItemAcceptorLocatedSlot cachedDestSlot, Entity cachedTargetEntity) {
             this.pos = pos;

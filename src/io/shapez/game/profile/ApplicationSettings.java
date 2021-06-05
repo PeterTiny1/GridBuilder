@@ -8,12 +8,12 @@ import io.shapez.game.savegame.SavegameData;
 import static java.lang.Integer.parseInt;
 
 public class ApplicationSettings extends ReadWriteProxy {
-    public ApplicationSettings(Application app) {
+    public ApplicationSettings(final Application app) {
         super(app, "app_settings.bin");
     }
 
     public int getAutosaveIntervalSeconds() {
-        AutosaveInterval id = this.getAllSettings().autosaveInterval;
+        final AutosaveInterval id = this.getAllSettings().autosaveInterval;
         if (id != null) {
             return id.getSeconds();
         }
@@ -31,7 +31,7 @@ public class ApplicationSettings extends ReadWriteProxy {
     }
 
     @Override
-    protected ExplainedResult verify(Object data) {
+    protected ExplainedResult verify(final Object data) {
         return null;
     }
 
@@ -53,7 +53,7 @@ public class ApplicationSettings extends ReadWriteProxy {
 
         protected final int seconds;
 
-        AutosaveInterval(int seconds) {
+        AutosaveInterval(final int seconds) {
             this.seconds = seconds;
         }
 
