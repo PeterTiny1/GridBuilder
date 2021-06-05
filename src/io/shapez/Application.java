@@ -142,8 +142,10 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     }
 
     private void DrawGrid(final Graphics2D g2d) {
-        final Vector leftTopTile = new Vector(-gridOffsetX, -gridOffsetY);
-        final Vector rightBottomTile = new Vector(getWidth() / (float) scale - gridOffsetX, getHeight() / (float) scale - gridOffsetY);
+        final int movedOffsetX = offsetX + getWidth() / 2;
+        final int movedOffsetY = offsetY + getHeight() / 2;
+        final Vector leftTopTile = new Vector(-gridOffsetX - ((double) movedOffsetX / scale), -gridOffsetY - ((double) movedOffsetY / scale));
+        final Vector rightBottomTile = new Vector(getWidth() / 2.0 / (float) scale - gridOffsetX, getHeight() / 2.0 / (float) scale - gridOffsetY);
         final MapChunk leftTopChunk = core.root.map.getChunkAtTile((int) leftTopTile.x - 1, (int) leftTopTile.y - 1);
         final MapChunk rightBottomChunk = core.root.map.getChunkAtTile((int) rightBottomTile.x + 1, (int) rightBottomTile.y + 1);
 
@@ -157,7 +159,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         for (int x = c1x - 1; ++x < c2x + 1; ) {
             for (int y = c1y - 1; ++y < c2y + 1; ) {
                 final MapChunk currentChunk = core.root.map.getChunk(x, y);
-                currentChunk.drawChunk(g2d, offsetX, offsetY, gridOffsetX, gridOffsetY, scale, Application.usedChunks.contains(currentChunk));
+                currentChunk.drawChunk(g2d, movedOffsetX, movedOffsetY, gridOffsetX, gridOffsetY, scale, Application.usedChunks.contains(currentChunk));
             }
         }
     }
@@ -200,12 +202,10 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         if (e.getWheelRotation() < 0) {
             if (scale < 120) {
                 scale *= 1.2;
-                changeOffset((int) ((getWidth() - getWidth() * 1.2) / 2), (int) ((getHeight() - getHeight() * 1.2) / 2));
             }
         } else if (scale > 5) {
             scale /= 1.2;
 
-            changeOffset((int) Math.round((getWidth() - getWidth() / 1.2) / 2), (int) Math.round((getHeight() - getHeight() / 1.2) / 2));
         }
         heldItem = new Rectangle(previousMX - (scale / 2), previousMY - (scale / 2), scale - 2, scale - 2);
     }
@@ -341,8 +341,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     @Override
     public void mouseDragged(final MouseEvent e) {
         if (SwingUtilities.isRightMouseButton(e)) {
-            final int cX = (e.getX() - offsetX) / scale - gridOffsetX;
-            final int cY = (e.getY() - offsetY) / scale - gridOffsetY;
+            final int cX = (e.getX() - (getWidth() / 2) - offsetX) / scale - gridOffsetX;
+            final int cY = (e.getY() - (getHeight() / 2) - offsetY) / scale - gridOffsetY;
             clearTile(cX, cY);
         } else if (SwingUtilities.isLeftMouseButton(e)) {
             if (!hasItemSelected && !controlPressed) {
@@ -394,8 +394,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
 
     public void placeEntity(final int x, final int y, final Tile item, final Direction direction) {
-        final int cX = (x - offsetX) / scale - gridOffsetX;
-        final int cY = (y - offsetY) / scale - gridOffsetY;
+        final int cX = (x - (getWidth() / 2) - offsetX) / scale - gridOffsetX;
+        final int cY = (y - (getHeight() / 2) - offsetY) / scale - gridOffsetY;
 
         final MapChunk currentChunk = core.root.map.getChunkAtTile(cX, cY);
 
