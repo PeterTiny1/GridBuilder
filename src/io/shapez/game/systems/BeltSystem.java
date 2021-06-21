@@ -84,8 +84,7 @@ public class BeltSystem extends GameSystemWithFilter {
         final SingletonFactory<MetaBuilding> gMetaBuildingRegistry = new SingletonFactory<>();
         final MetaBeltBuilding metaBelt = (MetaBeltBuilding) gMetaBuildingRegistry.findByClass(new MetaBeltBuilding());
         final Rectangle originalRect = staticComp.getTileSpaceBounds();
-        final Rectangle affectedArea = staticComp.getTileSpaceBounds()/*originalRect.expandedInAllDirections(1)*/;
-        // TODO: Increase size of it in all directions
+        final Rectangle affectedArea = new Rectangle(originalRect.x - 1, originalRect.y - 1, originalRect.width + 1, originalRect.height + 1);
         final HashSet<BeltPath> changedPaths = new HashSet<>();
 
         for (int x = affectedArea.x; x < affectedArea.width + affectedArea.x; x++) {
