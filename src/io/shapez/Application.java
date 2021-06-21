@@ -145,7 +145,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         final int movedOffsetX = offsetX + getWidth() / 2;
         final int movedOffsetY = offsetY + getHeight() / 2;
         final Vector leftTopTile = new Vector(-gridOffsetX - ((double) movedOffsetX / scale), -gridOffsetY - ((double) movedOffsetY / scale));
-        final Vector rightBottomTile = new Vector(getWidth() / 2.0 / (float) scale - gridOffsetX, getHeight() / 2.0 / (float) scale - gridOffsetY);
+        final Vector rightBottomTile = new Vector(getWidth() / 2.0 / (double) scale - gridOffsetX, getHeight() / 2.0 / (double) scale - gridOffsetY);
         final MapChunk leftTopChunk = core.root.map.getChunkAtTile((int) leftTopTile.x - 1, (int) leftTopTile.y - 1);
         final MapChunk rightBottomChunk = core.root.map.getChunkAtTile((int) rightBottomTile.x + 1, (int) rightBottomTile.y + 1);
 
@@ -300,8 +300,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     }
 
     private void selectTile(final int previousMX, final int previousMY) {
-        final int cX = (previousMX - offsetX) / scale - gridOffsetX;
-        final int cY = (previousMY - offsetY) / scale - gridOffsetY;
+        final int cX = Math.floorDiv(previousMX - offsetX, scale) - gridOffsetX;
+        final int cY = Math.floorDiv(previousMY - offsetY, scale) - gridOffsetY;
 
         final MapChunk chunk = core.root.map.getChunkAtTile(cX, cY);
 
@@ -341,8 +341,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     @Override
     public void mouseDragged(final MouseEvent e) {
         if (SwingUtilities.isRightMouseButton(e)) {
-            final int cX = (e.getX() - (getWidth() / 2) - offsetX) / scale - gridOffsetX;
-            final int cY = (e.getY() - (getHeight() / 2) - offsetY) / scale - gridOffsetY;
+            final int cX = Math.floorDiv(e.getX() - (getWidth() / 2) - offsetX, scale) - gridOffsetX;
+            final int cY = Math.floorDiv(e.getY() - (getHeight() / 2) - offsetY, scale) - gridOffsetY;
             clearTile(cX, cY);
         } else if (SwingUtilities.isLeftMouseButton(e)) {
             if (!hasItemSelected && !controlPressed) {
@@ -372,8 +372,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
     @Override
     public void mousePressed(final MouseEvent e) {
-        final int cX = (e.getX() - offsetX) / scale - gridOffsetX;
-        final int cY = (e.getY() - offsetY) / scale - gridOffsetY;
+        final int cX = Math.floorDiv(e.getX() - offsetX, scale) - gridOffsetX;
+        final int cY = Math.floorDiv(e.getY() - offsetY, scale) - gridOffsetY;
         if (SwingUtilities.isRightMouseButton(e)) {
             if (Application.item != Tile.None) {
                 Application.item = Tile.None;
@@ -394,8 +394,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
 
     public void placeEntity(final int x, final int y, final Tile item, final Direction direction) {
-        final int cX = (x - (getWidth() / 2) - offsetX) / scale - gridOffsetX;
-        final int cY = (y - (getHeight() / 2) - offsetY) / scale - gridOffsetY;
+        final int cX = Math.floorDiv(x - (getWidth() / 2) - offsetX, scale) - gridOffsetX;
+        final int cY = Math.floorDiv(y - (getHeight() / 2) - offsetY, scale) - gridOffsetY;
 
         final MapChunk currentChunk = core.root.map.getChunkAtTile(cX, cY);
 
