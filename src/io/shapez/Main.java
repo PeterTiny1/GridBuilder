@@ -16,11 +16,11 @@ public class Main extends JFrame implements WindowFocusListener, WindowStateList
     Application application;
     JScrollPane scrollPane;
 
-    public Main() throws IOException {
+    public Main() {
         initUI();
     }
 
-    private void initUI() throws IOException {
+    private void initUI() {
         final MainMenu menu = new MainMenu(this);
         scrollPane = new JScrollPane(menu);
 
@@ -34,19 +34,17 @@ public class Main extends JFrame implements WindowFocusListener, WindowStateList
         setTitle(gameName + getRandomTitlebar());
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        final int b_HEIGHT = 500;
+        final int b_WIDTH = 500;
+        setPreferredSize(new Dimension(b_WIDTH, b_HEIGHT));
         pack();
 
     }
 
     public static void main(final String[] args) {
         EventQueue.invokeLater(() -> {
-            Main main = null;
-            try {
-                main = new Main();
-            } catch (final IOException e) {
-                e.printStackTrace();
-            }
-            assert main != null;
+            final Main main;
+            main = new Main();
             main.setVisible(true);
         });
     }

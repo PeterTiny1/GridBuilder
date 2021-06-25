@@ -78,9 +78,6 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         setDoubleBuffered(true);
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.SOUTH);
-        final int b_HEIGHT = 500;
-        final int b_WIDTH = 500;
-        setPreferredSize(new Dimension(b_WIDTH, b_HEIGHT));
 
 
         try {

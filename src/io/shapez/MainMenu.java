@@ -8,11 +8,8 @@ public class MainMenu extends JPanel {
 
     public MainMenu(final Main parent) {
         this.parent = parent;
-        final int b_HEIGHT = 500;
-        final int b_WIDTH = 500;
-        setPreferredSize(new Dimension(b_WIDTH, b_HEIGHT));
         setBackground(Color.WHITE);
-        setLayout(new BorderLayout());
+        setLayout(new GridBagLayout());
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.updateComponentTreeUI(this);
@@ -27,8 +24,8 @@ public class MainMenu extends JPanel {
         final JButton startGame = new JButton("NEW GAME");
         loadGame.addActionListener(e -> parent.initApplication());
         startGame.addActionListener(e -> parent.initApplication());
-        add(new JLabel("<html>SHAPEZ.IO<br/>JAVA EDITION</html>", SwingConstants.CENTER), BorderLayout.NORTH);
-        add(loadGame, BorderLayout.CENTER);
-        add(startGame, BorderLayout.SOUTH);
+        add(new JLabel("<html>SHAPEZ.IO<br/>JAVA EDITION</html>", SwingConstants.CENTER));
+        add(loadGame);
+        add(startGame);
     }
 }
