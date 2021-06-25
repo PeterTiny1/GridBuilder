@@ -29,7 +29,7 @@ import java.util.Date;
 import static io.shapez.managers.providers.MiscProvider.gameName;
 import static io.shapez.managers.providers.MiscProvider.getRandomTitlebar;
 
-public class Application extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener {
+public class Application extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener, FocusListener {
     // UI
     public final BottomPanel centerPanel = new BottomPanel(this);
     public final TopPanel topPanel = new TopPanel();
@@ -58,7 +58,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     public final Main window;
     final GameCore core = new GameCore(this);
     final Savegame savegame = null;
-    public final Date date = new Date();
+    public Date date = new Date();
     private long time;
 
     public Application(final Main window) throws IOException {
@@ -163,15 +163,16 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
     @Override
     public void actionPerformed(final ActionEvent e) {
+        date = new Date();
         final long currentTime = date.getTime();
-        final int moveValue = (shiftPressed) ? 8 : 2;
+        final int moveValue = (shiftPressed) ? 4 : 1;
         if (pressedKeys.size() > 0) {
             for (final Character key : pressedKeys) {
                 switch (key) {
-                    case 'S' -> changeOffset(0, -moveValue);
-                    case 'W' -> changeOffset(0, moveValue);
-                    case 'A' -> changeOffset(moveValue, 0);
-                    case 'D' -> changeOffset(-moveValue, 0);
+                    case 'S' -> changeOffset(0, (int) (-moveValue * (currentTime - time)));
+                    case 'W' -> changeOffset(0, (int) (moveValue * (currentTime - time)));
+                    case 'A' -> changeOffset((int) (moveValue * (currentTime - time)), 0);
+                    case 'D' -> changeOffset((int) (-moveValue * (currentTime - time)), 0);
                 }
             }
         }
@@ -471,5 +472,16 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     @Override
     public void mouseExited(final MouseEvent e) {
 
+    }
+
+    @Override
+    public void focusGained(final FocusEvent e) {
+
+    }
+
+    @Override
+    public void focusLost(final FocusEvent e) {
+        this.pressedKeys.clear();
+        requestFocusInWindow();
     }
 }
