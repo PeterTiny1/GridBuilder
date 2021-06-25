@@ -10,6 +10,10 @@ public class MainMenu extends JPanel {
         this.parent = parent;
         setBackground(Color.WHITE);
         setLayout(new GridBagLayout());
+        final GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.updateComponentTreeUI(this);
@@ -24,8 +28,12 @@ public class MainMenu extends JPanel {
         final JButton startGame = new JButton("NEW GAME");
         loadGame.addActionListener(e -> parent.initApplication());
         startGame.addActionListener(e -> parent.initApplication());
-        add(new JLabel("<html>SHAPEZ.IO<br/>JAVA EDITION</html>", SwingConstants.CENTER));
-        add(loadGame);
-        add(startGame);
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        add(new JLabel("<html>SHAPEZ.IO<br/>JAVA EDITION</html>", SwingConstants.CENTER), constraints);
+        constraints.gridy = 1;
+        add(loadGame, constraints);
+        constraints.gridy = 2;
+        add(startGame, constraints);
     }
 }
