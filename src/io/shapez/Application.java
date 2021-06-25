@@ -71,8 +71,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         addKeyListener(this);
         addMouseMotionListener(this);
         addMouseListener(this);
+        addMouseWheelListener(this);
         setFocusable(true);
-        requestFocusInWindow();
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
         setDoubleBuffered(true);

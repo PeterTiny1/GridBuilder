@@ -14,16 +14,19 @@ import static io.shapez.managers.providers.MiscProvider.getRandomTitlebar;
 
 public class Main extends JFrame implements WindowFocusListener, WindowStateListener {
     Application application;
+    JScrollPane scrollPane;
 
     public Main() throws IOException {
         initUI();
     }
 
     private void initUI() throws IOException {
-        application = new Application(this);
-        JScrollPane scrollPane = new JScrollPane(application);
+        final MainMenu menu = new MainMenu(this);
+        scrollPane = new JScrollPane(menu);
+
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        application.addMouseWheelListener(application);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         add(scrollPane);
         addWindowFocusListener(this);
         addWindowStateListener(this);
@@ -35,12 +38,12 @@ public class Main extends JFrame implements WindowFocusListener, WindowStateList
 
     }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         EventQueue.invokeLater(() -> {
             Main main = null;
             try {
                 main = new Main();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
             assert main != null;
@@ -49,21 +52,35 @@ public class Main extends JFrame implements WindowFocusListener, WindowStateList
     }
 
     @Override
-    public void windowGainedFocus(WindowEvent e) {
-        application.pressedKeys.clear();
+    public void windowGainedFocus(final WindowEvent e) {
+        if (application != null) {
+            application.pressedKeys.clear();
+        }
     }
 
     @Override
-    public void windowLostFocus(WindowEvent e) {
-        application.pressedKeys.clear();
+    public void windowLostFocus(final WindowEvent e) {
+        if (application != null) {
+            application.pressedKeys.clear();
+        }
     }
 
     @Override
-    public void windowStateChanged(WindowEvent e) {
+    public void windowStateChanged(final WindowEvent e) {
         //if ((e.getOldState() & Frame.ICONIFIED) == 0 && (e.getNewState() & Frame.ICONIFIED) != 0) {
         //    application.visible = false;
         //} else if ((e.getOldState() & Frame.ICONIFIED) != 0 && (e.getNewState() & Frame.ICONIFIED) == 0) {
         //    application.visible = true;
         //}
+    }
+
+    void initApplication() {
+        try {
+            application = new Application(this);
+            scrollPane.setViewportView(application);
+            application.requestFocusInWindow();
+        } catch (final IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
 }
