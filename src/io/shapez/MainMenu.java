@@ -26,7 +26,13 @@ public class MainMenu extends JPanel {
         }
         final JButton loadGame = new JButton("LOAD GAME");
         final JButton startGame = new JButton("NEW GAME");
-        loadGame.addActionListener(e -> parent.initApplication());
+        loadGame.addActionListener(e -> {
+            final JFileChooser fc = new JFileChooser();
+            final int returnVal = fc.showOpenDialog(MainMenu.this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                parent.initApplication();
+            }
+        });
         startGame.addActionListener(e -> parent.initApplication());
         constraints.gridx = 0;
         constraints.gridy = 0;
