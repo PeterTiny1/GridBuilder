@@ -165,7 +165,20 @@ public class MapChunk {
                         g.fillRect(drawn.x, drawn.y, drawn.width, drawn.height);
                     }
                     if (contents[i][j] != null) {
-                        g.drawImage(TileUtil.getTileTexture(contents[i][j].tile, contents[i][j].direction), drawn.x, drawn.y, drawn.width, drawn.height, null);
+                        double rotation = 0;
+                        if (contents[i][j].direction != null) {
+                            rotation = switch (contents[i][j].direction) {
+                                case Top -> Math.toRadians(0);
+                                case Right -> Math.toRadians(90);
+                                case Bottom -> Math.toRadians(180);
+                                case Left -> Math.toRadians(270);
+                            };
+                        }
+                        g.translate(drawn.x, drawn.y);
+                        g.rotate(rotation, drawn.width >> 1, drawn.height >> 1);
+                        g.drawImage(TileUtil.getTileTexture(contents[i][j].tile), 0, 0, drawn.width, drawn.height, null);
+                        g.rotate(-rotation, drawn.width >> 1, drawn.height >> 1);
+                        g.translate(-drawn.x, -drawn.y);
                     }
                     // Up: x, y-1
                     // Right: x+1, y

@@ -1,9 +1,9 @@
 package io.shapez.util;
 
+import io.shapez.Application;
 import io.shapez.core.Direction;
 import io.shapez.core.Resources;
 import io.shapez.core.Tile;
-import io.shapez.Application;
 import io.shapez.game.*;
 import io.shapez.game.platform.SoundManager;
 
@@ -21,11 +21,11 @@ public class TileUtil {
     public static void clearAll() {
         //for (Chunk chunk : Board.usedChunks) {
         for (int _i = 0; _i < Application.usedChunks.size(); _i++) {
-            MapChunk chunk = Application.usedChunks.get(_i);
+            final MapChunk chunk = Application.usedChunks.get(_i);
             System.out.println(Application.usedChunks.size());
             for (int i = 0; i < chunk.lowerLayer.length; i++) {
                 for (int j = 0; j < chunk.lowerLayer.length; j++) {
-                    BaseItem item = chunk.lowerLayer[i][j];
+                    final BaseItem item = chunk.lowerLayer[i][j];
                     if (item != null/* && (color == Color.RED || color == Color.GREEN || color == Color.BLUE || color == Color.LIGHT_GRAY)*/) {
                         chunk.lowerLayer[i][j] = null;
                     }
@@ -46,19 +46,19 @@ public class TileUtil {
         }
     }
 
-    public static BufferedImage rotateImageByDegrees(BufferedImage bimg, double angle) {
-        int w = bimg.getWidth();
-        int h = bimg.getHeight();
-        BufferedImage bufimage = new BufferedImage(w, h, bimg.getType());
-        Graphics2D g2d = bufimage.createGraphics();
-        g2d.rotate(Math.toRadians(angle), w >> 1, h >> 1);
-        g2d.drawImage(bimg, null, 0, 0);
-        g2d.dispose();
-        return bufimage;
-    }
+//    public static BufferedImage rotateImageByDegrees(final BufferedImage bimg, final double angle) {
+//        final int w = bimg.getWidth();
+//        final int h = bimg.getHeight();
+//        final BufferedImage bufimage = new BufferedImage(w, h, bimg.getType());
+//        final Graphics2D g2d = bufimage.createGraphics();
+//        g2d.rotate(Math.toRadians(angle), w >> 1, h >> 1);
+//        g2d.drawImage(bimg, null, 0, 0);
+//        g2d.dispose();
+//        return bufimage;
+//    }
 
-    public static Image getTileTexture(Tile tile, Direction rot) {
-        BufferedImage a;
+    public static Image getTileTexture(final Tile tile) {
+        final BufferedImage a;
         if (tile == null) {
             return Resources.missingTexture;
         }
@@ -79,28 +79,22 @@ public class TileUtil {
             default:
                 return Resources.missingTexture;
         }
-        a = switch (rot) {
-            case Bottom -> rotateImageByDegrees(a, 180);
-            case Left -> rotateImageByDegrees(a, -90);
-            case Right -> rotateImageByDegrees(a, 90);
-            default -> a;
-        };
 
         return a;
     }
 
-    public static void forcePlace(GameRoot root, int cX, int cY, Tile item, Direction direction) {
-        int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
-        int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
-        MapChunk currentChunk = root.map.getChunkAtTile(offX, offY);
+    public static void forcePlace(final GameRoot root, final int cX, final int cY, final Tile item, final Direction direction) {
+        final int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
+        final int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
+        final MapChunk currentChunk = root.map.getChunkAtTile(offX, offY);
         currentChunk.contents[offX][offY] = null;
         currentChunk.contents[offX][offY] = new Entity(item, direction, cX, cY);
     }
 
-    public static void placeEntity(GameRoot root, int cX, int cY, Tile item, Direction direction) {
-        MapChunk currentChunk = root.map.getChunkAtTile(cX, cY);
-        int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
-        int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
+    public static void placeEntity(final GameRoot root, final int cX, final int cY, final Tile item, final Direction direction) {
+        final MapChunk currentChunk = root.map.getChunkAtTile(cX, cY);
+        final int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
+        final int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
 
         if (currentChunk.contents[offX][offY] != null) {
             currentChunk.contents[offX][offY] = null;
@@ -115,12 +109,12 @@ public class TileUtil {
             Application.usedChunks.add(currentChunk);
         }
 
-        if (checkSpecialProperties(currentChunk, offX, offY, item)) {
+        if (TileUtil.checkSpecialProperties(currentChunk, offX, offY, item)) {
             currentChunk.contents[offX][offY] = null;
         }
     }
 
-    public static boolean checkSpecialProperties(MapChunk currentChunk, int offX, int offY, Tile item) {
+    public static boolean checkSpecialProperties(final MapChunk currentChunk, final int offX, final int offY, final Tile item) {
         // Return:  0 if all is ok
         //          1 if tile should be removed (invalid placement)
         //          2 if (...) to be continued for later versions
@@ -131,9 +125,9 @@ public class TileUtil {
         return false;
     }
 
-    public static boolean checkInvalidTile(Tile item, Tile selecteditem, MapChunk currentChunk, int offX, int offY) {
-        boolean result;
-        result = checkSpecialProperties(currentChunk, offX, offY, item);
+    public static boolean checkInvalidTile(final Tile item, final Tile selecteditem, final MapChunk currentChunk, final int offX, final int offY) {
+        final boolean result;
+        result = TileUtil.checkSpecialProperties(currentChunk, offX, offY, item);
         return result;
     }
 }
