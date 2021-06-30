@@ -417,8 +417,10 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
                 && !TileUtil.checkSpecialProperties(currentChunk, offX, offY, item)) {
 
             if (item != Tile.DEBUG_LowerLayer) {
-                core.root.systemMgr.belt.onEntityAdded(new Entity(item, direction, cX, cY));
-                core.root.systemMgr.belt.updateSurroundingBeltPlacement(new Entity(item, direction, cX, cY));
+                new Thread(() -> {
+                    core.root.systemMgr.belt.onEntityAdded(new Entity(item, direction, cX, cY));
+                    core.root.systemMgr.belt.updateSurroundingBeltPlacement(new Entity(item, direction, cX, cY));
+                });
                 if (currentChunk.contents[offX][offY].tile == Tile.Belt)
                     currentChunk.contents[offX][offY] = new Entity(item, direction, cX, cY);
             } else
