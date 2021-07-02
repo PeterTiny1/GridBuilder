@@ -50,7 +50,6 @@ public class MapView extends BaseMap {
             final byte dpi = this.backgroundCacheDPI;
             parameters.context.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
             parameters.context.scale(1.0 / dpi, 1.0 / dpi);
-
             parameters.context.setPaint(new TexturePaint(cachedBackgroundBuffer, new Rectangle2D.Float(0, 0, cachedBackgroundBuffer.getWidth(), cachedBackgroundBuffer.getHeight())));
             parameters.context.fillRect(parameters.visibleRect.x * dpi, parameters.visibleRect.y * dpi, parameters.visibleRect.width * dpi, parameters.visibleRect.height * dpi);
             parameters.context.scale(dpi, dpi);

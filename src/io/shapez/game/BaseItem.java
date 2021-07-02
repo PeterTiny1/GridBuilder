@@ -10,9 +10,9 @@ public abstract class BaseItem {
     public final boolean renderFloatingItems = true;
 //    public BooleanItem value;
 
-    public void drawItemCenteredClipped(double x, double y, DrawParameters parameters, double diameter) throws IOException {
-//        int diameter = GlobalConfig.defaultItemDiameter;
+    public void drawItemCenteredClipped(final double x, final double y, final DrawParameters parameters, final double diameter) throws IOException {
         if (parameters.visibleRect.contains(x, y)) {
+            System.out.println("Drawing item");
             this.drawItemCenteredImpl(x, y, parameters, diameter);
         }
     }
@@ -21,7 +21,7 @@ public abstract class BaseItem {
 
     public abstract Color getBackgroundColorAsResource();
 
-    public void drawItemCenteredClipped(double x, double y, DrawParameters parameters) throws IOException {
+    public void drawItemCenteredClipped(final double x, final double y, final DrawParameters parameters) throws IOException {
         if (parameters.visibleRect.contains(x, y)) {
             this.drawItemCenteredImpl(x, y, parameters, GlobalConfig.defaultItemDiameter);
         }

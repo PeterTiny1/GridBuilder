@@ -62,6 +62,7 @@ public class GameCore {
     }
 
     public void draw(final Graphics2D context) throws IOException {
+        final GameRoot root = this.root;
         final GameSystemManager systemMgr = root.systemMgr;
 
         root.dynamicTickrate.onFrameRendered();
@@ -70,6 +71,10 @@ public class GameCore {
             root.hud.update();
             return;
         }
+
+        root.gameFrameStarted();
+
+        root.requireRedraw = false;
 
         final double zoomLevel = root.camera.zoomLevel;
         final boolean lowQuality = root.app.settings.getAllSettings().lowQualityTextures;
@@ -90,12 +95,12 @@ public class GameCore {
 
         root.hud.update();
 
-        final double desiredOverlayAlpha = this.root.camera.getIsMapOverlayActive() ? 1 : 0;
+        final double desiredOverlayAlpha = this.root.camera.getIsMapOverlayActive() ? 0 : 1;
+        this.overlayAlpha = this.overlayAlpha * (1 - 0.25) + desiredOverlayAlpha * 0.25;
 
         if (this.root.entityMgr.entities.size() > 5000 || this.root.dynamicTickrate.averageFps < 50) {
             this.overlayAlpha = desiredOverlayAlpha;
         }
-
         if (this.overlayAlpha < 0.99) {
             root.map.drawBackground(params);
             systemMgr.belt.drawBeltItems(params);
@@ -110,10 +115,12 @@ public class GameCore {
     }
 
     private boolean shouldRender() {
+        if (this.root.requireRedraw) {
+            return true;
+        }
         if (this.root.hud.shouldPauseRendering()) {
             return false;
         }
-
         return this.app.isRenderable();
     }
 

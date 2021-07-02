@@ -24,7 +24,6 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 import static io.shapez.managers.providers.MiscProvider.gameName;
 import static io.shapez.managers.providers.MiscProvider.getRandomTitlebar;
@@ -37,6 +36,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     public final ApplicationSettings settings = new ApplicationSettings(this);
     public final boolean visible = true;
     public final RestrictionManager restrictionMgr = new RestrictionManager(this);
+    public Vector mousePosition;
 
     private int scale = 40;
     private int offsetX, offsetY;
@@ -58,7 +58,6 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     public final Main window;
     final GameCore core = new GameCore(this);
     final Savegame savegame = null;
-    public Date date = new Date();
     private long time;
 
     public Application(final Main window) throws IOException {
@@ -174,8 +173,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-        date = new Date();
-        final long currentTime = date.getTime();
+        final long currentTime = System.currentTimeMillis();
         final int moveValue = (shiftPressed) ? 4 : 1;
         if (pressedKeys.size() > 0) {
             for (final Character key : pressedKeys) {
@@ -214,8 +212,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             }
         } else if (scale > 5) {
             scale /= 1.2;
-
         }
+        this.core.root.camera.onMouseWheel(e);
         heldItem = new Rectangle(previousMX - (scale / 2), previousMY - (scale / 2), scale - 2, scale - 2);
     }
 
@@ -363,13 +361,14 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         }
         previousMX = e.getX();
         previousMY = e.getY();
+        this.mousePosition = new Vector(e.getX(), e.getY());
     }
 
     @Override
     public void mouseMoved(final MouseEvent e) {
         previousMX = e.getX();
         previousMY = e.getY();
-
+        this.mousePosition = new Vector(e.getX(), e.getY());
 
         heldItem = new Rectangle(e.getX() - (scale / 2), e.getY() - (scale / 2), scale - 2, scale - 2);
     }
@@ -399,6 +398,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             scale = 40;
             changeOffset(0, 0);
         }
+        core.root.camera.onMouseDown(e);
     }
 
 

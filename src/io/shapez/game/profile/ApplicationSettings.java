@@ -5,9 +5,19 @@ import io.shapez.game.core.ExplainedResult;
 import io.shapez.game.core.ReadWriteProxy;
 import io.shapez.game.savegame.SavegameData;
 
+import java.util.HashMap;
+
 import static java.lang.Integer.parseInt;
 
 public class ApplicationSettings extends ReadWriteProxy {
+    private final HashMap<String, Double> scrollWheelSensitivities = new HashMap<>() {{
+        put("super_slow", 0.25);
+        put("slow", 0.5);
+        put("regular", 1.0);
+        put("fast", 2.0);
+        put("super_fast", 4.0);
+    }};
+
     public ApplicationSettings(final Application app) {
         super(app, "app_settings.bin");
     }
@@ -42,6 +52,11 @@ public class ApplicationSettings extends ReadWriteProxy {
 
     public int getDesiredFps() {
         return parseInt(this.getAllSettings().refreshRate);
+    }
+
+    public double getScrollWheelSensitivity() {
+        final String id = this.getAllSettings().scrollWheelSensitivity;
+        return scrollWheelSensitivities.get(id);
     }
 
     public enum AutosaveInterval {

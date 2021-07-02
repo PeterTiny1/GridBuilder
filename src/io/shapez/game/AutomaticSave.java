@@ -10,19 +10,19 @@ public class AutomaticSave {
         asap
     }
 
-    public AutomaticSave(GameRoot root) {
+    public AutomaticSave(final GameRoot root) {
         this.root = root;
     }
 
     public void update() {
-        int saveInterval = this.root.app.settings.getAutosaveIntervalSeconds();
+        final int saveInterval = this.root.app.settings.getAutosaveIntervalSeconds();
         if (saveInterval != 0) {
             return;
         }
 
-        long lastSaveTime = Math.max(this.lastSaveAttempt, this.root.savegame.getLastRealUpdate());
+        final long lastSaveTime = Math.max(this.lastSaveAttempt, this.root.savegame.getLastRealUpdate());
 
-        double secondsSinceLastSave = (root.app.date.getTime() - lastSaveTime) / 1000.0;
+        final double secondsSinceLastSave = (System.currentTimeMillis() - lastSaveTime) / 1000.0;
         boolean shouldSave = false;
 
         switch (this.saveImportance) {
@@ -35,7 +35,7 @@ public class AutomaticSave {
                 break;
         }
         if (shouldSave) {
-            this.lastSaveAttempt = this.root.app.date.getTime();
+            this.lastSaveAttempt = System.currentTimeMillis();
             this.doSave();
         }
     }

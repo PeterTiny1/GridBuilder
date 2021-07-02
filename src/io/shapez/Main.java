@@ -65,11 +65,6 @@ public class Main extends JFrame implements WindowFocusListener, WindowStateList
 
     @Override
     public void windowStateChanged(final WindowEvent e) {
-        //if ((e.getOldState() & Frame.ICONIFIED) == 0 && (e.getNewState() & Frame.ICONIFIED) != 0) {
-        //    application.visible = false;
-        //} else if ((e.getOldState() & Frame.ICONIFIED) != 0 && (e.getNewState() & Frame.ICONIFIED) == 0) {
-        //    application.visible = true;
-        //}
     }
 
     void initApplication() {

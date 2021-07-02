@@ -5,7 +5,10 @@ import io.shapez.core.Vector;
 import io.shapez.game.platform.PlatformWrapperInterface;
 import io.shapez.managers.providers.MiscProvider;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 
 import static io.shapez.core.Vector.mixVector;
@@ -15,7 +18,7 @@ public class Camera {
     private final double velocityStrength = 0.4;
     private final double velocityFade = 0.98;
     private final byte ticksBeforeErasingVelocity = 10;
-    private final boolean currentlyMoving = false;
+    private boolean currentlyMoving = false;
     private final boolean currentlyPinching = false;
     private final byte velocityMax = 20;
     private final GameRoot root;
@@ -31,6 +34,8 @@ public class Camera {
     public double zoomLevel;
     private final Vector currentShake = new Vector(0, 0);
     private double desiredZoom;
+    private long lastTouchTime;
+    private boolean didMoveSinceTouchStart = false;
 
     public Camera(final GameRoot root, final Application application) {
         this.root = root;
@@ -143,5 +148,50 @@ public class Camera {
     public Vector screenToWorld(final Vector screen) {
         final Vector centerSpace = screen.subScalars((double) this.root.app.getWidth() / 2, (double) this.root.app.getHeight() / 2);
         return centerSpace.divideScalar(this.zoomLevel).add(this.center);
+    }
+
+    public void onMouseWheel(final MouseWheelEvent event) {
+        final double prevZoom = this.zoomLevel;
+        final double scale = 1 + 0.15 * this.root.app.settings.getScrollWheelSensitivity();
+        this.zoomLevel *= event.getWheelRotation() < 0 ? scale : 1 / scale;
+        this.clampZoomLevel();
+        this.desiredZoom = 0;
+        Vector mousePosition = this.root.app.mousePosition;
+        if (!this.root.app.settings.getAllSettings().zoomToCursor) {
+            mousePosition = new Vector(this.root.app.getWidth() / 2.0, this.root.app.getHeight() / 2.0);
+        }
+
+        if (mousePosition != null) {
+            final Vector worldPos = this.root.camera.screenToWorld(mousePosition);
+            final Vector worldDelta = worldPos.sub(this.center);
+            final double actualDelta = this.zoomLevel / prevZoom - 1;
+            this.center = this.center.add(worldDelta.multiplyScalar(actualDelta));
+            this.desiredCenter = null;
+        }
+    }
+
+    public void onMouseDown(final MouseEvent event) {
+        if (!this.checkPreventDoubleMouse()) {
+            return;
+        }
+
+        this.touchPostMoveVelocity = new Vector(0, 0);
+        if (SwingUtilities.isLeftMouseButton(event)) {
+            this.combinedTouchStartHandler(event.getX(), event.getY());
+        } // TODO: implement further statements
+    }
+
+    private void combinedTouchStartHandler(final int x, final int y) {
+        final Vector pos = new Vector(x, y);
+        this.touchPostMoveVelocity = new Vector(0, 0);
+        this.currentlyMoving = true;
+        this.lastMovingPosition = pos;
+        this.lastMovingPositionLastTick = null;
+        this.numTicksStandingStill = 0;
+        this.didMoveSinceTouchStart = false;
+    }
+
+    private boolean checkPreventDoubleMouse() {
+        return !(System.currentTimeMillis() - lastTouchTime < 1000.0);
     }
 }

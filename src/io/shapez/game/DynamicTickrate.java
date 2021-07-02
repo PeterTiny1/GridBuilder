@@ -8,7 +8,7 @@ public class DynamicTickrate {
     double averageTickDuration = 0;
     int accumulatedFps = 0;
     long accumulatedFpsLastUpdate = 0;
-    final int averageFps = 60;
+    int averageFps = 60;
     private int currentTickRate;
     private double deltaMs;
     public double deltaSeconds;
@@ -30,17 +30,17 @@ public class DynamicTickrate {
 
     public void onFrameRendered() {
         ++this.accumulatedFps;
-        final long now = root.app.date.getTime();
+        final long now = System.currentTimeMillis();
         final long timeDuration = now - this.accumulatedFpsLastUpdate;
         if (timeDuration > fpsAccumulationTime) {
-            final long averageFps = (this.accumulatedFps / fpsAccumulationTime) * 1000;
+            this.averageFps = (int) ((this.accumulatedFps / fpsAccumulationTime) * 1000);
             this.accumulatedFps = 0;
             this.accumulatedFpsLastUpdate = now;
         }
     }
 
     public void beginTick() {
-        this.currentTickStart = root.app.date.getTime();
+        this.currentTickStart = System.currentTimeMillis();
         if (this.capturedTicks.size() > currentTickRate * 2) {
             this.capturedTicks.sort(Comparator.comparingInt(o -> o));
             final ArrayList<Integer> ticks = (ArrayList<Integer>) capturedTicks.subList(10, this.capturedTicks.size() - 11);

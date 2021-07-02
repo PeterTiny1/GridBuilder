@@ -11,4 +11,6 @@ public class SettingsStorage {
     public final boolean displayChunkBorders = true;
     public final boolean lowQualityMapResources = false;
     public final boolean simplifiedBelts = false;
+    public String scrollWheelSensitivity = "regular";
+    public boolean zoomToCursor = true;
 }

@@ -27,6 +27,7 @@ public class GameRoot {
     public Layer currentLayer;
     public boolean gameIsFresh;
     public boolean logicInitialized = false;
+    public boolean requireRedraw;
 
     public GameRoot(final Application app) {
         this.app = app;
@@ -39,5 +40,9 @@ public class GameRoot {
 
         this.savegame.writeSavegameAndMetadata();
 
+    }
+
+    public void gameFrameStarted() {
+        buffers.update();
     }
 }
