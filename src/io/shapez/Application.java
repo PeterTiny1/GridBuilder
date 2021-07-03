@@ -122,6 +122,11 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         final Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         DrawGrid(g2d);
+        try {
+            core.draw(g2d);
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
         if (hasItemSelected) {
             final double rotation = switch (cRot) {
                 case Top -> Math.toRadians(0);
@@ -136,16 +141,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             g2d.translate(-heldItem.x, -heldItem.y);
 
         }
-        try {
-            draw(g2d);
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
         g2d.drawImage(Resources.vignette, 0, 0, getWidth(), getHeight(), null);
-    }
-
-    private void draw(final Graphics2D g2d) throws IOException {
-        core.draw(g2d);
     }
 
     private void DrawGrid(final Graphics2D g2d) {
