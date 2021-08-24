@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Direction {
-    Top(1),
-    Right(2),
-    Bottom(3),
-    Left(4);
+    Top(0),
+    Right(1),
+    Bottom(2),
+    Left(3);
 
     private final int value;
     private static final Map<Integer, Direction> map = new HashMap<>();

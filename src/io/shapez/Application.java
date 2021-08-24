@@ -318,6 +318,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             if (cRot != null) {
                 rotIndex = (byte) cRot.getValue();
             }
+            System.out.println("Rot index; " + rotIndex);
+            System.out.println("Rot from index; " + Direction.values()[rotIndex]);
             UIUtil.updateButtonAppearance();
         }
     }
