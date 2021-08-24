@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.Random;
 
 public class MiscProvider {
-    public static final Date date = new Date();
     public static final String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 
     public static final String gameVersion = "1.1";
