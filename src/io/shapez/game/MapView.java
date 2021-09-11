@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class MapView extends BaseMap {
-    final byte backgroundCacheDPI = 2;
     BufferedImage cachedBackgroundBuffer = null;
 
     public MapView(final GameRoot root) {
@@ -21,7 +20,7 @@ public class MapView extends BaseMap {
 
     private void internalInitializeCachedBackgroundCanvases() {
         final byte dims = GlobalConfig.tileSize;
-        final byte dpi = this.backgroundCacheDPI;
+        final byte dpi = 1;
         final BufferedImage canvas = MapView.makeBuffer(dims * dpi, dims * dpi);
 
         final Graphics context = canvas.getGraphics();
@@ -47,7 +46,7 @@ public class MapView extends BaseMap {
 
     public void drawBackground(final DrawParameters parameters) throws IOException {
         if (!this.root.app.settings.getAllSettings().disableTileGrid) {
-            final byte dpi = this.backgroundCacheDPI;
+            final byte dpi = 1;
             parameters.context.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
             parameters.context.scale(1.0 / dpi, 1.0 / dpi);
             parameters.context.setPaint(new TexturePaint(cachedBackgroundBuffer, new Rectangle2D.Float(0, 0, cachedBackgroundBuffer.getWidth(), cachedBackgroundBuffer.getHeight())));
