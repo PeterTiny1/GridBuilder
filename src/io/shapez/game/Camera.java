@@ -45,8 +45,8 @@ public class Camera {
 
     private double findInitialZoom() {
         final int desiredWorldSpaceWidth = 15 * GlobalConfig.tileSize;
-        final int zoomLevelX = this.app.getWidth() / desiredWorldSpaceWidth;
-        final int zoomLevelY = this.app.getHeight() / desiredWorldSpaceWidth;
+        final int zoomLevelX = this.app.window.getWidth() / desiredWorldSpaceWidth;
+        final int zoomLevelY = this.app.window.getHeight() / desiredWorldSpaceWidth;
 
         return Math.min(zoomLevelX, zoomLevelY);
     }
@@ -116,15 +116,15 @@ public class Camera {
     }
 
     private double getViewportWidth() {
-        return this.root.app.getWidth() / this.zoomLevel;
+        return this.root.app.window.getWidth() / this.zoomLevel;
     }
 
     private double getViewportTop() {
-        return this.center.y + this.getViewportHeight() / 2 + (this.currentShake.x * 10) / this.zoomLevel;
+        return this.center.y - this.getViewportHeight() / 2 + (this.currentShake.x * 10) / this.zoomLevel;
     }
 
     private double getViewportHeight() {
-        return this.root.app.getHeight() / this.zoomLevel;
+        return this.root.app.window.getHeight() / this.zoomLevel;
     }
 
     public void transform(final Graphics2D context) {
