@@ -8,7 +8,6 @@ public class MainMenu extends JPanel {
 
     public MainMenu(final Main parent) {
         this.parent = parent;
-        setBackground(Color.WHITE);
         setLayout(new GridBagLayout());
         final GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
