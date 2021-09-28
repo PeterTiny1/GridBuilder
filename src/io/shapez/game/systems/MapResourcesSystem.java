@@ -57,7 +57,16 @@ public class MapResourcesSystem extends GameSystem {
     private void drawSpriteClipped(final DrawParameters parameters, final BufferedImage sprite, final int x, final int y, final int w, final int h, final byte originalW, final byte originalH) {
         final Rectangle rect = new Rectangle(x, y, w, h);
         final Rectangle intersection = rect.intersection(parameters.visibleRect);
-        parameters.context.drawImage(sprite, ((intersection.x - x) / Math.max(w, 1)) * originalW, ((intersection.y - y) / Math.max(h, 1)) * originalH, (originalW * intersection.width) / Math.max(w, 1), (originalH * intersection.height) / Math.max(h, 1), intersection.x, intersection.y, intersection.width, intersection.height, null); //FIXME: this doesn't draw anything right now
+        parameters.context.drawImage(sprite,
+                ((intersection.x - x) / w) * originalW,
+                ((intersection.y - y) / h) * originalH,
+                (originalW * intersection.width) / w,
+                (originalH * intersection.height) / h,
+                intersection.x,
+                intersection.y,
+                intersection.width,
+                intersection.height,
+                null);
     }
 
     public void generateChunkBackground(final BufferedImage canvas, final Graphics2D context, final int w, final int h, final int dpi, final MapChunkView chunk) {
