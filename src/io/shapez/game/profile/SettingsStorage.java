@@ -8,7 +8,7 @@ public class SettingsStorage {
     public final boolean enableColorBlindHelper = false;
     public final boolean lowQualityTextures = false;
     public final boolean disableTileGrid = false;
-    public final boolean displayChunkBorders = true;
+    public final boolean displayChunkBorders = false;
     public final boolean lowQualityMapResources = false;
     public final boolean simplifiedBelts = false;
     public String scrollWheelSensitivity = "regular";

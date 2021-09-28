@@ -22,7 +22,7 @@ public class MapChunkView extends MapChunk {
 
     private void markDirty() {
         ++this.renderIteration;
-        this.renderKey= this.x + "/" + this.y + "@" + this.renderIteration;
+        this.renderKey = this.x + "/" + this.y + "@" + this.renderIteration;
     }
 
     void drawBackgroundLayer(final DrawParameters parameters) throws IOException {
