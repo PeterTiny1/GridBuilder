@@ -95,7 +95,7 @@ public class GameCore {
 
         root.hud.update();
 
-        final double desiredOverlayAlpha = this.root.camera.getIsMapOverlayActive() ? 0 : 1;
+        final double desiredOverlayAlpha = this.root.camera.getIsMapOverlayActive() ? 1 : 0;
         this.overlayAlpha = this.overlayAlpha * (1 - 0.25) + desiredOverlayAlpha * 0.25;
 
         if (this.root.entityMgr.entities.size() > 5000 || this.root.dynamicTickrate.averageFps < 50) {
@@ -106,6 +106,7 @@ public class GameCore {
             systemMgr.belt.drawBeltItems(params);
             root.map.drawForeground(params);
         }
+        // TODO: implement map overlay
 
         context.setTransform(oldTransform);
     }

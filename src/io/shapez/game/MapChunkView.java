@@ -13,9 +13,16 @@ public class MapChunkView extends MapChunk {
         put(Layer.Regular, new ArrayList<>());
         put(Layer.Wires, new ArrayList<>());
     }};
+    int renderIteration = 0;
 
     public MapChunkView(final GameRoot root, final int x, final int y) {
         super(root, x, y);
+        this.markDirty();
+    }
+
+    private void markDirty() {
+        ++this.renderIteration;
+        this.renderKey= this.x + "/" + this.y + "@" + this.renderIteration;
     }
 
     void drawBackgroundLayer(final DrawParameters parameters) throws IOException {

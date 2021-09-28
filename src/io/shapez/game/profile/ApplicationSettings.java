@@ -66,7 +66,7 @@ public class ApplicationSettings extends ReadWriteProxy {
         ten_minutes(10 * 60),
         twenty_minutes(20 * 60);
 
-        protected final int seconds;
+        final int seconds;
 
         AutosaveInterval(final int seconds) {
             this.seconds = seconds;

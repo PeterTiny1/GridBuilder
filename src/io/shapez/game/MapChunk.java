@@ -196,8 +196,8 @@ public class MapChunk {
                 final int movX = (_x + i) * scale + offsetX;
                 final int movY = (_y + i) * scale + offsetY;
 
-                g.drawLine(movX, constY, movX, constY + _s);
-                g.drawLine(constX, movY, constX + _s, movY);
+//                g.drawLine(movX, constY, movX, constY + _s);
+//                g.drawLine(constX, movY, constX + _s, movY);
 
                 if (SettingsManager.drawChunkEdges) {
                     g.setColor(Color.RED);

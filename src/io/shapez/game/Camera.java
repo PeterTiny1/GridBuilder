@@ -1,6 +1,7 @@
 package io.shapez.game;
 
 import io.shapez.Application;
+import io.shapez.core.MouseButtonHandler;
 import io.shapez.core.Vector;
 import io.shapez.game.platform.PlatformWrapperInterface;
 import io.shapez.managers.providers.MiscProvider;
@@ -36,6 +37,7 @@ public class Camera {
     private double desiredZoom;
     private long lastTouchTime;
     private boolean didMoveSinceTouchStart = false;
+    private MouseButtonHandler downPreHandler = new MouseButtonHandler();
 
     public Camera(final GameRoot root, final Application application) {
         this.root = root;
@@ -137,8 +139,8 @@ public class Camera {
     private void clampZoomLevel() {
         final PlatformWrapperInterface wrapper = this.root.app.platformWrapper;
         this.zoomLevel = MiscProvider.clamp(this.zoomLevel, wrapper.getMinimumZoom(app), wrapper.getMaximumZoom(app));
-
-        this.desiredZoom = MiscProvider.clamp(this.desiredZoom, wrapper.getMinimumZoom(app), wrapper.getMaximumZoom(app));
+        if (this.desiredZoom != 0)
+            this.desiredZoom = MiscProvider.clamp(this.desiredZoom, wrapper.getMinimumZoom(app), wrapper.getMaximumZoom(app));
     }
 
     public boolean getIsMapOverlayActive() {
@@ -177,11 +179,15 @@ public class Camera {
 
         this.touchPostMoveVelocity = new Vector(0, 0);
         if (SwingUtilities.isLeftMouseButton(event)) {
-            this.combinedTouchStartHandler(event.getX(), event.getY());
-        } // TODO: implement further statements
+            this.combinedSingleTouchStartHandler(event.getX(), event.getY());
+        } else if (SwingUtilities.isRightMouseButton(event)) {
+            this.downPreHandler.dispatch(new Vector(event.getX(), event.getY()), MouseButton.Right);
+        } else if (SwingUtilities.isMiddleMouseButton(event)) {
+            this.downPreHandler.dispatch(new Vector(event.getX(), event.getY()), MouseButton.Middle);
+        }
     }
 
-    private void combinedTouchStartHandler(final int x, final int y) {
+    private void combinedSingleTouchStartHandler(final int x, final int y) {
         final Vector pos = new Vector(x, y);
         this.touchPostMoveVelocity = new Vector(0, 0);
         this.currentlyMoving = true;
