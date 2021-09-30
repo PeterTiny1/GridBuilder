@@ -58,14 +58,14 @@ public class MapResourcesSystem extends GameSystem {
         final Rectangle rect = new Rectangle(x, y, w, h);
         final Rectangle intersection = rect.intersection(parameters.visibleRect);
         parameters.context.drawImage(sprite,
-                ((intersection.x - x) / w) * originalW,
-                ((intersection.y - y) / h) * originalH,
-                (originalW * intersection.width) / w,
-                (originalH * intersection.height) / h,
                 intersection.x,
                 intersection.y,
                 intersection.width,
                 intersection.height,
+                ((intersection.x - x) / w) * originalW,
+                ((intersection.y - y) / h) * originalH,
+                (originalW * intersection.width) / w,
+                (originalH * intersection.height) / h,
                 null);
     }
 

@@ -381,9 +381,9 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         final int cX = Math.floorDiv(e.getX() - offsetX, scale) - gridOffsetX;
         final int cY = Math.floorDiv(e.getY() - offsetY, scale) - gridOffsetY;
         if (SwingUtilities.isRightMouseButton(e)) {
+            hasItemSelected = false;
             if (Application.item != Tile.None) {
                 Application.item = Tile.None;
-                hasItemSelected = false;
                 UIUtil.updateButtonAppearance();
             } else {
                 clearTile(cX, cY);
