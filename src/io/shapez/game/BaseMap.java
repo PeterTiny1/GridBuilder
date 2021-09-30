@@ -18,7 +18,7 @@ public class BaseMap {
 
     public MapChunkView getChunk(final int x, final int y) {
         final String code = x + "|" + y;
-        chunksById.putIfAbsent(code, new MapChunkView(root, x, y));
+        chunksById.computeIfAbsent(code, k -> new MapChunkView(root, x, y));
         return chunksById.get(code);
     }
 

@@ -20,9 +20,9 @@ public class MapChunk {
     public final ArrayList<Patch> patches = new ArrayList<>();
     public final Rectangle tileSpaceRectangle;
     Rectangle drawn;
-    public final BaseItem[][] lowerLayer;
-    public final Entity[][] contents;
-    private final Entity[][] wireContents;
+    public final BaseItem[][] lowerLayer = new BaseItem[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
+    public final Entity[][] contents = new Entity[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
+    private final Entity[][] wireContents = new Entity[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
     private final ArrayList<Entity> containedEntities = new ArrayList<>();
     private final HashMap<Layer, ArrayList<Entity>> containedEntitiesByLayer = new HashMap<>() {
         {
@@ -40,10 +40,6 @@ public class MapChunk {
         this.tileX = x * GlobalConfig.mapChunkSize;
         this.tileY = y * GlobalConfig.mapChunkSize;
         tileSpaceRectangle = new Rectangle(this.tileX, this.tileY, GlobalConfig.mapChunkSize, GlobalConfig.mapChunkSize);
-
-        lowerLayer = new BaseItem[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
-        contents = new Entity[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
-        wireContents = new Entity[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
 
         generateLowerLayer();
     }

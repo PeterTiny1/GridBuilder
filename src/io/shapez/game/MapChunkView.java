@@ -9,10 +9,6 @@ import java.util.HashMap;
 
 public class MapChunkView extends MapChunk {
     public String renderKey;
-    public final HashMap<Layer, ArrayList<Entity>> containedEntitiesByLayer = new HashMap<>() {{
-        put(Layer.Regular, new ArrayList<>());
-        put(Layer.Wires, new ArrayList<>());
-    }};
     int renderIteration = 0;
 
     public MapChunkView(final GameRoot root, final int x, final int y) {
