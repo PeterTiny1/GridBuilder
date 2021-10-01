@@ -216,7 +216,7 @@ public class MapChunk {
                 i++;
             }
 
-        } else {
+        }/* else {
             final int movY = (y * GlobalConfig.mapChunkSize + gridOffsetY) * scale + offsetY;
             drawn = new Rectangle((x * GlobalConfig.mapChunkSize + gridOffsetX) * scale + offsetX, movY, GlobalConfig.mapChunkSize * scale, GlobalConfig.mapChunkSize * scale);
             if (!containsEntity) {
@@ -229,7 +229,7 @@ public class MapChunk {
 
                 g.drawLine(constX, movY, constX + _s, movY);
             }
-        }
+        }*/
     }
 
     public Entity getLayerContentFromWorldCoords(final double worldX, final double worldY, final Layer layer) {
