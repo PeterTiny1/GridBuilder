@@ -106,7 +106,12 @@ public class GameCore {
             systemMgr.belt.drawBeltItems(params);
             root.map.drawForeground(params);
         }
-        // TODO: implement map overlay
+        if (this.overlayAlpha > 0.01) {
+            Composite composite = context.getComposite();
+            context.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) overlayAlpha));
+            root.map.drawOverlay(params);
+            context.setComposite(composite);
+        }
 
         context.setTransform(oldTransform);
     }

@@ -83,6 +83,7 @@ public class MapView extends BaseMap {
                     case drawBackgroundLayer -> chunk.drawBackgroundLayer(parameters);
                     case drawForegroundDynamicLayer -> chunk.drawForegroundDynamicLayer(parameters);
                     case drawForegroundStaticLayer -> chunk.drawForegroundStaticLayer(parameters);
+                    case drawOverlay -> chunk.drawOverlay(parameters);
                 }
             }
         }
@@ -109,5 +110,9 @@ public class MapView extends BaseMap {
         final int chunkX = (int) Math.floor((double) tileX / (double) GlobalConfig.mapChunkSize);
         final int chunkY = (int) Math.floor((double) tileY / (double) GlobalConfig.mapChunkSize);
         return this.getChunk(chunkX, chunkY);
+    }
+
+    public void drawOverlay(DrawParameters params) throws IOException {
+        this.drawVisibleChunks(params, MapChunkView.Methods.drawOverlay);
     }
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MapChunkView extends MapChunk {
+    final int CHUNK_OVERLAY_RES = 3;
     public String renderKey;
     public final HashMap<Layer, ArrayList<Entity>> containedEntitiesByLayer = new HashMap<>() {{
         put(Layer.Regular, new ArrayList<>());
@@ -46,7 +47,13 @@ public class MapChunkView extends MapChunk {
         systemManager.display.drawChunk(parameters, this);
     }
 
+    public void drawOverlay(DrawParameters parameters) {
+        final int overlaySize = GlobalConfig.mapChunkSize * CHUNK_OVERLAY_RES;
+//        final sprite = this.root.buffers.getForKey("chunk@" + this.root.currentLayer, this.renderKey, overlaySize, overlaySize, 1)
+        //TODO: implement this, I am not bothered with it right now
+    }
+
     public enum Methods {
-        drawForegroundDynamicLayer, drawForegroundStaticLayer, drawBackgroundLayer
+        drawForegroundDynamicLayer, drawForegroundStaticLayer, drawBackgroundLayer, drawOverlay
     }
 }
