@@ -15,7 +15,7 @@ public class MapResourcesSystem extends GameSystem {
 
     public void drawChunk(final DrawParameters parameters, final MapChunkView chunk) throws IOException {
         final BufferedImage basicChunkBackground = this.root.buffers.getForKey("mapresourcebg", chunk.renderKey, GlobalConfig.mapChunkSize, GlobalConfig.mapChunkSize, 1, this, chunk);
-        drawSpriteClipped(parameters, basicChunkBackground, chunk.tileX * GlobalConfig.tileSize, chunk.tileY * GlobalConfig.tileSize, GlobalConfig.mapChunkWorldSize, GlobalConfig.mapChunkWorldSize, GlobalConfig.mapChunkSize, GlobalConfig.mapChunkSize);
+        drawSprite(parameters, basicChunkBackground, chunk.tileX * GlobalConfig.tileSize, chunk.tileY * GlobalConfig.tileSize, GlobalConfig.mapChunkWorldSize, GlobalConfig.mapChunkWorldSize);
         final Composite composite = parameters.context.getComposite();
         parameters.context.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .5f));
         if (this.root.app.settings.getAllSettings().lowQualityMapResources) {
@@ -54,26 +54,15 @@ public class MapResourcesSystem extends GameSystem {
         parameters.context.setComposite(composite);
     }
 
-    private void drawSpriteClipped(final DrawParameters parameters, final BufferedImage sprite, final int x, final int y, final int w, final int h, final byte originalW, final byte originalH) {
-        final Rectangle rect = new Rectangle(x, y, w, h);
-        final Rectangle intersection = rect.intersection(parameters.visibleRect);
-        parameters.context.drawImage(sprite,
-                intersection.x,
-                intersection.y,
-                intersection.x + intersection.width,
-                intersection.y + intersection.height,
-                ((intersection.x - x) / w) * originalW,
-                ((intersection.y - y) / h) * originalH,
-                (originalW * intersection.width) / w,
-                (originalH * intersection.height) / h,
-                null);
+    private void drawSprite(final DrawParameters parameters, final BufferedImage sprite, final int x, final int y, final int w, final int h) {
+        parameters.context.drawImage(sprite, x, y, w, h, null);
     }
 
     public void generateChunkBackground(final BufferedImage canvas, final Graphics2D context, final int w, final int h, final int dpi, final MapChunkView chunk) {
         if (this.root.app.settings.getAllSettings().disableTileGrid) {
             context.setColor(LightTheme.Map.background);
             context.fillRect(0, 0, w, h);
-        }  //else            context.clearRect(0, 0, w, h);
+        }
 
         context.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .5f));
         final BaseItem[][] layer = chunk.lowerLayer;

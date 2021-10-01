@@ -120,6 +120,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     public void paintComponent(final Graphics g) {
         super.paintComponent(g);
         final Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         try {
             core.draw(g2d);
@@ -158,7 +159,6 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         final int c2y = rightBottomChunk.y;
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         for (int x = c1x - 1; ++x < c2x + 1; ) {
             for (int y = c1y - 1; ++y < c2y + 1; ) {
                 final MapChunk currentChunk = core.root.map.getChunk(x, y);

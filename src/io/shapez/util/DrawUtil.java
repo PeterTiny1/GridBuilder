@@ -18,9 +18,9 @@ public class DrawUtil {
     }
 
     private static void drawCached(BufferedImage image, DrawParameters parameters, double x, double y, double width, double height, boolean clipping) {
-        Rectangle visibleRect = parameters.visibleRect;
-
-        String scale = parameters.desiredAtlasScale;
+//        Rectangle visibleRect = parameters.visibleRect;
+//
+//        String scale = parameters.desiredAtlasScale;
         parameters.context.drawImage(
                 image,
                 (int) x,
