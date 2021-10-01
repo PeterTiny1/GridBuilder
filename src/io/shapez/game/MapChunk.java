@@ -156,10 +156,10 @@ public class MapChunk {
                 int j = 0;
                 while (j < GlobalConfig.mapChunkSize) {
                     drawn = new Rectangle((x * GlobalConfig.mapChunkSize + gridOffsetX + i) * scale + offsetX, (y * GlobalConfig.mapChunkSize + gridOffsetY + j) * scale + offsetY, scale, scale);
-                    if (lowerLayer[i][j] != null) {
-                        g.setColor(lowerLayer[i][j].getBackgroundColorAsResource());
-                        g.fillRect(drawn.x, drawn.y, drawn.width, drawn.height);
-                    }
+//                    if (lowerLayer[i][j] != null) {
+//                        g.setColor(lowerLayer[i][j].getBackgroundColorAsResource());
+//                        g.fillRect(drawn.x, drawn.y, drawn.width, drawn.height);
+//                    }
                     if (contents[i][j] != null) {
                         double rotation = 0;
                         if (contents[i][j].direction != null) {

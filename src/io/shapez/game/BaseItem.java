@@ -12,7 +12,6 @@ public abstract class BaseItem {
 
     public void drawItemCenteredClipped(final double x, final double y, final DrawParameters parameters, final double diameter) throws IOException {
         if (parameters.visibleRect.contains(x, y)) {
-//            System.out.println("Drawing item");
             this.drawItemCenteredImpl(x, y, parameters, diameter);
         }
     }

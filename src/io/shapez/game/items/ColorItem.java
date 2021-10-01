@@ -5,10 +5,17 @@ import io.shapez.core.ItemType;
 import io.shapez.game.BaseItem;
 import io.shapez.game.Colors;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
+
+import static io.shapez.util.DrawUtil.drawCachedCentered;
 
 public class ColorItem extends BaseItem {
     public final Colors color;
+    private BufferedImage cachedSprite;
 
     public ColorItem(Colors color) {
         super();
@@ -20,8 +27,12 @@ public class ColorItem extends BaseItem {
     }
 
     @Override
-    protected void drawItemCenteredImpl(double x, double y, DrawParameters g2d, double diameter) {
-
+    protected void drawItemCenteredImpl(double x, double y, DrawParameters parameters, double diameter) throws IOException {
+        final double realDiameter = diameter * 0.6;
+        if (this.cachedSprite == null) {
+            cachedSprite = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/sprites/colors/" + this.color + ".png")));
+        }
+        drawCachedCentered(cachedSprite, parameters, x, y, realDiameter);
     }
 
     @Override

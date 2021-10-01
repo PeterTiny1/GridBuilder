@@ -25,9 +25,6 @@ public class ShapeDefinition extends BasicSerializableObject {
         return "ShapeDefinition";
     }
 
-    ShapeDefinition() {
-    }
-
     public void drawCentered(final double x, final double y, final DrawParameters parameters, final double diameter) {
         final double dpi = DpiManager.smoothenDpi(GlobalConfig.shapesSharpness * parameters.zoomLevel);
 
