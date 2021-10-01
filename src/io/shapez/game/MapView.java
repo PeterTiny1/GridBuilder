@@ -68,13 +68,13 @@ public class MapView extends BaseMap {
         final int minY = top - border;
         final int maxY = bottom + border;
         final int minX = left - border;
-        final int maxX = right - border;
+        final int maxX = right + border;
 
-        final int chunkStartsX = minX / GlobalConfig.mapChunkSize;
-        final int chunkStartsY = minY / GlobalConfig.mapChunkSize;
+        final int chunkStartsX = Math.floorDiv(minX, GlobalConfig.mapChunkSize);
+        final int chunkStartsY = Math.floorDiv(minY, GlobalConfig.mapChunkSize);
 
-        final int chunkEndX = maxX / GlobalConfig.mapChunkSize;
-        final int chunkEndY = maxY / GlobalConfig.mapChunkSize;
+        final int chunkEndX = Math.floorDiv(maxX, GlobalConfig.mapChunkSize);
+        final int chunkEndY = Math.floorDiv(maxY, GlobalConfig.mapChunkSize);
 
         for (int chunkX = chunkStartsX; chunkX <= chunkEndX; chunkX++) {
             for (int chunkY = chunkStartsY; chunkY <= chunkEndY; ++chunkY) {
