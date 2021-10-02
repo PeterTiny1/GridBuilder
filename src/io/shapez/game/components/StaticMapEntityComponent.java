@@ -109,7 +109,7 @@ public class StaticMapEntityComponent extends Component {
         parameters.context.drawImage(image, (int) x, (int) y, (int) w, (int) h, null);
     }
 
-    private boolean shouldBeDrawn(final DrawParameters parameters) {
+    public boolean shouldBeDrawn(final DrawParameters parameters) {
         double x = 0;
         double y = 0;
         double w = 0;

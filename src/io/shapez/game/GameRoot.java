@@ -28,6 +28,7 @@ public class GameRoot {
     public boolean gameIsFresh;
     public boolean logicInitialized = false;
     public boolean requireRedraw;
+    public ProductionAnalytics productionAnalytics;
 
     public GameRoot(final Application app) {
         this.app = app;

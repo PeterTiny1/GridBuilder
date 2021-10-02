@@ -60,13 +60,13 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     final Savegame savegame = null;
     private long time;
 
-    public Application(final Main window) throws IOException {
+    public Application(final Main window) throws Exception {
         this.window = window;
 
         initBoard();
     }
 
-    private void initBoard() throws IOException {
+    private void initBoard() throws Exception {
         addKeyListener(this);
         addMouseMotionListener(this);
         addMouseListener(this);

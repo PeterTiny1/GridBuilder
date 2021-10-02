@@ -14,6 +14,7 @@ public class GameSystemManager {
     public DisplaySystem display;
     public ItemProcessorSystem itemProcessor;
     public FilterSystem filter;
+    public HubSystem hub;
     ItemEjectorSystem itemEjector;
     final MapResourcesSystem mapResources;
     MinerSystem miner;
@@ -30,6 +31,7 @@ public class GameSystemManager {
         lever = new LeverSystem(root);
         display = new DisplaySystem(root);
         itemProcessor = new ItemProcessorSystem(root);
+        hub = new HubSystem(root);
     }
 
     public void update() {

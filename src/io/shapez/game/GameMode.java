@@ -6,6 +6,8 @@ import java.util.HashMap;
 public abstract class GameMode {
     public abstract HashMap<String, UpgradeTiers> getUpgrades();
 
+    public abstract ArrayList<LevelDefinition> getLevelDefinitions();
+
     public static class UpgradeTiers {
         final ArrayList<TierRequirement> required;
 

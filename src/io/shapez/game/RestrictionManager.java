@@ -36,4 +36,8 @@ public class RestrictionManager extends ReadWriteProxy {
     public boolean getIsStandaloneMarketingActive() {
         return this.isLimitedVersion();
     }
+
+    public boolean getHasExtendedLevelsAndFreeplay() {
+        return !this.isLimitedVersion() || this.currentData.savegameV1119Imported;
+    }
 }

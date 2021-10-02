@@ -7,18 +7,52 @@ import io.shapez.game.savegame.BasicSerializableObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
+import static io.shapez.game.Colors.shortcodeToColor;
 
 public class ShapeDefinition extends BasicSerializableObject {
-    final ArrayList<ShapeLayer> layers = new ArrayList<>();
+    ArrayList<ShapeLayer> layers;
     private Object bufferGnerator;
     private final Vector[] arrayQuadrantIndexToOffset = new Vector[]{new Vector(1, -1), new Vector(1, 1), new Vector(-1, 1), new Vector(-1, -1)};
     private String cachedHash = null;
-    private final HashMap<SubShape, Character> subShapeToShortcode = new HashMap<>() {{
+    private static final HashMap<SubShape, Character> subShapeToShortcode = new HashMap<>() {{
         put(SubShape.rect, 'R');
         put(SubShape.circle, 'C');
         put(SubShape.star, 'S');
         put(SubShape.windmill, 'W');
     }};
+    private static final HashMap<Character, SubShape> shortcodeToSubShape = new HashMap<>() {{
+        for (Map.Entry<SubShape, Character> pair : subShapeToShortcode.entrySet()) {
+            put(pair.getValue(), pair.getKey());
+        }
+    }};
+
+    public ShapeDefinition(ArrayList<ShapeLayer> layers) {
+        this.layers = layers;
+    }
+
+    public static ShapeDefinition fromShortKey(String key) {
+        String[] sourceLayers = key.split(":");
+        ArrayList<ShapeLayer> layers = new ArrayList<>();
+        for (String sourceLayer : sourceLayers) {
+            char[] text = sourceLayer.toCharArray();
+            assert text.length == 8;
+            ShapeLayer quads = new ShapeLayer(new ShapeLayerItem[]{null, null, null, null});
+            for (int quad = 0; quad < 4; quad++) {
+                char shapeText = text[quad * 2];
+                SubShape subShape = shortcodeToSubShape.get(shapeText);
+                Colors color = shortcodeToColor.get(text[quad * 2 + 1]);
+                if (subShape != null) {
+                    quads.layerItems[quad] = new ShapeLayerItem(subShape, color);
+                } else assert shapeText == '-' : "Invalid shape key:" + key;
+            }
+            layers.add(quads);
+        }
+        ShapeDefinition definition = new ShapeDefinition(layers);
+        definition.cachedHash = key;
+        return definition;
+    }
 
     @Override
     protected String getId() {
@@ -90,16 +124,25 @@ public class ShapeDefinition extends BasicSerializableObject {
 //        }
 //    }
 
-    private static class ShapeLayer {
-        final ShapeLayerItem[] layerItems = new ShapeLayerItem[4];
+    public static class ShapeLayer {
+        ShapeLayerItem[] layerItems;
+
+        ShapeLayer(ShapeLayerItem[] layerItems) {
+            this.layerItems = layerItems;
+        }
     }
 
-    private static class ShapeLayerItem {
+    public static class ShapeLayerItem {
         SubShape subShape;
         Colors color;
+
+        ShapeLayerItem(SubShape subShape, Colors color) {
+            this.subShape = subShape;
+            this.color = color;
+        }
     }
 
-    private enum SubShape {
+    public enum SubShape {
         rect,
         circle,
         star,

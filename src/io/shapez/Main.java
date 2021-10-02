@@ -72,7 +72,7 @@ public class Main extends JFrame implements WindowFocusListener, WindowStateList
             application = new Application(this);
             scrollPane.setViewportView(application);
             application.requestFocusInWindow();
-        } catch (final IOException ioException) {
+        } catch (final Exception ioException) {
             ioException.printStackTrace();
         }
     }

@@ -36,7 +36,7 @@ public class GameCore {
         root.automaticSave.update();
     }
 
-    public void initializeRoot(final Savegame savegame) throws IOException {
+    public void initializeRoot(final Savegame savegame) throws Exception {
         this.root = new GameRoot(this.app);
         this.root.savegame = savegame;
 
@@ -56,6 +56,7 @@ public class GameCore {
         root.systemMgr = new GameSystemManager(root);
         root.shapeDefinitionMgr = new ShapeDefinitionManager(root);
         root.hubGoals = new HubGoals(root);
+        root.productionAnalytics = new ProductionAnalytics(root);
         root.buffers = new BufferMaintainer(root);
 
         this.root.hud.initialize();
@@ -105,6 +106,7 @@ public class GameCore {
             root.map.drawBackground(params);
             systemMgr.belt.drawBeltItems(params);
             root.map.drawForeground(params);
+            systemMgr.hub.draw(params);
         }
         if (this.overlayAlpha > 0.01) {
             Composite composite = context.getComposite();

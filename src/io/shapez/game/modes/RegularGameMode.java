@@ -2,6 +2,8 @@ package io.shapez.game.modes;
 
 import io.shapez.game.GameMode;
 import io.shapez.game.GameRoot;
+import io.shapez.game.HubGoalReward;
+import io.shapez.game.LevelDefinition;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +18,8 @@ public class RegularGameMode extends GameMode {
     private final GameRoot root;
     private final String finalGameShape = "RuCw--Cw:----Ru--";
     private final String rocketShape = "CbCuCbCu:Sr------:--CrSrCr:CwCwCwCw";
+    final ArrayList<LevelDefinition> fullVersionLevels = generateLevelDefinitions(false);
+    final ArrayList<LevelDefinition> demoVersionLevels = generateLevelDefinitions(true);
 
     public RegularGameMode(final GameRoot root) {
         super();
@@ -27,6 +31,11 @@ public class RegularGameMode extends GameMode {
         final HashMap<String, UpgradeTiers> fullVersionUpgrades = generateUpgrades(false);
         final HashMap<String, UpgradeTiers> demoVersionUpgrades = generateUpgrades(true);
         return this.root.app.restrictionMgr.getHasExtendedUpgrades() ? fullVersionUpgrades : demoVersionUpgrades;
+    }
+
+    @Override
+    public ArrayList<LevelDefinition> getLevelDefinitions() {
+        return this.root.app.restrictionMgr.getHasExtendedLevelsAndFreeplay() ? fullVersionLevels : demoVersionLevels;
     }
 
     private HashMap<String, UpgradeTiers> generateUpgrades(final boolean limitedVersion) {
@@ -94,5 +103,40 @@ public class RegularGameMode extends GameMode {
         final List<TierRequirement> temporaryArray = Arrays.asList(new TierRequirement[numEndgameUpgrades]);
         IntStream.range(0, temporaryArray.size()).forEach(index -> temporaryArray.set(index, new TierRequirement(new UpgradeRequirement[]{new UpgradeRequirement(preparementShape, 30000 + index * 10000), new UpgradeRequirement(finalGameShape, 20000 + index * 5000), new UpgradeRequirement(rocketShape, 20000 + index * 5000)}, true)));
         return temporaryArray;
+    }
+
+    ArrayList<LevelDefinition> generateLevelDefinitions(boolean limitedVersion) {
+        return new ArrayList<>() {{
+            add(new LevelDefinition("CuCuCuCu", 30, HubGoalReward.RewardCutterAndTrash, false));
+            add(new LevelDefinition("----CuCu", 40, HubGoalReward.NoReward, false));
+            add(new LevelDefinition("RuRuRuRu", 70, HubGoalReward.RewardBalancer, false));
+            add(new LevelDefinition("RuRu----", 70, HubGoalReward.RewardRotator, false));
+            add(new LevelDefinition("Cu----Cu", 170, HubGoalReward.RewardTunnel, false));
+            add(new LevelDefinition("Cu------", 270, HubGoalReward.RewardPainter, false));
+            add(new LevelDefinition("CrCrCrCr", 300, HubGoalReward.RewardRotatorCcw, false));
+            if (limitedVersion) {
+                add(new LevelDefinition("CrCrCrCr", 0, HubGoalReward.RewardDemoEnd, false));
+            } else {
+                add(new LevelDefinition("RbRb----", 480, HubGoalReward.RewardMixer, false));
+                add(new LevelDefinition("CpCpCpCp", 600, HubGoalReward.RewardMerger, false));
+                add(new LevelDefinition("ScScScSc", 800, HubGoalReward.RewardStacker, false));
+                add(new LevelDefinition("CgScScCg", 1000, HubGoalReward.RewardMinerChainable, false));
+                add(new LevelDefinition("CbCbCbRb:CwCwCwCw", 1000, HubGoalReward.RewardBlueprints, false));
+                add(new LevelDefinition("RpRpRpRp:CwCwCwCw", 3800, HubGoalReward.RewardUndergroundBeltTier2, false));
+                add(new LevelDefinition("--Cg----:--Cr----", 8, HubGoalReward.RewardBeltReader, true));
+                add(new LevelDefinition("SrSrSrSr:CyCyCyCy", 10000, HubGoalReward.RewardStorage, false));
+                add(new LevelDefinition("SrSrSrSr:CyCyCyCy:SwSwSwSw", 6000, HubGoalReward.RewardCutterQuad, false));
+                add(new LevelDefinition("CbRbRbCb:CwCwCwCw:WbWbWbWb", 20000, HubGoalReward.RewardPainterDouble, false));
+                add(new LevelDefinition("Sg----Sg:CgCgCgCg:--CyCy--", 20000, HubGoalReward.RewardRotator180, false));
+                add(new LevelDefinition("CpRpCp--:SwSwSwSw", 25000, HubGoalReward.RewardSplitter, false));
+                add(new LevelDefinition(finalGameShape, 25000, HubGoalReward.RewardWiresPaintersAndLevers, false));
+                add(new LevelDefinition("CrCwCrCw:CwCrCwCr:CrCwCrCw:CwCrCwCr", 25000, HubGoalReward.RewardFilter, false));
+                add(new LevelDefinition("Cg----Cr:Cw----Cw:Sy------:Cy----Cy", 25000, HubGoalReward.RewardConstantSignal, false));
+                add(new LevelDefinition("CcSyCcSy:SyCcSyCc:CcSyCcSy", 25000, HubGoalReward.RewardDisplay, false));
+                add(new LevelDefinition("CcRcCcRc:RwCwRwCw:Sr--Sw--:CyCyCyCy", 25000, HubGoalReward.RewardLogicGates, false));
+                add(new LevelDefinition("CrCwCrCw:CwCrCwCr:CrCwCrCw:CwCrCwCr", 25000, HubGoalReward.RewardVirtualProcessing, false));
+                add(new LevelDefinition("CbCuCbCu:Sr------:--CrSrCr:CwCwCwCw", 50000, HubGoalReward.RewardFreeplay, false));
+            }
+        }};
     }
 }
