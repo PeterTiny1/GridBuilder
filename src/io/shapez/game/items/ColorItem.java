@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
+import static io.shapez.game.Colors.colorToCode;
 import static io.shapez.util.DrawUtil.drawCachedCentered;
 
 public class ColorItem extends BaseItem {
@@ -37,16 +38,7 @@ public class ColorItem extends BaseItem {
 
     @Override
     public Color getBackgroundColorAsResource() {
-        return switch (color) {
-            case red -> Color.RED;
-            case green -> Color.GREEN;
-            case blue -> Color.BLUE;
-            case cyan -> Color.CYAN;
-            case uncolored -> Color.GRAY;
-            case white -> Color.WHITE;
-            case yellow -> Color.YELLOW;
-            case purple -> Color.MAGENTA;
-        };
+        return colorToCode.get(this.color);
     }
 
     @Override

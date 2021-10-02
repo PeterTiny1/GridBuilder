@@ -31,7 +31,7 @@ public enum Colors {
         }
     }};
 
-    public static final HashMap<Colors, Color> colorsToCode = new HashMap<>() {{
+    public static final HashMap<Colors, Color> colorToCode = new HashMap<>() {{
         put(Colors.red, new Color(0xff666a));
         put(Colors.green, new Color(0x78ff66));
         put(Colors.blue, new Color(0x66a7ff));

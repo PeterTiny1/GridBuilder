@@ -38,7 +38,7 @@ public class BufferMaintainer {
 
         final BufferedImage canvas = MapView.makeBuffer(effectiveWidth, effectiveHeight);
         final Graphics2D context = (Graphics2D) canvas.getGraphics();
-        mapResourcesSystem.generateChunkBackground(canvas, context, w, h, dpi, chunk);
+        mapResourcesSystem.generateChunkBackground(context, w, h, chunk);
         parent.put(subKey, new CacheEntry(canvas, context, this.iterationIndex));
         return canvas;
     }

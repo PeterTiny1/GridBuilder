@@ -58,7 +58,7 @@ public class MapResourcesSystem extends GameSystem {
         parameters.context.drawImage(sprite, x, y, w, h, null);
     }
 
-    public void generateChunkBackground(final BufferedImage canvas, final Graphics2D context, final int w, final int h, final int dpi, final MapChunkView chunk) {
+    public void generateChunkBackground(final Graphics2D context, final int w, final int h, final MapChunkView chunk) {
         if (this.root.app.settings.getAllSettings().disableTileGrid) {
             context.setColor(LightTheme.Map.background);
             context.fillRect(0, 0, w, h);
