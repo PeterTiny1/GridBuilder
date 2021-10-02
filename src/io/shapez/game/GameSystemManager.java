@@ -7,6 +7,7 @@ import java.io.IOException;
 public class GameSystemManager {
     private final GameRoot root;
     public BeltSystem belt;
+    public io.shapez.game.systems.ItemProcessorSystem itemProcessorSystem;
     public BeltUnderlaysSystem beltUnderlays;
     public ItemAcceptorSystem itemAcceptor;
     public StaticMapEntitySystem staticMapEntities;
@@ -23,6 +24,7 @@ public class GameSystemManager {
         this.root = root;
         mapResources = new MapResourcesSystem(root);
         belt = new BeltSystem(root);
+        itemProcessor = new ItemProcessorSystem(root);
         itemEjector = new ItemEjectorSystem(root);
         miner = new MinerSystem(root);
         beltUnderlays = new BeltUnderlaysSystem(root);

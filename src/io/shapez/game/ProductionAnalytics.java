@@ -36,6 +36,12 @@ public class ProductionAnalytics {
         return slices.get(slices.size() - 2);
     }
 
+    public void onShapeDelivered(ShapeDefinition definition) {
+        String key = definition.getHash();
+        ArrayList<Integer> entry = this.history.get(AnalyticsDataSource.delivered);
+        entry.set(entry.size() - 1, (entry.get(entry.size() - 1)) + 1);
+    }
+
     enum AnalyticsDataSource {
         produced,
         stored,

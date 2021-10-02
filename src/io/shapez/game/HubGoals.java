@@ -154,6 +154,12 @@ public class HubGoals {
         return this.storedShapes.get(definition.getHash());
     }
 
+    public void handleDefinitionDelivered(ShapeDefinition definition) {
+        String hash = definition.getHash();
+        this.storedShapes.put(hash,(this.storedShapes.get(hash)) + 1);
+        this.root.productionAnalytics.onShapeDelivered(definition);
+    }
+
     static class Goal {
         private final ShapeDefinition definition;
         private final int required;
