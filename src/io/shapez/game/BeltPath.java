@@ -35,15 +35,15 @@ public class BeltPath extends BasicSerializableObject {
 
     }
 
-    static BeltPath fromSerialized(final Object data) {
-        final BeltPath fakeObject = new BeltPath();
-// String errorCodeDesiralize = fakeObject.deserialize(data);
-// if (errorCodeDesiralize != null) {
-//     return errorCodeDesiralize;
-// }
-        fakeObject.init(false);
-        return fakeObject;
-    }
+//    static BeltPath fromSerialized(final Object data) {
+//        final BeltPath fakeObject = new BeltPath();
+//        String errorCodeDesiralize = fakeObject.deserialize(data);
+//        if (errorCodeDesiralize != null) {
+//            return errorCodeDesiralize;
+//        }
+//        fakeObject.init(false);
+//        return fakeObject;
+//    }
 
     private void init(final boolean computeSpacing) {
         this.onPathChanged();
@@ -395,7 +395,7 @@ public class BeltPath extends BasicSerializableObject {
             }
             return;
         }
-        final double currentItemPos = this.spacingToFirstItem;
+        double currentItemPos = this.spacingToFirstItem;
         int currentItemIndex = 0;
         double trackPos = 0.0;
 
@@ -406,8 +406,9 @@ public class BeltPath extends BasicSerializableObject {
                 final StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
                 final Vector localPos = beltComp.transformBeltToLocalSpace(currentItemPos - trackPos);
                 final Vector worldPos = staticComp.localTileToWorld(localPos).toWorldSpaceCenterOfTile();
+                final var distanceAndItem = this.items.get(currentItemIndex);
                 items.get(currentItemIndex).getValue().drawItemCenteredClipped(worldPos.x, worldPos.y, parameters);
-//                currentItemPos += distance;
+                currentItemPos += distanceAndItem.getKey();
                 currentItemIndex++;
                 if (currentItemIndex >= this.items.size()) {
                     return;
