@@ -1,25 +1,22 @@
 package io.shapez.game;
 
-import io.shapez.core.Direction;
-import io.shapez.core.DrawParameters;
-import io.shapez.core.Layer;
+import io.shapez.core.*;
 import io.shapez.core.Vector;
-import io.shapez.game.components.BeltComponent;
-import io.shapez.game.components.ItemAcceptorComponent;
-import io.shapez.game.components.StaticMapEntityComponent;
+import io.shapez.game.components.*;
 import io.shapez.game.savegame.BaseDataType;
 import io.shapez.game.savegame.BasicSerializableObject;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.BiFunction;
 
 public class BeltPath extends BasicSerializableObject {
     static String getId = "BeltPath";
     private final ArrayList<AbstractMap.SimpleEntry<Double, BaseItem>> items = new ArrayList<>();
     private GameRoot root;
     public LinkedList<Entity> entityPath = new LinkedList<>();
-    AcceptingEntityAndSlot acceptorTarget;
+    BiFunction<BaseItem, Integer, Boolean> boundAcceptor;
     private int numCompressedItemsAfterFirstItem;
     private double totalLength;
     public double spacingToFirstItem;
@@ -71,11 +68,11 @@ public class BeltPath extends BasicSerializableObject {
     }
 
     public void onPathChanged() {
-        this.acceptorTarget = this.computeAcceptingEntityAndSlot();
+        this.boundAcceptor = this.computeAcceptingEntityAndSlot();
         this.numCompressedItemsAfterFirstItem = 0;
     }
 
-    private AcceptingEntityAndSlot computeAcceptingEntityAndSlot() {
+    private BiFunction<BaseItem, Integer, Boolean> computeAcceptingEntityAndSlot() {
         final Entity lastEntity = this.entityPath.get(this.entityPath.size() - 1);
         final StaticMapEntityComponent lastStatic = lastEntity.components.StaticMapEntity;
         final BeltComponent lastBeltComp = lastEntity.components.Belt;
@@ -86,28 +83,85 @@ public class BeltPath extends BasicSerializableObject {
         final Vector ejectSlotWsTargetWsTile = ejectSlotWsTile.add(ejectSlotWsDirectionVector);
 
         final Entity targetEntity = root.map.getLayerContentXY(ejectSlotWsTargetWsTile.x, ejectSlotWsTargetWsTile.y, Layer.Regular);
+        if (targetEntity == null) {
+            return null;
+        }
+        final boolean noSimplifiedBelts = !this.root.app.settings.getAllSettings().simplifiedBelts;
+        final StaticMapEntityComponent targetStaticComp = targetEntity.components.StaticMapEntity;
+        final BeltComponent targetBeltComp = targetEntity.components.Belt;
 
-        if (targetEntity != null) {
-            final StaticMapEntityComponent targetStaticComp = targetEntity.components.StaticMapEntity;
-            final BeltComponent targetBeltComp = targetEntity.components.Belt;
+        if (targetBeltComp != null) {
+            final Direction beltAcceptingDirection = targetStaticComp.localDirectionToWorld(Direction.Top);
+            if (ejectSlotWsDirection == beltAcceptingDirection) {
+                return (item, integer) -> {
+                    final BeltPath path = targetBeltComp.assignedPath;
+                    assert path != null;
+                    return path.tryAcceptItem(item);
+                };
+            }
+        }
+        final ItemAcceptorComponent targetAcceptorComp = targetEntity.components.ItemAcceptor;
+        if (targetAcceptorComp == null) {
+            return null;
+        }
 
-            if (targetBeltComp != null) {
-                final Direction beltAcceptingDirection = targetStaticComp.localDirectionToWorld(Direction.Top);
-                if (ejectSlotWsDirection == beltAcceptingDirection) {
-                    return new AcceptingEntityAndSlot(targetEntity, null, 0);
+        final Direction ejectingDirection = targetStaticComp.worldDirectionToLocal(ejectSlotWsDirection);
+        final ItemAcceptorComponent.ItemAcceptorLocatedSlot matchingSlot = targetAcceptorComp.findMatchingSlot(targetStaticComp.worldToLocalTile(ejectSlotWsTile), ejectingDirection);
+        if (matchingSlot == null) {
+            return null;
+        }
+        final int matchingSlotIndex = matchingSlot.index;
+        final BiFunction<BaseItem, Integer, Boolean> passOver = this.computePassOverFunctionWithoutBelts(targetEntity, matchingSlotIndex);
+        if (passOver == null) return null;
+        final Direction matchingDirection = Vector.invertDirection(ejectingDirection);
+        final ItemType filter = matchingSlot.slot.filter;
+        return (item, remainingProgress) -> {
+            if (filter != null && item.getItemType() != filter) {
+                return false;
+            }
+            if (passOver.apply(item, matchingSlotIndex)) {
+                if (noSimplifiedBelts) {
+                    targetAcceptorComp.onItemAccepted(matchingSlotIndex, matchingDirection, item, remainingProgress);
                 }
+                return true;
             }
-            final ItemAcceptorComponent targetAcceptorComp = targetEntity.components.ItemAcceptor;
-            if (targetAcceptorComp == null) {
-                return null;
-            }
+            return false;
+        };
+    }
 
-            final Direction ejectingDirection = targetStaticComp.worldDirectionToLocal(ejectSlotWsDirection);
-            final ItemAcceptorComponent.ItemAcceptorLocatedSlot matchingSlot = targetAcceptorComp.findMatchingSlot(targetStaticComp.worldToLocalTile(ejectSlotWsTile), ejectingDirection);
-            if (matchingSlot == null) {
+    private BiFunction<BaseItem, Integer, Boolean> computePassOverFunctionWithoutBelts(Entity entity, int matchingSlotIndex) {
+        final HubGoals hubGoals = this.root.hubGoals;
+        final ItemProcessorComponent itemProcessorComp = entity.components.ItemProcessor;
+        if (itemProcessorComp != null) {
+            return (item, unused) -> {
+                if (!this.root.systemMgr.itemProcessor.checkRequirements(entity, item, matchingSlotIndex)) {
+                    return null;
+                }
+                return itemProcessorComp.tryTakeItem(item, matchingSlotIndex);
+            };
+        }
+        final UndergroundBeltComponent undergroundBeltComp = entity.components.UndergroundBelt;
+        if (undergroundBeltComp != null) {
+            return (item, unused) -> undergroundBeltComp.tryAcceptExternalItem(item, hubGoals.undergroundBeltBaseSpeed());
+        }
+        final StorageComponent storageComp = entity.components.Storage;
+        if (storageComp != null) {
+            return (item, unused) -> {
+                if (storageComp.canAcceptItem(item)) {
+                    storageComp.takeItem(item);
+                    return true;
+                }
                 return null;
-            }
-            return new AcceptingEntityAndSlot(targetEntity, Vector.invertDirection(ejectingDirection), matchingSlot.index);
+            };
+        }
+        final FilterComponent filterComp = entity.components.Filter;
+        if (filterComp != null) {
+            return (item, unused) -> {
+                if (this.root.systemMgr.filter.tryAcceptItem(entity, matchingSlotIndex, item)) {
+                    return true;
+                }
+                return null;
+            };
         }
         return null;
     }
@@ -425,7 +479,7 @@ public class BeltPath extends BasicSerializableObject {
 
     public void update() {
         final double beltSpeed = this.root.hubGoals.getBeltBaseSpeed() * this.root.dynamicTickrate.deltaSeconds * GlobalConfig.itemSpacingOnBelts;
-        final boolean isFirstItemProcessed = true;
+        boolean isFirstItemProcessed = true;
         double remainingVelocity = beltSpeed;
         int lastItemProcessed;
 
@@ -434,7 +488,11 @@ public class BeltPath extends BasicSerializableObject {
 
             final double minimumSpacing = lastItemProcessed == this.items.size() - 1 ? 0 : GlobalConfig.itemSpacingOnBelts;
 
-            final double clampedProgress = Math.max(0, Math.min(remainingVelocity, nextDistanceAndItem.getKey()));
+            double clampedProgress = nextDistanceAndItem.getKey() - minimumSpacing;
+
+            if (clampedProgress < 0) {
+                clampedProgress = 0;
+            }
 
             remainingVelocity -= clampedProgress;
 
@@ -443,27 +501,42 @@ public class BeltPath extends BasicSerializableObject {
             this.spacingToFirstItem += clampedProgress;
 
             if (isFirstItemProcessed && nextDistanceAndItem.getKey() < 1e-7) {
-                final double excessVelocity = beltSpeed - clampedProgress;
+                final int excessVelocity = (int) (beltSpeed - clampedProgress);
 
-                if (this.tryHandOverItem(nextDistanceAndItem.getValue(), excessVelocity)) {
-
+                if (this.boundAcceptor != null && this.boundAcceptor.apply(nextDistanceAndItem.getValue(), excessVelocity)) {
+                    this.items.remove(items.size() - 1);
+                    AbstractMap.SimpleEntry<Double, BaseItem> itemBehind = this.items.get(lastItemProcessed - 1);
+                    if (itemBehind != null && this.numCompressedItemsAfterFirstItem > 0) {
+                        final double fixupProgress = Math.max(0, Math.min(remainingVelocity, itemBehind.getKey()));
+                        this.items.set(lastItemProcessed - 1, new AbstractMap.SimpleEntry<>(itemBehind.getKey() - fixupProgress, itemBehind.getValue()));
+                        remainingVelocity -= fixupProgress;
+                        this.spacingToFirstItem += fixupProgress;
+                    }
+                    this.numCompressedItemsAfterFirstItem = Math.max(0, this.numCompressedItemsAfterFirstItem - 1);
                 }
+            }
+            if (isFirstItemProcessed) {
+                lastItemProcessed -= this.numCompressedItemsAfterFirstItem;
+            }
+            isFirstItemProcessed = false;
+            if (remainingVelocity < 1e-7) {
+                break;
             }
         }
     }
 
-    private boolean tryHandOverItem(final BaseItem item, final double remainingProgress) {
-        assert !(this.acceptorTarget == null);
-        final ItemAcceptorComponent targetAcceptorComp = this.acceptorTarget.entity.components.ItemAcceptor;
-        if (targetAcceptorComp != null && !targetAcceptorComp.canAcceptItem(this.acceptorTarget.slot, item)) {
-            return false;
-        }
-
-        if (this.root.systemMgr.itemEjector.tryPassOverItem(item, this.acceptorTarget.entity, this.acceptorTarget.slot)) {
-
-        }
-        return false;
-    }
+//    private boolean tryHandOverItem(final BaseItem item, final double remainingProgress) {
+//        assert !(this.boundAcceptor == null);
+//        final ItemAcceptorComponent targetAcceptorComp = this.boundAcceptor.entity.components.ItemAcceptor;
+//        if (targetAcceptorComp != null && !targetAcceptorComp.canAcceptItem(this.boundAcceptor.slot, item)) {
+//            return false;
+//        }
+//
+//        if (this.root.systemMgr.itemEjector.tryPassOverItem(item, this.boundAcceptor.entity, this.boundAcceptor.slot)) {
+//
+//        }
+//        return false;
+//    }
 
     public boolean tryAcceptItem(final BaseItem item) {
         if (this.spacingToFirstItem >= GlobalConfig.itemSpacingOnBelts) {

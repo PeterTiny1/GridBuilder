@@ -19,23 +19,21 @@ import java.util.*;
 import static io.shapez.game.buildings.MetaBeltBuilding.arrayBeltVariantToRotation;
 
 public class BeltSystem extends GameSystemWithFilter {
-    private final HashMap<Direction, ArrayList<BufferedImage>> beltAnimations;
-    private final HashMap<Direction, BufferedImage> beltSprites;
+    private final HashMap<Direction, ArrayList<BufferedImage>> beltAnimations = new HashMap<>() {{
+        put(Direction.Top, new ArrayList<>());
+        put(Direction.Left, new ArrayList<>());
+        put(Direction.Right, new ArrayList<>());
+    }};
+    private final HashMap<Direction, BufferedImage> beltSprites = new HashMap<>() {{
+        put(Direction.Top, ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/forward_0.png"))));
+        put(Direction.Left, ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/left_0.png"))));
+        put(Direction.Right, ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/right_0.png"))));
+    }};
     public static final byte BELT_ANIM_COUNT = 14;
     final ArrayList<BeltPath> beltPaths = new ArrayList<>();
 
     public BeltSystem(final GameRoot root) throws IOException {
         super(root, new Component[]{new BeltComponent(null)});
-        beltSprites = new HashMap<>() {{
-            put(Direction.Top, ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/forward_0.png"))));
-            put(Direction.Left, ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/left_0.png"))));
-            put(Direction.Right, ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/right_0.png"))));
-        }};
-        beltAnimations = new HashMap<>() {{
-            put(Direction.Top, new ArrayList<>());
-            put(Direction.Left, new ArrayList<>());
-            put(Direction.Right, new ArrayList<>());
-        }};
         for (int i = 0; i < BeltSystem.BELT_ANIM_COUNT; i++) {
             this.beltAnimations.get(Direction.Top).add(ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/forward_" + i + ".png"))));
             this.beltAnimations.get(Direction.Left).add(ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/left_" + i + ".png"))));

@@ -43,6 +43,10 @@ public class ItemAcceptorComponent extends Component {
         return slot.filter == null || slot.filter == item.getItemType();
     }
 
+    public void onItemAccepted(int slotIndex, Direction direction, BaseItem item, Integer remainingProgress) {
+        this.itemConsumptionAnimations.add(new ItemConsumptionAnimation(item, slotIndex, direction, Math.min(1, remainingProgress * 2)));
+    }
+
     public static class ItemAcceptorSlot {
 
         public Vector pos;
@@ -51,7 +55,7 @@ public class ItemAcceptorComponent extends Component {
     }
 
     public static class ItemAcceptorLocatedSlot {
-        private final ItemAcceptorSlot slot;
+        public final ItemAcceptorSlot slot;
         public final int index;
         private final Direction acceptedDirection;
 
@@ -67,6 +71,13 @@ public class ItemAcceptorComponent extends Component {
         public Direction direction;
         public double animProgress;
         public BaseItem item;
+
+        public ItemConsumptionAnimation(BaseItem item, int slotIndex, Direction direction, int min) {
+            this.slotIndex = slotIndex;
+            this.item = item;
+            this.direction = direction;
+            this.animProgress = min;
+        }
     }
 }
 

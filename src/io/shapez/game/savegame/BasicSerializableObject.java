@@ -15,9 +15,7 @@ public abstract class BasicSerializableObject {
                 put(id, entry);
             }};
         }
-        for (Map.Entry<String, BaseDataType> schema : this.getSchema().entrySet()) {
-            globalSchemaCache.put(schema.getKey(), schema.getValue());
-        }
+        globalSchemaCache.putAll(this.getSchema());
         return this.getSchema();
     }
 
