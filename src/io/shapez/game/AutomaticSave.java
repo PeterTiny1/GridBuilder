@@ -26,13 +26,8 @@ public class AutomaticSave {
         boolean shouldSave = false;
 
         switch (this.saveImportance) {
-            case asap:
-                shouldSave = true;
-            case regular:
-                shouldSave = secondsSinceLastSave > saveInterval;
-                break;
-            default:
-                break;
+            case asap -> shouldSave = true;
+            case regular -> shouldSave = secondsSinceLastSave > saveInterval;
         }
         if (shouldSave) {
             this.lastSaveAttempt = System.currentTimeMillis();

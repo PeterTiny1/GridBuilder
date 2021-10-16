@@ -1,5 +1,6 @@
 package io.shapez.game.savegame;
 
+
 import java.util.HashMap;
 
 public abstract class BaseDataType {

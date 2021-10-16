@@ -1,8 +1,8 @@
 package io.shapez.managers;
 
+import io.shapez.Application;
 import io.shapez.core.Direction;
 import io.shapez.core.Tile;
-import io.shapez.Application;
 import io.shapez.game.*;
 import io.shapez.managers.providers.SystemPathProvider;
 import io.shapez.ui.MoreWindow;
@@ -73,11 +73,11 @@ public class SerializeManager {
                     _type = ds.readByte();
                     _rot = ds.readByte();
 
-                    lX = ds.readInt();
-                    lY = ds.readInt();
-                    lR = ds.readByte();
-                    lG = ds.readByte();
-                    lB = ds.readByte();
+//                    lX = ds.readInt();
+//                    lY = ds.readInt();
+//                    lR = ds.readByte();
+//                    lG = ds.readByte();
+//                    lB = ds.readByte();
 
                     if (_type > Tile.values().length || _rot > Direction.values().length) {
                         // Tile is corrupted,edited,hacked or from weird game version

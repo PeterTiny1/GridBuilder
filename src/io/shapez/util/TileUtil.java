@@ -87,7 +87,6 @@ public class TileUtil {
         final int offX = cX % GlobalConfig.mapChunkSize < 0 ? cX % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cX % GlobalConfig.mapChunkSize;
         final int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
         final MapChunk currentChunk = root.map.getChunkAtTile(offX, offY);
-        currentChunk.contents[offX][offY] = null;
         currentChunk.contents[offX][offY] = new Entity(item, direction, cX, cY);
     }
 
@@ -97,7 +96,6 @@ public class TileUtil {
         final int offY = cY % GlobalConfig.mapChunkSize < 0 ? cY % GlobalConfig.mapChunkSize + GlobalConfig.mapChunkSize : cY % GlobalConfig.mapChunkSize;
 
         if (currentChunk.contents[offX][offY] != null) {
-            currentChunk.contents[offX][offY] = null;
             currentChunk.contents[offX][offY] = new Entity(item, direction, cX, cY);
             Application.usedChunks.add(currentChunk);
             return;

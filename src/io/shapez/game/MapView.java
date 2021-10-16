@@ -18,6 +18,12 @@ public class MapView extends BaseMap {
         this.internalInitializeCachedBackgroundCanvases();
     }
 
+    public static BufferedImage makeBuffer(final int w, final int h) {
+        assert w > 0 && h > 0;
+
+        return new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+    }
+
     private void internalInitializeCachedBackgroundCanvases() {
         final byte dims = GlobalConfig.tileSize;
         final byte dpi = 1;
@@ -36,12 +42,6 @@ public class MapView extends BaseMap {
         context.fillRect(borderWidth, dims - borderWidth, dims, borderWidth);
 
         this.cachedBackgroundBuffer = canvas;
-    }
-
-    public static BufferedImage makeBuffer(final int w, final int h) {
-        assert w > 0 && h > 0;
-
-        return new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
     }
 
     public void drawBackground(final DrawParameters parameters) throws IOException {

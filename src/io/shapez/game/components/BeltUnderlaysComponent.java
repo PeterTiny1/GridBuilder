@@ -11,7 +11,7 @@ public class BeltUnderlaysComponent extends Component {
     public String getId() {
         return "BeltUnderlays";
     }
-    
+
     public static class BeltUnderlayTile {
         public Vector pos;
         public Direction direction;

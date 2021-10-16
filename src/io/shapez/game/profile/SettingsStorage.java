@@ -1,5 +1,6 @@
 package io.shapez.game.profile;
 
+
 public class SettingsStorage {
     public final String refreshRate = "60";
     public final ApplicationSettings.AutosaveInterval autosaveInterval = null;
@@ -11,6 +12,6 @@ public class SettingsStorage {
     public final boolean displayChunkBorders = false;
     public final boolean lowQualityMapResources = false;
     public final boolean simplifiedBelts = false;
-    public String scrollWheelSensitivity = "regular";
-    public boolean zoomToCursor = true;
+    public final String scrollWheelSensitivity = "regular";
+    public final boolean zoomToCursor = true;
 }

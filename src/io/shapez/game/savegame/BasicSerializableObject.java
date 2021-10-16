@@ -1,7 +1,7 @@
 package io.shapez.game.savegame;
 
+
 import java.util.HashMap;
-import java.util.Map;
 
 public abstract class BasicSerializableObject {
     public HashMap<String, BaseDataType> getCachedSchema() {

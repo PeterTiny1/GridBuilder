@@ -82,7 +82,7 @@ public class StaticMapEntityComponent extends Component {
     }
 
     public void drawSpriteOnBoundsClipped(final DrawParameters parameters, final BufferedImage sprite, final int extrudePixels) {
-        if (!this.shouldBeDrawn(parameters)) {
+        if (this.shouldNotBeDrawn(parameters)) {
             return;
         }
         final Vector size = this.getTileSize();
@@ -109,7 +109,7 @@ public class StaticMapEntityComponent extends Component {
         parameters.context.drawImage(image, (int) x, (int) y, (int) w, (int) h, null);
     }
 
-    public boolean shouldBeDrawn(final DrawParameters parameters) {
+    public boolean shouldNotBeDrawn(final DrawParameters parameters) {
         double x = 0;
         double y = 0;
         double w = 0;
@@ -143,7 +143,7 @@ public class StaticMapEntityComponent extends Component {
                 h = size.x;
             }
         }
-        return parameters.visibleRect.intersects(x * GlobalConfig.tileSize, y * GlobalConfig.tileSize, w * GlobalConfig.tileSize, h * GlobalConfig.tileSize);
+        return !parameters.visibleRect.intersects(x * GlobalConfig.tileSize, y * GlobalConfig.tileSize, w * GlobalConfig.tileSize, h * GlobalConfig.tileSize);
     }
 
     public BufferedImage getImage() {

@@ -12,7 +12,7 @@ import java.util.Map;
 import static io.shapez.game.Colors.shortcodeToColor;
 
 public class ShapeDefinition extends BasicSerializableObject {
-    ArrayList<ShapeLayer> layers;
+    final ArrayList<ShapeLayer> layers;
     private Object bufferGnerator;
     private final Vector[] arrayQuadrantIndexToOffset = new Vector[]{new Vector(1, -1), new Vector(1, 1), new Vector(-1, 1), new Vector(-1, -1)};
     private String cachedHash = null;
@@ -125,7 +125,7 @@ public class ShapeDefinition extends BasicSerializableObject {
 //    }
 
     public static class ShapeLayer {
-        ShapeLayerItem[] layerItems;
+        final ShapeLayerItem[] layerItems;
 
         ShapeLayer(ShapeLayerItem[] layerItems) {
             this.layerItems = layerItems;
@@ -133,8 +133,8 @@ public class ShapeDefinition extends BasicSerializableObject {
     }
 
     public static class ShapeLayerItem {
-        SubShape subShape;
-        Colors color;
+        final SubShape subShape;
+        final Colors color;
 
         ShapeLayerItem(SubShape subShape, Colors color) {
             this.subShape = subShape;

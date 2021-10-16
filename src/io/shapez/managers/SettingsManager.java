@@ -54,10 +54,6 @@ public class SettingsManager {
         }
     }
 
-    public boolean contains(final String str, final char chr) {
-        return str.indexOf(chr) != -1;
-    }
-
     public static void validateSettings() {
         final String __parsetickrate = String.valueOf(SettingsManager.tickrateScreen);
         if (__parsetickrate.matches("[0-9]+") && __parsetickrate.length() > 2)
@@ -82,8 +78,10 @@ public class SettingsManager {
 
         ds.flush(); // push the buffer to file, just in case something failed
         ds.close();
-        if (!internal)
+        if (!internal) {
+            assert Resources.uiSuccessSound != null;
             SoundManager.playSound(Resources.uiSuccessSound);
+        }
     }
 
     public static void loadSettings(final boolean internal) throws IOException {
@@ -118,7 +116,6 @@ public class SettingsManager {
 
         ds.close();
     }
-
 
     public static void initSettingsWnd() {
         SettingsManager.settingsFrame = new JFrame(settingsWndName);
@@ -190,6 +187,10 @@ public class SettingsManager {
         } catch (final IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean contains(final String str, final char chr) {
+        return str.indexOf(chr) != -1;
     }
 
 }

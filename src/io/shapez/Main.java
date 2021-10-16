@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowStateListener;
-import java.io.IOException;
 
 import static io.shapez.managers.providers.MiscProvider.gameName;
 import static io.shapez.managers.providers.MiscProvider.getRandomTitlebar;

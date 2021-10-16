@@ -20,7 +20,7 @@ public class HubSystem extends GameSystemWithFilter {
 
     private void drawEntity(DrawParameters parameters, Entity entity) {
         StaticMapEntityComponent staticComp = entity.components.StaticMapEntity;
-        if (!staticComp.shouldBeDrawn(parameters)) {
+        if (staticComp.shouldNotBeDrawn(parameters)) {
             return;
         }
         int delivered = this.root.hubGoals.getCurrentGoalDelivered();

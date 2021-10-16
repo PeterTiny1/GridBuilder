@@ -1,5 +1,6 @@
 package io.shapez.util;
 
+
 public class RandomUtil {
     public static long hash(String string) {
         long h = 1125899906842597L;

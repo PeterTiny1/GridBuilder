@@ -1,11 +1,12 @@
 package io.shapez.game;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ProductionAnalytics {
     private final GameRoot root;
-    HashMap<AnalyticsDataSource, ArrayList<Integer>> history = new HashMap<>() {{
+    final HashMap<AnalyticsDataSource, ArrayList<Integer>> history = new HashMap<>() {{
         put(AnalyticsDataSource.produced, new ArrayList<>());
         put(AnalyticsDataSource.stored, new ArrayList<>());
         put(AnalyticsDataSource.delivered, new ArrayList<>());

@@ -67,10 +67,10 @@ public class ItemAcceptorComponent extends Component {
     }
 
     public static class ItemConsumptionAnimation {
-        public int slotIndex;
-        public Direction direction;
+        public final int slotIndex;
+        public final Direction direction;
         public double animProgress;
-        public BaseItem item;
+        public final BaseItem item;
 
         public ItemConsumptionAnimation(BaseItem item, int slotIndex, Direction direction, int min) {
             this.slotIndex = slotIndex;

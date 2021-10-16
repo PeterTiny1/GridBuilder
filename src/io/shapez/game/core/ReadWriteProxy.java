@@ -3,6 +3,7 @@ package io.shapez.game.core;
 import io.shapez.Application;
 import io.shapez.game.savegame.SavegameData;
 
+
 public abstract class ReadWriteProxy {
     private final String filename;
     public SavegameData currentData = null;

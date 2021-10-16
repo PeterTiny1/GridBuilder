@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.function.BiConsumer;
 
 public class MouseButtonHandler {
-    LinkedList<BiConsumer<Vector, MouseButton>> receivers = new LinkedList<>();
+    final LinkedList<BiConsumer<Vector, MouseButton>> receivers = new LinkedList<>();
     int modifyCount = 0;
 
     void add(BiConsumer<Vector, MouseButton> receiver) {

@@ -1,5 +1,6 @@
 package io.shapez.game;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,9 +11,9 @@ import static io.shapez.util.RandomUtil.hash;
 
 public class HubGoals {
     private final GameRoot root;
-    int level = 1;
+    final int level = 1;
     HashMap<String, Integer> gainedRewards = new HashMap<>();
-    HashMap<String, Integer> storedShapes = new HashMap<>();
+    final HashMap<String, Integer> storedShapes = new HashMap<>();
     final HashMap<String, Integer> upgradeLevels = new HashMap<>();
     final HashMap<String, Integer> upgradeImprovements = new HashMap<>();
     Goal currentGoal;
@@ -156,7 +157,7 @@ public class HubGoals {
 
     public void handleDefinitionDelivered(ShapeDefinition definition) {
         String hash = definition.getHash();
-        this.storedShapes.put(hash,(this.storedShapes.get(hash)) + 1);
+        this.storedShapes.put(hash, (this.storedShapes.get(hash)) + 1);
         this.root.productionAnalytics.onShapeDelivered(definition);
     }
 

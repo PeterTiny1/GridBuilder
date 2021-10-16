@@ -1,7 +1,7 @@
 package io.shapez.game;
 
-import io.shapez.core.*;
 import io.shapez.core.Vector;
+import io.shapez.core.*;
 import io.shapez.game.components.*;
 import io.shapez.game.savegame.BaseDataType;
 import io.shapez.game.savegame.BasicSerializableObject;
@@ -14,8 +14,8 @@ import java.util.function.BiFunction;
 public class BeltPath extends BasicSerializableObject {
     static String getId = "BeltPath";
     private final ArrayList<AbstractMap.SimpleEntry<Double, BaseItem>> items = new ArrayList<>();
-    private GameRoot root;
-    public LinkedList<Entity> entityPath = new LinkedList<>();
+    private final GameRoot root;
+    public LinkedList<Entity> entityPath;
     BiFunction<BaseItem, Integer, Boolean> boundAcceptor;
     private int numCompressedItemsAfterFirstItem;
     private double totalLength;
@@ -28,11 +28,7 @@ public class BeltPath extends BasicSerializableObject {
         this.init(true);
     }
 
-    public BeltPath() {
-
-    }
-
-//    static BeltPath fromSerialized(final Object data) {
+    //    static BeltPath fromSerialized(final Object data) {
 //        final BeltPath fakeObject = new BeltPath();
 //        String errorCodeDesiralize = fakeObject.deserialize(data);
 //        if (errorCodeDesiralize != null) {
@@ -134,7 +130,7 @@ public class BeltPath extends BasicSerializableObject {
         final ItemProcessorComponent itemProcessorComp = entity.components.ItemProcessor;
         if (itemProcessorComp != null) {
             return (item, unused) -> {
-                if (!this.root.systemMgr.itemProcessor.checkRequirements(entity, item, matchingSlotIndex)) {
+                if (this.root.systemMgr.itemProcessor.failsRequirements(entity, item, matchingSlotIndex)) {
                     return null;
                 }
                 return itemProcessorComp.tryTakeItem(item, matchingSlotIndex);
@@ -320,7 +316,7 @@ public class BeltPath extends BasicSerializableObject {
         final BeltPath secondPath = new BeltPath(root, (LinkedList<Entity>) secondEntities);
         double itemPos = spacingToFirstItem;
         for (int i = 0; i < this.items.size(); i++) {
-            final AbstractMap.SimpleEntry<Double, BaseItem> item = this.items.get(i);
+            AbstractMap.SimpleEntry<Double, BaseItem> item = this.items.get(i);
             final double distanceToNext = item.getKey();
             if (itemPos >= firstPathLength) {
                 items.remove(i);
@@ -335,9 +331,9 @@ public class BeltPath extends BasicSerializableObject {
                 }
             } else {
                 final double clampedDistanceToNext = Math.min(itemPos + distanceToNext, firstPathLength) - itemPos;
-//                if (clampedDistanceToNext < distanceToNext) {
-//                    //???
-//                }
+                if (clampedDistanceToNext < distanceToNext) {
+                    items.set(i, new AbstractMap.SimpleEntry<>(clampedDistanceToNext, item.getValue()));
+                }
             }
             itemPos += distanceToNext;
         }
@@ -548,18 +544,6 @@ public class BeltPath extends BasicSerializableObject {
             return true;
         }
         return false;
-    }
-}
-
-class AcceptingEntityAndSlot {
-    public final Entity entity;
-    private final Direction direction;
-    public final int slot;
-
-    public AcceptingEntityAndSlot(final Entity entity, final Direction direction, final int slot) {
-        this.entity = entity;
-        this.direction = direction;
-        this.slot = slot;
     }
 }
 

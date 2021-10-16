@@ -6,6 +6,7 @@ import io.shapez.game.Component;
 import io.shapez.game.items.ColorItem;
 import io.shapez.game.items.ShapeItem;
 
+
 public class StorageComponent extends Component {
     private final int maximumStorage;
     BaseItem storedItem = null;

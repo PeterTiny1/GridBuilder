@@ -7,6 +7,7 @@ import io.shapez.game.hud.GameHUD;
 import io.shapez.game.savegame.Savegame;
 import io.shapez.game.time.GameTime;
 
+
 public class GameRoot {
     public final Application app;
     public Savegame savegame = null;
@@ -29,6 +30,7 @@ public class GameRoot {
     public boolean logicInitialized = false;
     public boolean requireRedraw;
     public ProductionAnalytics productionAnalytics;
+    public boolean gameInitialised = false;
 
     public GameRoot(final Application app) {
         this.app = app;

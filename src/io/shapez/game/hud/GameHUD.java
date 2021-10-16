@@ -12,6 +12,7 @@ public class GameHUD {
     private HUDInteractiveTutorial interactiveTutorial;
     private HUDVignetteOverlay vignetteOverlay;
     private HUDColorBlindHelper colorBlindHelper;
+//    private Iterable<? extends String> parts;
 
     public GameHUD(final GameRoot root) {
         this.root = root;
@@ -45,6 +46,11 @@ public class GameHUD {
     }
 
     public void update() {
+//        if (!this.root.gameInitialised) {
+//        }
+//        for (String key : this.parts) {
+//            this.parts.get
+//        }
 
     }
 }

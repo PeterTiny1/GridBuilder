@@ -1,5 +1,6 @@
 package io.shapez.game.themes;
 
+
 import java.awt.*;
 
 public class LightTheme {

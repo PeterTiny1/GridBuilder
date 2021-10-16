@@ -1,5 +1,6 @@
 package io.shapez.game.core;
 
+
 public class ExplainedResult {
     private final boolean result;
 

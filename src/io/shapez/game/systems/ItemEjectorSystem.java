@@ -152,7 +152,7 @@ public class ItemEjectorSystem extends GameSystemWithFilter {
 
         final ItemProcessorComponent itemProcessorComp = receiver.components.ItemProcessor;
         if (itemProcessorComp != null) {
-            if (!this.root.systemMgr.itemProcessor.checkRequirements(receiver, item, slotIndex)) {
+            if (this.root.systemMgr.itemProcessor.failsRequirements(receiver, item, slotIndex)) {
                 return false;
             }
 

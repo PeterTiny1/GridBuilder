@@ -128,7 +128,6 @@ public class MapChunk {
     public void drawChunk(final Graphics2D g, final int offsetX, final int offsetY, final int gridOffsetX, final int gridOffsetY, final int scale, boolean containsEntity) {
         final int _x = x * GlobalConfig.mapChunkSize + gridOffsetX;
         final int _y = y * GlobalConfig.mapChunkSize + gridOffsetY; // Micro-optimization: avoid computing inside loops!
-        final int _s = GlobalConfig.mapChunkSize * scale;
         final int constX = (_x) * scale + offsetX;
         final int constY = (_y) * scale + offsetY;
         // Do NOT touch this. I have done this with a very good reason.
@@ -146,7 +145,6 @@ public class MapChunk {
             Application.usedChunks.add(this);
         }
         if (containsEntity && entCount == 0) {
-            containsEntity = false;
             Application.usedChunks.remove(this);
         }
 

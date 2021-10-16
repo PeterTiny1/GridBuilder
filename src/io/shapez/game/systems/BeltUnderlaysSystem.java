@@ -4,8 +4,8 @@ import io.shapez.core.Direction;
 import io.shapez.core.DrawParameters;
 import io.shapez.core.Layer;
 import io.shapez.core.Vector;
-import io.shapez.game.*;
 import io.shapez.game.Component;
+import io.shapez.game.*;
 import io.shapez.game.components.*;
 
 import javax.imageio.ImageIO;

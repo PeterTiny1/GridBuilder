@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainMenu extends JPanel {
-    Main parent;
+    final Main parent;
 
     public MainMenu(final Main parent) {
         this.parent = parent;
