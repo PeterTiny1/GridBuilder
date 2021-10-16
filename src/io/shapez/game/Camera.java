@@ -37,7 +37,7 @@ public class Camera {
     private double desiredZoom;
     private long lastTouchTime;
     private boolean didMoveSinceTouchStart = false;
-    private MouseButtonHandler downPreHandler = new MouseButtonHandler();
+    private final MouseButtonHandler downPreHandler = new MouseButtonHandler();
 
     public Camera(final GameRoot root, final Application application) {
         this.root = root;
