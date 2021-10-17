@@ -222,7 +222,7 @@ public class BeltPath extends BasicSerializableObject {
                     if (itemOffset <= beltLength) {
                         this.items.remove(i);
                         i -= 1;
-                        itemOffset += i;//idk what item was supposed to do here
+                        itemOffset += i;//IDK what item was supposed to do here
                     } else {
                         break;
                     }
@@ -276,7 +276,7 @@ public class BeltPath extends BasicSerializableObject {
                 }
 
                 lastItemOffset = itemOffset;
-                itemOffset += i; // idk what is supposed to be here either
+                itemOffset += i; // IDK what is supposed to be here either
             }
 
             if (this.items.size() > 0) {

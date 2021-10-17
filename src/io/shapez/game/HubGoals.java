@@ -45,14 +45,14 @@ public class HubGoals {
         ArrayList<ShapeDefinition.ShapeLayer> layers = new ArrayList<>();
         Random rng = new Random(hash(this.root.map.seed + "/" + level));
         Colors[] colors = this.generateRandomColorSet(rng, level > 35);
-        int[][] pickedSymetry;
+        int[][] pickedSymmetry;
         ArrayList<ShapeDefinition.SubShape> availableShapes = new ArrayList<>() {{
             add(ShapeDefinition.SubShape.star);
             add(ShapeDefinition.SubShape.rect);
             add(ShapeDefinition.SubShape.circle);
         }};
         if (rng.nextDouble() > 0.5) {
-            pickedSymetry = new int[][]{
+            pickedSymmetry = new int[][]{
                     {0, 2},
                     {1, 3}
             };
@@ -78,7 +78,7 @@ public class HubGoals {
                             {2}
                     }
             };
-            pickedSymetry = symmetries[rng.nextInt(symmetries.length)];
+            pickedSymmetry = symmetries[rng.nextInt(symmetries.length)];
         }
         Callable<Colors> randomColor = () -> colors[rng.nextInt(colors.length)];
         Callable<ShapeDefinition.SubShape> randomShape = () -> ShapeDefinition.SubShape.values()[rng.nextInt(ShapeDefinition.SubShape.values().length)];
@@ -86,7 +86,7 @@ public class HubGoals {
 
         for (int i = 0; i < layerCount; i++) {
             ShapeDefinition.ShapeLayer layer = new ShapeDefinition.ShapeLayer(new ShapeDefinition.ShapeLayerItem[]{null, null, null, null});
-            for (int[] group : pickedSymetry) {
+            for (int[] group : pickedSymmetry) {
                 Colors color = randomColor.call();
                 ShapeDefinition.SubShape shape = randomShape.call();
                 for (int quad : group) {

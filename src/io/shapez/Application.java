@@ -48,7 +48,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
     public static Tile item;
 
-    public byte rotIndex = 0; // wont be more than 127 anyway :P
+    public byte rotIndex = 0; // won't be more than 127 anyway :P
     public Direction cRot = Direction.Top;
 
     private boolean shiftPressed;

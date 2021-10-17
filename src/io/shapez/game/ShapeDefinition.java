@@ -13,7 +13,7 @@ import static io.shapez.game.Colors.shortcodeToColor;
 
 public class ShapeDefinition extends BasicSerializableObject {
     final ArrayList<ShapeLayer> layers;
-    private Object bufferGnerator;
+    private Object bufferGenerator;
     private final Vector[] arrayQuadrantIndexToOffset = new Vector[]{new Vector(1, -1), new Vector(1, 1), new Vector(-1, 1), new Vector(-1, -1)};
     private String cachedHash = null;
     private static final HashMap<SubShape, Character> subShapeToShortcode = new HashMap<>() {{
@@ -62,8 +62,8 @@ public class ShapeDefinition extends BasicSerializableObject {
     public void drawCentered(final double x, final double y, final DrawParameters parameters, final double diameter) {
         final double dpi = DpiManager.smoothenDpi(GlobalConfig.shapesSharpness * parameters.zoomLevel);
 
-//        if (this.bufferGnerator == null) {
-////            this.bufferGnerator = this.internalGenerateShapeBuffer(parameters.context, diameter, diameter, dpi);
+//        if (this.bufferGenerator == null) {
+////            this.bufferGenerator = this.internalGenerateShapeBuffer(parameters.context, diameter, diameter, dpi);
 //        }
     }
 

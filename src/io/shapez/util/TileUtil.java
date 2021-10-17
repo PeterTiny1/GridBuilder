@@ -73,7 +73,7 @@ public class TileUtil {
                 a = Resources.rotator;
                 break;
             case Trash:
-                return Resources.trash; // cant be rotated
+                return Resources.trash; // can't be rotated
             case DEBUG_LowerLayer:
                 return Resources.solidRed;
             default:

@@ -48,7 +48,7 @@ public class Resources {
     // Make sure to run with these jvm options:
 //    -Dsun.java2d.d3d=true -Dsun.java2d.translaccel=true -Dsun.java2d.ddforcevram=true -Dsun.java2d.accthreshold=1 -Dsun.java2d.dpiaware=true
 
-    // This will provide a insane performance boost, but on low-end systems it might overwhelm the hardware
+    // This will provide an insane performance boost, but on low-end systems it might overwhelm the hardware
     static {
         try {
             long t1 = System.nanoTime();
