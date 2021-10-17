@@ -9,7 +9,7 @@ import io.shapez.game.components.StaticMapEntityComponent;
 
 public class HubSystem extends GameSystemWithFilter {
     public HubSystem(GameRoot root) {
-        super(root, new Component[]{new HubComponent(null)});
+        super(root, new Component[]{new HubComponent()});
     }
 
     public void draw(DrawParameters parameters) {

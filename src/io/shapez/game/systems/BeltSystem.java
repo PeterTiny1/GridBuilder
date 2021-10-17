@@ -41,13 +41,13 @@ public class BeltSystem extends GameSystemWithFilter {
         }
     }
 
-    public Object[] serializePaths() {
-        final ArrayList<Object> data = new ArrayList<>();
-        for (final BeltPath beltPath : this.beltPaths) {
-            data.add(beltPath.serialize());
-        }
-        return data.toArray();
-    }
+//    public Object[] serializePaths() {
+//        final ArrayList<Object> data = new ArrayList<>();
+//        for (final BeltPath beltPath : this.beltPaths) {
+//            data.add(beltPath.serialize());
+//        }
+//        return data.toArray();
+//    }
 
     public void onEntityDestroyed(final Entity entity) {
         if (entity.components.Belt == null) {

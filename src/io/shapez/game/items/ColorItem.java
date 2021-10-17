@@ -23,9 +23,11 @@ public class ColorItem extends BaseItem {
         this.color = color;
     }
 
-    static String getId() {
-        return "color";
-    }
+// --Commented out by Inspection START (17/10/2021, 15:00):
+//    static String getId() {
+//        return "color";
+//    }
+// --Commented out by Inspection STOP (17/10/2021, 15:00)
 
     @Override
     protected void drawItemCenteredImpl(double x, double y, DrawParameters parameters, double diameter) throws IOException {

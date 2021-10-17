@@ -3,13 +3,12 @@ package io.shapez.game;
 import io.shapez.game.savegame.BasicSerializableObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class EntityManager extends BasicSerializableObject {
     private final GameRoot root;
     final ArrayList<Entity> entities = new ArrayList<>();
     ArrayList<Entity> destroyList = new ArrayList<>();
-    HashMap<String, ArrayList<Entity>> componentToEntity = new HashMap<>();
+    // --Commented out by Inspection (17/10/2021, 15:02):HashMap<String, ArrayList<Entity>> componentToEntity = new HashMap<>();
     int nextUid = 10000;
 
     public EntityManager(final GameRoot root) {

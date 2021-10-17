@@ -2,11 +2,7 @@ package io.shapez.game;
 
 import io.shapez.core.Tile;
 
-import java.util.Random;
-
 public class EntityTutorial {
-
-    protected static Random rng = new Random();
 
     public static final String[] descriptions = {
             "Used to transport items", //  How to use: descriptions[tileIndex]

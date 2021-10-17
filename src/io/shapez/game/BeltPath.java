@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.function.BiFunction;
 
 public class BeltPath extends BasicSerializableObject {
-    static String getId = "BeltPath";
+    // --Commented out by Inspection (17/10/2021, 14:58):static String getId = "BeltPath";
     private final ArrayList<AbstractMap.SimpleEntry<Double, BaseItem>> items = new ArrayList<>();
     private final GameRoot root;
     public LinkedList<Entity> entityPath;
@@ -162,20 +162,20 @@ public class BeltPath extends BasicSerializableObject {
         return null;
     }
 
-    private String deserialize(final Object data) {
-        return deserializeSchema(this, data, null);
-    }
-
-    private String deserializeSchema(final BeltPath beltPath, final Object data, final String baseClassErrorResult) {
-        if (baseClassErrorResult != null) {
-            return baseClassErrorResult;
-        }
-
-        if (data == null) {
-            return "Got null data";
-        }
-        return null;
-    }
+//    private String deserialize(final Object data) {
+//        return deserializeSchema(this, data, null);
+//    }
+//
+//    private String deserializeSchema(final BeltPath beltPath, final Object data, final String baseClassErrorResult) {
+//        if (baseClassErrorResult != null) {
+//            return baseClassErrorResult;
+//        }
+//
+//        if (data == null) {
+//            return "Got null data";
+//        }
+//        return null;
+//    }
 
     public Object serialize() {
         return serializeSchema(this, this.getCachedSchema());
@@ -440,7 +440,7 @@ public class BeltPath extends BasicSerializableObject {
                 final BeltComponent beltComp = medianBelt.components.Belt;
                 final StaticMapEntityComponent staticComp = medianBelt.components.StaticMapEntity;
                 final Vector centerPosLocal = beltComp.transformBeltToLocalSpace(this.entityPath.size() % 2 == 0 ? beltComp.getEffectiveLengthTiles() : 0.5);
-                final Vector centerPos = staticComp.localTileToWorld(centerPosLocal).toWorldSpaceCenterOfTile();
+//                final Vector centerPos = staticComp.localTileToWorld(centerPosLocal).toWorldSpaceCenterOfTile();
 //                firstItem.drawItemCenteredClipped(centerPos.x, centerPos.y, g2d);
             }
             return;
