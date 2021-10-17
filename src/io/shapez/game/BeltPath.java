@@ -469,8 +469,21 @@ public class BeltPath extends BasicSerializableObject {
     }
 
     private boolean checkIsPotatoMode() {
-//        if (this.) TODO: add setting
-        return false;
+        if (!this.root.app.settings.getAllSettings().simplifiedBelts) {
+            return false;
+        }
+        if (this.root.currentLayer != Layer.Regular) {
+            return true;
+        }
+        if (this.root.app.mousePosition == null) {
+            return true;
+        }
+        final Vector tile = this.root.camera.screenToWorld(this.root.app.mousePosition).toTileSpace();
+        final Entity contents = this.root.map.getLayerContentXY(tile.x, tile.y, Layer.Regular);
+        if (contents == null || contents.components.Belt == null) {
+            return true;
+        }
+        return contents.components.Belt.assignedPath != this;
     }
 
     public void update() {

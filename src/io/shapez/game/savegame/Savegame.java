@@ -40,11 +40,6 @@ public class Savegame extends ReadWriteProxy {
     }
 
     @Override
-    public void writeAsync() {
-        super.writeAsync();
-    }
-
-    @Override
     protected ExplainedResult verify(final Object data) {
         return null;
     }
