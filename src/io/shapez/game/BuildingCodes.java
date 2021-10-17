@@ -6,6 +6,7 @@ import io.shapez.game.buildings.MetaHubBuilding;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+import java.util.Map;
 
 public class BuildingCodes {
     public static final String defaultBuildingVariant = "default";
@@ -23,10 +24,10 @@ public class BuildingCodes {
     }
 
     public static void buildBuildingCodeCache() {
-        for (final Integer code : BuildingCodes.gBuildingVariants.keySet()) {
-            final BuildingVariantIdentifier data = BuildingCodes.gBuildingVariants.get(code);
+        for (final Map.Entry<Integer, BuildingVariantIdentifier> entry : BuildingCodes.gBuildingVariants.entrySet()) {
+            final BuildingVariantIdentifier data = entry.getValue();
             final String hash = data.metaBuilding.getId() + "/" + data.variant + "/" + data.rotationVariant;
-            BuildingCodes.variantsCache.put(hash, code);
+            BuildingCodes.variantsCache.put(hash, entry.getKey());
         }
     }
 

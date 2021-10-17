@@ -20,14 +20,14 @@ public class ProductionAnalytics {
     }
 
     private void startNewSlice() {
-        for (AnalyticsDataSource key : this.history.keySet()) {
+        for (ArrayList<Integer> integers : this.history.values()) {
 //            if (key == AnalyticsDataSource.stored) { FIXME: I don't understand how the JavaScript for this works
 //                this.history.get(key).add(this.root.hubGoals.storedShapes);
 //            } else {
 //                this.history.get(key).add({});
 //            }
-            while (this.history.get(key).size() > GlobalConfig.statisticsGraphSlices) {
-                this.history.get(key).remove(0);
+            while (integers.size() > GlobalConfig.statisticsGraphSlices) {
+                integers.remove(0);
             }
         }
     }
