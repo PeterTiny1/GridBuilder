@@ -6,12 +6,11 @@ import io.shapez.core.Tile;
 import io.shapez.core.Vector;
 import io.shapez.game.*;
 import io.shapez.game.items.ColorItem;
-import io.shapez.game.platform.PlatformWrapperInterface;
-import io.shapez.game.platform.SoundManager;
+import io.shapez.platform.*;
 import io.shapez.game.profile.ApplicationSettings;
 import io.shapez.game.savegame.Savegame;
 import io.shapez.managers.SettingsManager;
-import io.shapez.platform.PlatformWrapperImpl;
+import io.shapez.platform.ad_providers.NoAdProvider;
 import io.shapez.ui.BottomPanel;
 import io.shapez.ui.MoreWindow;
 import io.shapez.ui.TopPanel;
@@ -32,11 +31,14 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     // UI
     public final BottomPanel centerPanel = new BottomPanel(this);
     public final TopPanel topPanel = new TopPanel();
-    public PlatformWrapperInterface platformWrapper;
+    public PlatformWrapper platformWrapper = new PlatformWrapperImpl(this);;
     public final ApplicationSettings settings = new ApplicationSettings(this);
     public final boolean visible = true;
     public final RestrictionManager restrictionMgr = new RestrictionManager(this);
+    public SoundInterface sound;
     public Vector mousePosition;
+    public AdProvider adProvider;
+    public GameAnalyticsInterface gameAnalytics;
 
     private int scale = 40;
     private int offsetX, offsetY;
@@ -59,14 +61,11 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     final GameCore core = new GameCore(this);
     final Savegame savegame = null;
     private long time;
+    private Analytics analytics;
 
     public Application(final Main window) throws Exception {
         this.window = window;
 
-        initBoard();
-    }
-
-    private void initBoard() throws Exception {
         addKeyListener(this);
         addMouseMotionListener(this);
         addMouseListener(this);
@@ -109,12 +108,19 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
         } catch (final IOException e) {
             e.printStackTrace();
         }
-        this.platformWrapper = new PlatformWrapperImpl(this);
+        this.initPlatformDependentInstances();
         this.core.initNewGame();
         this.core.root.logicInitialized = true;
         this.core.updateLogic();
-        final javax.swing.Timer timer = new javax.swing.Timer(SettingsManager.tickrateScreen, this);
+        final Timer timer = new Timer(SettingsManager.tickrateScreen, this);
         timer.start();
+    }
+
+    private void initPlatformDependentInstances() {
+        this.adProvider = new NoAdProvider(this);
+        this.sound = new SoundImplBrowser(this);
+        this.analytics = new GoogleAnalyticsImpl(this);
+        this.gameAnalytics = new ShapezGameAnalytics(this);
     }
 
     public void paintComponent(final Graphics g) {

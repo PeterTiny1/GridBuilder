@@ -1,9 +1,8 @@
 package io.shapez.platform;
 
 import io.shapez.Application;
-import io.shapez.game.platform.PlatformWrapperInterface;
 
-public class PlatformWrapperImpl extends PlatformWrapperInterface {
+public class PlatformWrapperImpl extends PlatformWrapper {
     public PlatformWrapperImpl(Application application) {
         super();
     }

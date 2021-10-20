@@ -3,7 +3,7 @@ package io.shapez.game;
 import io.shapez.Application;
 import io.shapez.core.MouseButtonHandler;
 import io.shapez.core.Vector;
-import io.shapez.game.platform.PlatformWrapperInterface;
+import io.shapez.platform.PlatformWrapper;
 import io.shapez.managers.providers.MiscProvider;
 
 import javax.swing.*;
@@ -137,7 +137,7 @@ public class Camera {
     }
 
     private void clampZoomLevel() {
-        final PlatformWrapperInterface wrapper = this.root.app.platformWrapper;
+        final PlatformWrapper wrapper = this.root.app.platformWrapper;
         this.zoomLevel = MiscProvider.clamp(this.zoomLevel, wrapper.getMinimumZoom(app), wrapper.getMaximumZoom(app));
         if (this.desiredZoom != 0)
             this.desiredZoom = MiscProvider.clamp(this.desiredZoom, wrapper.getMinimumZoom(app), wrapper.getMaximumZoom(app));

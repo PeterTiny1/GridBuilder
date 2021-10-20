@@ -1,4 +1,4 @@
-package io.shapez.game.platform;
+package io.shapez.platform;
 
 import io.shapez.managers.SettingsManager;
 

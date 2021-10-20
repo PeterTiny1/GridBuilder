@@ -5,7 +5,7 @@ import io.shapez.core.Direction;
 import io.shapez.core.Resources;
 import io.shapez.core.Tile;
 import io.shapez.game.*;
-import io.shapez.game.platform.SoundManager;
+import io.shapez.platform.SoundManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

@@ -1,8 +1,8 @@
-package io.shapez.game.platform;
+package io.shapez.platform;
 
 import io.shapez.Application;
 
-public abstract class PlatformWrapperInterface {
+public abstract class PlatformWrapper {
     public int getTouchPanStrength() {
         return 1;
     }

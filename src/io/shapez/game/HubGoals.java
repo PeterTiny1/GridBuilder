@@ -12,7 +12,7 @@ import static io.shapez.util.RandomUtil.hash;
 public class HubGoals {
     private final GameRoot root;
     final int level = 1;
-    HashMap<String, Integer> gainedRewards = new HashMap<>();
+    HashMap<HubGoalReward, Integer> gainedRewards = new HashMap<HubGoalReward, Integer>();
     final HashMap<String, Integer> storedShapes = new HashMap<>();
     final HashMap<String, Integer> upgradeLevels = new HashMap<>();
     final HashMap<String, Integer> upgradeImprovements = new HashMap<>();
@@ -159,6 +159,12 @@ public class HubGoals {
         String hash = definition.getHash();
         this.storedShapes.put(hash, (this.storedShapes.get(hash)) + 1);
         this.root.productionAnalytics.onShapeDelivered(definition);
+    }
+
+    void onGoalCompleted() {
+        final HubGoalReward reward = this.currentGoal.reward;
+        this.gainedRewards.put(reward, this.gainedRewards.get(reward) + 1);
+        this.root.app.gameAnalytics.handleLevelCompleted(this.level);
     }
 
     static class Goal {

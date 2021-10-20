@@ -3,7 +3,7 @@ package io.shapez.managers;
 import io.shapez.Application;
 import io.shapez.core.Resources;
 import io.shapez.game.GlobalConfig;
-import io.shapez.game.platform.SoundManager;
+import io.shapez.platform.SoundManager;
 import io.shapez.managers.providers.SystemPathProvider;
 
 import javax.swing.*;
