@@ -31,7 +31,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     // UI
     public final BottomPanel centerPanel = new BottomPanel(this);
     public final TopPanel topPanel = new TopPanel();
-    public PlatformWrapper platformWrapper = new PlatformWrapperImpl(this);;
+    public PlatformWrapper platformWrapper = new PlatformWrapperImpl(this);
     public final ApplicationSettings settings = new ApplicationSettings(this);
     public final boolean visible = true;
     public final RestrictionManager restrictionMgr = new RestrictionManager(this);
