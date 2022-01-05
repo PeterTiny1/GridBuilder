@@ -23,8 +23,8 @@ public class BaseMap {
     }
 
     public MapChunk getChunkAtTile(final int x, final int y) {
-        final int chunkX = (int) Math.floor((double) x / (double) GlobalConfig.mapChunkSize);
-        final int chunkY = (int) Math.floor((double) y / (double) GlobalConfig.mapChunkSize);
+        final int chunkX = Math.floorDiv(x, GlobalConfig.mapChunkSize);
+        final int chunkY = Math.floorDiv(y, GlobalConfig.mapChunkSize);
         return getChunk(chunkX, chunkY);
     }
 

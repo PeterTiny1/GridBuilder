@@ -5,26 +5,18 @@ import io.shapez.game.hud.parts.*;
 
 public class GameHUD {
     private final GameRoot root;
-    private HUDWatermark watermark;
-    private HUDStandaloneAdvantages standaloneAdvantages;
-    private HUDCatMemes catMemes;
     private HUDPartTutorialHints tutorialHints;
     private HUDInteractiveTutorial interactiveTutorial;
     private HUDVignetteOverlay vignetteOverlay;
     private HUDColorBlindHelper colorBlindHelper;
-//    private Iterable<? extends String> parts;
+    HUDBuildingPlacer buildingPlacer;
 
     public GameHUD(final GameRoot root) {
         this.root = root;
     }
 
     public void initialize() {
-        if (this.root.app.restrictionMgr.getIsStandaloneMarketingActive()) {
-            this.watermark = new HUDWatermark(this.root);
-            this.standaloneAdvantages = new HUDStandaloneAdvantages(this.root);
-            this.catMemes = new HUDCatMemes(this.root);
-        }
-
+        buildingPlacer = new HUDBuildingPlacer(this.root);
         if (this.root.app.settings.getAllSettings().offerHints) {
             this.tutorialHints = new HUDPartTutorialHints(this.root);
             this.interactiveTutorial = new HUDInteractiveTutorial(this.root);

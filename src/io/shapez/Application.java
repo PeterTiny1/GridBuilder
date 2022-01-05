@@ -6,10 +6,10 @@ import io.shapez.core.Tile;
 import io.shapez.core.Vector;
 import io.shapez.game.*;
 import io.shapez.game.items.ColorItem;
-import io.shapez.platform.*;
 import io.shapez.game.profile.ApplicationSettings;
 import io.shapez.game.savegame.Savegame;
 import io.shapez.managers.SettingsManager;
+import io.shapez.platform.*;
 import io.shapez.platform.ad_providers.NoAdProvider;
 import io.shapez.ui.BottomPanel;
 import io.shapez.ui.MoreWindow;
@@ -149,6 +149,9 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
         }
         g2d.drawImage(Resources.vignette, 0, 0, getWidth(), getHeight(), null);
+        final int cX = Math.floorDiv(previousMX - offsetX, scale) - gridOffsetX;
+        final int cY = Math.floorDiv(previousMY - offsetY, scale) - gridOffsetY;
+        g2d.drawRect((cX + gridOffsetX) * scale + offsetX, (cY + gridOffsetY) * scale + offsetY, scale, scale);
     }
 
     private void DrawGrid(final Graphics2D g2d) {
@@ -384,8 +387,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
     @Override
     public void mousePressed(final MouseEvent e) {
-        final int cX = Math.floorDiv(e.getX() - offsetX, scale) - gridOffsetX;
-        final int cY = Math.floorDiv(e.getY() - offsetY, scale) - gridOffsetY;
+        final int cX = Math.floorDiv(e.getX() - (getWidth() / 2) - offsetX, scale) - gridOffsetX;
+        final int cY = Math.floorDiv(e.getY() - (getHeight() / 2) - offsetY, scale) - gridOffsetY;
         if (SwingUtilities.isRightMouseButton(e)) {
             hasItemSelected = false;
             if (Application.item != Tile.None) {
