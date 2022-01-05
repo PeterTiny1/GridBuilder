@@ -295,6 +295,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
                 offsetY %= scale;
             }
             case KeyEvent.VK_F11 -> {
+                GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
                 if (window.getExtendedState() == JFrame.MAXIMIZED_BOTH)
                     window.setExtendedState(JFrame.NORMAL);
                 else
@@ -302,6 +303,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
                 window.setVisible(false);
                 window.dispose();
                 window.setUndecorated(!window.isUndecorated());
+                device.setFullScreenWindow(window.isUndecorated() ? window : null);
                 window.setVisible(true);
             }
         }
