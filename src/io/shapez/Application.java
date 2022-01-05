@@ -296,10 +296,7 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
             }
             case KeyEvent.VK_F11 -> {
                 GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-                if (window.getExtendedState() == JFrame.MAXIMIZED_BOTH)
-                    window.setExtendedState(JFrame.NORMAL);
-                else
-                    window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                window.setExtendedState(window.getExtendedState() == JFrame.MAXIMIZED_BOTH ? JFrame.NORMAL : JFrame.MAXIMIZED_BOTH);
                 window.setVisible(false);
                 window.dispose();
                 window.setUndecorated(!window.isUndecorated());
