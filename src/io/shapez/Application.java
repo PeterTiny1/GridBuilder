@@ -149,9 +149,6 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
 
         }
         g2d.drawImage(Resources.vignette, 0, 0, getWidth(), getHeight(), null);
-        final int cX = Math.floorDiv(previousMX - offsetX, scale) - gridOffsetX;
-        final int cY = Math.floorDiv(previousMY - offsetY, scale) - gridOffsetY;
-        g2d.drawRect((cX + gridOffsetX) * scale + offsetX, (cY + gridOffsetY) * scale + offsetY, scale, scale);
     }
 
     private void DrawGrid(final Graphics2D g2d) {
