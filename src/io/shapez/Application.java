@@ -309,8 +309,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
     }
 
     private void selectTile(final int previousMX, final int previousMY) {
-        final int cX = Math.floorDiv(previousMX - offsetX, scale) - gridOffsetX;
-        final int cY = Math.floorDiv(previousMY - offsetY, scale) - gridOffsetY;
+        final int cX = Math.floorDiv(previousMX - getWidth() / 2 - offsetX, scale) - gridOffsetX;
+        final int cY = Math.floorDiv(previousMY - getHeight() / 2 - offsetY, scale) - gridOffsetY;
 
         final MapChunk chunk = core.root.map.getChunkAtTile(cX, cY);
 
