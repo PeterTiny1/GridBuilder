@@ -11,17 +11,18 @@ public enum Tile {
     Rotator(5),
     DEBUG_LowerLayer(99); // DEBUG: a red-colored lower layer tile
 
-    private final int value;
     private static final Map<Integer, Tile> map = new HashMap<>();
-
-    Tile(int value) {
-        this.value = value;
-    }
 
     static {
         for (Tile pageType : Tile.values()) {
             map.put(pageType.value, pageType);
         }
+    }
+
+    private final int value;
+
+    Tile(int value) {
+        this.value = value;
     }
 
     public static Tile valueOf(int pageType) {

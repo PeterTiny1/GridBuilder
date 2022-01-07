@@ -7,24 +7,24 @@ import io.shapez.game.core.ReadWriteProxy;
 import java.util.Date;
 
 public class Savegame extends ReadWriteProxy {
+    final Date date = new Date();
+    final SavegameData currentData = this.getDefaultData();
     private final String internalId;
     private final String metaDataRef;
-    final SavegameData currentData = this.getDefaultData();
-    final Date date = new Date();
 
-    public SavegameData getDefaultData() {
-        assert date != null;
-        return new SavegameData(Savegame.getCurrentVersion(), null, new SavegameStats(), date.getTime());
+    public Savegame(final Application app, final String internalId, final String metaDataRef) {
+        super(app, "savegame-" + internalId + ".bin");
+        this.internalId = internalId;
+        this.metaDataRef = metaDataRef;
     }
 
     static int getCurrentVersion() {
         return 1007;
     }
 
-    public Savegame(final Application app, final String internalId, final String metaDataRef) {
-        super(app, "savegame-" + internalId + ".bin");
-        this.internalId = internalId;
-        this.metaDataRef = metaDataRef;
+    public SavegameData getDefaultData() {
+        assert date != null;
+        return new SavegameData(Savegame.getCurrentVersion(), null, new SavegameStats(), date.getTime());
     }
 
     public long getLastRealUpdate() {

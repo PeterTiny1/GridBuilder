@@ -5,8 +5,8 @@ import io.shapez.game.savegame.BasicSerializableObject;
 import java.util.HashMap;
 
 public class ShapeDefinitionManager extends BasicSerializableObject {
-    private final GameRoot root;
     final HashMap<String, ShapeDefinition> shapeKeyToDefinition = new HashMap<>();
+    private final GameRoot root;
 
     public ShapeDefinitionManager(final GameRoot root) {
         this.root = root;

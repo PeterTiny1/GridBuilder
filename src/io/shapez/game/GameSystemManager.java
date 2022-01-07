@@ -5,6 +5,7 @@ import io.shapez.game.systems.*;
 import java.io.IOException;
 
 public class GameSystemManager {
+    final MapResourcesSystem mapResources;
     private final GameRoot root;
     public BeltSystem belt;
     public io.shapez.game.systems.ItemProcessorSystem itemProcessorSystem;
@@ -17,7 +18,6 @@ public class GameSystemManager {
     public FilterSystem filter;
     public HubSystem hub;
     ItemEjectorSystem itemEjector;
-    final MapResourcesSystem mapResources;
     MinerSystem miner;
 
     public GameSystemManager(final GameRoot root) throws IOException {

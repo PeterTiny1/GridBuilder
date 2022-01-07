@@ -16,10 +16,10 @@ public class BeltPath extends BasicSerializableObject {
     private final ArrayList<AbstractMap.SimpleEntry<Double, BaseItem>> items = new ArrayList<>();
     private final GameRoot root;
     public LinkedList<Entity> entityPath;
+    public double spacingToFirstItem;
     BiFunction<BaseItem, Integer, Boolean> boundAcceptor;
     private int numCompressedItemsAfterFirstItem;
     private double totalLength;
-    public double spacingToFirstItem;
     private Rectangle worldBounds;
 
     public BeltPath(final GameRoot root, final LinkedList<Entity> entityPath) {

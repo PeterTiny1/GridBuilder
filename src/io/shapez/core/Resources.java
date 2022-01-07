@@ -12,6 +12,8 @@ import java.util.Objects;
 
 public class Resources {
 
+    // Solid colors
+    public static final BufferedImage solidRed = new BufferedImage(40, 40, BufferedImage.TYPE_INT_RGB);
     // Logo/UI
     public static ImageIcon logo;
     public static BufferedImage settingsImage;
@@ -22,7 +24,6 @@ public class Resources {
     public static BufferedImage ui_minerImage;
     public static BufferedImage ui_trashImage;
     public static BufferedImage ui_rotatorImage;
-
     // Textures
     public static BufferedImage belt;
     public static BufferedImage miner;
@@ -30,8 +31,6 @@ public class Resources {
     public static BufferedImage rotator;
     public static Image missingTexture;
     public static BufferedImage vignette;
-
-
     // Sounds
     public static URL beltPlaceSound; // WIP
     public static URL generic_placeTileSound;
@@ -39,10 +38,6 @@ public class Resources {
     public static URL uiClickSound;
     public static URL uiSuccessSound;
     public static URL uiDenySound;
-
-
-    // Solid colors
-    public static final BufferedImage solidRed = new BufferedImage(40, 40, BufferedImage.TYPE_INT_RGB);
 
 
     // Make sure to run with these jvm options:

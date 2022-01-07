@@ -13,13 +13,13 @@ public class StorageComponent extends Component {
     int storedCount = 0;
     int overlayOpacity = 0;
 
-    public String getId() {
-        return "Storage";
-    }
-
     StorageComponent(final int maximumStorage) {
         super();
         this.maximumStorage = maximumStorage;
+    }
+
+    public String getId() {
+        return "Storage";
     }
 
     public boolean canAcceptItem(final BaseItem item) {

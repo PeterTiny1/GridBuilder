@@ -12,16 +12,16 @@ public class BeltUnderlaysComponent extends Component {
         return "BeltUnderlays";
     }
 
-    public static class BeltUnderlayTile {
-        public Vector pos;
-        public Direction direction;
-        public ClippedBeltUnderlayType cachedType;
-    }
-
     public enum ClippedBeltUnderlayType {
         full,
         bottomOnly,
         topOnly,
         none
+    }
+
+    public static class BeltUnderlayTile {
+        public Vector pos;
+        public Direction direction;
+        public ClippedBeltUnderlayType cachedType;
     }
 }

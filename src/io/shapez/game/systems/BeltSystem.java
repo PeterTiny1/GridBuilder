@@ -19,6 +19,8 @@ import java.util.*;
 import static io.shapez.game.buildings.MetaBeltBuilding.arrayBeltVariantToRotation;
 
 public class BeltSystem extends GameSystemWithFilter {
+    public static final byte BELT_ANIM_COUNT = 14;
+    final ArrayList<BeltPath> beltPaths = new ArrayList<>();
     private final HashMap<Direction, ArrayList<BufferedImage>> beltAnimations = new HashMap<>() {{
         put(Direction.Top, new ArrayList<>());
         put(Direction.Left, new ArrayList<>());
@@ -29,8 +31,6 @@ public class BeltSystem extends GameSystemWithFilter {
         put(Direction.Left, ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/left_0.png"))));
         put(Direction.Right, ImageIO.read(Objects.requireNonNull(BeltSystem.class.getResource("/sprites/belt/right_0.png"))));
     }};
-    public static final byte BELT_ANIM_COUNT = 14;
-    final ArrayList<BeltPath> beltPaths = new ArrayList<>();
 
     public BeltSystem(final GameRoot root) throws IOException {
         super(root, new Component[]{new BeltComponent(null)});

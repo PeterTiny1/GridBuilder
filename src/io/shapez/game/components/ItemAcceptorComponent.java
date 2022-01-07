@@ -9,8 +9,8 @@ import io.shapez.game.Component;
 import java.util.ArrayList;
 
 public class ItemAcceptorComponent extends Component {
-    public ArrayList<ItemAcceptorSlot> slots;
     public final ArrayList<ItemConsumptionAnimation> itemConsumptionAnimations = new ArrayList<>();
+    public ArrayList<ItemAcceptorSlot> slots;
 
     public ItemAcceptorComponent() {
 
@@ -69,8 +69,8 @@ public class ItemAcceptorComponent extends Component {
     public static class ItemConsumptionAnimation {
         public final int slotIndex;
         public final Direction direction;
-        public double animProgress;
         public final BaseItem item;
+        public double animProgress;
 
         public ItemConsumptionAnimation(BaseItem item, int slotIndex, Direction direction, int min) {
             this.slotIndex = slotIndex;

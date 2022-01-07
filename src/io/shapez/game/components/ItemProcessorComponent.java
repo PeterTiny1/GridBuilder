@@ -7,9 +7,9 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 
 public class ItemProcessorComponent extends Component {
-    public ItemProcessorRequirements processingRequirement;
     final ItemProcessorTypes type = ItemProcessorTypes.balancer;
     final ArrayList<AbstractMap.SimpleEntry<BaseItem, Integer>> inputSlots = new ArrayList<>();
+    public ItemProcessorRequirements processingRequirement;
 
     @Override
     public String getId() {

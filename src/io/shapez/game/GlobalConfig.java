@@ -2,7 +2,6 @@ package io.shapez.game;
 
 public class GlobalConfig {
     public static final byte mapChunkSize = 16;
-    public static int zoomedScale = 12;
     public static final byte tileSize = 32;
     public static final int halfTileSize = 16;
     public static final int defaultItemDiameter = 20;
@@ -14,4 +13,5 @@ public class GlobalConfig {
     public static final double itemSpacingOnBelts = 0.63;
     public static final double shapesSharpness = 1.4;
     public static final int statisticsGraphSlices = 100;
+    public static int zoomedScale = 12;
 }

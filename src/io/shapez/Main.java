@@ -19,6 +19,14 @@ public class Main extends JFrame implements WindowFocusListener, WindowStateList
         initUI();
     }
 
+    public static void main(final String[] args) {
+        EventQueue.invokeLater(() -> {
+            final Main main;
+            main = new Main();
+            main.setVisible(true);
+        });
+    }
+
     private void initUI() {
         final MainMenu menu = new MainMenu(this);
         scrollPane = new JScrollPane(menu);
@@ -38,14 +46,6 @@ public class Main extends JFrame implements WindowFocusListener, WindowStateList
         setPreferredSize(new Dimension(b_WIDTH, b_HEIGHT));
         pack();
 
-    }
-
-    public static void main(final String[] args) {
-        EventQueue.invokeLater(() -> {
-            final Main main;
-            main = new Main();
-            main.setVisible(true);
-        });
     }
 
     @Override

@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BufferMaintainer {
+    final HashMap<String, HashMap<String, CacheEntry>> cache = new HashMap<>();
     private final GameRoot root;
     private final double bufferGcDurationSeconds = 0.5;
-    final HashMap<String, HashMap<String, CacheEntry>> cache = new HashMap<>();
     int iterationIndex = 1;
     double lastIteration = 0;
 

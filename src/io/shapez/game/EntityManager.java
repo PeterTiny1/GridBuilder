@@ -5,8 +5,8 @@ import io.shapez.game.savegame.BasicSerializableObject;
 import java.util.ArrayList;
 
 public class EntityManager extends BasicSerializableObject {
-    private final GameRoot root;
     final ArrayList<Entity> entities = new ArrayList<>();
+    private final GameRoot root;
     ArrayList<Entity> destroyList = new ArrayList<>();
     // --Commented out by Inspection (17/10/2021, 15:02):HashMap<String, ArrayList<Entity>> componentToEntity = new HashMap<>();
     int nextUid = 10000;

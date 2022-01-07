@@ -5,11 +5,11 @@ import io.shapez.game.hud.parts.*;
 
 public class GameHUD {
     private final GameRoot root;
+    HUDBuildingPlacer buildingPlacer;
     private HUDPartTutorialHints tutorialHints;
     private HUDInteractiveTutorial interactiveTutorial;
     private HUDVignetteOverlay vignetteOverlay;
     private HUDColorBlindHelper colorBlindHelper;
-    HUDBuildingPlacer buildingPlacer;
 
     public GameHUD(final GameRoot root) {
         this.root = root;
@@ -38,6 +38,7 @@ public class GameHUD {
     }
 
     public void update() {
+        //TODO: implement whatever this should do
 //        if (!this.root.gameInitialised) {
 //        }
 //        for (String key : this.parts) {

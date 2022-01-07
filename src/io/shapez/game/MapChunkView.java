@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MapChunkView extends MapChunk {
-    final int CHUNK_OVERLAY_RES = 3;
-    public String renderKey;
     public final HashMap<Layer, ArrayList<Entity>> containedEntitiesByLayer = new HashMap<>() {{
         put(Layer.Regular, new ArrayList<>());
         put(Layer.Wires, new ArrayList<>());
     }};
+    final int CHUNK_OVERLAY_RES = 3;
+    public String renderKey;
     int renderIteration = 0;
 
     public MapChunkView(final GameRoot root, final int x, final int y) {

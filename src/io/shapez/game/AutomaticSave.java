@@ -5,11 +5,6 @@ public class AutomaticSave {
     private long lastSaveAttempt;
     private SavePriority saveImportance;
 
-    enum SavePriority {
-        regular,
-        asap
-    }
-
     public AutomaticSave(final GameRoot root) {
         this.root = root;
     }
@@ -38,5 +33,10 @@ public class AutomaticSave {
     private void doSave() {
         this.root.doSave();
         this.saveImportance = SavePriority.regular;
+    }
+
+    enum SavePriority {
+        regular,
+        asap
     }
 }

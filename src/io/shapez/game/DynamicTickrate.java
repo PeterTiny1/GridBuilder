@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class DynamicTickrate {
+    final double fpsAccumulationTime = 1000.0;
     private final GameRoot root;
+    public double deltaSeconds;
     double averageTickDuration = 0;
     int accumulatedFps = 0;
     long accumulatedFpsLastUpdate = 0;
     int averageFps = 60;
     private int currentTickRate;
     private double deltaMs;
-    public double deltaSeconds;
-    final double fpsAccumulationTime = 1000.0;
     private long currentTickStart;
     private ArrayList<Integer> capturedTicks = new ArrayList<>();
 

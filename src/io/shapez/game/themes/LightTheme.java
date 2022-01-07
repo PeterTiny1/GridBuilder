@@ -14,6 +14,7 @@ public class LightTheme {
         public static final Color selectionOutline = new Color(74, 163, 223, 128);
         public static final Color selectionBackground = new Color(74, 163, 223, 51);
         public static final Color chunkBorders = new Color(0.0f, 30 / 256.0f, 50 / 256.0f, 0.03f);
+        public static final Color colorBlindPickerTile = new Color(50, 50, 50, 102);
 
         public static class DirectionLock {
             public static class Regular {
@@ -26,8 +27,6 @@ public class LightTheme {
                 public static final Color background = new Color(74, 237, 134, 51);
             }
         }
-
-        public static final Color colorBlindPickerTile = new Color(50, 50, 50, 102);
 
         public static class Resources {
             public static final Color shape = new Color(0xeaebec);

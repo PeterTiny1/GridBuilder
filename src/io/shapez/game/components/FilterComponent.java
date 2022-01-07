@@ -9,12 +9,12 @@ public class FilterComponent extends Component {
     public final ArrayList<PendingFilterItem> pendingItemsToLeaveThrough = new ArrayList<>();
     public final ArrayList<PendingFilterItem> pendingItemsToReject = new ArrayList<>();
 
-    public String getId() {
-        return "Filter";
-    }
-
     public FilterComponent() {
         super();
+    }
+
+    public String getId() {
+        return "Filter";
     }
 
     public static class PendingFilterItem {

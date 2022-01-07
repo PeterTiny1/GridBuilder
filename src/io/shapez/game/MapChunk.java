@@ -19,7 +19,6 @@ public class MapChunk {
     public final int x, y;
     public final ArrayList<Patch> patches = new ArrayList<>();
     public final Rectangle tileSpaceRectangle;
-    Rectangle drawn;
     public final BaseItem[][] lowerLayer = new BaseItem[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
     public final Entity[][] contents = new Entity[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
     private final Entity[][] wireContents = new Entity[GlobalConfig.mapChunkSize][GlobalConfig.mapChunkSize];
@@ -31,6 +30,7 @@ public class MapChunk {
         }
 
     };
+    Rectangle drawn;
 
 
     public MapChunk(final GameRoot root, final int x, final int y) {

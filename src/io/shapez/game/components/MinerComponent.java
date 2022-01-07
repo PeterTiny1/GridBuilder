@@ -7,19 +7,19 @@ import io.shapez.game.Entity;
 import java.util.ArrayList;
 
 public class MinerComponent extends Component {
+    public final BaseItem cachedMinedItem = null;
     int lastMiningTime = 0;
     boolean chainable;
     ArrayList<BaseItem> itemChainBuffer = new ArrayList<>();
-    public final BaseItem cachedMinedItem = null;
     Entity cachedChainedMiner = null;
-
-    @Override
-    public String getId() {
-        return "Miner";
-    }
 
     public MinerComponent() {
         super();
 
+    }
+
+    @Override
+    public String getId() {
+        return "Miner";
     }
 }

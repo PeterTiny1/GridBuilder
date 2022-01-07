@@ -9,17 +9,18 @@ public enum Direction {
     Bottom(2),
     Left(3);
 
-    private final int value;
     private static final Map<Integer, Direction> map = new HashMap<>();
-
-    Direction(int value) {
-        this.value = value;
-    }
 
     static {
         for (Direction pageType : Direction.values()) {
             map.put(pageType.value, pageType);
         }
+    }
+
+    private final int value;
+
+    Direction(int value) {
+        this.value = value;
     }
 
     public static Direction valueOf(int pageType) {

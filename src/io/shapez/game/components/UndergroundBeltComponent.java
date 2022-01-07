@@ -8,21 +8,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UndergroundBeltComponent extends Component {
+    final HashMap<BaseItem, Integer> pendingItems = new HashMap<>();
     private final int tier;
     private final UndergroundBeltMode mode;
     ArrayList<ItemAcceptorComponent.ItemConsumptionAnimation> consumptionAnimations = new ArrayList<>();
-    final HashMap<BaseItem, Integer> pendingItems = new HashMap<>();
     LinkedUndergroundBelt cachedLinkedEntity = null;
-
-    public String getId() {
-        return "UndergroundBelt";
-    }
 
     UndergroundBeltComponent(final UndergroundBeltMode mode, final int tier) {
         super();
         this.tier = tier;
         this.mode = mode;
 
+    }
+
+    public String getId() {
+        return "UndergroundBelt";
     }
 
     public boolean tryAcceptExternalItem(final BaseItem item, final int beltSpeed) {

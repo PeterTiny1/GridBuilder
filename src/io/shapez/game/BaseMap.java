@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class BaseMap {
     protected final GameRoot root;
-    public int seed;
     final HashMap<String, MapChunkView> chunksById = new HashMap<>();
+    public int seed;
 
     public BaseMap(final GameRoot root) {
         this.root = root;

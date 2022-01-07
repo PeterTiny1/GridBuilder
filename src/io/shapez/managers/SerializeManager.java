@@ -21,9 +21,9 @@ import static io.shapez.managers.providers.MiscProvider.OP_SAVE;
 
 public class SerializeManager {
 
+    public static final byte bytesPerTile = 25;
     public static long elapsed = 0;
     public static int chunkSize = 0;
-    public static final byte bytesPerTile = 25;
 
     public static void loadAll(GameRoot root) {
 

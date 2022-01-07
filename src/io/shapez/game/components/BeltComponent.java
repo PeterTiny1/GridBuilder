@@ -6,9 +6,9 @@ import io.shapez.game.BeltPath;
 import io.shapez.game.Component;
 
 public class BeltComponent extends Component {
+    private final double curvedBeltLength = (Math.PI / 4);
     public Direction direction;
     public BeltPath assignedPath = null;
-    private final double curvedBeltLength = (Math.PI / 4);
 
     public BeltComponent(Direction direction) {
         super();

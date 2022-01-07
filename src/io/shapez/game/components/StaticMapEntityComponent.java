@@ -12,9 +12,9 @@ import java.awt.image.BufferedImage;
 
 public class StaticMapEntityComponent extends Component {
     public final Vector origin;
+    public final short originalRotation;
     public short rotation;
     public int code;
-    public final short originalRotation;
 
     public StaticMapEntityComponent(final Vector origin, final Vector tileSize, final short rotation, final short originalRotation, final int code) {
         super();

@@ -30,7 +30,7 @@ public class GameRoot {
     public boolean logicInitialized = false;
     public boolean requireRedraw;
     public ProductionAnalytics productionAnalytics;
-    public boolean gameInitialised = false;
+//    public boolean gameInitialised = false;
 
     public GameRoot(final Application app) {
         this.app = app;

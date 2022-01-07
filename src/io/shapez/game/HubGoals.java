@@ -10,12 +10,12 @@ import java.util.concurrent.Callable;
 import static io.shapez.util.RandomUtil.hash;
 
 public class HubGoals {
-    private final GameRoot root;
     final int level = 1;
-    HashMap<HubGoalReward, Integer> gainedRewards = new HashMap<HubGoalReward, Integer>();
     final HashMap<String, Integer> storedShapes = new HashMap<>();
     final HashMap<String, Integer> upgradeLevels = new HashMap<>();
     final HashMap<String, Integer> upgradeImprovements = new HashMap<>();
+    private final GameRoot root;
+    HashMap<HubGoalReward, Integer> gainedRewards = new HashMap<HubGoalReward, Integer>();
     Goal currentGoal;
 
     public HubGoals(final GameRoot root) throws Exception {

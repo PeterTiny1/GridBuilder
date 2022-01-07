@@ -6,16 +6,17 @@ import io.shapez.util.UIUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 import static io.shapez.core.Resources.*;
 import static io.shapez.managers.providers.MiscProvider.defDimensionBtn;
 
 public class BottomPanel extends JPanel {
-    private final Application application;
     public static final JButton beltButton = new JButton();
     public static final JButton minerButton = new JButton();
     public static final JButton trashButton = new JButton();
     public static final JButton rotatorButton = new JButton();
+    private final Application application;
 //    public static  JButton lowerLayerButton = new JButton();
 
     public BottomPanel(final Application application) {
@@ -26,45 +27,29 @@ public class BottomPanel extends JPanel {
         innerPanel.setOpaque(false);
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.LINE_AXIS));
 
-
-        BottomPanel.beltButton.addActionListener(e ->
-                selectItem(Tile.Belt));
-        BottomPanel.beltButton.setFocusable(false);
-        BottomPanel.beltButton.setIcon(new ImageIcon(ui_beltImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
-        BottomPanel.beltButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
-        BottomPanel.beltButton.setPreferredSize(defDimensionBtn);
-        BottomPanel.beltButton.setMaximumSize(defDimensionBtn);
+        initButton(beltButton, e -> selectItem(Tile.Belt), ui_beltImage);
         innerPanel.add(BottomPanel.beltButton, BorderLayout.SOUTH);
 
-        BottomPanel.minerButton.addActionListener(e ->
-                selectItem(Tile.Miner)
-        );
-        BottomPanel.minerButton.setFocusable(false);
-        BottomPanel.minerButton.setIcon(new ImageIcon(ui_minerImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
-        BottomPanel.minerButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
-        BottomPanel.minerButton.setPreferredSize(defDimensionBtn);
-        BottomPanel.minerButton.setMaximumSize(defDimensionBtn);
+        initButton(minerButton, e -> selectItem(Tile.Miner), ui_minerImage);
         innerPanel.add(BottomPanel.minerButton, BorderLayout.SOUTH);
 
-        BottomPanel.trashButton.addActionListener(e -> selectItem(Tile.Trash));
-        BottomPanel.trashButton.setFocusable(false);
-        BottomPanel.trashButton.setIcon(new ImageIcon(ui_trashImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
-        BottomPanel.trashButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
-        BottomPanel.trashButton.setPreferredSize(defDimensionBtn);
-        BottomPanel.trashButton.setMaximumSize(defDimensionBtn);
+        initButton(trashButton, e -> selectItem(Tile.Trash), ui_trashImage);
         innerPanel.add(BottomPanel.trashButton, BorderLayout.SOUTH);
 
-        BottomPanel.rotatorButton.addActionListener(e -> selectItem(Tile.Rotator));
-        BottomPanel.rotatorButton.setFocusable(false);
-        BottomPanel.rotatorButton.setIcon(new ImageIcon(ui_rotatorImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
-        BottomPanel.rotatorButton.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
-        BottomPanel.rotatorButton.setPreferredSize(defDimensionBtn);
-        BottomPanel.rotatorButton.setMaximumSize(defDimensionBtn);
+        initButton(rotatorButton, e -> selectItem(Tile.Rotator), ui_rotatorImage);
         innerPanel.add(BottomPanel.rotatorButton, BorderLayout.SOUTH);
 
         this.add(innerPanel);
     }
 
+    void initButton(JButton button, ActionListener listener, Image icon) {
+        button.addActionListener(listener);
+        button.setFocusable(false);
+        button.setIcon(new ImageIcon(icon.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
+        button.setAlignmentY(JComponent.BOTTOM_ALIGNMENT);
+        button.setPreferredSize(defDimensionBtn);
+        button.setMaximumSize(defDimensionBtn);
+    }
 
     public void selectItem(final Tile item) {
         if (item != null) {

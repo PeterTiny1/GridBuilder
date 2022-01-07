@@ -12,10 +12,6 @@ import java.util.Map;
 import static io.shapez.game.Colors.shortcodeToColor;
 
 public class ShapeDefinition extends BasicSerializableObject {
-    final ArrayList<ShapeLayer> layers;
-    private Object bufferGenerator;
-    private final Vector[] arrayQuadrantIndexToOffset = new Vector[]{new Vector(1, -1), new Vector(1, 1), new Vector(-1, 1), new Vector(-1, -1)};
-    private String cachedHash = null;
     private static final HashMap<SubShape, Character> subShapeToShortcode = new HashMap<>() {{
         put(SubShape.rect, 'R');
         put(SubShape.circle, 'C');
@@ -27,6 +23,10 @@ public class ShapeDefinition extends BasicSerializableObject {
             put(pair.getValue(), pair.getKey());
         }
     }};
+    final ArrayList<ShapeLayer> layers;
+    private final Vector[] arrayQuadrantIndexToOffset = new Vector[]{new Vector(1, -1), new Vector(1, 1), new Vector(-1, 1), new Vector(-1, -1)};
+    private Object bufferGenerator;
+    private String cachedHash = null;
 
     public ShapeDefinition(ArrayList<ShapeLayer> layers) {
         this.layers = layers;
@@ -124,6 +124,13 @@ public class ShapeDefinition extends BasicSerializableObject {
 //        }
 //    }
 
+    public enum SubShape {
+        rect,
+        circle,
+        star,
+        windmill
+    }
+
     public static class ShapeLayer {
         final ShapeLayerItem[] layerItems;
 
@@ -140,12 +147,5 @@ public class ShapeDefinition extends BasicSerializableObject {
             this.subShape = subShape;
             this.color = color;
         }
-    }
-
-    public enum SubShape {
-        rect,
-        circle,
-        star,
-        windmill
     }
 }

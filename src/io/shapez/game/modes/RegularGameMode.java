@@ -17,9 +17,9 @@ public class RegularGameMode extends GameMode {
     private final String preparementShape = "CpRpCp--:SwSwSwSw";
     private final GameRoot root;
     private final String finalGameShape = "RuCw--Cw:----Ru--";
-    private final String rocketShape = "CbCuCbCu:Sr------:--CrSrCr:CwCwCwCw";
     final ArrayList<LevelDefinition> fullVersionLevels = generateLevelDefinitions(false);
     final ArrayList<LevelDefinition> demoVersionLevels = generateLevelDefinitions(true);
+    private final String rocketShape = "CbCuCbCu:Sr------:--CrSrCr:CwCwCwCw";
 
     public RegularGameMode(final GameRoot root) {
         super();

@@ -7,9 +7,9 @@ import java.awt.*;
 public class Vector {
     static final int tileSize = GlobalConfig.tileSize;
     static final int halfTileSize = GlobalConfig.halfTileSize;
+    final double xy;
     public double x;
     public double y;
-    final double xy;
 
     public Vector(double x, double y) {
         this.x = x;

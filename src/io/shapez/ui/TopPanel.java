@@ -10,17 +10,10 @@ import java.awt.*;
 import static io.shapez.managers.providers.MiscProvider.defDimensionBtn;
 
 public class TopPanel extends JPanel {
-    final JButton settingsButton = new JButton();
-
     public static final JLabel selectedILabel_Name = new JLabel();
     public static final JLabel selectedILabel_Description = new JLabel();
     public static final JLabel selectedILabel_Hotkey = new JLabel();
-
-    void showSettings() {
-        SoundManager.playSound(Resources.uiClickSound);
-        // SettingsManager.initSettingsWnd();
-        SettingsManager.showSettingswnd();
-    }
+    final JButton settingsButton = new JButton();
 
     public TopPanel() {
         setOpaque(false);
@@ -64,5 +57,11 @@ public class TopPanel extends JPanel {
         add(L_innerPanel);
         //add(L_morePanel);
 
+    }
+
+    void showSettings() {
+        SoundManager.playSound(Resources.uiClickSound);
+        // SettingsManager.initSettingsWnd();
+        SettingsManager.showSettingswnd();
     }
 }

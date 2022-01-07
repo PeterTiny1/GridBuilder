@@ -28,38 +28,33 @@ import static io.shapez.managers.providers.MiscProvider.gameName;
 import static io.shapez.managers.providers.MiscProvider.getRandomTitlebar;
 
 public class Application extends JPanel implements ActionListener, MouseWheelListener, KeyListener, MouseMotionListener, MouseListener, FocusListener {
+    public static final java.util.List<MapChunk> usedChunks = Collections.synchronizedList(new ArrayList<>());
+    public static Tile item;
     // UI
     public final BottomPanel centerPanel = new BottomPanel(this);
     public final TopPanel topPanel = new TopPanel();
-    public PlatformWrapper platformWrapper = new PlatformWrapperImpl(this);
     public final ApplicationSettings settings = new ApplicationSettings(this);
     public final boolean visible = true;
     public final RestrictionManager restrictionMgr = new RestrictionManager(this);
+    public final ArrayList<Character> pressedKeys = new ArrayList<>();
+    public final Main window;
+    final GameCore core = new GameCore(this);
+    final Savegame savegame = null;
+    public PlatformWrapper platformWrapper = new PlatformWrapperImpl(this);
     public SoundInterface sound;
     public Vector mousePosition;
     public AdProvider adProvider;
     public GameAnalyticsInterface gameAnalytics;
-
-    private int scale = 40;
-    private int offsetX, offsetY;
-    public final ArrayList<Character> pressedKeys = new ArrayList<>();
-    public static final java.util.List<MapChunk> usedChunks = Collections.synchronizedList(new ArrayList<>());
-    private int gridOffsetX, gridOffsetY;
-    private int previousMX, previousMY;
     public boolean hasItemSelected = false;
-
-    public static Tile item;
-
     public byte rotIndex = 0; // won't be more than 127 anyway :P
     public Direction cRot = Direction.Top;
-
+    private int scale = 40;
+    private int offsetX, offsetY;
+    private int gridOffsetX, gridOffsetY;
+    private int previousMX, previousMY;
     private boolean shiftPressed;
     private boolean controlPressed;
-
     private Rectangle heldItem = new Rectangle(0, 0, 0, 0);
-    public final Main window;
-    final GameCore core = new GameCore(this);
-    final Savegame savegame = null;
     private long time;
     private Analytics analytics;
 

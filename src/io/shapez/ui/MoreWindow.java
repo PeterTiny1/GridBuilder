@@ -3,27 +3,26 @@ package io.shapez.ui;
 import io.shapez.Application;
 import io.shapez.core.Resources;
 import io.shapez.game.GameRoot;
-import io.shapez.platform.SoundManager;
 import io.shapez.managers.SerializeManager;
+import io.shapez.platform.SoundManager;
 import io.shapez.util.TileUtil;
 import io.shapez.util.UIUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import static io.shapez.managers.providers.MiscProvider.*;
 
 public class MoreWindow extends JFrame {
-    public static Application application;
-
-    private static boolean initialised = false;
-
     public static final JFrame L_moreFrame = new JFrame(moreWndName);
     public static final JButton saveButton = new JButton();
     public static final JButton loadButton = new JButton();
     public static final JButton clearButton = new JButton();
     public static final JPanel L_ioPanel = new JPanel();
+    public static Application application;
+    private static boolean initialised = false;
 
     private static void ResetTitle() {
         L_moreFrame.setTitle(gameName);
@@ -57,24 +56,9 @@ public class MoreWindow extends JFrame {
 
         L_ioPanel.setLayout(new BoxLayout(L_ioPanel, BoxLayout.X_AXIS));
 
-        saveButton.addActionListener((ActionEvent e) -> internalUI_SaveAllChunks());
-        saveButton.setFocusable(false);
-        saveButton.setIcon(new ImageIcon(Resources.saveImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
-        saveButton.setPreferredSize(defDimensionBtn);
-        saveButton.setMaximumSize(defDimensionBtn);
-
-        loadButton.addActionListener((ActionEvent e) -> internalUI_LoadAllChunks(root));
-        loadButton.setFocusable(false);
-        loadButton.setIcon(new ImageIcon(Resources.loadImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
-        loadButton.setPreferredSize(defDimensionBtn);
-        loadButton.setMaximumSize(defDimensionBtn);
-
-        clearButton.addActionListener((ActionEvent e) -> internalUI_ClearAllChunks());
-        clearButton.setFocusable(false);
-        clearButton.setIcon(new ImageIcon(Resources.clearImage.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
-        clearButton.setPreferredSize(defDimensionBtn);
-        clearButton.setMaximumSize(defDimensionBtn);
-
+        initButton(saveButton, (ActionEvent e) -> internalUI_SaveAllChunks(), Resources.saveImage);
+        initButton(loadButton, (ActionEvent e) -> internalUI_LoadAllChunks(root), Resources.loadImage);
+        initButton(clearButton, (ActionEvent e) -> internalUI_ClearAllChunks(), Resources.clearImage);
 
         L_ioPanel.add(saveButton, BorderLayout.NORTH);
         L_ioPanel.add(loadButton, BorderLayout.NORTH);
@@ -90,6 +74,14 @@ public class MoreWindow extends JFrame {
         L_moreFrame.setSize(defWndDimension);
 
         initialised = true;
+    }
+
+    static void initButton(JButton button, ActionListener listener, Image image) {
+        button.addActionListener(listener);
+        button.setFocusable(false);
+        button.setIcon(new ImageIcon(image.getScaledInstance(defDimensionBtn.width, defDimensionBtn.height, Image.SCALE_SMOOTH)));
+        button.setPreferredSize(defDimensionBtn);
+        button.setMaximumSize(defDimensionBtn);
     }
 
     public static void Show() {

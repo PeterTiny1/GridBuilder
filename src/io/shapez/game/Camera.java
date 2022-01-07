@@ -19,10 +19,14 @@ public class Camera {
     private final double velocityStrength = 0.4;
     private final double velocityFade = 0.98;
     private final byte ticksBeforeErasingVelocity = 10;
-    private boolean currentlyMoving = false;
     private final boolean currentlyPinching = false;
     private final byte velocityMax = 20;
     private final GameRoot root;
+    private final Vector desiredPan = new Vector(0, 0);
+    private final Vector currentShake = new Vector(0, 0);
+    private final MouseButtonHandler downPreHandler = new MouseButtonHandler();
+    public double zoomLevel;
+    private boolean currentlyMoving = false;
     private long cameraUpdateTimeBucket;
     private Vector touchPostMoveVelocity = new Vector(0, 0);
     private Vector desiredCenter;
@@ -30,14 +34,10 @@ public class Camera {
     private int numTicksStandingStill;
     private Vector lastMovingPosition;
     private Vector center = new Vector(0, 0);
-    private final Vector desiredPan = new Vector(0, 0);
     private Vector currentPan = new Vector(0, 0);
-    public double zoomLevel;
-    private final Vector currentShake = new Vector(0, 0);
     private double desiredZoom;
     private long lastTouchTime;
     private boolean didMoveSinceTouchStart = false;
-    private final MouseButtonHandler downPreHandler = new MouseButtonHandler();
 
     public Camera(final GameRoot root, final Application application) {
         this.root = root;
