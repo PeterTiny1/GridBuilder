@@ -272,8 +272,8 @@ public class Application extends JPanel implements ActionListener, MouseWheelLis
                 System.out.println("GC end\nGC took " + (t2 - t1) / 1000000 + " ms");
             }
             case KeyEvent.VK_F3 -> {
-                final int diagres = JOptionPane.showConfirmDialog(null, "(Benchmark) - This will overwrite a lot of tiles and you may lose progress. Continue?", "Benchmark", JOptionPane.YES_NO_OPTION);
-                if (diagres != JOptionPane.YES_OPTION) break;
+                final int dialogResult = JOptionPane.showConfirmDialog(null, "(Benchmark) - This will overwrite a lot of tiles and you may lose progress. Continue?", "Benchmark", JOptionPane.YES_NO_OPTION);
+                if (dialogResult != JOptionPane.YES_OPTION) break;
                 int x = 0;
                 while (x < 1000) {
                     int y = 0;
